@@ -1,4 +1,4 @@
-package com.codemovers.scholar.engine.annotation.helper.exceptions;
+package com.codemovers.scholar.engine.helper.exceptions;
 
 /**
  *

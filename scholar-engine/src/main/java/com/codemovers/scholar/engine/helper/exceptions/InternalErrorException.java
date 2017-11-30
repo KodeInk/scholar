@@ -1,6 +1,6 @@
-package com.codemovers.scholar.engine.annotation.helper.exceptions;
+package com.codemovers.scholar.engine.helper.exceptions;
 
-import com.codemovers.scholar.v1.backoffice.helper.Utilities;
+import com.codemovers.scholar.engine.helper.Utilities;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

@@ -1,7 +1,7 @@
-package com.codemovers.scholar.engine.annotation.helper;
+package com.codemovers.scholar.engine.helper;
 
-import static com.codemovers.scholar.v1.backoffice.helper.Utilities.getStackTrace;
-import com.codemovers.scholar.engine.annotation.helper.exceptions.UnauthorizedException;
+import static com.codemovers.scholar.engine.helper.Utilities.getStackTrace;
+import com.codemovers.scholar.engine.helper.exceptions.UnauthorizedException;
 import java.lang.annotation.Annotation;
 import java.util.logging.Level;
 import java.util.logging.Logger;

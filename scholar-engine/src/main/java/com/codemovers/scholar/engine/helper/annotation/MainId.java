@@ -1,4 +1,4 @@
-package com.codemovers.scholar.engine.annotation.helper.annotation;
+package com.codemovers.scholar.engine.helper.annotation;
 
 /**
  * Created by mover on 5/6/2017.

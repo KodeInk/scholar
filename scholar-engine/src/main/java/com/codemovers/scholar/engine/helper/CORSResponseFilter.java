@@ -1,4 +1,4 @@
-package com.codemovers.scholar.engine.annotation.helper;
+package com.codemovers.scholar.engine.helper;
 
 import java.io.IOException;
 import javax.ws.rs.container.ContainerRequestContext;

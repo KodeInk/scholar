@@ -1,10 +1,10 @@
-package com.codemovers.scholar.engine.annotation.helper;
+package com.codemovers.scholar.engine.helper;
 
 import com.codemovers.scholar.engine.annotation.ConditionallyMandatory;
 import com.codemovers.scholar.engine.annotation.Mandatory;
-import com.codemovers.scholar.engine.annotation.helper.EmailValidator;
-import com.codemovers.scholar.engine.annotation.helper.exceptions.BadRequestException;
-import com.codemovers.scholar.engine.annotation.helper.exceptions.InternalErrorException;
+import com.codemovers.scholar.engine.helper.EmailValidator;
+import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
+import com.codemovers.scholar.engine.helper.exceptions.InternalErrorException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

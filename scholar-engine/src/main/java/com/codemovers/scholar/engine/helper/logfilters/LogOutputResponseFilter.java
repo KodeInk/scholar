@@ -1,6 +1,6 @@
-package com.codemovers.scholar.engine.annotation.helper.logfilters;
+package com.codemovers.scholar.engine.helper.logfilters;
 
-import com.codemovers.scholar.v1.backoffice.helper.Utilities;
+import com.codemovers.scholar.engine.helper.Utilities;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Priority;
@@ -12,7 +12,7 @@ import org.glassfish.jersey.server.ContainerResponse;
 
 /**
  *
- * @author isbel
+ * @author mover
  */
 @Provider
 @Priority(100)
