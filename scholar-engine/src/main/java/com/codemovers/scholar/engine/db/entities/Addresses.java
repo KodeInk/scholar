@@ -149,7 +149,7 @@ public class Addresses implements Serializable {
 
     @Override
     public String toString() {
-        return "com.codemovers.scholar.engine.db.entities.Addresses[ id=" + id + " ]";
+        return "Addresses[ id=" + id + " ]";
     }
     
 }
