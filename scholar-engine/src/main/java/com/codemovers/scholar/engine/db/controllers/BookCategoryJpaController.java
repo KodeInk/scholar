@@ -7,7 +7,7 @@ package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.Addresses;
-import com.codemovers.scholar.engine.db.entities.Contacts;
+import com.codemovers.scholar.engine.db.entities.BookCategory;
 import com.codemovers.scholar.engine.helper.Utilities;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,24 +23,24 @@ import javax.ws.rs.BadRequestException;
  *
  * @author mover
  */
-public class AddressJpaController extends JpaController {
+public class BookCategoryJpaController extends JpaController {
 
-    protected static final Logger LOG = Logger.getLogger(AddressJpaController.class.getName());
+    protected static final Logger LOG = Logger.getLogger(BookCategoryJpaController.class.getName());
 
-    private static AddressJpaController controller = null;
+    private static BookCategoryJpaController controller = null;
 
-    public static AddressJpaController getInstance() {
+    public static BookCategoryJpaController getInstance() {
         if (controller == null) {
-            controller = new AddressJpaController();
+            controller = new BookCategoryJpaController();
         }
         return controller;
     }
 
-    public AddressJpaController() {
-        super(Addresses.class);
+    public BookCategoryJpaController() {
+        super(BookCategory.class);
     }
 
-    public Addresses create(Addresses entity) {
+    public BookCategory create(BookCategory entity) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -59,18 +59,18 @@ public class AddressJpaController extends JpaController {
 
     }
 
-    public void edit(Addresses addresses) throws Exception {
+    public void edit(BookCategory book_cateogry) throws Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            addresses = em.merge(addresses);
+            book_cateogry = em.merge(book_cateogry);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = addresses.getId().intValue();
-                if (findContact(id) == null) {
+                Integer id = book_cateogry.getId().intValue();
+                if (findBookCategory(id) == null) {
                     throw new BadRequestException("The Contact with id " + id + " no longer exists.");
                 }
             }
@@ -82,18 +82,18 @@ public class AddressJpaController extends JpaController {
         }
     }
 
-    public Addresses findContact(Integer id) {
+    public BookCategory findBookCategory(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Addresses.class, id);
+            return em.find(BookCategory.class, id);
         } finally {
             em.close();
         }
     }
 
     // find contacts by parent types
-    public List<Addresses> findAddresses(String parentType) {
-        List<Addresses> addressList = new ArrayList<>();
+    public List<BookCategory> findAddresses(String parentType) {
+        List<BookCategory> addressList = new ArrayList<>();
         EntityManager em = getEntityManager();
         Query query = em.createNamedQuery("Addresses.findByParentType");
         query.setParameter("parentType", parentType);
@@ -112,7 +112,7 @@ public class AddressJpaController extends JpaController {
     }
 
     // find contacts by parent type and parent id
-    public List<Addresses> findAddresses(String parentType, Integer parentId) {
+    public List<Addresses> findContacts(String parentType, Integer parentId) {
         List<Addresses> addressList = new ArrayList<>();
         EntityManager em = getEntityManager();
         Query query = em.createNamedQuery("Contacts.findByParentTypeANDId");
