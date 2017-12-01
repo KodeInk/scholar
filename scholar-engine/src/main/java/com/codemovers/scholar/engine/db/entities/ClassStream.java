@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Manny
+ * @author mover
  */
 @Entity
 @Table(name = "class_stream")
@@ -138,5 +138,5 @@ public class ClassStream implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.ClassStream[ id=" + id + " ]";
     }
-
+    
 }

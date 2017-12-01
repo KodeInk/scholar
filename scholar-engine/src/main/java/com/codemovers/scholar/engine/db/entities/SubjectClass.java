@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Manny
+ * @author mover
  */
 @Entity
 @Table(name = "subject_class")
@@ -138,5 +138,5 @@ public class SubjectClass implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.SubjectClass[ id=" + id + " ]";
     }
-
+    
 }

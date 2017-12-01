@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Manny
+ * @author mover
  */
 @Entity
 @Table(name = "roles")
@@ -200,5 +200,5 @@ public class Roles implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.Roles[ id=" + id + " ]";
     }
-
+    
 }

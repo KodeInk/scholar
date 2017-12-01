@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Manny
+ * @author mover
  */
 @Entity
 @Table(name = "addresses")
@@ -151,5 +151,5 @@ public class Addresses implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.Addresses[ id=" + id + " ]";
     }
-
+    
 }

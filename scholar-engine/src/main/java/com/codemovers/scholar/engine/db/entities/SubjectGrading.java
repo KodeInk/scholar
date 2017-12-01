@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Manny
+ * @author mover
  */
 @Entity
 @Table(name = "subject_grading")
@@ -123,5 +123,5 @@ public class SubjectGrading implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.SubjectGrading[ id=" + id + " ]";
     }
-
+    
 }

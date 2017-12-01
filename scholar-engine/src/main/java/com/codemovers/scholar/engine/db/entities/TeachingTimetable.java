@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Manny
+ * @author mover
  */
 @Entity
 @Table(name = "teaching_timetable")
@@ -174,5 +174,5 @@ public class TeachingTimetable implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.TeachingTimetable[ id=" + id + " ]";
     }
-
+    
 }
