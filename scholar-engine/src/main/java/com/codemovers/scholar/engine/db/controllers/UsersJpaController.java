@@ -19,7 +19,7 @@ import javax.ws.rs.BadRequestException;
 
 /**
  *
- * @author Manny
+ * @author Mover
  */
 public class UsersJpaController extends JpaController {
 
@@ -38,7 +38,7 @@ public class UsersJpaController extends JpaController {
         super(Users.class);
     }
 
-    public Terms create(Users entity) {
+    public Users create(Users entity) {
         EntityManager em = null;
         try {
             em = getEntityManager();
