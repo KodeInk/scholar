@@ -6,8 +6,8 @@
 package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.JpaController;
-import com.codemovers.scholar.engine.db.entities.Roles;
 import com.codemovers.scholar.engine.db.entities.Streams;
+import com.codemovers.scholar.engine.db.entities.StudentAdmission;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,24 +21,24 @@ import javax.ws.rs.BadRequestException;
  *
  * @author Manny
  */
-public class StreamsJpaController extends JpaController {
+public class StudentAdmissionJpaController extends JpaController {
 
-    protected static final Logger LOG = Logger.getLogger(StreamsJpaController.class.getName());
+    protected static final Logger LOG = Logger.getLogger(StudentAdmissionJpaController.class.getName());
 
-    private static StreamsJpaController controller = null;
+    private static StudentAdmissionJpaController controller = null;
 
-    public static StreamsJpaController getInstance() {
+    public static StudentAdmissionJpaController getInstance() {
         if (controller == null) {
-            controller = new StreamsJpaController();
+            controller = new StudentAdmissionJpaController();
         }
         return controller;
     }
 
-    public StreamsJpaController() {
-        super(Streams.class);
+    public StudentAdmissionJpaController() {
+        super(StudentAdmission.class);
     }
 
-    public Streams create(Streams entity) {
+    public StudentAdmission create(StudentAdmission entity) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -57,18 +57,18 @@ public class StreamsJpaController extends JpaController {
 
     }
 
-    public void edit(Streams stream) throws Exception {
+    public void edit(StudentAdmission studentAdmission) throws Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            stream = em.merge(stream);
+            studentAdmission = em.merge(studentAdmission);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = stream.getId().intValue();
-                if (findStream(id) == null) {
+                Integer id = studentAdmission.getId().intValue();
+                if (findStudentAdmission(id) == null) {
                     throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
                 }
             }
@@ -80,21 +80,21 @@ public class StreamsJpaController extends JpaController {
         }
     }
 
-    public Streams findStream(Integer id) {
+    public StudentAdmission findStudentAdmission(Integer id) {
         EntityManager em = getEntityManager();
 
         try {
-            return em.find(Streams.class, id);
+            return em.find(StudentAdmission.class, id);
         } finally {
             em.close();
         }
     }
 
-    private List<Streams> findStreams(boolean all, int maxResults, int firstResult) {
+    private List<StudentAdmission> findStudentAdmissions(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Streams.class));
+            cq.select(cq.from(StudentAdmission.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -106,19 +106,19 @@ public class StreamsJpaController extends JpaController {
         }
     }
 
-    public List<Streams> findStreams() {
-        return findStreams(true, -1, -1);
+    public List<StudentAdmission> findStudentAdmissions() {
+        return findStudentAdmissions(true, -1, -1);
     }
 
-    public List<Streams> findStreams(int maxResults, int firstResult) {
-        return findStreams(false, maxResults, firstResult);
+    public List<StudentAdmission> findStudentAdmissions(int maxResults, int firstResult) {
+        return findStudentAdmissions(false, maxResults, firstResult);
     }
 
     public int getCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Streams> rt = cq.from(Streams.class);
+            Root<StudentAdmission> rt = cq.from(StudentAdmission.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return (Integer) q.getSingleResult();
