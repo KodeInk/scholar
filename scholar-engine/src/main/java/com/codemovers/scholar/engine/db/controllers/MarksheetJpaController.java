@@ -8,6 +8,7 @@ package com.codemovers.scholar.engine.db.controllers;
 import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.LibraryStockInventory;
 import com.codemovers.scholar.engine.db.entities.LibraryTransactions;
+import com.codemovers.scholar.engine.db.entities.Marksheet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,24 +22,24 @@ import javax.ws.rs.BadRequestException;
  *
  * @author Manny
  */
-public class LibraryTransactionsJpaController extends JpaController {
+public class MarksheetJpaController extends JpaController {
 
-    protected static final Logger LOG = Logger.getLogger(LibraryTransactionsJpaController.class.getName());
+    protected static final Logger LOG = Logger.getLogger(MarksheetJpaController.class.getName());
 
-    private static LibraryTransactionsJpaController controller = null;
+    private static MarksheetJpaController controller = null;
 
-    public static LibraryTransactionsJpaController getInstance() {
+    public static MarksheetJpaController getInstance() {
         if (controller == null) {
-            controller = new LibraryTransactionsJpaController();
+            controller = new MarksheetJpaController();
         }
         return controller;
     }
 
-    public LibraryTransactionsJpaController() {
-        super(LibraryTransactions.class);
+    public MarksheetJpaController() {
+        super(Marksheet.class);
     }
 
-    public LibraryTransactions create(LibraryTransactions entity) {
+    public Marksheet create(Marksheet entity) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -57,18 +58,18 @@ public class LibraryTransactionsJpaController extends JpaController {
 
     }
 
-    public void edit(LibraryTransactions transactions) throws Exception {
+    public void edit(Marksheet marksheet) throws Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            transactions = em.merge(transactions);
+            marksheet = em.merge(marksheet);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = transactions.getId().intValue();
-                if (findTransaction(id) == null) {
+                Integer id = marksheet.getId().intValue();
+                if (findMarkSheet(id) == null) {
                     throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
                 }
             }
@@ -80,21 +81,21 @@ public class LibraryTransactionsJpaController extends JpaController {
         }
     }
 
-    public LibraryTransactions findTransaction(Integer id) {
+    public Marksheet findMarkSheet(Integer id) {
         EntityManager em = getEntityManager();
 
         try {
-            return em.find(LibraryTransactions.class, id);
+            return em.find(Marksheet.class, id);
         } finally {
             em.close();
         }
     }
 
-    private List<LibraryTransactions> findTransactions(boolean all, int maxResults, int firstResult) {
+    private List<Marksheet> findMarkSheets(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(LibraryStockInventory.class                    ));
+            cq.select(cq.from(Marksheet.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -106,20 +107,19 @@ public class LibraryTransactionsJpaController extends JpaController {
         }
     }
 
-    public List<LibraryTransactions> findTransactions() {
-        return findTransactions(true, -1, -1);
+    public List<Marksheet> findMarkSheets() {
+        return findMarkSheets(true, -1, -1);
     }
 
-    public List<LibraryTransactions> findTransactions(int maxResults, int firstResult) {
-        return findTransactions(false, maxResults, firstResult);
+    public List<Marksheet> findMarkSheets(int maxResults, int firstResult) {
+        return findMarkSheets(false, maxResults, firstResult);
     }
 
     public int getCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<LibraryTransactions> rt = cq.from(LibraryTransactions.class
-            );
+            Root<Marksheet> rt = cq.from(Marksheet.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return (Integer) q.getSingleResult();
