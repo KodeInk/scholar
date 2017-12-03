@@ -9,7 +9,7 @@ import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFi
 
 /**
  *
- * @author Mover 11/20/2017
+ * @author Mover 12/2/2017
  */
 public abstract class AbstractEntity {
 

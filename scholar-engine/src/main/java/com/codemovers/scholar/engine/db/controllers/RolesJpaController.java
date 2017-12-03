@@ -6,8 +6,9 @@
 package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.JpaController;
-import com.codemovers.scholar.engine.db.entities.Profile;
 import com.codemovers.scholar.engine.db.entities.Roles;
+import com.codemovers.scholar.engine.helper.Utilities;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -125,6 +126,27 @@ public class RolesJpaController extends JpaController {
         } finally {
             em.close();
         }
+    }
+
+    public List<Roles> findByName(String name) {
+        List<Roles> RoleList = new ArrayList<>();
+        EntityManager em = getEntityManager();
+        Query query = em.createNamedQuery("Roles.findByName");
+        query.setParameter("name", name);
+        try {
+            RoleList = query.getResultList();
+
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "unexpected exception {0}\n{1}", new Object[]{ex.getMessage(), Utilities.getStackTrace(ex)});
+            return null;
+            // don't throw WebApplicationException, force caller to handle this
+        } finally {
+            LOG.log(Level.FINER, "closing entity manager {0}", em);
+            em.close();
+        }
+
+        return RoleList;
+
     }
 
 }
