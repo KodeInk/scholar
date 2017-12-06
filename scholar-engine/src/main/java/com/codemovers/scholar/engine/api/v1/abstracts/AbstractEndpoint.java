@@ -42,7 +42,9 @@ public abstract class AbstractEndpoint<T, Z> {
      * @return
      * @throws Exception
      */
-    public abstract Z create(T entity) throws Exception;
+    public Z create(T entity) throws Exception {
+        throw new UnsupportedOperationException();
+    }
 
 
     /**
@@ -53,21 +55,27 @@ public abstract class AbstractEndpoint<T, Z> {
      * @param entity
      * @return
      */
-    public abstract Z update(@HeaderParam("schoolid") String school_name, @HeaderParam("authentication") String authentication, @PathParam("id") Integer id, T entity);
+    public Z update(@PathParam("id") Integer id, T entity) {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      *
      * @param id
      * @return
      */
-    public abstract Response archive(@PathParam("id") Integer id);
+    public Response archive(@PathParam("id") Integer id) {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      *
      * @param id
      * @return
      */
-    public abstract Response delete(@PathParam("id") Integer id);
+    public Response delete(@PathParam("id") Integer id) {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      *
@@ -75,7 +83,9 @@ public abstract class AbstractEndpoint<T, Z> {
      * @param end
      * @return
      */
-    public abstract Collection<Z> list(@QueryParam("start") int start, @QueryParam("end") int end);
+    public Collection<Z> list(@QueryParam("start") int start, @QueryParam("end") int end) {
+        throw new UnsupportedOperationException();
+    }
 
 
 

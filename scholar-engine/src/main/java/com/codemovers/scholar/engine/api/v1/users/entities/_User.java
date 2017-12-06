@@ -21,7 +21,8 @@ public class _User extends AbstractEntity {
 
     private Integer id;
 
-    private Integer account_id;
+    private @Mandatory
+    Integer account_id;
     private Integer person_id;
     private @Mandatory
     String username;
