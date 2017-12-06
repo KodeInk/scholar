@@ -68,7 +68,7 @@ public class UserService extends AbstractService<_User, UserResponse> {
     }
 
     //todo: validate authenticaton
-    public boolean validateAuthentication(String authentication) throws Exception {
+    public boolean validateAuthentication(String Schoolid, String authentication) throws Exception {
 
 
         return true;

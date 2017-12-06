@@ -38,15 +38,11 @@ public abstract class AbstractEndpoint<T, Z> {
 
     /**
      *
-     * @param school_name
-     * @param authentication
      * @param entity
      * @return
      * @throws Exception
      */
-    public Z create(@HeaderParam("schoolid") String school_name, @HeaderParam("authentication") String authentication, T entity) throws Exception {
-        throw new UnsupportedOperationException("Not Supported ");
-    }
+    public abstract Z create(T entity) throws Exception;
 
 
     /**
