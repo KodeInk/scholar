@@ -6,7 +6,10 @@
 package com.codemovers.scholar.engine.api.v1.abstracts;
 
 import com.codemovers.scholar.engine.api.v1.users.UserService;
+import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
@@ -23,8 +26,13 @@ public abstract class AbstractEndpoint<T, Z> {
     UserService service = null;
 
     public AbstractEndpoint(@HeaderParam("schoolid") String school_name, @HeaderParam("authentication") String authentication) {
-        //todo: validate login functionality
-        service = UserService.getInstance();
+        try {
+            //todo: validate login functionality
+            UserService.getInstance().validateAuthentication(school_name, authentication);
+        } catch (Exception ex) {
+            Logger.getLogger(AbstractEndpoint.class.getName()).log(Level.SEVERE, null, ex);
+            throw new BadRequestException("INVALID CREDENTIALS");
+        }
 
     }
 
