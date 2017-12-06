@@ -33,7 +33,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author mover 11/18/2017
  */
-public class AccountsService extends AbstractService<_Account, AccountResponse> {
+public class AccountsService {
 
     private static final Logger LOG = Logger.getLogger(AccountsService.class.getName());
 
@@ -50,27 +50,12 @@ public class AccountsService extends AbstractService<_Account, AccountResponse> 
         return service;
     }
 
-    @Override
-    public AccountResponse create(_Account entity) throws Exception {
-
-    }
 
 
-    @Override
-    public AccountResponse getById(Integer Id) throws Exception {
-
-
-    }
-
-    public GeneralAccounts getGneralAccountById(Integer Id) throws Exception {
-        GeneralAccounts account = controller.findAccount(Id);
-        return account;
-
-    }
 
     public AuthenticationResponse login(_login login, String logId) throws Exception {
 
-        try {
+        /*   try {
         LOG.log(Level.INFO, " General Account Service Login ");
         String authentication = null;
 
@@ -125,12 +110,14 @@ public class AccountsService extends AbstractService<_Account, AccountResponse> 
                 throw new BadRequestException(" USERNAME AND OR PASSWORD IS MANDATORY  ");
             }
 
-        }
+         */
 
-            return response;
-        } catch (Exception er) {
-            throw new BadRequestException(" USERNAME AND OR PASSWORD IS MANDATORY  ");
-        }
+        //  }
+
+        return null;
+//        } catch (Exception er) {
+//            throw new BadRequestException(" USERNAME AND OR PASSWORD IS MANDATORY  ");
+//        }
         //todo: 
     }
 
