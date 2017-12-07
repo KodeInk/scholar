@@ -119,7 +119,7 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
                                 }
                             }
                         }
-//                        Tenantdata tenantdata = Utilities.getTenantdata(token, tenantId, authentication, logId);
+//                        Tenantdata tenantdata = Utilities.getSchoolData(token, tenantId, authentication, logId);
 //                        requestContext.setProperty("tenantdata", tenantdata);
 //
 //                        if (tenantdata != null && logId.contains("_")) {

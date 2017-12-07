@@ -39,8 +39,7 @@ public abstract class JpaController<T extends Entity> implements Serializable {
 
     public EntityManager getEntityManager() {
         LOG.log(Level.INFO, " Creating Entity Manager ");
-        String school_name = "tester";
-        return FACTORY_PROVIDER.getFactory(school_name).createEntityManager();
+        return FACTORY_PROVIDER.getFactory().createEntityManager();
     }
 
     public Integer create(T entity) {

@@ -16,6 +16,16 @@ import javax.persistence.EntityManager;
  */
 public class EntityManagerFactoryProvider {
 
+    public enum DBModule {
+        SC_BACK, SC_ENGINE
+    };
+
+    private String host = null;
+    private String username = null;
+    private String password = null;
+    private String default_db = null;
+
+
     private static EntityManagerFactoryProvider instance;
     private final Map<String, EntityManagerFactory> factories;
 
@@ -33,10 +43,9 @@ public class EntityManagerFactoryProvider {
         return instance;
     }
 
-    public EntityManagerFactory getFactory(String school_name) {
+    public EntityManagerFactory getFactory(DBModule dBModule, String database) {
 
         EntityManagerFactory factory = null;
-        String database = getDatabase(school_name);
 
         if (factories.containsKey(database)) {
             LOG.log(Level.INFO, "Re Using Existing Database ");
@@ -44,7 +53,7 @@ public class EntityManagerFactoryProvider {
         } else {
             try {
 
-                factory = createFactory(database);
+                factory = createFactory(dBModule, database);
             } catch (Exception e) {
                 LOG.log(Level.SEVERE, "Factory Could Not Be Created");
                 e.printStackTrace();
@@ -55,38 +64,14 @@ public class EntityManagerFactoryProvider {
 
     }
 
-    private String host = null;
-    private String username = null;
-    private String password = null;
-    private String default_db = null;
-
-    public EntityManagerFactory createFactory() {
+    public EntityManagerFactory createFactory(DBModule dBModule, String database) {
         EntityManagerFactory emf = null;
         Map<String, String> properties = new HashMap<>();
 
-        properties.put("hibernate.connection.url", "jdbc:mysql://" + getHost() + "/" + getDefault_db());
-        properties.put("hibernate.connection.username", getUsername());
-        properties.put("hibernate.connection.password", getPassword());
-        properties.put("hibernate.ejb.entitymanager_factory_name", getDefault_db());
-        try {
-            // properties
-            emf = Persistence.createEntityManagerFactory("scholar", properties);
-
-        } catch (Exception e) {
-            LOG.log(Level.SEVERE, "Un Expected Error {0}", e.toString());
-        }
-
-        return emf;
-    }
-
-    public EntityManagerFactory createFactory(String db_name) {
-        EntityManagerFactory emf = null;
-        Map<String, String> properties = new HashMap<>();
-
-        properties.put("hibernate.connection.url", "jdbc:mysql://" + getHost() + "/" + db_name);
-        properties.put("hibernate.connection.username", getUsername());
-        properties.put("hibernate.connection.password", getPassword());
-        properties.put("hibernate.ejb.entitymanager_factory_name", db_name);
+        properties.put("hibernate.connection.url", "jdbc:mysql://" + getHost(dBModule) + "/" + database);
+        properties.put("hibernate.connection.username", getUsername(dBModule));
+        properties.put("hibernate.connection.password", getPassword(dBModule));
+        properties.put("hibernate.ejb.entitymanager_factory_name", getDatabase(dBModule));
         try {
             // properties
             emf = Persistence.createEntityManagerFactory("scholar", properties);
@@ -110,34 +95,21 @@ public class EntityManagerFactoryProvider {
         return LOG;
     }
 
-    private String getDatabase(String school_name) {
-
-        switch (school_name) {
-            case "DEFAULT":
-                return "scholar-backoffice";
-            default:
-                EntityManager em = createFactory().createEntityManager();
-                List<SchoolData> sds = SchoolDataJpaController.getInstance().findSchoolDataByName(school_name);
-                if (sds != null) {
-                    return sds.get(0).getExternalId();
-                }
-                return null;
-
-        }
-
+    private String getDatabase(DBModule dBModule) {
+        return "scholar-backoffice";
     }
 
-    public String getHost() {
+    public String getHost(DBModule dBModule) {
         host = System.getProperty("SC_CLIENT_DB_HOST");
         return host;
     }
 
-    public String getUsername() {
+    public String getUsername(DBModule dBModule) {
         username = System.getProperty("SC_CLIENT_DB_USER");
         return username;
     }
 
-    public String getPassword() {
+    public String getPassword(DBModule dBModule) {
         password = System.getProperty("SC_CLIENT_DB_PASSWORD");
         return password;
     }

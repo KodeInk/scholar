@@ -92,8 +92,9 @@ public class SchoolDataJpaController extends JpaController {
         }
     }
 
-    public List<SchoolData> findSchoolDataByName(String name) {
+    public SchoolData findSchoolDataByName(String name) {
         EntityManager em = getEntityManager();
+
         List<SchoolData> schoolDatas = null;
         try {
 
@@ -101,11 +102,18 @@ public class SchoolDataJpaController extends JpaController {
             query.setParameter("name", name);
             schoolDatas = query.getResultList();
 
+
+        } catch (Exception er) {
+            return null;
         } finally {
             em.close();
         }
 
-        return schoolDatas;
+        if (schoolDatas != null) {
+            return schoolDatas.get(0);
+        }
+
+        return null;
     }
 
     private List<SchoolData> findSchoolDataEntities(boolean all, int maxResults, int firstResult) {

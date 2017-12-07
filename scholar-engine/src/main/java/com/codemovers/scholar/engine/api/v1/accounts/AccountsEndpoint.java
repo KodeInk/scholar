@@ -7,6 +7,7 @@ package com.codemovers.scholar.engine.api.v1.accounts;
 
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.accounts.entities._login;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.helper.Utilities;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,9 +49,12 @@ public class AccountsEndpoint {
     ) throws Exception {
         String logId = context.getProperty("logId").toString();
 //       Utilities.logHttpServletRequest(httpRequest, logId);
+
+        SchoolData tenantData = (SchoolData) context.getProperty(schoolname);
         LOG.log(Level.INFO, "{0} :: start", new Object[]{logId});
 
-        return service.login(schoolname, login, logId);
+        return null;
+        // return service.login(schoolname, login, logId);
     }
 
 
