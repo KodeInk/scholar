@@ -92,6 +92,22 @@ public class SchoolDataJpaController extends JpaController {
         }
     }
 
+    public List<SchoolData> findSchoolDataByName(String name) {
+        EntityManager em = getEntityManager();
+        List<SchoolData> schoolDatas = null;
+        try {
+
+            Query query = em.createNamedQuery("SchoolData.findByName");
+            query.setParameter("name", name);
+            schoolDatas = query.getResultList();
+
+        } finally {
+            em.close();
+        }
+
+        return schoolDatas;
+    }
+
     private List<SchoolData> findSchoolDataEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {

@@ -1,8 +1,11 @@
 package com.codemovers.scholar.engine.db;
 
+import com.codemovers.scholar.engine.db.controllers.SchoolDataJpaController;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -114,9 +117,11 @@ public class EntityManagerFactoryProvider {
                 return "scholar-backoffice";
             default:
                 EntityManager em = createFactory().createEntityManager();
-
-                //todo: get the default  Factory Provider 
-                return "";
+                List<SchoolData> sds = SchoolDataJpaController.getInstance().findSchoolDataByName(school_name);
+                if (sds != null) {
+                    return sds.get(0).getExternalId();
+                }
+                return null;
 
         }
 
