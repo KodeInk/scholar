@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
- 
 
 /**
  * Created by Mover on 4/28/2017.
@@ -40,7 +39,8 @@ public abstract class JpaController<T extends Entity> implements Serializable {
 
     public EntityManager getEntityManager() {
         LOG.log(Level.INFO, " Creating Entity Manager ");
-        return FACTORY_PROVIDER.getFactory().createEntityManager();
+        String school_name = "tester";
+        return FACTORY_PROVIDER.getFactory(school_name).createEntityManager();
     }
 
     public Integer create(T entity) {

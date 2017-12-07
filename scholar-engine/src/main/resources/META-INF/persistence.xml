@@ -41,6 +41,7 @@
     <class>com.codemovers.scholar.engine.db.entities.StudyYearCurriculum</class>
     <class>com.codemovers.scholar.engine.db.entities.StudyYear</class>
     <class>com.codemovers.scholar.engine.db.entities.StudentTermRegistration</class>
+    <class>com.codemovers.scholar.engine.db.entities.SchoolData</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/scholar-engine?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
