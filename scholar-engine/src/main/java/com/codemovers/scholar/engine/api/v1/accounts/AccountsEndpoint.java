@@ -35,6 +35,7 @@ public class AccountsEndpoint {
     private AccountsService service = null;
 
     public AccountsEndpoint() {
+        service = new AccountsService();
     }
 
     @POST
@@ -46,9 +47,10 @@ public class AccountsEndpoint {
             @Context HttpServletRequest httpRequest
     ) throws Exception {
         String logId = context.getProperty("logId").toString();
-        Utilities.logHttpServletRequest(httpRequest, logId);
+//       Utilities.logHttpServletRequest(httpRequest, logId);
         LOG.log(Level.INFO, "{0} :: start", new Object[]{logId});
-        return service.login(login, logId);
+
+        return service.login(schoolname, login, logId);
     }
 
 

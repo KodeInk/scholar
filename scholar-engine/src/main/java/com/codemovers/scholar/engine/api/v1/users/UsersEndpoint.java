@@ -36,7 +36,6 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
     public UserResponse update(String school_name, String authentication, Integer id, _User entity) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

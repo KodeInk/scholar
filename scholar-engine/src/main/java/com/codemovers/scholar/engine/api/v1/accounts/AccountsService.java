@@ -53,8 +53,9 @@ public class AccountsService {
 
 
 
-    public AuthenticationResponse login(_login login, String logId) throws Exception {
+    public AuthenticationResponse login(String school_name, _login login, String logId) throws Exception {
 
+        LOG.log(Level.INFO, "School Name {0} ", school_name);
         /*   try {
         LOG.log(Level.INFO, " General Account Service Login ");
         String authentication = null;

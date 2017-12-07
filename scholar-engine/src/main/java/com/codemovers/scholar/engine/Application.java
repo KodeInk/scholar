@@ -70,6 +70,10 @@ public class Application {
         context.setMaxFormContentSize(50000000);
 
         context.addServlet(
+                getServlet(com.codemovers.scholar.engine.api.v1.accounts.AccountsEndpoint.class
+                ), "/account/v1/*");
+
+        context.addServlet(
                 getServlet(com.codemovers.scholar.engine.api.v1.users.UsersEndpoint.class
                 ), "/user/v1/*");
 
