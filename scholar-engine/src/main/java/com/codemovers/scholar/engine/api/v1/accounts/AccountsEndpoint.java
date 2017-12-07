@@ -7,6 +7,7 @@ package com.codemovers.scholar.engine.api.v1.accounts;
 
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.accounts.entities._login;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.helper.Utilities;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,6 +37,8 @@ public class AccountsEndpoint {
 
     public AccountsEndpoint() {
         service = new AccountsService();
+        // with the context issue, I can get headers off this context 
+        // context.getHeaders()
     }
 
     @POST
@@ -46,12 +49,15 @@ public class AccountsEndpoint {
             @HeaderParam("schoolname") String schoolname, _login login,
             @Context HttpServletRequest httpRequest
     ) throws Exception {
+        SchoolData tenantdata = (SchoolData) context.getProperty("schoolname");
+
         String logId = context.getProperty("logId").toString();
-//       Utilities.logHttpServletRequest(httpRequest, logId);
+        Utilities.logHttpServletRequest(httpRequest, logId);
         LOG.log(Level.INFO, "{0} :: start", new Object[]{logId});
+        LOG.log(Level.INFO, "{0} :: start", tenantdata.getExternalId());
 
-        return service.login(schoolname, login, logId);
+        return null;
+        //return service.login(schoolname, login, logId);
     }
-
 
 }

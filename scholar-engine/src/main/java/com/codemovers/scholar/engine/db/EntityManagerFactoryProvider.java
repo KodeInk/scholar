@@ -47,7 +47,6 @@ public class EntityManagerFactoryProvider {
                 factory = createFactory(database);
             } catch (Exception e) {
                 LOG.log(Level.SEVERE, "Factory Could Not Be Created");
-                e.printStackTrace();
             }
         }
 
