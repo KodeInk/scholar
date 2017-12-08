@@ -6,9 +6,7 @@
 package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.EngineJpaController;
-import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.Addresses;
-import com.codemovers.scholar.engine.db.entities.Contacts;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.helper.Utilities;
 import java.util.ArrayList;
@@ -25,7 +23,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author mover
  */
-public class AddressJpaController extends EngineJpaController<Addresses> {
+public class AddressJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(AddressJpaController.class.getName());
 
@@ -72,7 +70,7 @@ public class AddressJpaController extends EngineJpaController<Addresses> {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = addresses.getId().intValue();
-                if (findContact(id) == null) {
+                if (findContact(id, data) == null) {
                     throw new BadRequestException("The Contact with id " + id + " no longer exists.");
                 }
             }
