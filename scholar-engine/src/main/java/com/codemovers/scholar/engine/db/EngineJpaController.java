@@ -1,34 +1,42 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.codemovers.scholar.engine.db;
 
 import com.codemovers.scholar.engine.annotation.MainId;
 import com.codemovers.scholar.engine.db.EntityManagerFactoryProvider.DBModule;
 import com.codemovers.scholar.engine.helper.Utilities;
-import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
-import javax.persistence.*;
-import javax.persistence.criteria.CriteriaQuery;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.ws.rs.BadRequestException;
 
 /**
- * Created by Mover on 4/28/2017.
- * @param <T>
+ *
+ * @author mover
  */
-public abstract class JpaController<T extends Entity> implements Serializable {
+public class EngineJpaController<T extends Entity> implements Serializable {
 
-    private static final Logger LOG = Logger.getLogger(JpaController.class.getName());
+    private static final Logger LOG = Logger.getLogger(EngineJpaController.class.getName());
     public static final EntityManagerFactoryProvider FACTORY_PROVIDER = EntityManagerFactoryProvider.getInstance();
 
     private final Class<T> entityClass;
     private final Field mainIdField;
 
-    private EntityManagerFactoryProvider.DBModule dBModule = null;
-    private String database_name = null;
+    private EntityManagerFactoryProvider.DBModule dBModule = EntityManagerFactoryProvider.DBModule.SC_ENGINE;
 
-    public JpaController(Class<T> entityClass) {
+    public EngineJpaController(Class<T> entityClass) {
         this.entityClass = entityClass;
         Field f = null;
 
@@ -51,15 +59,7 @@ public abstract class JpaController<T extends Entity> implements Serializable {
         this.dBModule = dBModule;
     }
 
-    public String getDatabase_name() {
-        return database_name;
-    }
-
-    public void setDatabase_name(String database_name) {
-        this.database_name = database_name;
-    }
-
-    public EntityManager getEntityManager() {
+    public EntityManager getEntityManager(String database_name) {
         LOG.log(Level.INFO, " Creating Entity Manager ");
         if (dBModule == null || database_name == null) {
             throw new BadRequestException("DB MODULE OR DATABASE NOT SET");
@@ -68,10 +68,10 @@ public abstract class JpaController<T extends Entity> implements Serializable {
         return FACTORY_PROVIDER.getFactory(dBModule, database_name).createEntityManager();
     }
 
-    public Integer create(T entity) {
+    public Integer create(T entity, String database_name) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(database_name);
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -83,11 +83,11 @@ public abstract class JpaController<T extends Entity> implements Serializable {
         return entity.getId();
     }
 
-    public T find(Integer id) {
+    public T find(Integer id, String database_name) {
         T entity;
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(database_name);
             entity = em.find(entityClass, id);
         } finally {
             if (em != null) {
@@ -97,16 +97,16 @@ public abstract class JpaController<T extends Entity> implements Serializable {
         return entity;
     }
 
-    public List<T> findEntities() {
-        return findEntities(true, -1, -1);
+    public List<T> findEntities(String database_name) {
+        return findEntities(true, -1, -1, database_name);
     }
 
-    public List<T> findEntities(int maxResults, int firstResult) {
-        return findEntities(false, maxResults, firstResult);
+    public List<T> findEntities(int maxResults, int firstResult, String database_name) {
+        return findEntities(false, maxResults, firstResult, database_name);
     }
 
-    private List<T> findEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<T> findEntities(boolean all, int maxResults, int firstResult, String database_name) {
+        EntityManager em = getEntityManager(database_name);
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
 
@@ -124,7 +124,7 @@ public abstract class JpaController<T extends Entity> implements Serializable {
         }
     }
 
-    public List<T> findByNamedQuery(String namedQuery, String[] parameterKeys, Object[] parameterValues, String logId) {
+    public List<T> findByNamedQuery(String namedQuery, String[] parameterKeys, Object[] parameterValues, String logId, String database_name) {
         if (parameterKeys == null && parameterValues == null) {
             return null;
         } else if (parameterKeys != null && parameterValues == null) {
@@ -136,7 +136,7 @@ public abstract class JpaController<T extends Entity> implements Serializable {
         }
 
         List<T> returnValue = new ArrayList<>();
-        EntityManager em = getEntityManager();
+        EntityManager em = getEntityManager(database_name);
         try {
             TypedQuery<T> query = em.createNamedQuery(namedQuery, entityClass);
 
@@ -155,10 +155,10 @@ public abstract class JpaController<T extends Entity> implements Serializable {
         return returnValue;
     }
 
-    public void edit(T entity) throws Exception {
+    public void edit(T entity, String database_name) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(database_name);
             em.getTransaction().begin();
             em.merge(entity);
             em.getTransaction().commit();
@@ -166,7 +166,7 @@ public abstract class JpaController<T extends Entity> implements Serializable {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = entity.getId();
-                if (find(id) == null) {
+                if (find(id, database_name) == null) {
                     throw new Exception("The entity with id " + id + " no longer exists.");
                 }
             }
@@ -178,7 +178,7 @@ public abstract class JpaController<T extends Entity> implements Serializable {
         }
     }
 
-    public List<T> getMainIds(boolean all, Object startMainId, Integer offset, Integer limit) {
+    public List<T> getMainIds(boolean all, Object startMainId, Integer offset, Integer limit, String database_name) {
         if (mainIdField == null) {
             return null;
         }
@@ -194,7 +194,7 @@ public abstract class JpaController<T extends Entity> implements Serializable {
             }
         }
 
-        EntityManager entityManager = getEntityManager();
+        EntityManager entityManager = getEntityManager(database_name);
         List mainIdList = null;
 
         try {
