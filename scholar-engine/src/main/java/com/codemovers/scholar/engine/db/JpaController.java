@@ -3,6 +3,7 @@ package com.codemovers.scholar.engine.db;
 import com.codemovers.scholar.engine.annotation.MainId;
 import com.codemovers.scholar.engine.db.EntityManagerFactoryProvider.DBModule;
 import com.codemovers.scholar.engine.helper.Utilities;
+import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaQuery;
 import java.io.Serializable;
@@ -23,7 +24,8 @@ public abstract class JpaController<T extends Entity> implements Serializable {
     private final Class<T> entityClass;
     private final Field mainIdField;
 
-    EntityManagerFactoryProvider.DBModule dBModule;
+    private EntityManagerFactoryProvider.DBModule dBModule = null;
+    private String database_name = null;
 
     public JpaController(Class<T> entityClass) {
         this.entityClass = entityClass;
@@ -40,8 +42,28 @@ public abstract class JpaController<T extends Entity> implements Serializable {
 
     }
 
-    public EntityManager getEntityManager(DBModule dBModule, String database_name) {
+    public DBModule getdBModule() {
+        return dBModule;
+    }
+
+    public void setdBModule(DBModule dBModule) {
+        this.dBModule = dBModule;
+    }
+
+    public String getDatabase_name() {
+        return database_name;
+    }
+
+    public void setDatabase_name(String database_name) {
+        this.database_name = database_name;
+    }
+
+    public EntityManager getEntityManager() {
         LOG.log(Level.INFO, " Creating Entity Manager ");
+        if (dBModule == null || database_name == null) {
+            throw new BadRequestException("DB MODULE OR DATABASE NOT SET");
+
+        }
         return FACTORY_PROVIDER.getFactory(dBModule, database_name).createEntityManager();
     }
 
