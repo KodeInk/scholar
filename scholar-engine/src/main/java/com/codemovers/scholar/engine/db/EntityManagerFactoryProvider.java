@@ -16,6 +16,7 @@ import javax.persistence.EntityManager;
  */
 public class EntityManagerFactoryProvider {
 
+    // testing
     public enum DBModule {
         SC_BACK, SC_ENGINE
     };
