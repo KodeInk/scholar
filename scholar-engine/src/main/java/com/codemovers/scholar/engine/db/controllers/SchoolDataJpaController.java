@@ -5,9 +5,10 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.BackJpaController;
 import com.codemovers.scholar.engine.db.EntityManagerFactoryProvider;
-import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +23,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author mover
  */
-public class SchoolDataJpaController extends JpaController {
+public class SchoolDataJpaController implements Serializable {
 
     protected static final Logger LOG = Logger.getLogger(SchoolDataJpaController.class.getName());
 
@@ -37,11 +38,14 @@ public class SchoolDataJpaController extends JpaController {
         return controller;
     }
 
+    public EntityManager getEntityManager() {
+        return this.emf.createEntityManager();
+    }
+
     public SchoolDataJpaController() {
-        super(SchoolData.class);
 
         this.emf = EntityManagerFactoryProvider.getInstance().getFactory(
-                EntityManagerFactoryProvider.DBModule.SC_BACK, "mifosplatform-tenants");
+                EntityManagerFactoryProvider.DBModule.SC_BACK, "scholar-backoffice");
 
     }
 
