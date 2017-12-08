@@ -1,15 +1,11 @@
 package com.codemovers.scholar.engine.db;
 
-import com.codemovers.scholar.engine.db.controllers.SchoolDataJpaController;
-import com.codemovers.scholar.engine.db.entities.SchoolData;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.EntityManager;
 
 /**
  * Created by Mover on 4/27/2017.
@@ -25,7 +21,6 @@ public class EntityManagerFactoryProvider {
     private String username = null;
     private String password = null;
     private String default_db = null;
-
 
     private static EntityManagerFactoryProvider instance;
     private final Map<String, EntityManagerFactory> factories;
@@ -71,7 +66,7 @@ public class EntityManagerFactoryProvider {
         properties.put("hibernate.connection.url", "jdbc:mysql://" + getHost(dBModule) + "/" + database);
         properties.put("hibernate.connection.username", getUsername(dBModule));
         properties.put("hibernate.connection.password", getPassword(dBModule));
-        properties.put("hibernate.ejb.entitymanager_factory_name", getDatabase(dBModule));
+        properties.put("hibernate.ejb.entitymanager_factory_name", database);
         try {
             // properties
             emf = Persistence.createEntityManagerFactory("scholar", properties);
@@ -96,22 +91,61 @@ public class EntityManagerFactoryProvider {
     }
 
     private String getDatabase(DBModule dBModule) {
-        return "scholar-backoffice";
+
+        switch (dBModule.toString()) {
+            case "SC_BACK":
+                return "scholar-tenants";
+            case "SC_ENGINE":
+                return "scholar-engine";
+            default:
+                return "scholar-tenants";
+        }
+
     }
 
     public String getHost(DBModule dBModule) {
         host = System.getProperty("SC_CLIENT_DB_HOST");
-        return host;
+
+        switch (dBModule.toString()) {
+            case "SC_BACK":
+                return "localhost";
+            case "SC_ENGINE":
+                return "localhost";
+            default:
+                return "localhost";
+        }
+
+        // return host;
     }
 
     public String getUsername(DBModule dBModule) {
-        username = System.getProperty("SC_CLIENT_DB_USER");
-        return username;
+//        username = System.getProperty("SC_CLIENT_DB_USER");
+//        return username;
+
+        switch (dBModule.toString()) {
+            case "SC_BACK":
+                return "root";
+            case "SC_ENGINE":
+                return "root";
+            default:
+                return "root";
+        }
+
     }
 
     public String getPassword(DBModule dBModule) {
-        password = System.getProperty("SC_CLIENT_DB_PASSWORD");
-        return password;
+//        password = System.getProperty("SC_CLIENT_DB_PASSWORD");
+//        return password;
+
+        switch (dBModule.toString()) {
+            case "SC_BACK":
+                return "mysql";
+            case "SC_ENGINE":
+                return "mysql";
+            default:
+                return "mysql";
+        }
+
     }
 
     public String getDefault_db() {

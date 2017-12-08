@@ -5,16 +5,14 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EntityManagerFactoryProvider;
 import com.codemovers.scholar.engine.db.JpaController;
-import static com.codemovers.scholar.engine.db.controllers.AddressJpaController.LOG;
-import com.codemovers.scholar.engine.db.entities.Addresses;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
-import com.codemovers.scholar.engine.helper.Utilities;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -30,6 +28,8 @@ public class SchoolDataJpaController extends JpaController {
 
     private static SchoolDataJpaController controller = null;
 
+    private EntityManagerFactory emf = null;
+
     public static SchoolDataJpaController getInstance() {
         if (controller == null) {
             controller = new SchoolDataJpaController();
@@ -39,6 +39,10 @@ public class SchoolDataJpaController extends JpaController {
 
     public SchoolDataJpaController() {
         super(SchoolData.class);
+
+        this.emf = EntityManagerFactoryProvider.getInstance().getFactory(
+                EntityManagerFactoryProvider.DBModule.SC_BACK, "mifosplatform-tenants");
+
     }
 
     public SchoolData create(SchoolData entity) {
@@ -101,7 +105,6 @@ public class SchoolDataJpaController extends JpaController {
             Query query = em.createNamedQuery("SchoolData.findByName");
             query.setParameter("name", name);
             schoolDatas = query.getResultList();
-
 
         } catch (Exception er) {
             return null;
