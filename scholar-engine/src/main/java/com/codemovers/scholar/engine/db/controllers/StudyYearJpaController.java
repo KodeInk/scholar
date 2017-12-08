@@ -5,7 +5,9 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.StudentTermRegistration;
 import com.codemovers.scholar.engine.db.entities.StudyYear;
 import java.util.List;
@@ -21,7 +23,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author Manny
  */
-public class StudyYearJpaController extends JpaController {
+public class StudyYearJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(StudyYearJpaController.class.getName());
 
@@ -38,10 +40,10 @@ public class StudyYearJpaController extends JpaController {
         super(StudyYear.class);
     }
 
-    public StudyYear create(StudyYear entity) {
+    public StudyYear create(StudyYear entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -57,10 +59,10 @@ public class StudyYearJpaController extends JpaController {
 
     }
 
-    public void edit(StudyYear studyYear) throws Exception {
+    public void edit(StudyYear studyYear, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             studyYear = em.merge(studyYear);
             em.getTransaction().commit();
@@ -68,7 +70,7 @@ public class StudyYearJpaController extends JpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = studyYear.getId().intValue();
-                if (findStudyYear(id) == null) {
+                if (findStudyYear(id,data) == null) {
                     throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
                 }
             }
@@ -80,8 +82,8 @@ public class StudyYearJpaController extends JpaController {
         }
     }
 
-    public StudyYear findStudyYear(Integer id) {
-        EntityManager em = getEntityManager();
+    public StudyYear findStudyYear(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
 
         try {
             return em.find(StudyYear.class, id);
@@ -90,8 +92,8 @@ public class StudyYearJpaController extends JpaController {
         }
     }
 
-    private List<StudyYear> findStudyYears(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<StudyYear> findStudyYears(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(StudyYear.class));
@@ -106,16 +108,16 @@ public class StudyYearJpaController extends JpaController {
         }
     }
 
-    public List<StudyYear> findStudyYears() {
-        return findStudyYears(true, -1, -1);
+    public List<StudyYear> findStudyYears(SchoolData data) {
+        return findStudyYears(true, -1, -1, data);
     }
 
-    public List<StudyYear> findStudyYears(int maxResults, int firstResult) {
-        return findStudyYears(false, maxResults, firstResult);
+    public List<StudyYear> findStudyYears(int maxResults, int firstResult, SchoolData data) {
+        return findStudyYears(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<StudyYear> rt = cq.from(StudyYear.class);

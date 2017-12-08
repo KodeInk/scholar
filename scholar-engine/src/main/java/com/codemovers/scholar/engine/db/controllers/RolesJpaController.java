@@ -5,8 +5,10 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.Roles;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.helper.Utilities;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author Manny
  */
-public class RolesJpaController extends JpaController {
+public class RolesJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(RolesJpaController.class.getName());
 
@@ -39,10 +41,10 @@ public class RolesJpaController extends JpaController {
         super(Roles.class);
     }
 
-    public Roles create(Roles entity) {
+    public Roles create(Roles entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -58,10 +60,10 @@ public class RolesJpaController extends JpaController {
 
     }
 
-    public void edit(Roles role) throws Exception {
+    public void edit(Roles role, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             role = em.merge(role);
             em.getTransaction().commit();
@@ -69,7 +71,7 @@ public class RolesJpaController extends JpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = role.getId().intValue();
-                if (findRole(id) == null) {
+                if (findRole(id, data) == null) {
                     throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
                 }
             }
@@ -81,8 +83,8 @@ public class RolesJpaController extends JpaController {
         }
     }
 
-    public Roles findRole(Integer id) {
-        EntityManager em = getEntityManager();
+    public Roles findRole(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
 
         try {
             return em.find(Roles.class, id);
@@ -91,8 +93,8 @@ public class RolesJpaController extends JpaController {
         }
     }
 
-    private List<Roles> findRoles(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<Roles> findRoles(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Roles.class));
@@ -107,16 +109,16 @@ public class RolesJpaController extends JpaController {
         }
     }
 
-    public List<Roles> findRoles() {
-        return findRoles(true, -1, -1);
+    public List<Roles> findRoles(SchoolData data) {
+        return findRoles(true, -1, -1, data);
     }
 
-    public List<Roles> findRoles(int maxResults, int firstResult) {
-        return findRoles(false, maxResults, firstResult);
+    public List<Roles> findRoles(int maxResults, int firstResult, SchoolData data) {
+        return findRoles(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Roles> rt = cq.from(Roles.class);
@@ -128,9 +130,9 @@ public class RolesJpaController extends JpaController {
         }
     }
 
-    public List<Roles> findByName(String name) {
+    public List<Roles> findByName(String name, SchoolData data) {
         List<Roles> RoleList = new ArrayList<>();
-        EntityManager em = getEntityManager();
+        EntityManager em = getEntityManager(data.getExternalId());
         Query query = em.createNamedQuery("Roles.findByName");
         query.setParameter("name", name);
         try {

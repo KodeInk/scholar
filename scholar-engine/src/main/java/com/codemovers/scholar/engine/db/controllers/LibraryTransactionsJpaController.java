@@ -5,9 +5,11 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.LibraryStockInventory;
 import com.codemovers.scholar.engine.db.entities.LibraryTransactions;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +23,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author Manny
  */
-public class LibraryTransactionsJpaController extends JpaController {
+public class LibraryTransactionsJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(LibraryTransactionsJpaController.class.getName());
 
@@ -38,10 +40,10 @@ public class LibraryTransactionsJpaController extends JpaController {
         super(LibraryTransactions.class);
     }
 
-    public LibraryTransactions create(LibraryTransactions entity) {
+    public LibraryTransactions create(LibraryTransactions entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -57,10 +59,10 @@ public class LibraryTransactionsJpaController extends JpaController {
 
     }
 
-    public void edit(LibraryTransactions transactions) throws Exception {
+    public void edit(LibraryTransactions transactions, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             transactions = em.merge(transactions);
             em.getTransaction().commit();
@@ -68,7 +70,7 @@ public class LibraryTransactionsJpaController extends JpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = transactions.getId().intValue();
-                if (findTransaction(id) == null) {
+                if (findTransaction(id, data) == null) {
                     throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
                 }
             }
@@ -80,8 +82,8 @@ public class LibraryTransactionsJpaController extends JpaController {
         }
     }
 
-    public LibraryTransactions findTransaction(Integer id) {
-        EntityManager em = getEntityManager();
+    public LibraryTransactions findTransaction(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
 
         try {
             return em.find(LibraryTransactions.class, id);
@@ -90,11 +92,11 @@ public class LibraryTransactionsJpaController extends JpaController {
         }
     }
 
-    private List<LibraryTransactions> findTransactions(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<LibraryTransactions> findTransactions(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(LibraryStockInventory.class                    ));
+            cq.select(cq.from(LibraryStockInventory.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -106,16 +108,16 @@ public class LibraryTransactionsJpaController extends JpaController {
         }
     }
 
-    public List<LibraryTransactions> findTransactions() {
-        return findTransactions(true, -1, -1);
+    public List<LibraryTransactions> findTransactions(SchoolData data) {
+        return findTransactions(true, -1, -1, data);
     }
 
-    public List<LibraryTransactions> findTransactions(int maxResults, int firstResult) {
-        return findTransactions(false, maxResults, firstResult);
+    public List<LibraryTransactions> findTransactions(int maxResults, int firstResult, SchoolData data) {
+        return findTransactions(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<LibraryTransactions> rt = cq.from(LibraryTransactions.class

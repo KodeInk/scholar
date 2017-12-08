@@ -5,7 +5,9 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.SubjectTeachers;
 import com.codemovers.scholar.engine.db.entities.Subjects;
 import java.util.List;
@@ -21,7 +23,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author Manny
  */
-public class SubjectsJpaController extends JpaController {
+public class SubjectsJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(SubjectsJpaController.class.getName());
 
@@ -38,10 +40,10 @@ public class SubjectsJpaController extends JpaController {
         super(Subjects.class);
     }
 
-    public Subjects create(Subjects entity) {
+    public Subjects create(Subjects entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -57,10 +59,10 @@ public class SubjectsJpaController extends JpaController {
 
     }
 
-    public void edit(Subjects subjects) throws Exception {
+    public void edit(Subjects subjects, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             subjects = em.merge(subjects);
             em.getTransaction().commit();
@@ -68,7 +70,7 @@ public class SubjectsJpaController extends JpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = subjects.getId().intValue();
-                if (SubjectsJpaController.this.findSubjects(id) == null) {
+                if (findSubjects(id, data) == null) {
                     throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
                 }
             }
@@ -80,8 +82,8 @@ public class SubjectsJpaController extends JpaController {
         }
     }
 
-    public Subjects findSubjects(Integer id) {
-        EntityManager em = getEntityManager();
+    public Subjects findSubjects(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
 
         try {
             return em.find(Subjects.class, id);
@@ -90,8 +92,8 @@ public class SubjectsJpaController extends JpaController {
         }
     }
 
-    private List<Subjects> findSubjects(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<Subjects> findSubjects(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Subjects.class));
@@ -106,16 +108,16 @@ public class SubjectsJpaController extends JpaController {
         }
     }
 
-    public List<Subjects> findSubjects() {
-        return findSubjects(true, -1, -1);
+    public List<Subjects> findSubjects(SchoolData data) {
+        return findSubjects(true, -1, -1, data);
     }
 
-    public List<Subjects> findSubjects(int maxResults, int firstResult) {
-        return findSubjects(false, maxResults, firstResult);
+    public List<Subjects> findSubjects(int maxResults, int firstResult, SchoolData data) {
+        return findSubjects(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Subjects> rt = cq.from(Subjects.class);

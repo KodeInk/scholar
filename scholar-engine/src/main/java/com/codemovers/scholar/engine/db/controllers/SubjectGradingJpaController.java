@@ -5,7 +5,9 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.StudyYearCurriculum;
 import com.codemovers.scholar.engine.db.entities.SubjectCurriculum;
 import com.codemovers.scholar.engine.db.entities.SubjectGrading;
@@ -22,7 +24,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author Manny
  */
-public class SubjectGradingJpaController extends JpaController {
+public class SubjectGradingJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(SubjectGradingJpaController.class.getName());
 
@@ -39,10 +41,10 @@ public class SubjectGradingJpaController extends JpaController {
         super(SubjectGrading.class);
     }
 
-    public SubjectGrading create(SubjectGrading entity) {
+    public SubjectGrading create(SubjectGrading entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -58,10 +60,10 @@ public class SubjectGradingJpaController extends JpaController {
 
     }
 
-    public void edit(SubjectGrading subjectGrading) throws Exception {
+    public void edit(SubjectGrading subjectGrading, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             subjectGrading = em.merge(subjectGrading);
             em.getTransaction().commit();
@@ -69,7 +71,7 @@ public class SubjectGradingJpaController extends JpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = subjectGrading.getId().intValue();
-                if (findSubjectGrading(id) == null) {
+                if (findSubjectGrading(id, data) == null) {
                     throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
                 }
             }
@@ -81,8 +83,8 @@ public class SubjectGradingJpaController extends JpaController {
         }
     }
 
-    public SubjectGrading findSubjectGrading(Integer id) {
-        EntityManager em = getEntityManager();
+    public SubjectGrading findSubjectGrading(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
 
         try {
             return em.find(SubjectGrading.class, id);
@@ -91,8 +93,8 @@ public class SubjectGradingJpaController extends JpaController {
         }
     }
 
-    private List<SubjectGrading> findSubjectGradings(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<SubjectGrading> findSubjectGradings(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(StudyYearCurriculum.class));
@@ -107,16 +109,16 @@ public class SubjectGradingJpaController extends JpaController {
         }
     }
 
-    public List<SubjectGrading> findSubjectGradings() {
-        return findSubjectGradings(true, -1, -1);
+    public List<SubjectGrading> findSubjectGradings(SchoolData data) {
+        return findSubjectGradings(true, -1, -1, data);
     }
 
-    public List<SubjectGrading> findSubjectGradings(int maxResults, int firstResult) {
-        return findSubjectGradings(false, maxResults, firstResult);
+    public List<SubjectGrading> findSubjectGradings(int maxResults, int firstResult, SchoolData data) {
+        return findSubjectGradings(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<SubjectGrading> rt = cq.from(SubjectGrading.class);

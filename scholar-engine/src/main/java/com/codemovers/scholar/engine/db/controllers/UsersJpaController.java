@@ -5,7 +5,9 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Terms;
 import com.codemovers.scholar.engine.db.entities.Users;
 import java.util.List;
@@ -21,7 +23,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author Mover
  */
-public class UsersJpaController extends JpaController {
+public class UsersJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(UsersJpaController.class.getName());
 
@@ -38,10 +40,10 @@ public class UsersJpaController extends JpaController {
         super(Users.class);
     }
 
-    public Users create(Users entity) {
+    public Users create(Users entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -57,10 +59,10 @@ public class UsersJpaController extends JpaController {
 
     }
 
-    public void edit(Users user) throws Exception {
+    public void edit(Users user, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             user = em.merge(user);
             em.getTransaction().commit();
@@ -68,7 +70,7 @@ public class UsersJpaController extends JpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = user.getId().intValue();
-                if (findUser(id) == null) {
+                if (findUser(id,data) == null) {
                     throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
                 }
             }
@@ -80,8 +82,8 @@ public class UsersJpaController extends JpaController {
         }
     }
 
-    public Users findUser(Integer id) {
-        EntityManager em = getEntityManager();
+    public Users findUser(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
 
         try {
             return em.find(Users.class, id);
@@ -90,8 +92,8 @@ public class UsersJpaController extends JpaController {
         }
     }
 
-    private List<Users> findUsers(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<Users> findUsers(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Terms.class));
@@ -106,16 +108,16 @@ public class UsersJpaController extends JpaController {
         }
     }
 
-    public List<Users> findUsers() {
-        return findUsers(true, -1, -1);
+    public List<Users> findUsers(SchoolData data) {
+        return findUsers(true, -1, -1, data);
     }
 
-    public List<Users> findUsers(int maxResults, int firstResult) {
-        return findUsers(false, maxResults, firstResult);
+    public List<Users> findUsers(int maxResults, int firstResult, SchoolData data) {
+        return findUsers(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Users> rt = cq.from(Users.class);

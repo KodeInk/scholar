@@ -5,9 +5,11 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.Exams;
 import com.codemovers.scholar.engine.db.entities.Grading;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +23,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author Manny
  */
-public class GradingJpaController extends JpaController {
+public class GradingJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(GradingJpaController.class.getName());
 
@@ -38,10 +40,10 @@ public class GradingJpaController extends JpaController {
         super(Grading.class);
     }
 
-    public Grading create(Grading entity) {
+    public Grading create(Grading entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -57,10 +59,10 @@ public class GradingJpaController extends JpaController {
 
     }
 
-    public void edit(Grading grading) throws Exception {
+    public void edit(Grading grading, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             grading = em.merge(grading);
             em.getTransaction().commit();
@@ -68,7 +70,7 @@ public class GradingJpaController extends JpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = grading.getId().intValue();
-                if (findGrading(id) == null) {
+                if (findGrading(id, data) == null) {
                     throw new BadRequestException("The Contact with id " + id + " no longer exists.");
                 }
             }
@@ -80,8 +82,8 @@ public class GradingJpaController extends JpaController {
         }
     }
 
-    public Exams findGrading(Integer id) {
-        EntityManager em = getEntityManager();
+    public Exams findGrading(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             return em.find(Exams.class, id);
         } finally {
@@ -89,8 +91,8 @@ public class GradingJpaController extends JpaController {
         }
     }
 
-    private List<Grading> findGradingEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<Grading> findGradingEntities(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Grading.class));
@@ -105,16 +107,16 @@ public class GradingJpaController extends JpaController {
         }
     }
 
-    public List<Grading> findGradingEntities() {
-        return findGradingEntities(true, -1, -1);
+    public List<Grading> findGradingEntities(SchoolData data) {
+        return findGradingEntities(true, -1, -1, data);
     }
 
-    public List<Grading> findGradingEntities(int maxResults, int firstResult) {
-        return findGradingEntities(false, maxResults, firstResult);
+    public List<Grading> findGradingEntities(int maxResults, int firstResult, SchoolData data) {
+        return findGradingEntities(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Grading> rt = cq.from(Grading.class);
@@ -125,6 +127,5 @@ public class GradingJpaController extends JpaController {
             em.close();
         }
     }
-
 
 }

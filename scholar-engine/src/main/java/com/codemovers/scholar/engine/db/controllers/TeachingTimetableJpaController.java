@@ -5,7 +5,9 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Subjects;
 import com.codemovers.scholar.engine.db.entities.TeachingTimetable;
 import java.util.List;
@@ -21,7 +23,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author Manny
  */
-public class TeachingTimetableJpaController extends JpaController {
+public class TeachingTimetableJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(TeachingTimetableJpaController.class.getName());
 
@@ -38,10 +40,10 @@ public class TeachingTimetableJpaController extends JpaController {
         super(TeachingTimetable.class);
     }
 
-    public TeachingTimetable create(TeachingTimetable entity) {
+    public TeachingTimetable create(TeachingTimetable entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -57,10 +59,10 @@ public class TeachingTimetableJpaController extends JpaController {
 
     }
 
-    public void edit(TeachingTimetable teachingTimetable) throws Exception {
+    public void edit(TeachingTimetable teachingTimetable, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             teachingTimetable = em.merge(teachingTimetable);
             em.getTransaction().commit();
@@ -68,7 +70,7 @@ public class TeachingTimetableJpaController extends JpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = teachingTimetable.getId().intValue();
-                if (findTeachingTimetable(id) == null) {
+                if (findTeachingTimetable(id, data) == null) {
                     throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
                 }
             }
@@ -80,8 +82,8 @@ public class TeachingTimetableJpaController extends JpaController {
         }
     }
 
-    public TeachingTimetable findTeachingTimetable(Integer id) {
-        EntityManager em = getEntityManager();
+    public TeachingTimetable findTeachingTimetable(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
 
         try {
             return em.find(TeachingTimetable.class, id);
@@ -90,8 +92,8 @@ public class TeachingTimetableJpaController extends JpaController {
         }
     }
 
-    private List<TeachingTimetable> findTeachingTimetables(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<TeachingTimetable> findTeachingTimetables(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(TeachingTimetable.class));
@@ -106,16 +108,16 @@ public class TeachingTimetableJpaController extends JpaController {
         }
     }
 
-    public List<TeachingTimetable> findTeachingTimetables() {
-        return findTeachingTimetables(true, -1, -1);
+    public List<TeachingTimetable> findTeachingTimetables(SchoolData data) {
+        return findTeachingTimetables(true, -1, -1, data);
     }
 
-    public List<TeachingTimetable> findTeachingTimetables(int maxResults, int firstResult) {
-        return findTeachingTimetables(false, maxResults, firstResult);
+    public List<TeachingTimetable> findTeachingTimetables(int maxResults, int firstResult, SchoolData data) {
+        return findTeachingTimetables(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<TeachingTimetable> rt = cq.from(TeachingTimetable.class);

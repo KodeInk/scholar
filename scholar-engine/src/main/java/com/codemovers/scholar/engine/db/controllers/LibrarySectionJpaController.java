@@ -5,10 +5,12 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.Exams;
 import com.codemovers.scholar.engine.db.entities.GradingDetails;
 import com.codemovers.scholar.engine.db.entities.LibrarySection;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +24,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author Manny
  */
-public class LibrarySectionJpaController extends JpaController {
+public class LibrarySectionJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(LibrarySectionJpaController.class.getName());
 
@@ -39,10 +41,10 @@ public class LibrarySectionJpaController extends JpaController {
         super(LibrarySection.class);
     }
 
-    public LibrarySection create(LibrarySection entity) {
+    public LibrarySection create(LibrarySection entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -58,10 +60,10 @@ public class LibrarySectionJpaController extends JpaController {
 
     }
 
-    public void edit(LibrarySection librarySection) throws Exception {
+    public void edit(LibrarySection librarySection, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             librarySection = em.merge(librarySection);
             em.getTransaction().commit();
@@ -69,7 +71,7 @@ public class LibrarySectionJpaController extends JpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = librarySection.getId().intValue();
-                if (findLibrarySection(id) == null) {
+                if (findLibrarySection(id, data) == null) {
                     throw new BadRequestException("The Contact with id " + id + " no longer exists.");
                 }
             }
@@ -81,8 +83,8 @@ public class LibrarySectionJpaController extends JpaController {
         }
     }
 
-    public LibrarySection findLibrarySection(Integer id) {
-        EntityManager em = getEntityManager();
+    public LibrarySection findLibrarySection(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             return em.find(LibrarySection.class, id);
         } finally {
@@ -90,8 +92,8 @@ public class LibrarySectionJpaController extends JpaController {
         }
     }
 
-    private List<LibrarySection> findLibrarySectionlEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<LibrarySection> findLibrarySectionlEntities(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(LibrarySection.class));
@@ -106,16 +108,16 @@ public class LibrarySectionJpaController extends JpaController {
         }
     }
 
-    public List<LibrarySection> findLibrarySectionlEntities() {
-        return findLibrarySectionlEntities(true, -1, -1);
+    public List<LibrarySection> findLibrarySectionlEntities(SchoolData data) {
+        return findLibrarySectionlEntities(true, -1, -1, data);
     }
 
-    public List<LibrarySection> findLibrarySectionlEntities(int maxResults, int firstResult) {
-        return findLibrarySectionlEntities(false, maxResults, firstResult);
+    public List<LibrarySection> findLibrarySectionlEntities(int maxResults, int firstResult, SchoolData data) {
+        return findLibrarySectionlEntities(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<LibrarySection> rt = cq.from(LibrarySection.class);

@@ -5,7 +5,9 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.StudyYearCurriculum;
 import com.codemovers.scholar.engine.db.entities.SubjectGrading;
 import com.codemovers.scholar.engine.db.entities.SubjectPapers;
@@ -22,7 +24,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author Manny
  */
-public class SubjectPapersJpaController extends JpaController {
+public class SubjectPapersJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(SubjectPapersJpaController.class.getName());
 
@@ -39,10 +41,10 @@ public class SubjectPapersJpaController extends JpaController {
         super(SubjectPapers.class);
     }
 
-    public SubjectPapers create(SubjectPapers entity) {
+    public SubjectPapers create(SubjectPapers entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -58,10 +60,10 @@ public class SubjectPapersJpaController extends JpaController {
 
     }
 
-    public void edit(SubjectPapers subjectPapers) throws Exception {
+    public void edit(SubjectPapers subjectPapers, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             subjectPapers = em.merge(subjectPapers);
             em.getTransaction().commit();
@@ -69,7 +71,7 @@ public class SubjectPapersJpaController extends JpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = subjectPapers.getId().intValue();
-                if (SubjectPapersJpaController.this.findSubjectPaper(id) == null) {
+                if (findSubjectPaper(id, data) == null) {
                     throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
                 }
             }
@@ -81,8 +83,8 @@ public class SubjectPapersJpaController extends JpaController {
         }
     }
 
-    public SubjectPapers findSubjectPaper(Integer id) {
-        EntityManager em = getEntityManager();
+    public SubjectPapers findSubjectPaper(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
 
         try {
             return em.find(SubjectPapers.class, id);
@@ -91,8 +93,8 @@ public class SubjectPapersJpaController extends JpaController {
         }
     }
 
-    private List<SubjectPapers> findSubjectPapers(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<SubjectPapers> findSubjectPapers(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(SubjectPapers.class));
@@ -107,16 +109,16 @@ public class SubjectPapersJpaController extends JpaController {
         }
     }
 
-    public List<SubjectPapers> findSubjectPapers() {
-        return findSubjectPapers(true, -1, -1);
+    public List<SubjectPapers> findSubjectPapers(SchoolData data) {
+        return findSubjectPapers(true, -1, -1, data);
     }
 
-    public List<SubjectPapers> findSubjectPapers(int maxResults, int firstResult) {
-        return findSubjectPapers(false, maxResults, firstResult);
+    public List<SubjectPapers> findSubjectPapers(int maxResults, int firstResult, SchoolData data) {
+        return findSubjectPapers(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<SubjectPapers> rt = cq.from(SubjectPapers.class);

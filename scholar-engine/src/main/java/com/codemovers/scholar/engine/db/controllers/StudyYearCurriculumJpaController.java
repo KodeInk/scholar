@@ -5,7 +5,9 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.StudyYear;
 import com.codemovers.scholar.engine.db.entities.StudyYearCurriculum;
 import java.util.List;
@@ -21,7 +23,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author Manny
  */
-public class StudyYearCurriculumJpaController extends JpaController {
+public class StudyYearCurriculumJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(StudyYearCurriculumJpaController.class.getName());
 
@@ -38,10 +40,10 @@ public class StudyYearCurriculumJpaController extends JpaController {
         super(StudyYearCurriculum.class);
     }
 
-    public StudyYearCurriculum create(StudyYearCurriculum entity) {
+    public StudyYearCurriculum create(StudyYearCurriculum entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -57,10 +59,10 @@ public class StudyYearCurriculumJpaController extends JpaController {
 
     }
 
-    public void edit(StudyYearCurriculum studyYearCurriculum) throws Exception {
+    public void edit(StudyYearCurriculum studyYearCurriculum, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             studyYearCurriculum = em.merge(studyYearCurriculum);
             em.getTransaction().commit();
@@ -68,7 +70,7 @@ public class StudyYearCurriculumJpaController extends JpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = studyYearCurriculum.getId().intValue();
-                if (findStudyYearCurriculum(id) == null) {
+                if (findStudyYearCurriculum(id,data) == null) {
                     throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
                 }
             }
@@ -80,8 +82,8 @@ public class StudyYearCurriculumJpaController extends JpaController {
         }
     }
 
-    public StudyYearCurriculum findStudyYearCurriculum(Integer id) {
-        EntityManager em = getEntityManager();
+    public StudyYearCurriculum findStudyYearCurriculum(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
 
         try {
             return em.find(StudyYearCurriculum.class, id);
@@ -90,8 +92,8 @@ public class StudyYearCurriculumJpaController extends JpaController {
         }
     }
 
-    private List<StudyYearCurriculum> findStudyYearCurriculums(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<StudyYearCurriculum> findStudyYearCurriculums(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(StudyYearCurriculum.class));
@@ -106,16 +108,16 @@ public class StudyYearCurriculumJpaController extends JpaController {
         }
     }
 
-    public List<StudyYearCurriculum> findStudyYearCurriculums() {
-        return findStudyYearCurriculums(true, -1, -1);
+    public List<StudyYearCurriculum> findStudyYearCurriculums(SchoolData data) {
+        return findStudyYearCurriculums(true, -1, -1, data);
     }
 
-    public List<StudyYearCurriculum> findStudyYearCurriculums(int maxResults, int firstResult) {
-        return findStudyYearCurriculums(false, maxResults, firstResult);
+    public List<StudyYearCurriculum> findStudyYearCurriculums(int maxResults, int firstResult, SchoolData data) {
+        return findStudyYearCurriculums(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<StudyYearCurriculum> rt = cq.from(StudyYearCurriculum.class);

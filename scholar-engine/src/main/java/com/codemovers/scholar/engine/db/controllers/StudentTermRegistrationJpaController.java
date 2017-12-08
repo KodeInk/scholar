@@ -5,7 +5,9 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.StudentSubjectRegistration;
 import com.codemovers.scholar.engine.db.entities.StudentTermRegistration;
 import java.util.List;
@@ -21,7 +23,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author Manny
  */
-public class StudentTermRegistrationJpaController extends JpaController {
+public class StudentTermRegistrationJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(StudentTermRegistrationJpaController.class.getName());
 
@@ -38,10 +40,10 @@ public class StudentTermRegistrationJpaController extends JpaController {
         super(StudentTermRegistration.class);
     }
 
-    public StudentTermRegistration create(StudentTermRegistration entity) {
+    public StudentTermRegistration create(StudentTermRegistration entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -57,10 +59,10 @@ public class StudentTermRegistrationJpaController extends JpaController {
 
     }
 
-    public void edit(StudentTermRegistration studentTermRegistration) throws Exception {
+    public void edit(StudentTermRegistration studentTermRegistration, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             studentTermRegistration = em.merge(studentTermRegistration);
             em.getTransaction().commit();
@@ -68,7 +70,7 @@ public class StudentTermRegistrationJpaController extends JpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = studentTermRegistration.getId().intValue();
-                if (findStudentTermRegistration(id) == null) {
+                if (findStudentTermRegistration(id, data) == null) {
                     throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
                 }
             }
@@ -80,8 +82,8 @@ public class StudentTermRegistrationJpaController extends JpaController {
         }
     }
 
-    public StudentTermRegistration findStudentTermRegistration(Integer id) {
-        EntityManager em = getEntityManager();
+    public StudentTermRegistration findStudentTermRegistration(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
 
         try {
             return em.find(StudentTermRegistration.class, id);
@@ -90,8 +92,8 @@ public class StudentTermRegistrationJpaController extends JpaController {
         }
     }
 
-    private List<StudentTermRegistration> findStudentTermRegistrations(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<StudentTermRegistration> findStudentTermRegistrations(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(StudentTermRegistration.class));
@@ -106,16 +108,16 @@ public class StudentTermRegistrationJpaController extends JpaController {
         }
     }
 
-    public List<StudentTermRegistration> findStudentTermRegistrations() {
-        return findStudentTermRegistrations(true, -1, -1);
+    public List<StudentTermRegistration> findStudentTermRegistrations(SchoolData data) {
+        return findStudentTermRegistrations(true, -1, -1, data);
     }
 
-    public List<StudentTermRegistration> findStudentTermRegistrations(int maxResults, int firstResult) {
-        return findStudentTermRegistrations(false, maxResults, firstResult);
+    public List<StudentTermRegistration> findStudentTermRegistrations(int maxResults, int firstResult, SchoolData data) {
+        return findStudentTermRegistrations(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<StudentTermRegistration> rt = cq.from(StudentTermRegistration.class);

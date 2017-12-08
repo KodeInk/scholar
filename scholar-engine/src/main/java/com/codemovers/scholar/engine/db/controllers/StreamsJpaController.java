@@ -5,8 +5,10 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.Roles;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Streams;
 import java.util.List;
 import java.util.logging.Level;
@@ -21,7 +23,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author Manny
  */
-public class StreamsJpaController extends JpaController {
+public class StreamsJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(StreamsJpaController.class.getName());
 
@@ -38,10 +40,10 @@ public class StreamsJpaController extends JpaController {
         super(Streams.class);
     }
 
-    public Streams create(Streams entity) {
+    public Streams create(Streams entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -57,10 +59,10 @@ public class StreamsJpaController extends JpaController {
 
     }
 
-    public void edit(Streams stream) throws Exception {
+    public void edit(Streams stream, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             stream = em.merge(stream);
             em.getTransaction().commit();
@@ -68,7 +70,7 @@ public class StreamsJpaController extends JpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = stream.getId().intValue();
-                if (findStream(id) == null) {
+                if (findStream(id,data) == null) {
                     throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
                 }
             }
@@ -80,8 +82,8 @@ public class StreamsJpaController extends JpaController {
         }
     }
 
-    public Streams findStream(Integer id) {
-        EntityManager em = getEntityManager();
+    public Streams findStream(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
 
         try {
             return em.find(Streams.class, id);
@@ -90,8 +92,8 @@ public class StreamsJpaController extends JpaController {
         }
     }
 
-    private List<Streams> findStreams(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<Streams> findStreams(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Streams.class));
@@ -106,16 +108,16 @@ public class StreamsJpaController extends JpaController {
         }
     }
 
-    public List<Streams> findStreams() {
-        return findStreams(true, -1, -1);
+    public List<Streams> findStreams(SchoolData data) {
+        return findStreams(true, -1, -1, data);
     }
 
-    public List<Streams> findStreams(int maxResults, int firstResult) {
-        return findStreams(false, maxResults, firstResult);
+    public List<Streams> findStreams(int maxResults, int firstResult, SchoolData data) {
+        return findStreams(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Streams> rt = cq.from(Streams.class);

@@ -5,7 +5,9 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.TeachingTimetable;
 import com.codemovers.scholar.engine.db.entities.Terms;
 import java.util.List;
@@ -21,7 +23,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author Manny
  */
-public class TermsJpaController extends JpaController {
+public class TermsJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(TermsJpaController.class.getName());
 
@@ -38,10 +40,10 @@ public class TermsJpaController extends JpaController {
         super(Terms.class);
     }
 
-    public Terms create(Terms entity) {
+    public Terms create(Terms entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -57,10 +59,10 @@ public class TermsJpaController extends JpaController {
 
     }
 
-    public void edit(Terms terms) throws Exception {
+    public void edit(Terms terms, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             terms = em.merge(terms);
             em.getTransaction().commit();
@@ -68,7 +70,7 @@ public class TermsJpaController extends JpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = terms.getId().intValue();
-                if (findTerm(id) == null) {
+                if (findTerm(id, data) == null) {
                     throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
                 }
             }
@@ -80,8 +82,8 @@ public class TermsJpaController extends JpaController {
         }
     }
 
-    public Terms findTerm(Integer id) {
-        EntityManager em = getEntityManager();
+    public Terms findTerm(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
 
         try {
             return em.find(Terms.class, id);
@@ -90,8 +92,8 @@ public class TermsJpaController extends JpaController {
         }
     }
 
-    private List<Terms> findTerms(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<Terms> findTerms(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Terms.class));
@@ -106,16 +108,16 @@ public class TermsJpaController extends JpaController {
         }
     }
 
-    public List<Terms> findTerms() {
-        return findTerms(true, -1, -1);
+    public List<Terms> findTerms(SchoolData data) {
+        return findTerms(true, -1, -1, data);
     }
 
-    public List<Terms> findTerms(int maxResults, int firstResult) {
-        return findTerms(false, maxResults, firstResult);
+    public List<Terms> findTerms(int maxResults, int firstResult, SchoolData data) {
+        return findTerms(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Terms> rt = cq.from(Terms.class);

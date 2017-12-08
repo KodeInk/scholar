@@ -5,8 +5,10 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.LibraryStockInventory;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +22,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author Manny
  */
-public class LibraryStockInventoryJpaController extends JpaController {
+public class LibraryStockInventoryJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(LibraryStockJpaController.class.getName());
 
@@ -38,10 +40,10 @@ public class LibraryStockInventoryJpaController extends JpaController {
         );
     }
 
-    public LibraryStockInventory create(LibraryStockInventory entity) {
+    public LibraryStockInventory create(LibraryStockInventory entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -57,10 +59,10 @@ public class LibraryStockInventoryJpaController extends JpaController {
 
     }
 
-    public void edit(LibraryStockInventory librarystockinventory) throws Exception {
+    public void edit(LibraryStockInventory librarystockinventory, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             librarystockinventory = em.merge(librarystockinventory);
             em.getTransaction().commit();
@@ -68,7 +70,7 @@ public class LibraryStockInventoryJpaController extends JpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = librarystockinventory.getId().intValue();
-                if (findLibraryStockInventory(id) == null) {
+                if (findLibraryStockInventory(id, data) == null) {
                     throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
                 }
             }
@@ -80,8 +82,8 @@ public class LibraryStockInventoryJpaController extends JpaController {
         }
     }
 
-    public LibraryStockInventory findLibraryStockInventory(Integer id) {
-        EntityManager em = getEntityManager();
+    public LibraryStockInventory findLibraryStockInventory(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
 
         try {
             return em.find(LibraryStockInventory.class, id);
@@ -90,8 +92,8 @@ public class LibraryStockInventoryJpaController extends JpaController {
         }
     }
 
-    private List<LibraryStockInventory> findLibraryStockInventoryEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<LibraryStockInventory> findLibraryStockInventoryEntities(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq
@@ -108,16 +110,16 @@ public class LibraryStockInventoryJpaController extends JpaController {
         }
     }
 
-    public List<LibraryStockInventory> findLibraryStockInventoryEntities() {
-        return findLibraryStockInventoryEntities(true, -1, -1);
+    public List<LibraryStockInventory> findLibraryStockInventoryEntities(SchoolData data) {
+        return findLibraryStockInventoryEntities(true, -1, -1, data);
     }
 
-    public List<LibraryStockInventory> findLibraryStockInventoryEntities(int maxResults, int firstResult) {
-        return findLibraryStockInventoryEntities(false, maxResults, firstResult);
+    public List<LibraryStockInventory> findLibraryStockInventoryEntities(int maxResults, int firstResult, SchoolData data) {
+        return findLibraryStockInventoryEntities(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<LibraryStockInventory> rt = cq.from(LibraryStockInventory.class

@@ -5,9 +5,11 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.Marksheet;
 import com.codemovers.scholar.engine.db.entities.Profile;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +23,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author Manny
  */
-public class ProfileJpaController extends JpaController {
+public class ProfileJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(MarksheetJpaController.class.getName());
 
@@ -38,10 +40,10 @@ public class ProfileJpaController extends JpaController {
         super(Profile.class);
     }
 
-    public Profile create(Profile entity) {
+    public Profile create(Profile entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -57,10 +59,10 @@ public class ProfileJpaController extends JpaController {
 
     }
 
-    public void edit(Profile profile) throws Exception {
+    public void edit(Profile profile, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             profile = em.merge(profile);
             em.getTransaction().commit();
@@ -68,7 +70,7 @@ public class ProfileJpaController extends JpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = profile.getId().intValue();
-                if (findProfile(id) == null) {
+                if (findProfile(id,data) == null) {
                     throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
                 }
             }
@@ -80,8 +82,8 @@ public class ProfileJpaController extends JpaController {
         }
     }
 
-    public Profile findProfile(Integer id) {
-        EntityManager em = getEntityManager();
+    public Profile findProfile(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
 
         try {
             return em.find(Profile.class, id);
@@ -90,8 +92,8 @@ public class ProfileJpaController extends JpaController {
         }
     }
 
-    private List<Profile> findProfiles(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<Profile> findProfiles(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Profile.class));
@@ -106,16 +108,16 @@ public class ProfileJpaController extends JpaController {
         }
     }
 
-    public List<Profile> findProfiles() {
-        return findProfiles(true, -1, -1);
+    public List<Profile> findProfiles(SchoolData data) {
+        return findProfiles(true, -1, -1, data);
     }
 
-    public List<Profile> findProfiles(int maxResults, int firstResult) {
-        return findProfiles(false, maxResults, firstResult);
+    public List<Profile> findProfiles(int maxResults, int firstResult, SchoolData data) {
+        return findProfiles(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Profile> rt = cq.from(Profile.class);
