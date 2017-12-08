@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.codemovers.scholar.engine.db.entities;
+package com.codemovers.scholar.engine.db;
 
 import com.codemovers.scholar.engine.annotation.MainId;
 import com.codemovers.scholar.engine.db.EngineJpaController;
@@ -27,6 +27,7 @@ import javax.ws.rs.BadRequestException;
 /**
  *
  * @author mover
+ * @param <T>
  */
 public class BackJpaController<T extends Entity> implements Serializable {
 
