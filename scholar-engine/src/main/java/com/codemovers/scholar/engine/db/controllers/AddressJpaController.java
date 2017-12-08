@@ -5,9 +5,11 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.Addresses;
 import com.codemovers.scholar.engine.db.entities.Contacts;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.helper.Utilities;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author mover
  */
-public class AddressJpaController extends JpaController {
+public class AddressJpaController extends EngineJpaController<Addresses> {
 
     protected static final Logger LOG = Logger.getLogger(AddressJpaController.class.getName());
 
@@ -40,10 +42,10 @@ public class AddressJpaController extends JpaController {
         super(Addresses.class);
     }
 
-    public Addresses create(Addresses entity) {
+    public Addresses create(Addresses entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -59,10 +61,10 @@ public class AddressJpaController extends JpaController {
 
     }
 
-    public void edit(Addresses addresses) throws Exception {
+    public void edit(Addresses addresses, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             addresses = em.merge(addresses);
             em.getTransaction().commit();
@@ -82,8 +84,8 @@ public class AddressJpaController extends JpaController {
         }
     }
 
-    public Addresses findContact(Integer id) {
-        EntityManager em = getEntityManager();
+    public Addresses findContact(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             return em.find(Addresses.class, id);
         } finally {
@@ -92,9 +94,9 @@ public class AddressJpaController extends JpaController {
     }
 
     // find contacts by parent types
-    public List<Addresses> findAddresses(String parentType) {
+    public List<Addresses> findAddresses(String parentType, SchoolData data) {
         List<Addresses> addressList = new ArrayList<>();
-        EntityManager em = getEntityManager();
+        EntityManager em = getEntityManager(data.getExternalId());
         Query query = em.createNamedQuery("Addresses.findByParentType");
         query.setParameter("parentType", parentType);
         try {
@@ -112,9 +114,9 @@ public class AddressJpaController extends JpaController {
     }
 
     // find contacts by parent type and parent id
-    public List<Addresses> findAddresses(String parentType, Integer parentId) {
+    public List<Addresses> findAddresses(String parentType, Integer parentId, SchoolData data) {
         List<Addresses> addressList = new ArrayList<>();
-        EntityManager em = getEntityManager();
+        EntityManager em = getEntityManager(data.getExternalId());
         Query query = em.createNamedQuery("Contacts.findByParentTypeANDId");
         query.setParameter("parentType", parentType);
         query.setParameter("parentId", parentId);
@@ -132,8 +134,8 @@ public class AddressJpaController extends JpaController {
         return addressList;
     }
 
-    private List<Addresses> findAddressEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<Addresses> findAddressEntities(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Addresses.class));
@@ -148,16 +150,16 @@ public class AddressJpaController extends JpaController {
         }
     }
 
-    public List<Addresses> findAddressEntities() {
-        return findAddressEntities(true, -1, -1);
+    public List<Addresses> findAddressEntities(SchoolData data) {
+        return findAddressEntities(true, -1, -1, data);
     }
 
-    public List<Addresses> findAddressEntities(int maxResults, int firstResult) {
-        return findAddressEntities(false, maxResults, firstResult);
+    public List<Addresses> findAddressEntities(int maxResults, int firstResult, SchoolData data) {
+        return findAddressEntities(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Addresses> rt = cq.from(Addresses.class);
