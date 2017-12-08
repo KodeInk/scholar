@@ -1,6 +1,7 @@
 package com.codemovers.scholar.engine.db;
 
 import com.codemovers.scholar.engine.annotation.MainId;
+import com.codemovers.scholar.engine.db.EntityManagerFactoryProvider.DBModule;
 import com.codemovers.scholar.engine.helper.Utilities;
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaQuery;
@@ -22,6 +23,8 @@ public abstract class JpaController<T extends Entity> implements Serializable {
     private final Class<T> entityClass;
     private final Field mainIdField;
 
+    EntityManagerFactoryProvider.DBModule dBModule;
+
     public JpaController(Class<T> entityClass) {
         this.entityClass = entityClass;
         Field f = null;
@@ -37,9 +40,9 @@ public abstract class JpaController<T extends Entity> implements Serializable {
 
     }
 
-    public EntityManager getEntityManager() {
+    public EntityManager getEntityManager(DBModule dBModule, String database_name) {
         LOG.log(Level.INFO, " Creating Entity Manager ");
-        return FACTORY_PROVIDER.getFactory().createEntityManager();
+        return FACTORY_PROVIDER.getFactory(dBModule, database_name).createEntityManager();
     }
 
     public Integer create(T entity) {
