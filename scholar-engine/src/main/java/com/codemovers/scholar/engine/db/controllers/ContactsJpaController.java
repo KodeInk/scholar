@@ -5,10 +5,12 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.BookType;
 import com.codemovers.scholar.engine.db.entities.ClassStream;
 import com.codemovers.scholar.engine.db.entities.Contacts;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +24,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author mover
  */
-public class ContactsJpaController extends JpaController {
+public class ContactsJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(ContactsJpaController.class.getName());
 
@@ -39,10 +41,10 @@ public class ContactsJpaController extends JpaController {
         super(Contacts.class);
     }
 
-    public Contacts create(Contacts entity) {
+    public Contacts create(Contacts entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -58,10 +60,10 @@ public class ContactsJpaController extends JpaController {
 
     }
 
-    public void edit(Contacts contacts) throws Exception {
+    public void edit(Contacts contacts, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             contacts = em.merge(contacts);
             em.getTransaction().commit();
@@ -69,7 +71,7 @@ public class ContactsJpaController extends JpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = contacts.getId().intValue();
-                if (findContact(id) == null) {
+                if (findContact(id,data) == null) {
                     throw new BadRequestException("The Contact with id " + id + " no longer exists.");
                 }
             }
@@ -81,8 +83,8 @@ public class ContactsJpaController extends JpaController {
         }
     }
 
-    public Contacts findContact(Integer id) {
-        EntityManager em = getEntityManager();
+    public Contacts findContact(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             return em.find(Contacts.class, id);
         } finally {
@@ -90,8 +92,8 @@ public class ContactsJpaController extends JpaController {
         }
     }
 
-    private List<Contacts> findContactEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<Contacts> findContactEntities(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(BookType.class));
@@ -106,16 +108,16 @@ public class ContactsJpaController extends JpaController {
         }
     }
 
-    public List<Contacts> findContactEntities() {
-        return findContactEntities(true, -1, -1);
+    public List<Contacts> findContactEntities(SchoolData data) {
+        return findContactEntities(true, -1, -1, data);
     }
 
-    public List<Contacts> findContactEntities(int maxResults, int firstResult) {
-        return findContactEntities(false, maxResults, firstResult);
+    public List<Contacts> findContactEntities(int maxResults, int firstResult, SchoolData data) {
+        return findContactEntities(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Contacts> rt = cq.from(Contacts.class);

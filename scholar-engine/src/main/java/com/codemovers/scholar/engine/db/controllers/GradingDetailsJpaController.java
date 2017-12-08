@@ -5,9 +5,11 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.Exams;
 import com.codemovers.scholar.engine.db.entities.GradingDetails;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +23,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author Manny
  */
-public class GradingDetailsJpaController extends JpaController {
+public class GradingDetailsJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(GradingDetailsJpaController.class.getName());
 
@@ -38,10 +40,10 @@ public class GradingDetailsJpaController extends JpaController {
         super(GradingDetails.class);
     }
 
-    public GradingDetails create(GradingDetails entity) {
+    public GradingDetails create(GradingDetails entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -57,10 +59,10 @@ public class GradingDetailsJpaController extends JpaController {
 
     }
 
-    public void edit(GradingDetails gradingDetails) throws Exception {
+    public void edit(GradingDetails gradingDetails, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             gradingDetails = em.merge(gradingDetails);
             em.getTransaction().commit();
@@ -68,7 +70,7 @@ public class GradingDetailsJpaController extends JpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = gradingDetails.getId().intValue();
-                if (findGradingDetail(id) == null) {
+                if (findGradingDetail(id, data) == null) {
                     throw new BadRequestException("The Contact with id " + id + " no longer exists.");
                 }
             }
@@ -80,8 +82,8 @@ public class GradingDetailsJpaController extends JpaController {
         }
     }
 
-    public GradingDetails findGradingDetail(Integer id) {
-        EntityManager em = getEntityManager();
+    public GradingDetails findGradingDetail(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             return em.find(GradingDetails.class, id);
         } finally {
@@ -89,8 +91,8 @@ public class GradingDetailsJpaController extends JpaController {
         }
     }
 
-    private List<GradingDetails> findGradingDetailEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<GradingDetails> findGradingDetailEntities(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Exams.class));
@@ -105,16 +107,16 @@ public class GradingDetailsJpaController extends JpaController {
         }
     }
 
-    public List<GradingDetails> findGradingDetailEntities() {
-        return findGradingDetailEntities(true, -1, -1);
+    public List<GradingDetails> findGradingDetailEntities(SchoolData data) {
+        return findGradingDetailEntities(true, -1, -1, data);
     }
 
-    public List<GradingDetails> findGradingDetailEntities(int maxResults, int firstResult) {
-        return findGradingDetailEntities(false, maxResults, firstResult);
+    public List<GradingDetails> findGradingDetailEntities(int maxResults, int firstResult, SchoolData data) {
+        return findGradingDetailEntities(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<GradingDetails> rt = cq.from(GradingDetails.class);
@@ -125,6 +127,5 @@ public class GradingDetailsJpaController extends JpaController {
             em.close();
         }
     }
-
 
 }

@@ -5,10 +5,12 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
 import static com.codemovers.scholar.engine.db.controllers.BookTypesJpaController.LOG;
 import com.codemovers.scholar.engine.db.entities.BookType;
 import com.codemovers.scholar.engine.db.entities.Books;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +24,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author mover
  */
-public class BooksJpaController extends JpaController {
+public class BooksJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(BooksJpaController.class.getName());
 
@@ -39,10 +41,10 @@ public class BooksJpaController extends JpaController {
         super(Books.class);
     }
 
-    public Books create(Books entity) {
+    public Books create(Books entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -58,10 +60,10 @@ public class BooksJpaController extends JpaController {
 
     }
 
-    public void edit(Books book) throws Exception {
+    public void edit(Books book, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             book = em.merge(book);
             em.getTransaction().commit();
@@ -69,7 +71,7 @@ public class BooksJpaController extends JpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = book.getId().intValue();
-                if (findBook(id) == null) {
+                if (findBook(id,data) == null) {
                     throw new BadRequestException("The Contact with id " + id + " no longer exists.");
                 }
             }
@@ -81,8 +83,8 @@ public class BooksJpaController extends JpaController {
         }
     }
 
-    public Books findBook(Integer id) {
-        EntityManager em = getEntityManager();
+    public Books findBook(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             return em.find(Books.class, id);
         } finally {
@@ -90,8 +92,8 @@ public class BooksJpaController extends JpaController {
         }
     }
 
-    private List<Books> findBooksEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<Books> findBooksEntities(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(BookType.class));
@@ -106,16 +108,16 @@ public class BooksJpaController extends JpaController {
         }
     }
 
-    public List<Books> findBooksEntities() {
-        return findBooksEntities(true, -1, -1);
+    public List<Books> findBooksEntities(SchoolData data) {
+        return findBooksEntities(true, -1, -1, data);
     }
 
-    public List<Books> findBooksEntities(int maxResults, int firstResult) {
-        return findBooksEntities(false, maxResults, firstResult);
+    public List<Books> findBooksEntities(int maxResults, int firstResult, SchoolData data) {
+        return findBooksEntities(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Books> rt = cq.from(Books.class);

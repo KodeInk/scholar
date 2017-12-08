@@ -5,9 +5,11 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.ExamTem;
 import com.codemovers.scholar.engine.db.entities.ExamTimetable;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +23,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author Manny
  */
-public class ExamTimeTableJpaController extends JpaController {
+public class ExamTimeTableJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(ExamTimeTableJpaController.class.getName());
 
@@ -38,10 +40,10 @@ public class ExamTimeTableJpaController extends JpaController {
         super(ExamTimetable.class);
     }
 
-    public ExamTimetable create(ExamTimetable entity) {
+    public ExamTimetable create(ExamTimetable entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -57,10 +59,10 @@ public class ExamTimeTableJpaController extends JpaController {
 
     }
 
-    public void edit(ExamTimetable exam_time_table) throws Exception {
+    public void edit(ExamTimetable exam_time_table, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             exam_time_table = em.merge(exam_time_table);
             em.getTransaction().commit();
@@ -68,7 +70,7 @@ public class ExamTimeTableJpaController extends JpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = exam_time_table.getId().intValue();
-                if (findExamTerm(id) == null) {
+                if (findExamTerm(id,data) == null) {
                     throw new BadRequestException("The Contact with id " + id + " no longer exists.");
                 }
             }
@@ -80,8 +82,8 @@ public class ExamTimeTableJpaController extends JpaController {
         }
     }
 
-    public ExamTimetable findExamTerm(Integer id) {
-        EntityManager em = getEntityManager();
+    public ExamTimetable findExamTerm(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             return em.find(ExamTimetable.class, id);
         } finally {
@@ -89,8 +91,8 @@ public class ExamTimeTableJpaController extends JpaController {
         }
     }
 
-    private List<ExamTimetable> findExamTimeTableEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<ExamTimetable> findExamTimeTableEntities(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(ExamTimetable.class));
@@ -105,16 +107,16 @@ public class ExamTimeTableJpaController extends JpaController {
         }
     }
 
-    public List<ExamTimetable> findExamTimeTableEntities() {
-        return findExamTimeTableEntities(true, -1, -1);
+    public List<ExamTimetable> findExamTimeTableEntities(SchoolData data) {
+        return findExamTimeTableEntities(true, -1, -1, data);
     }
 
-    public List<ExamTimetable> findExamTimeTableEntities(int maxResults, int firstResult) {
-        return findExamTimeTableEntities(false, maxResults, firstResult);
+    public List<ExamTimetable> findExamTimeTableEntities(int maxResults, int firstResult, SchoolData data) {
+        return findExamTimeTableEntities(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<ExamTimetable> rt = cq.from(ExamTem.class);
@@ -125,6 +127,5 @@ public class ExamTimeTableJpaController extends JpaController {
             em.close();
         }
     }
-
 
 }

@@ -5,8 +5,10 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.ExamTem;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +22,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author Manny
  */
-public class ExamTermJpaController extends JpaController {
+public class ExamTermJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(ExamTermJpaController.class.getName());
 
@@ -37,10 +39,10 @@ public class ExamTermJpaController extends JpaController {
         super(ExamTem.class);
     }
 
-    public ExamTem create(ExamTem entity) {
+    public ExamTem create(ExamTem entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -56,10 +58,10 @@ public class ExamTermJpaController extends JpaController {
 
     }
 
-    public void edit(ExamTem exam_term) throws Exception {
+    public void edit(ExamTem exam_term, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             exam_term = em.merge(exam_term);
             em.getTransaction().commit();
@@ -67,7 +69,7 @@ public class ExamTermJpaController extends JpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = exam_term.getId().intValue();
-                if (findExamTerm(id) == null) {
+                if (findExamTerm(id,data) == null) {
                     throw new BadRequestException("The Contact with id " + id + " no longer exists.");
                 }
             }
@@ -79,8 +81,8 @@ public class ExamTermJpaController extends JpaController {
         }
     }
 
-    public ExamTem findExamTerm(Integer id) {
-        EntityManager em = getEntityManager();
+    public ExamTem findExamTerm(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             return em.find(ExamTem.class, id);
         } finally {
@@ -88,8 +90,8 @@ public class ExamTermJpaController extends JpaController {
         }
     }
 
-    private List<ExamTem> findExamTermEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<ExamTem> findExamTermEntities(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(ExamTem.class));
@@ -104,16 +106,16 @@ public class ExamTermJpaController extends JpaController {
         }
     }
 
-    public List<ExamTem> findExamTermEntities() {
-        return findExamTermEntities(true, -1, -1);
+    public List<ExamTem> findExamTermEntities(SchoolData data) {
+        return findExamTermEntities(true, -1, -1, data);
     }
 
-    public List<ExamTem> findExamTermEntities(int maxResults, int firstResult) {
-        return findExamTermEntities(false, maxResults, firstResult);
+    public List<ExamTem> findExamTermEntities(int maxResults, int firstResult, SchoolData data) {
+        return findExamTermEntities(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<ExamTem> rt = cq.from(ExamTem.class);
@@ -124,6 +126,5 @@ public class ExamTermJpaController extends JpaController {
             em.close();
         }
     }
-
 
 }

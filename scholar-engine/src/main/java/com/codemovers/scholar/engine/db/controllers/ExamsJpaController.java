@@ -1,9 +1,11 @@
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.ExamTem;
 import com.codemovers.scholar.engine.db.entities.ExamTimetable;
 import com.codemovers.scholar.engine.db.entities.Exams;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,12 +20,11 @@ import javax.ws.rs.BadRequestException;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Manny
  */
-public class ExamsJpaController extends JpaController {
+public class ExamsJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(ExamsJpaController.class.getName());
 
@@ -40,10 +41,10 @@ public class ExamsJpaController extends JpaController {
         super(Exams.class);
     }
 
-    public Exams create(Exams entity) {
+    public Exams create(Exams entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -59,10 +60,10 @@ public class ExamsJpaController extends JpaController {
 
     }
 
-    public void edit(Exams exam) throws Exception {
+    public void edit(Exams exam, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             exam = em.merge(exam);
             em.getTransaction().commit();
@@ -70,7 +71,7 @@ public class ExamsJpaController extends JpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = exam.getId().intValue();
-                if (findExam(id) == null) {
+                if (findExam(id,data) == null) {
                     throw new BadRequestException("The Contact with id " + id + " no longer exists.");
                 }
             }
@@ -82,8 +83,8 @@ public class ExamsJpaController extends JpaController {
         }
     }
 
-    public Exams findExam(Integer id) {
-        EntityManager em = getEntityManager();
+    public Exams findExam(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             return em.find(Exams.class, id);
         } finally {
@@ -91,8 +92,8 @@ public class ExamsJpaController extends JpaController {
         }
     }
 
-    private List<Exams> findExamEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<Exams> findExamEntities(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Exams.class));
@@ -107,16 +108,16 @@ public class ExamsJpaController extends JpaController {
         }
     }
 
-    public List<Exams> findExamEntities() {
-        return findExamEntities(true, -1, -1);
+    public List<Exams> findExamEntities(SchoolData data) {
+        return findExamEntities(true, -1, -1, data);
     }
 
-    public List<Exams> findExamEntities(int maxResults, int firstResult) {
-        return findExamEntities(false, maxResults, firstResult);
+    public List<Exams> findExamEntities(int maxResults, int firstResult, SchoolData data) {
+        return findExamEntities(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Exams> rt = cq.from(Exams.class);
@@ -127,6 +128,5 @@ public class ExamsJpaController extends JpaController {
             em.close();
         }
     }
-
 
 }

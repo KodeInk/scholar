@@ -5,9 +5,11 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.BookType;
 import com.codemovers.scholar.engine.db.entities.ClassStream;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +23,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author mover
  */
-public class ClassStreamJpaController extends JpaController {
+public class ClassStreamJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(ClassStreamJpaController.class.getName());
 
@@ -38,10 +40,10 @@ public class ClassStreamJpaController extends JpaController {
         super(ClassStream.class);
     }
 
-    public ClassStream create(ClassStream entity) {
+    public ClassStream create(ClassStream entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -57,10 +59,10 @@ public class ClassStreamJpaController extends JpaController {
 
     }
 
-    public void edit(ClassStream class_stream) throws Exception {
+    public void edit(ClassStream class_stream, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             class_stream = em.merge(class_stream);
             em.getTransaction().commit();
@@ -68,7 +70,7 @@ public class ClassStreamJpaController extends JpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = class_stream.getId().intValue();
-                if (findClassStream(id) == null) {
+                if (findClassStream(id, data) == null) {
                     throw new BadRequestException("The Contact with id " + id + " no longer exists.");
                 }
             }
@@ -80,8 +82,8 @@ public class ClassStreamJpaController extends JpaController {
         }
     }
 
-    public ClassStream findClassStream(Integer id) {
-        EntityManager em = getEntityManager();
+    public ClassStream findClassStream(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             return em.find(ClassStream.class, id);
         } finally {
@@ -89,8 +91,8 @@ public class ClassStreamJpaController extends JpaController {
         }
     }
 
-    private List<ClassStream> findClassStreamEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<ClassStream> findClassStreamEntities(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(BookType.class));
@@ -105,16 +107,16 @@ public class ClassStreamJpaController extends JpaController {
         }
     }
 
-    public List<ClassStream> findClassStreamEntities() {
-        return findClassStreamEntities(true, -1, -1);
+    public List<ClassStream> findClassStreamEntities(SchoolData data) {
+        return findClassStreamEntities(true, -1, -1, data);
     }
 
-    public List<ClassStream> findClassStreamEntities(int maxResults, int firstResult) {
-        return findClassStreamEntities(false, maxResults, firstResult);
+    public List<ClassStream> findClassStreamEntities(int maxResults, int firstResult, SchoolData data) {
+        return findClassStreamEntities(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<ClassStream> rt = cq.from(ClassStream.class);

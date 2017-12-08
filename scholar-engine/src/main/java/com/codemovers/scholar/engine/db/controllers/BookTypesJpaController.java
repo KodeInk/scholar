@@ -5,8 +5,10 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.BookType;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +22,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author mover
  */
-public class BookTypesJpaController extends JpaController {
+public class BookTypesJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(BookTypesJpaController.class.getName());
 
@@ -37,10 +39,10 @@ public class BookTypesJpaController extends JpaController {
         super(BookType.class);
     }
 
-    public BookType create(BookType entity) {
+    public BookType create(BookType entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -56,10 +58,10 @@ public class BookTypesJpaController extends JpaController {
 
     }
 
-    public void edit(BookType book_type) throws Exception {
+    public void edit(BookType book_type, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             book_type = em.merge(book_type);
             em.getTransaction().commit();
@@ -67,7 +69,7 @@ public class BookTypesJpaController extends JpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = book_type.getId().intValue();
-                if (findBookType(id) == null) {
+                if (findBookType(id,data) == null) {
                     throw new BadRequestException("The Contact with id " + id + " no longer exists.");
                 }
             }
@@ -79,8 +81,8 @@ public class BookTypesJpaController extends JpaController {
         }
     }
 
-    public BookType findBookType(Integer id) {
-        EntityManager em = getEntityManager();
+    public BookType findBookType(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             return em.find(BookType.class, id);
         } finally {
@@ -88,8 +90,8 @@ public class BookTypesJpaController extends JpaController {
         }
     }
 
-    private List<BookType> findBookTypeEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<BookType> findBookTypeEntities(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(BookType.class));
@@ -104,16 +106,16 @@ public class BookTypesJpaController extends JpaController {
         }
     }
 
-    public List<BookType> findBookTypeEntities() {
-        return findBookTypeEntities(true, -1, -1);
+    public List<BookType> findBookTypeEntities(SchoolData data) {
+        return findBookTypeEntities(true, -1, -1, data);
     }
 
-    public List<BookType> findBookTypeEntities(int maxResults, int firstResult) {
-        return findBookTypeEntities(false, maxResults, firstResult);
+    public List<BookType> findBookTypeEntities(int maxResults, int firstResult, SchoolData data) {
+        return findBookTypeEntities(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<BookType> rt = cq.from(BookType.class);

@@ -5,10 +5,12 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.Curriculum;
 import com.codemovers.scholar.engine.db.entities.CurriculumDetails;
 import com.codemovers.scholar.engine.db.entities.ExamClass;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +24,7 @@ import javax.ws.rs.BadRequestException;
  *
  * @author mover
  */
-public class ExamClassJpaController extends JpaController {
+public class ExamClassJpaController extends EngineJpaController {
 
     protected static final Logger LOG = Logger.getLogger(ExamClassJpaController.class.getName());
 
@@ -39,10 +41,10 @@ public class ExamClassJpaController extends JpaController {
         super(ExamClass.class);
     }
 
-    public ExamClass create(ExamClass entity) {
+    public ExamClass create(ExamClass entity, SchoolData data) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -58,10 +60,10 @@ public class ExamClassJpaController extends JpaController {
 
     }
 
-    public void edit(ExamClass exam_class) throws Exception {
+    public void edit(ExamClass exam_class, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
             exam_class = em.merge(exam_class);
             em.getTransaction().commit();
@@ -69,7 +71,7 @@ public class ExamClassJpaController extends JpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = exam_class.getId().intValue();
-                if (findExamClass(id) == null) {
+                if (findExamClass(id, data) == null) {
                     throw new BadRequestException("The Contact with id " + id + " no longer exists.");
                 }
             }
@@ -81,8 +83,8 @@ public class ExamClassJpaController extends JpaController {
         }
     }
 
-    public ExamClass findExamClass(Integer id) {
-        EntityManager em = getEntityManager();
+    public ExamClass findExamClass(Integer id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             return em.find(ExamClass.class, id);
         } finally {
@@ -90,8 +92,8 @@ public class ExamClassJpaController extends JpaController {
         }
     }
 
-    private List<ExamClass> findExamClassEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    private List<ExamClass> findExamClassEntities(boolean all, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(CurriculumDetails.class));
@@ -106,16 +108,16 @@ public class ExamClassJpaController extends JpaController {
         }
     }
 
-    public List<ExamClass> findExamClassEntities() {
-        return findExamClassEntities(true, -1, -1);
+    public List<ExamClass> findExamClassEntities(SchoolData data) {
+        return findExamClassEntities(true, -1, -1, data);
     }
 
-    public List<ExamClass> findExamClassEntities(int maxResults, int firstResult) {
-        return findExamClassEntities(false, maxResults, firstResult);
+    public List<ExamClass> findExamClassEntities(int maxResults, int firstResult, SchoolData data) {
+        return findExamClassEntities(false, maxResults, firstResult, data);
     }
 
-    public int getCount() {
-        EntityManager em = getEntityManager();
+    public int getCount(SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<ExamClass> rt = cq.from(ExamClass.class);
