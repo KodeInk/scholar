@@ -1,5 +1,6 @@
 package com.codemovers.scholar.engine.helper.logfilters;
 
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.helper.Utilities;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +17,7 @@ public class LogInputRequestFilter implements ContainerRequestFilter {
 
     private static final Logger LOG = Logger.getLogger(LogInputRequestFilter.class.getName());
 
+    public SchoolData schoolData = null;
     @Context private UriInfo uriInfo;
     
     @Override
@@ -24,16 +26,14 @@ public class LogInputRequestFilter implements ContainerRequestFilter {
         String logId = Utilities.getLogId();
 
         try {
-            String userAgent = requestContext.getHeaderString("User-Agent");
-            if (userAgent != null && userAgent.contains("ELB-HealthChecker")) {
-                return;
-            }
 
-            if (requestContext.getHeaderString("tenantId") != null) {
-                logId = requestContext.getHeaderString("tenantId") + "_" + logId;
-            } else if (requestContext.getHeaderString("token") != null) {
-                // hint: no authentication done here !!
 
+            if (requestContext.getHeaderString("schoolname") != null) {
+                schoolData = Utilities.getSchoolData(requestContext.getHeaderString("schoolname"), null, logId);
+                //todo: make sure that the school data exists
+
+                // validate school_data
+                logId = requestContext.getHeaderString("schoolname") + "_" + logId;
             } else {
                 logId = "unknownTenant_" + logId;
             }

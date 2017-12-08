@@ -2,9 +2,11 @@ package com.codemovers.scholar.engine.helper;
 
 import com.codemovers.scholar.engine.annotation.ConditionallyMandatory;
 import com.codemovers.scholar.engine.annotation.Mandatory;
-import com.codemovers.scholar.engine.helper.EmailValidator;
+import com.codemovers.scholar.engine.db.controllers.SchoolDataJpaController;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import com.codemovers.scholar.engine.helper.exceptions.InternalErrorException;
+import com.codemovers.scholar.engine.helper.exceptions.UnauthorizedException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -423,6 +425,20 @@ Using SHA-256 :
         LOG.fine("get new External Id ");
         //return WebserviceConnection.ID_GENERATOR.get(String.class, "/", "token", "ABCD");
         return new BigInteger(Long.toString(System.currentTimeMillis() - 1000000000000L)).toString(36).toUpperCase();
+    }
+
+    public static SchoolData getSchoolData(String schoolName, String authentication, String logId) {
+        SchoolData tenantdata = null;
+        if (schoolName != null) {
+            tenantdata = SchoolDataJpaController.getInstance().findSchoolDataByName(schoolName);
+
+        }
+
+        if (tenantdata == null) {
+            throw new UnauthorizedException();
+        }
+
+        return tenantdata;
     }
 
 }

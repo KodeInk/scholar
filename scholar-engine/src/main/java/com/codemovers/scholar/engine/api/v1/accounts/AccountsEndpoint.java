@@ -52,12 +52,13 @@ public class AccountsEndpoint {
         SchoolData tenantdata = (SchoolData) context.getProperty("schoolname");
 
         String logId = context.getProperty("logId").toString();
-        Utilities.logHttpServletRequest(httpRequest, logId);
-        LOG.log(Level.INFO, "{0} :: start", new Object[]{logId});
-        LOG.log(Level.INFO, "{0} :: start", tenantdata.getExternalId());
+
+//       Utilities.logHttpServletRequest(httpRequest, logId);
+
+        SchoolData tenantData = (SchoolData) context.getProperty(schoolname);
 
         return null;
-        //return service.login(schoolname, login, logId);
+
     }
 
 }
