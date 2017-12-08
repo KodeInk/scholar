@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.codemovers.scholar.engine.db;
+package com.codemovers.scholar.engine.db.entities;
 
 import com.codemovers.scholar.engine.annotation.MainId;
-import com.codemovers.scholar.engine.db.EntityManagerFactoryProvider.DBModule;
+import com.codemovers.scholar.engine.db.EngineJpaController;
+import com.codemovers.scholar.engine.db.Entity;
+import com.codemovers.scholar.engine.db.EntityManagerFactoryProvider;
 import com.codemovers.scholar.engine.helper.Utilities;
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -25,19 +27,18 @@ import javax.ws.rs.BadRequestException;
 /**
  *
  * @author mover
- * @param <T>
  */
-public class EngineJpaController<T extends Entity> implements Serializable {
+public class BackJpaController<T extends Entity> implements Serializable {
 
-    private static final Logger LOG = Logger.getLogger(EngineJpaController.class.getName());
+    private static final Logger LOG = Logger.getLogger(BackJpaController.class.getName());
     public static final EntityManagerFactoryProvider FACTORY_PROVIDER = EntityManagerFactoryProvider.getInstance();
 
     private final Class<T> entityClass;
     private final Field mainIdField;
 
-    private final EntityManagerFactoryProvider.DBModule dBModule = EntityManagerFactoryProvider.DBModule.SC_ENGINE;
+    private final EntityManagerFactoryProvider.DBModule dBModule = EntityManagerFactoryProvider.DBModule.SC_BACK;
 
-    public EngineJpaController(Class<T> entityClass) {
+    public BackJpaController(Class<T> entityClass) {
         this.entityClass = entityClass;
         Field f = null;
 
@@ -216,5 +217,4 @@ public class EngineJpaController<T extends Entity> implements Serializable {
 
         return mainIdList;
     }
-
 }
