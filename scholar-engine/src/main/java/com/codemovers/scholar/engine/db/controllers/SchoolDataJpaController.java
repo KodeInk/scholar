@@ -5,7 +5,6 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
-import com.codemovers.scholar.engine.db.BackJpaController;
 import com.codemovers.scholar.engine.db.EntityManagerFactoryProvider;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.io.Serializable;
@@ -17,6 +16,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+
 import javax.ws.rs.BadRequestException;
 
 /**
@@ -101,6 +101,8 @@ public class SchoolDataJpaController implements Serializable {
     }
 
     public SchoolData findSchoolDataByName(String name) {
+        LOG.log(Level.INFO, "------------------------------ LOOK LOOK  -----------------------{0}------------");
+
         EntityManager em = getEntityManager();
 
         List<SchoolData> schoolDatas = null;
@@ -111,7 +113,9 @@ public class SchoolDataJpaController implements Serializable {
             schoolDatas = query.getResultList();
 
         } catch (Exception er) {
-            return null;
+
+            throw er;
+
         } finally {
             em.close();
         }

@@ -27,15 +27,18 @@ public class LogInputRequestFilter implements ContainerRequestFilter {
 
         try {
 
+            LOG.log(Level.INFO, "------------------------------ MOVER KIOLO -----------------------{0}------------", requestContext.getHeaderString("schoolname"));
 
             if (requestContext.getHeaderString("schoolname") != null) {
+
                 schoolData = Utilities.getSchoolData(requestContext.getHeaderString("schoolname"), null, logId);
                 //todo: make sure that the school data exists
+LOG.log(Level.INFO, "------------------------------ pass pass me -----------------------{0}------------", requestContext.getHeaderString("schoolname"));
 
                 // validate school_data
                 logId = requestContext.getHeaderString("schoolname") + "_" + logId;
             } else {
-                logId = "unknownTenant_" + logId;
+                logId = "unknown_shool" + logId;
             }
 
             requestContext.setProperty("logId", logId);
