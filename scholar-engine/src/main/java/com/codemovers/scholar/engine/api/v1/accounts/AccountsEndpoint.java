@@ -59,4 +59,58 @@ public class AccountsEndpoint {
 
     }
 
+    @POST
+    @Path("reset/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public AuthenticationResponse resetPassword(
+            @HeaderParam("schoolname") String schoolname, _login login,
+            @Context HttpServletRequest httpRequest
+    ) throws Exception {
+        try {
+            String logId = context.getProperty("logId").toString();
+            LOG.log(Level.INFO, " IF THIS WORKS {0} CELEBERATION ", tenantdata.getExternalId());
+            return service.login(tenantdata, login, logId);
+        } catch (Exception er) {
+            throw er;
+        }
+
+    }
+
+    @POST
+    @Path("deactivate/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public AuthenticationResponse deactiveAccount(
+            @HeaderParam("schoolname") String schoolname, _login login,
+            @Context HttpServletRequest httpRequest
+    ) throws Exception {
+        try {
+            String logId = context.getProperty("logId").toString();
+            LOG.log(Level.INFO, " IF THIS WORKS {0} CELEBERATION ", tenantdata.getExternalId());
+            return service.login(tenantdata, login, logId);
+        } catch (Exception er) {
+            throw er;
+        }
+
+    }
+
+    @POST
+    @Path("dactivate/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public AuthenticationResponse activeAccount(
+            @HeaderParam("schoolname") String schoolname, _login login,
+            @Context HttpServletRequest httpRequest
+    ) throws Exception {
+        try {
+            String logId = context.getProperty("logId").toString();
+            LOG.log(Level.INFO, " IF THIS WORKS {0} CELEBERATION ", tenantdata.getExternalId());
+            return service.login(tenantdata, login, logId);
+        } catch (Exception er) {
+            throw er;
+        }
+
+    }
+
 }
