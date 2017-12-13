@@ -20,6 +20,7 @@ import java.util.logging.Logger;
  * @author Manny
  */
 public class RolesService extends AbstractService<_Role, RoleResponse> {
+
     private static final Logger LOG = Logger.getLogger(RolesService.class.getName());
 
     private final RolesJpaController controller;
@@ -37,7 +38,6 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
         return service;
     }
 
-
     @Override
     public RoleResponse create(_Role entity) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -45,25 +45,26 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
 
     @Override
     public RoleResponse getById(Integer Id) throws Exception {
-        controller.find(Id);
+        // controller.find(Id);
 
         return null;
     }
 
     public Roles getRoleByName(String name) throws Exception {
 
-        Roles r = null;
-        try {
-            List<Roles> list = controller.findByName(name);
-            if (list != null) {
-                r = list.get(0);
-            }
-        } catch (Exception er) {
-            LOG.log(Level.INFO, er.toString());
-            throw er;
-        }
-
-        return r;
+//        Roles r = null;
+//        try {
+//            List<Roles> list = controller.findByName(name);
+//            if (list != null) {
+//                r = list.get(0);
+//            }
+//        } catch (Exception er) {
+//            LOG.log(Level.INFO, er.toString());
+//            throw er;
+//        }
+//
+//        return r;
+        return null;
     }
 
 }
