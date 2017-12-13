@@ -8,6 +8,7 @@ package com.codemovers.scholar.engine.db.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,6 +16,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -69,8 +72,15 @@ public class Users implements Serializable {
     @Column(name = "date_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
-    @ManyToMany(mappedBy = "usersCollection")
-    private Collection<Roles> rolesCollection;
+//    @ManyToMany(mappedBy = "usersCollection")
+//    private Collection<Roles> rolesCollection;
+
+    @JoinTable(name = "user_role", joinColumns = {
+        @JoinColumn(name = "role_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "user_id", referencedColumnName = "id")})
+    @ManyToMany
+    private Set<Roles> UserRoles;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "authorId")
     private Collection<LibraryStock> libraryStockCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "authorId")
@@ -203,14 +213,14 @@ public class Users implements Serializable {
         this.dateCreated = dateCreated;
     }
 
-    @XmlTransient
-    public Collection<Roles> getRolesCollection() {
-        return rolesCollection;
-    }
-
-    public void setRolesCollection(Collection<Roles> rolesCollection) {
-        this.rolesCollection = rolesCollection;
-    }
+//    @XmlTransient
+//    public Collection<Roles> getRolesCollection() {
+//        return rolesCollection;
+//    }
+//
+//    public void setRolesCollection(Collection<Roles> rolesCollection) {
+//        this.rolesCollection = rolesCollection;
+//    }
 
     @XmlTransient
     public Collection<LibraryStock> getLibraryStockCollection() {
@@ -552,6 +562,15 @@ public class Users implements Serializable {
 
     public void setStudentTermRegistrationCollection(Collection<StudentTermRegistration> studentTermRegistrationCollection) {
         this.studentTermRegistrationCollection = studentTermRegistrationCollection;
+    }
+
+// set User Roles 
+    public Set<Roles> getUserRoles() {
+        return UserRoles;
+    }
+
+    public void setUserRoles(Set<Roles> UserRoles) {
+        this.UserRoles = UserRoles;
     }
 
     @Override

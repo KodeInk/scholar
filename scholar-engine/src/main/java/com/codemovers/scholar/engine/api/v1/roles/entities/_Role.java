@@ -6,6 +6,7 @@
 package com.codemovers.scholar.engine.api.v1.roles.entities;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
+import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
 import java.util.Objects;
@@ -133,6 +134,13 @@ public class _Role extends AbstractEntity {
         }
         return Objects.equals(this.id, other.id);
     }
+
+    @Override
+    public void validate() {
+        validateMandatoryFields(this.getClass(), this);
+
+    }
+
 
     @Override
     public String toString() {

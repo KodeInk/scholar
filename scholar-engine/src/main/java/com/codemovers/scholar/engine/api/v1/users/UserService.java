@@ -38,6 +38,10 @@ public class UserService extends AbstractService<_User, UserResponse> {
 
     @Override
     public UserResponse create(_User entity) throws Exception {
+        //todo: validate mandatories
+        entity.validate();
+
+        //todo: create User :: 
         return null;
     }
 

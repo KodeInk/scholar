@@ -5,8 +5,6 @@
  */
 package com.codemovers.scholar.engine.api.v1.abstracts;
 
-import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
-
 /**
  *
  * @author Mover 12/2/2017
@@ -16,8 +14,6 @@ public abstract class AbstractEntity {
     public AbstractEntity() {
     }
 
-    public void validateMandatory() {
-        validateMandatoryFields(this.getClass(), this);
-    }
+    public abstract void validate();
 
 }

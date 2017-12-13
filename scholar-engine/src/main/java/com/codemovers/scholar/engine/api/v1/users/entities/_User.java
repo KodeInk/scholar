@@ -29,7 +29,8 @@ public class _User extends AbstractEntity {
     private Date datecreated;
     private String status;
 
-    private String[] roles;
+    private @Mandatory
+    String[] roles;
 
     public _User() {
     }
@@ -126,6 +127,11 @@ public class _User extends AbstractEntity {
             return false;
         }
         return Arrays.deepEquals(this.roles, other.roles);
+    }
+
+    @Override
+    public void validate() {
+        validateMandatoryFields(this.getClass(), this);
     }
 
     @Override
