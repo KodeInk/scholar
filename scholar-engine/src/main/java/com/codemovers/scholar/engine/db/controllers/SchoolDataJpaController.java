@@ -39,16 +39,23 @@ public class SchoolDataJpaController implements Serializable {
     }
 
     public EntityManager getEntityManager() {
-        return this.emf.createEntityManager();
+
+        EntityManagerFactoryProvider emfp = new EntityManagerFactoryProvider();
+        EntityManagerFactory _emf = emfp.getFactory(
+                EntityManagerFactoryProvider.DBModule.SC_BACK, "scholar-tenants");
+//        EntityManagerFactory emf = EntityManagerFactoryProvider.getInstance().getFactory(
+//                EntityManagerFactoryProvider.DBModule.SC_BACK, "scholar-tenants");
+//emf.createEntityManager();
+
+        if (_emf != null) {
+            LOG.log(Level.INFO, "EMF UGANDA === {0} ", _emf.toString());
+        } else {
+            LOG.log(Level.INFO, " WRONG EMF SCENARIO {0}   ");
+        }
+        return _emf.createEntityManager();
     }
 
     public SchoolDataJpaController() {
-        LOG.log(Level.INFO, "TESTING THE DEEP WATERS ");
-
-        this.emf = EntityManagerFactoryProvider.getInstance().getFactory(
-                EntityManagerFactoryProvider.DBModule.SC_BACK, "scholar-backoffice");
-
-        LOG.log(Level.INFO, "TESTING THE DEEP WATERS TWO ");
 
     }
 
@@ -105,6 +112,7 @@ public class SchoolDataJpaController implements Serializable {
 
     public SchoolData findSchoolDataByName(String name) {
         EntityManager em = getEntityManager();
+        LOG.log(Level.SEVERE, "===========  APASS ME  {0} ", name);
 
         List<SchoolData> schoolDatas = null;
         try {
@@ -114,7 +122,10 @@ public class SchoolDataJpaController implements Serializable {
             schoolDatas = query.getResultList();
 
         } catch (Exception er) {
-            return null;
+            LOG.log(Level.SEVERE, "=========== SOmething Lost {0} ", er.getMessage());
+
+            throw er;
+
         } finally {
             em.close();
         }

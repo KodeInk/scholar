@@ -56,10 +56,10 @@ public class ExamClass implements Serializable {
     @JoinColumn(name = "exam_id", referencedColumnName = "id")
     @ManyToOne
     private Classes examId;
-    @JoinColumn(name = "exam_id", referencedColumnName = "id")
+    @JoinColumn(name = "exam_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne
     private Exams examId1;
-    @JoinColumn(name = "author_id", referencedColumnName = "id")
+    @JoinColumn(name = "author_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne
     private Users authorId;
 
@@ -150,5 +150,5 @@ public class ExamClass implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.ExamClass[ id=" + id + " ]";
     }
-    
+
 }

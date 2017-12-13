@@ -27,7 +27,7 @@ public class EntityManagerFactoryProvider {
 
     private static final Logger LOG = Logger.getLogger(EntityManagerFactoryProvider.class.getName());
 
-    private EntityManagerFactoryProvider() {
+    public EntityManagerFactoryProvider() {
         factories = new HashMap<>();
     }
 
@@ -47,14 +47,9 @@ public class EntityManagerFactoryProvider {
             LOG.log(Level.INFO, "Re Using Existing Database ");
             factory = factories.get(database);
         } else {
-            try {
+            LOG.log(Level.INFO, " ====   LIKE REALLY  == {0} ", database);
 
-                LOG.log(Level.INFO, " ====  DATABASE CONNECTION == {0} ", database);
-
-                factory = createFactory(dBModule, database);
-            } catch (Exception e) {
-                LOG.log(Level.SEVERE, "Factory Could Not Be Created");
-            }
+            return createFactory(dBModule, "scholar-tenants");
         }
 
         return factory;
@@ -62,10 +57,15 @@ public class EntityManagerFactoryProvider {
     }
 
     public EntityManagerFactory createFactory(DBModule dBModule, String database) {
+
+        LOG.log(Level.INFO, " ====   {0} ====  ", database);
+
         EntityManagerFactory emf = null;
         Map<String, String> properties = new HashMap<>();
 
-        properties.put("hibernate.connection.url", "jdbc:mysql://" + getHost(dBModule) + "/" + database);
+        //properties.put("hibernate.connection.url", "jdbc:mysql://" + getHost(dBModule) + "/" + database);
+        properties.put("hibernate.connection.url", "jdbc:mysql://" + getHost(dBModule) + ":3306/" + database + "?useSSL=false");
+
         properties.put("hibernate.connection.username", getUsername(dBModule));
         properties.put("hibernate.connection.password", getPassword(dBModule));
         properties.put("hibernate.ejb.entitymanager_factory_name", database);
@@ -78,6 +78,7 @@ public class EntityManagerFactoryProvider {
 
         } catch (Exception e) {
             LOG.log(Level.SEVERE, "Un Expected Error {0}", e.toString());
+            throw e;
         }
 
         return emf;
