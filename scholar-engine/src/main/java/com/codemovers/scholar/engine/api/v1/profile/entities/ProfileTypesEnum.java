@@ -9,7 +9,7 @@ package com.codemovers.scholar.engine.api.v1.profile.entities;
  *
  * @author Mover
  */
-public enum ProfileTypes {
+public enum ProfileTypesEnum {
     INVALID(0, "INVALID", "invalid"),
     STUDENT(1, "STUDENT", "student"),
     USER(2, "USER", "user");
@@ -18,7 +18,7 @@ public enum ProfileTypes {
     private final String code;
     private final String value;
 
-    private ProfileTypes(Integer id, String code, String value) {
+    private ProfileTypesEnum(Integer id, String code, String value) {
         this.id = id;
         this.code = code;
         this.value = value;
@@ -36,17 +36,17 @@ public enum ProfileTypes {
         return value;
     }
 
-    public static ProfileTypes fromInt(Integer profileId) {
+    public static ProfileTypesEnum fromInt(Integer profileId) {
 
-        ProfileTypes profile_type = ProfileTypes.INVALID;
+        ProfileTypesEnum profile_type = ProfileTypesEnum.INVALID;
 
         if (profileId != null) {
             switch (profileId) {
                 case 1:
-                    profile_type = ProfileTypes.STUDENT;
+                    profile_type = ProfileTypesEnum.STUDENT;
                     break;
                 case 2:
-                    profile_type = ProfileTypes.USER;
+                    profile_type = ProfileTypesEnum.USER;
                     break;
 
                 default:
@@ -60,17 +60,17 @@ public enum ProfileTypes {
 
     }
 
-    public static ProfileTypes fromString(String profile_name) {
+    public static ProfileTypesEnum fromString(String profile_name) {
 
-        ProfileTypes profile_type = ProfileTypes.INVALID;
+        ProfileTypesEnum profile_type = ProfileTypesEnum.INVALID;
 
         if (profile_name != null) {
             switch (profile_name.toUpperCase()) {
                 case "STUDENT":
-                    profile_type = ProfileTypes.STUDENT;
+                    profile_type = ProfileTypesEnum.STUDENT;
                     break;
                 case "USER":
-                    profile_type = ProfileTypes.USER;
+                    profile_type = ProfileTypesEnum.USER;
                     break;
 
                 default:
