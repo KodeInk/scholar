@@ -5,7 +5,7 @@
  */
 package com.codemovers.scholar.engine.api.v1.accounts.entities;
 
-import com.codemovers.scholar.engine.helper.Utilities;
+import com.codemovers.scholar.engine.api.v1.profile.entities._profile;
 import com.codemovers.scholar.engine.helper.enums.AccountType;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -17,7 +17,7 @@ import java.util.Objects;
  * @author MOVER 11/15/2017
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class _Account {
+public class _Account extends _profile {
 
     private String username;
     private String password;
@@ -34,14 +34,6 @@ public class _Account {
 
 
     public _Account() {
-    }
-
-    public AccountType getAccounttype() {
-        return accounttype;
-    }
-
-    public void setAccounttype(AccountType accounttype) {
-        this.accounttype = accounttype;
     }
 
     public String getUsername() {
@@ -111,16 +103,15 @@ public class _Account {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 29 * hash + Objects.hashCode(this.accounttype);
-        hash = 29 * hash + Objects.hashCode(this.username);
-        hash = 29 * hash + Objects.hashCode(this.password);
-        hash = 29 * hash + Objects.hashCode(this.emailaddress);
-        hash = 29 * hash + Objects.hashCode(this.status);
-        hash = 29 * hash + Objects.hashCode(this.externalid);
-        hash = 29 * hash + Objects.hashCode(this.date_created);
-        hash = 29 * hash + Arrays.deepHashCode(this.roles);
-        hash = 29 * hash + Objects.hashCode(this.id);
+        int hash = 7;
+        hash = 13 * hash + Objects.hashCode(this.username);
+        hash = 13 * hash + Objects.hashCode(this.password);
+        hash = 13 * hash + Objects.hashCode(this.emailaddress);
+        hash = 13 * hash + Objects.hashCode(this.status);
+        hash = 13 * hash + Objects.hashCode(this.externalid);
+        hash = 13 * hash + Objects.hashCode(this.date_created);
+        hash = 13 * hash + Arrays.deepHashCode(this.roles);
+        hash = 13 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -151,23 +142,22 @@ public class _Account {
         if (!Objects.equals(this.date_created, other.date_created)) {
             return false;
         }
-        if (this.accounttype != other.accounttype) {
-            return false;
-        }
         if (this.status != other.status) {
             return false;
         }
         if (!Arrays.deepEquals(this.roles, other.roles)) {
             return false;
         }
-        return Objects.equals(this.id, other.id);
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public String toString() {
-        return "Account{"
-                + "accounttype=" + accounttype
-                + ", username=" + username
+        return "_Account{"
+                + "username=" + username
                 + ", password=" + password
                 + ", emailaddress=" + emailaddress
                 + ", status=" + status
