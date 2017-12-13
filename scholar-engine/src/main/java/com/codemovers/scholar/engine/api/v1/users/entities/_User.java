@@ -9,6 +9,7 @@ import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
 import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
@@ -22,16 +23,13 @@ public class _User extends AbstractEntity {
     private Integer id;
 
     private @Mandatory
-    Integer account_id;
-    private Integer person_id;
-    private @Mandatory
     String username;
     private @Mandatory
     String password;
     private Date datecreated;
     private String status;
 
-    private String role;
+    private String[] roles;
 
     public _User() {
     }
@@ -46,22 +44,6 @@ public class _User extends AbstractEntity {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getAccount_id() {
-        return account_id;
-    }
-
-    public void setAccount_id(Integer account_id) {
-        this.account_id = account_id;
-    }
-
-    public Integer getPerson_id() {
-        return person_id;
-    }
-
-    public void setPerson_id(Integer person_id) {
-        this.person_id = person_id;
     }
 
     public String getUsername() {
@@ -96,24 +78,23 @@ public class _User extends AbstractEntity {
         this.status = status;
     }
 
-    public String getRole() {
-        return role;
+    public String[] getRoles() {
+        return roles;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoles(String[] roles) {
+        this.roles = roles;
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 71 * hash + Objects.hashCode(this.id);
-        hash = 71 * hash + Objects.hashCode(this.account_id);
-        hash = 71 * hash + Objects.hashCode(this.person_id);
-        hash = 71 * hash + Objects.hashCode(this.username);
-        hash = 71 * hash + Objects.hashCode(this.password);
-        hash = 71 * hash + Objects.hashCode(this.datecreated);
-        hash = 71 * hash + Objects.hashCode(this.status);
+        int hash = 3;
+        hash = 41 * hash + Objects.hashCode(this.id);
+        hash = 41 * hash + Objects.hashCode(this.username);
+        hash = 41 * hash + Objects.hashCode(this.password);
+        hash = 41 * hash + Objects.hashCode(this.datecreated);
+        hash = 41 * hash + Objects.hashCode(this.status);
+        hash = 41 * hash + Arrays.deepHashCode(this.roles);
         return hash;
     }
 
@@ -141,34 +122,24 @@ public class _User extends AbstractEntity {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.account_id, other.account_id)) {
+        if (!Objects.equals(this.datecreated, other.datecreated)) {
             return false;
         }
-        if (!Objects.equals(this.person_id, other.person_id)) {
-            return false;
-        }
-        return Objects.equals(this.datecreated, other.datecreated);
-    }
-
-    @Override
-    public void validateMandatory() {
-        validateMandatoryFields(this.getClass(), this);
-
+        return Arrays.deepEquals(this.roles, other.roles);
     }
 
     @Override
     public String toString() {
-        return this.getClass().getCanonicalName()
-                + "{"
+        return "_User{"
                 + "id=" + id
-                + ", account_id=" + account_id
-                + ", person_id=" + person_id
                 + ", username=" + username
                 + ", password=" + password
                 + ", datecreated=" + datecreated
                 + ", status=" + status
+                + ", roles=" + roles
                 + "}";
     }
+
 
 
 }

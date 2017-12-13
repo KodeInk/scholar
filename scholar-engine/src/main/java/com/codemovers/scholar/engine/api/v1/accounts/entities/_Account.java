@@ -159,7 +159,7 @@ public class _Account extends _profile {
         return true;
     }
 
-    private void validate() {
+    public void validate() {
         validateMandatoryFields(this.getClass(), this);
     }
 

@@ -122,12 +122,13 @@ public class AccountsService {
     public AccountResponse create(SchoolData tenantData, _Account entity) throws Exception {
 
         try {
-
+            entity.validate();
             //todo: create User
+            UserService userService = UserService.getInstance();
+
             //todo: assign permissions to the user
             //todo: create profile  and add parent type and parent_id
             //todo: create user contact information 
-
             //todo: check to see if there is an email with the same
             //todo: person
             Person person = null;
