@@ -14,6 +14,7 @@ import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.api.v1.users.entities.UserResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities._User;
 import com.codemovers.scholar.engine.db.entities.Roles;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.getNewExternalId;
 import com.codemovers.scholar.engine.helper.enums.AccountType;
@@ -50,12 +51,9 @@ public class AccountsService {
         return service;
     }
 
+    public AuthenticationResponse login(SchoolData tenantData, _login login, String logId) throws Exception {
 
-
-
-    public AuthenticationResponse login(String school_name, _login login, String logId) throws Exception {
-
-        LOG.log(Level.INFO, "School Name {0} ", school_name);
+        LOG.log(Level.INFO, "School Name {0} ", tenantData.getName());
         /*   try {
         LOG.log(Level.INFO, " General Account Service Login ");
         String authentication = null;
@@ -114,13 +112,11 @@ public class AccountsService {
          */
 
         //  }
-
         return null;
 //        } catch (Exception er) {
 //            throw new BadRequestException(" USERNAME AND OR PASSWORD IS MANDATORY  ");
 //        }
         //todo: 
     }
-
 
 }

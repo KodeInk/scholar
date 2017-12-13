@@ -50,12 +50,9 @@ public class AccountsEndpoint {
             @Context HttpServletRequest httpRequest
     ) throws Exception {
         try {
-
             String logId = context.getProperty("logId").toString();
-
-            SchoolData tenantData = (SchoolData) context.getProperty(schoolname);
             LOG.log(Level.INFO, " IF THIS WORKS {0} CELEBERATION ", tenantdata.getExternalId());
-            return null;
+            return service.login(tenantdata, login, logId);
         } catch (Exception er) {
             throw er;
         }
