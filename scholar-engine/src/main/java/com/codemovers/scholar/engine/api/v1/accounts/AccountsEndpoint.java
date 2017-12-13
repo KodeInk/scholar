@@ -6,8 +6,8 @@
 package com.codemovers.scholar.engine.api.v1.accounts;
 
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
+import com.codemovers.scholar.engine.api.v1.accounts.entities._Account;
 import com.codemovers.scholar.engine.api.v1.accounts.entities._login;
-import com.codemovers.scholar.engine.db.entities.SchoolData;
 import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,13 +46,14 @@ public class AccountsEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public AuthenticationResponse createAccount(
-            @HeaderParam("schoolname") String schoolname, _login login,
+            _Account account,
             @Context HttpServletRequest httpRequest
     ) throws Exception {
         try {
             String logId = context.getProperty("logId").toString();
             LOG.log(Level.INFO, " IF THIS WORKS {0} CELEBERATION ", tenantdata.getExternalId());
-            return service.login(tenantdata, login, logId);
+            //   return service.login(tenantdata, account, logId);
+            return null;
         } catch (Exception er) {
             throw er;
         }
@@ -64,7 +65,7 @@ public class AccountsEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public AuthenticationResponse login(
-            @HeaderParam("schoolname") String schoolname, _login login,
+            _login login,
             @Context HttpServletRequest httpRequest
     ) throws Exception {
         try {
