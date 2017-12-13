@@ -45,7 +45,7 @@ public class SchoolDataJpaController implements Serializable {
     public SchoolDataJpaController() {
 
         this.emf = EntityManagerFactoryProvider.getInstance().getFactory(
-                EntityManagerFactoryProvider.DBModule.SC_BACK, "scholar-backoffice");
+                EntityManagerFactoryProvider.DBModule.SC_BACK, "scholar-tenants");
 
     }
 
@@ -112,9 +112,12 @@ public class SchoolDataJpaController implements Serializable {
             query.setParameter("name", name);
             schoolDatas = query.getResultList();
 
+            if (schoolDatas != null) {
+                return schoolDatas.get(0);
+            }
         } catch (Exception er) {
 
-            throw er;
+            return null;
 
         } finally {
             em.close();

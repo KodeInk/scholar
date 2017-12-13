@@ -49,7 +49,7 @@ public class EntityManagerFactoryProvider {
         } else {
             LOG.log(Level.INFO, " ====   LIKE REALLY  == {0} ", database);
 
-            return createFactory(dBModule, "scholar-tenants");
+            return createFactory(dBModule, database);
         }
 
         return factory;

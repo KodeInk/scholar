@@ -8,7 +8,7 @@ package com.codemovers.scholar.engine.api.v1.accounts;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.accounts.entities._login;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
-import com.codemovers.scholar.engine.helper.Utilities;
+import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -49,15 +49,16 @@ public class AccountsEndpoint {
             @HeaderParam("schoolname") String schoolname, _login login,
             @Context HttpServletRequest httpRequest
     ) throws Exception {
-        SchoolData tenantdata = (SchoolData) context.getProperty("schoolname");
+        try {
 
-        String logId = context.getProperty("logId").toString();
+            String logId = context.getProperty("logId").toString();
 
-//       Utilities.logHttpServletRequest(httpRequest, logId);
-
-        SchoolData tenantData = (SchoolData) context.getProperty(schoolname);
-
-        return null;
+            SchoolData tenantData = (SchoolData) context.getProperty(schoolname);
+            LOG.log(Level.INFO, " IF THIS WORKS {0} CELEBERATION ", tenantdata.getExternalId());
+            return null;
+        } catch (Exception er) {
+            throw er;
+        }
 
     }
 

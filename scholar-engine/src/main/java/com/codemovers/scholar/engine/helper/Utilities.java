@@ -420,21 +420,23 @@ Using SHA-256 :
         }
     }
 
-
     public static String getNewExternalId() {
         LOG.fine("get new External Id ");
         //return WebserviceConnection.ID_GENERATOR.get(String.class, "/", "token", "ABCD");
         return new BigInteger(Long.toString(System.currentTimeMillis() - 1000000000000L)).toString(36).toUpperCase();
     }
 
+    public static SchoolData tenantdata;
+
     public static SchoolData getSchoolData(String schoolName, String authentication, String logId) {
-        SchoolData tenantdata = null;
+
         if (schoolName != null) {
 
             tenantdata = SchoolDataJpaController.getInstance().findSchoolDataByName(schoolName);
         }
 
         if (tenantdata == null) {
+            LOG.log(Level.INFO, "INVALID SCHOOL ACCOUNT ");
             throw new UnauthorizedException();
         }
 

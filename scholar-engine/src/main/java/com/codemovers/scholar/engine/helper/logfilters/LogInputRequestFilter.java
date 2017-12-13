@@ -2,9 +2,12 @@ package com.codemovers.scholar.engine.helper.logfilters;
 
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.helper.Utilities;
+import com.codemovers.scholar.engine.helper.exceptions.UnauthorizedException;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Priority;
+import javax.ws.rs.ProcessingException;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -18,14 +21,15 @@ public class LogInputRequestFilter implements ContainerRequestFilter {
     private static final Logger LOG = Logger.getLogger(LogInputRequestFilter.class.getName());
 
     public SchoolData schoolData = null;
-    @Context private UriInfo uriInfo;
-    
+    @Context
+    private UriInfo uriInfo;
+
     @Override
-    public void filter(ContainerRequestContext requestContext) {
-        LOG.log(Level.INFO, "------------------------------ session start -----------------------------------");
-        String logId = Utilities.getLogId();
+    public void filter(ContainerRequestContext requestContext) throws IOException {
 
         try {
+            LOG.log(Level.INFO, "------------------------------ session start -----------------------------------");
+            String logId = Utilities.getLogId();
 
             LOG.log(Level.INFO, "------------------------------ MOVER KIOLO -----------------------{0}------------", requestContext.getHeaderString("schoolname"));
 
@@ -33,7 +37,7 @@ public class LogInputRequestFilter implements ContainerRequestFilter {
 
                 schoolData = Utilities.getSchoolData(requestContext.getHeaderString("schoolname"), null, logId);
                 //todo: make sure that the school data exists
-LOG.log(Level.INFO, "------------------------------ pass pass me -----------------------{0}------------", requestContext.getHeaderString("schoolname"));
+                LOG.log(Level.INFO, "------------------------------ pass pass me -----------------------{0}------------", requestContext.getHeaderString("schoolname"));
 
                 // validate school_data
                 logId = requestContext.getHeaderString("schoolname") + "_" + logId;
@@ -43,9 +47,9 @@ LOG.log(Level.INFO, "------------------------------ pass pass me ---------------
 
             requestContext.setProperty("logId", logId);
             String logString = logId + " ::";
-            
+
             ContainerRequest request = (ContainerRequest) requestContext;
-            
+
             logString += "\n\tPath=" + uriInfo.getAbsolutePath();
             logString += "\n\tMethod=" + request.getMethod();
 
@@ -66,10 +70,11 @@ LOG.log(Level.INFO, "------------------------------ pass pass me ---------------
                 logString += "\n\tBody=<none>";
             }
             LOG.log(Level.INFO, logString);
-        } catch (Exception e) {
-            LOG.log(Level.SEVERE, "unexpected exception\n{0}", new Object[]{Utilities.getStackTrace(e)});
+        } catch (IOException | ProcessingException er) {
+
+            throw er;
         }
-        
+
     }
-    
+
 }
