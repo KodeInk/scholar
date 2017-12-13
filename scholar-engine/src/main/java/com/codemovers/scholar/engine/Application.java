@@ -32,8 +32,6 @@ public class Application {
     private static Scheduler scheduler = null;
     public static final int BUILD_NUMBER = 62;
 
-
-
     public static void main(String[] args) {
 
         init();
@@ -62,7 +60,6 @@ public class Application {
         LOG.log(Level.INFO, " Starting Server  ");
     }
 
-
     public static void init() {
         LOG.log(Level.INFO, "Starting Application ");
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
@@ -77,17 +74,13 @@ public class Application {
                 getServlet(com.codemovers.scholar.engine.api.v1.users.UsersEndpoint.class
                 ), "/user/v1/*");
 
-
-
-        int port = 600;
+        int port = 9876;
         jettyServer = new Server(port);
 
         for (Connector connector : jettyServer.getConnectors()) {
             LOG.log(Level.INFO, "Port: {0}", Integer.toString(((NetworkConnector) connector).getPort()));
         }
         jettyServer.setHandler(context);
-
-
 
     }
 
@@ -107,7 +100,6 @@ public class Application {
 //        if (!clazz.getPackage().getName().contains("v1b")) {
 //            resourceConfig.register(AuthorizationRequestFilter.class);
 //        }
-
         resourceConfig.register(LogOutputResponseFilter.class);
 
         ServletContainer servletContainer = new ServletContainer(resourceConfig);
@@ -115,6 +107,5 @@ public class Application {
         sh.setInitOrder(orderCounter++);
         return sh;
     }
-
 
 }

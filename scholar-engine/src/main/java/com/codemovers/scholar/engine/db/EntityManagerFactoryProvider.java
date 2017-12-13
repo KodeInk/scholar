@@ -49,6 +49,8 @@ public class EntityManagerFactoryProvider {
         } else {
             try {
 
+                LOG.log(Level.INFO, " ====  DATABASE CONNECTION == {0} ", database);
+
                 factory = createFactory(dBModule, database);
             } catch (Exception e) {
                 LOG.log(Level.SEVERE, "Factory Could Not Be Created");
@@ -68,6 +70,9 @@ public class EntityManagerFactoryProvider {
         properties.put("hibernate.connection.password", getPassword(dBModule));
         properties.put("hibernate.ejb.entitymanager_factory_name", database);
         try {
+
+            LOG.log(Level.SEVERE, "     PASS THREE ");
+
             // properties
             emf = Persistence.createEntityManagerFactory("scholar", properties);
 

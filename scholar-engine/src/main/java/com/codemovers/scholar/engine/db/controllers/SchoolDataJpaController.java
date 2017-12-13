@@ -43,9 +43,12 @@ public class SchoolDataJpaController implements Serializable {
     }
 
     public SchoolDataJpaController() {
+        LOG.log(Level.INFO, "TESTING THE DEEP WATERS ");
 
         this.emf = EntityManagerFactoryProvider.getInstance().getFactory(
                 EntityManagerFactoryProvider.DBModule.SC_BACK, "scholar-backoffice");
+
+        LOG.log(Level.INFO, "TESTING THE DEEP WATERS TWO ");
 
     }
 
