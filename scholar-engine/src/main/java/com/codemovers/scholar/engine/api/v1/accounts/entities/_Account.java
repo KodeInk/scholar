@@ -19,8 +19,6 @@ import java.util.Objects;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class _Account {
 
-    private AccountType accounttype;
-    //THIS CAN BE AN EMAIL
     private String username;
     private String password;
     private String emailaddress;
