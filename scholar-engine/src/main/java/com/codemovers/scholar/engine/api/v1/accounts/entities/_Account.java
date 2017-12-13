@@ -5,8 +5,9 @@
  */
 package com.codemovers.scholar.engine.api.v1.accounts.entities;
 
+import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.api.v1.profile.entities._profile;
-import com.codemovers.scholar.engine.helper.enums.AccountType;
+import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Arrays;
@@ -19,16 +20,20 @@ import java.util.Objects;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class _Account extends _profile {
 
-    private String username;
-    private String password;
-    private String emailaddress;
+    private @Mandatory
+    String username;
+    private @Mandatory
+    String password;
+    private @Mandatory
+    String emailaddress;
 
 
     private StatusEnum status;
     private String externalid;
     private String date_created;
 
-    private String[] roles;
+    private @Mandatory
+    String[] roles;
 
     private Integer id;
 
@@ -152,6 +157,10 @@ public class _Account extends _profile {
             return false;
         }
         return true;
+    }
+
+    private void validate() {
+        validateMandatoryFields(this.getClass(), this);
     }
 
     @Override

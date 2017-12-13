@@ -123,6 +123,11 @@ public class AccountsService {
 
         try {
 
+            //todo: create User
+            //todo: assign permissions to the user
+            //todo: create profile  and add parent type and parent_id
+            //todo: create user contact information 
+
             //todo: check to see if there is an email with the same
             //todo: person
             Person person = null;
