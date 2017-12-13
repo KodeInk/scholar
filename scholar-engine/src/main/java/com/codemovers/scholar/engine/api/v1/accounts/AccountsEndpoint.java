@@ -42,6 +42,24 @@ public class AccountsEndpoint {
     }
 
     @POST
+    @Path("create/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public AuthenticationResponse createAccount(
+            @HeaderParam("schoolname") String schoolname, _login login,
+            @Context HttpServletRequest httpRequest
+    ) throws Exception {
+        try {
+            String logId = context.getProperty("logId").toString();
+            LOG.log(Level.INFO, " IF THIS WORKS {0} CELEBERATION ", tenantdata.getExternalId());
+            return service.login(tenantdata, login, logId);
+        } catch (Exception er) {
+            throw er;
+        }
+
+    }
+
+    @POST
     @Path("login/")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
