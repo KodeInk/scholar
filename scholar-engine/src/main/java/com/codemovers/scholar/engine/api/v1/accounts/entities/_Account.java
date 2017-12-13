@@ -9,6 +9,7 @@ import com.codemovers.scholar.engine.helper.Utilities;
 import com.codemovers.scholar.engine.helper.enums.AccountType;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -28,6 +29,8 @@ public class _Account {
     private StatusEnum status;
     private String externalid;
     private String date_created;
+
+    private String[] roles;
 
     private Integer id;
 
@@ -100,17 +103,25 @@ public class _Account {
         this.id = id;
     }
 
+    public String[] getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String[] roles) {
+        this.roles = roles;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
+        int hash = 3;
         hash = 29 * hash + Objects.hashCode(this.accounttype);
         hash = 29 * hash + Objects.hashCode(this.username);
         hash = 29 * hash + Objects.hashCode(this.password);
         hash = 29 * hash + Objects.hashCode(this.emailaddress);
-
         hash = 29 * hash + Objects.hashCode(this.status);
         hash = 29 * hash + Objects.hashCode(this.externalid);
         hash = 29 * hash + Objects.hashCode(this.date_created);
+        hash = 29 * hash + Arrays.deepHashCode(this.roles);
         hash = 29 * hash + Objects.hashCode(this.id);
         return hash;
     }
@@ -136,7 +147,6 @@ public class _Account {
         if (!Objects.equals(this.emailaddress, other.emailaddress)) {
             return false;
         }
-
         if (!Objects.equals(this.externalid, other.externalid)) {
             return false;
         }
@@ -149,25 +159,15 @@ public class _Account {
         if (this.status != other.status) {
             return false;
         }
-        if (!Objects.equals(this.id, other.id)) {
+        if (!Arrays.deepEquals(this.roles, other.roles)) {
             return false;
         }
-        return true;
-    }
-
-    public boolean validate() {
-        try {
-            Utilities.validateMandatoryFields(this.getClass(), this);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.id, other.id);
     }
 
     @Override
     public String toString() {
-        return this.getClass().getCanonicalName()
-                + "{"
+        return "Account{"
                 + "accounttype=" + accounttype
                 + ", username=" + username
                 + ", password=" + password
@@ -175,8 +175,10 @@ public class _Account {
                 + ", status=" + status
                 + ", externalid=" + externalid
                 + ", date_created=" + date_created
+                + ", roles=" + roles
                 + ", id=" + id
                 + "}";
     }
+
 
 }

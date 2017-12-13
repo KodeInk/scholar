@@ -119,4 +119,97 @@ public class AccountsService {
         //todo: 
     }
 
+    public AccountResponse create(SchoolData tenantData, _Account entity) throws Exception {
+
+        try {
+
+            //todo: check to see if there is an email with the same
+            //todo: person
+            Person person = null;
+
+            //todo : create a general account
+            accounts = new GeneralAccounts();
+            accounts.setExternalid(getNewExternalId());
+
+            accounts.setAccountType(entity.getAccounttype().toString());
+
+            //accounts.setStatus(entity.getStatus().toString());
+            accounts.setStatus("ACTIVE");
+
+            accounts.setDateCreated(new Date());
+
+            //todo: create General AcFcount ::
+            GeneralAccounts account = controller.create(accounts);
+
+            ContactsResponse contactsResponse = null;
+            //todo: create the email contact for the account
+            {
+                if (entity.getEmailaddress() != null) {
+                    //emailaddress
+                    _contacts contacts = new _contacts();
+                    contacts.setContactType(ContactTypes.EMAIL.toString());
+                    contacts.setDetails(entity.getEmailaddress());
+                    contacts.setParentType(ParentTypes.GENERALACCOUNT.toString());
+                    contacts.setParentId(account.getId());
+
+                    contactsResponse = ContactsService.getInstance().create(contacts);
+                }
+
+            }
+            //todo: create a user
+            _User user = new _User();
+            user.setAccount_id(account.getId());
+
+            user.setUsername(entity.getUsername());
+            user.setPassword(entity.getPassword());
+            user.setStatus(StatusEnum.ACTIVE.toString());
+
+            if (accounts.getAccountType() != null) {
+                switch (accounts.getAccountType()) {
+
+                    case "NORMAL":
+                        user.setRole("ADMIN");
+                        break;
+
+                    case "COMPANY":
+                        user.setRole("ADMIN");
+                        break;
+
+                    case "ORGANISATION":
+                        user.setRole("ADMIN");
+                        break;
+
+                    default:
+                        user.setRole("ADMIN");
+                        break;
+                }
+
+            }
+
+            UserResponse userResponse = UserService.getInstance().create(user);
+            String authentication = null;
+
+            if (userResponse != null) {
+                authentication = UserService.getInstance().convertToBasicAuth(entity.getUsername(), entity.getPassword());
+            } else {
+                throw new BadRequestException(" Account not succesfully created ");
+            }
+
+            AccountResponse response = new AccountResponse();
+            response.setAccounttype(accounts.getAccountType());
+            response.setUsername(entity.getUsername());
+            if (contactsResponse != null) {
+                response.setEmailaddress(contactsResponse.getDetails());
+            }
+
+            response.setStatus(accounts.getStatus());
+            response.setScholarid(accounts.getExternalid());
+            response.setAuthentication(authentication);
+
+            return response;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
 }
