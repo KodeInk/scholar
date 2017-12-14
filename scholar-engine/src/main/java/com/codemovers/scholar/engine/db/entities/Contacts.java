@@ -52,7 +52,7 @@ public class Contacts implements Serializable {
     @Column(name = "parent_type")
     private String parentType;
     @Column(name = "parent_id")
-    private BigInteger parentId;
+    private Integer parentId;
     @Size(max = 255)
     @Column(name = "contact_type")
     private String contactType;
@@ -92,11 +92,11 @@ public class Contacts implements Serializable {
         this.parentType = parentType;
     }
 
-    public BigInteger getParentId() {
+    public Integer getParentId() {
         return parentId;
     }
 
-    public void setParentId(BigInteger parentId) {
+    public void setParentId(Integer parentId) {
         this.parentId = parentId;
     }
 
