@@ -98,10 +98,10 @@ public class UserService extends AbstractService<_User, UserResponse> {
         Set<Roles> roleSet = entity.getUserRoles();
 
         if (!roleSet.isEmpty()) {
-            Roles[] rsArray = new Roles[roleSet.size()];
-            List<Roles> rsList = new ArrayList<>();
+            String[] rsArray = new String[roleSet.size()];
+            List<String> rsList = new ArrayList<>();
             roleSet.forEach((_role) -> {
-                rsList.add(_role);
+                rsList.add(_role.getName());
             });
             response.setRoles(rsList.toArray(rsArray));
 
