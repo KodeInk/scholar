@@ -25,7 +25,7 @@ public class _Profile extends AbstractEntity {
     private String middleName;
     private String lastName;
     private String prefix;
-    private String dateOfBirth;
+    private Date dateOfBirth;
     private String image;
     private @Mandatory
     ProfileTypesEnum profileType;
@@ -38,6 +38,7 @@ public class _Profile extends AbstractEntity {
     private @Mandatory
     Integer authorId;
 
+    //todo: add contact information on profile if any
     public _Profile() {
     }
 
@@ -81,11 +82,11 @@ public class _Profile extends AbstractEntity {
         this.prefix = prefix;
     }
 
-    public String getDateOfBirth() {
+    public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

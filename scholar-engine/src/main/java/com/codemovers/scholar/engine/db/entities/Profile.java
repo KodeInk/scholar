@@ -74,7 +74,7 @@ public class Profile implements Serializable {
     @Column(name = "parent_type")
     private String parentType;
     @Column(name = "parent_id")
-    private BigInteger parentId;
+    private Integer parentId;
     @Size(max = 8)
     @Column(name = "status")
     private String status;
@@ -156,11 +156,11 @@ public class Profile implements Serializable {
         this.parentType = parentType;
     }
 
-    public BigInteger getParentId() {
+    public Integer getParentId() {
         return parentId;
     }
 
-    public void setParentId(BigInteger parentId) {
+    public void setParentId(Integer parentId) {
         this.parentId = parentId;
     }
 
