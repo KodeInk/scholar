@@ -5,30 +5,22 @@
  */
 package com.codemovers.scholar.engine.api.v1.accounts;
 
-import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import com.codemovers.scholar.engine.api.v1.accounts.entities.PermissionsResponse;
 import com.codemovers.scholar.engine.api.v1.accounts.entities._Account;
 import com.codemovers.scholar.engine.api.v1.accounts.entities._login;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.api.v1.users.entities.UserResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities._User;
-import com.codemovers.scholar.engine.db.entities.Roles;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
-import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.getNewExternalId;
-import com.codemovers.scholar.engine.helper.enums.AccountType;
 import com.codemovers.scholar.engine.helper.enums.ContactTypes;
 import com.codemovers.scholar.engine.helper.enums.ParentTypes;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
+import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ws.rs.BadRequestException;
 
 /**
  *
@@ -125,6 +117,12 @@ public class AccountsService {
             entity.validate();
             //todo: create User
             UserService userService = UserService.getInstance();
+            _User USER = new _User();
+            USER.setUsername(entity.getUsername());
+            USER.setPassword(entity.getPassword());
+            USER.setRoles(entity.getRoles());
+            UserResponse userResponse = userService.create(USER);
+
 
             //todo: assign permissions to the user
             //todo: create profile  and add parent type and parent_id

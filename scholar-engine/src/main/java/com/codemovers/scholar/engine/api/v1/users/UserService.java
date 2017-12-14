@@ -21,7 +21,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ws.rs.InternalServerErrorException;
 import org.sonatype.plexus.components.cipher.Base64;
 
 /**
@@ -49,7 +51,8 @@ public class UserService extends AbstractService<_User, UserResponse> {
 
     @Override
     public UserResponse create(SchoolData data, _User entity) throws Exception {
-        //todo: validate mandatories
+        try {
+            //todo: validate mandatories
         entity.validate();
 
         Users USER = new Users();
@@ -86,7 +89,11 @@ public class UserService extends AbstractService<_User, UserResponse> {
         USER.setDateCreated(new Date());
 
         USER = controller.create(USER, data);
-        return populateResponse(USER);
+            return populateResponse(USER);
+        } catch (Exception er) {
+            LOG.log(Level.SEVERE, "USER-SERVICE CREATE USER FAILED");
+            throw new InternalServerErrorException("User could not be created successfully ");
+        }
     }
 
 
