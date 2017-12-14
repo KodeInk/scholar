@@ -5,7 +5,9 @@
  */
 package com.codemovers.scholar.engine.api.v1.contacts.entities;
 
+import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
+import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.ContactTypes;
 import com.codemovers.scholar.engine.helper.enums.ParentTypes;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
@@ -19,13 +21,20 @@ import java.util.Objects;
 public class _Contacts extends AbstractEntity {
 
     private Integer id;
-    private ParentTypes parentType;
-    private Integer parentId;
-    private ContactTypes contactType;
-    private String details;
-    private StatusEnum status;
-    private Date dateCreated;
-    private Integer authorId;
+    private @Mandatory
+    ParentTypes parentType;
+    private @Mandatory
+    Integer parentId;
+    private @Mandatory
+    ContactTypes contactType;
+    private @Mandatory
+    String details;
+    private @Mandatory
+    StatusEnum status;
+    private @Mandatory
+    Date dateCreated;
+    private @Mandatory
+    Integer authorId;
 
     public _Contacts() {
     }
@@ -148,10 +157,9 @@ public class _Contacts extends AbstractEntity {
         return Objects.equals(this.authorId, other.authorId);
     }
 
-
     @Override
     public void validate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        validateMandatoryFields(this.getClass(), this);
     }
 
     @Override
