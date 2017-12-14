@@ -14,6 +14,9 @@ import com.codemovers.scholar.engine.db.controllers.UsersJpaController;
 import com.codemovers.scholar.engine.db.entities.Contacts;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Users;
+import com.codemovers.scholar.engine.helper.enums.ContactTypes;
+import com.codemovers.scholar.engine.helper.enums.ParentTypes;
+import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import java.util.logging.Logger;
 
 /**
@@ -50,15 +53,31 @@ public class ContactsService extends AbstractService<_Contacts, ContactsResponse
         contacts.setDetails(entity.getDetails());
         contacts.setStatus(entity.getStatus().toString());
         contacts.setDateCreated(entity.getDateCreated());
-        contacts.setAuthorId(new Users(entity.getAuthorId().longValue()));
+        contacts.setAuthor(new Users(entity.getAuthorId().longValue()));
 
-        controller.create(contacts, data);
+        contacts = controller.create(contacts, data);
 
+        return populateResponse(contacts);
 
-        return null;
 
     }
 
+    public ContactsResponse populateResponse(Contacts entity) {
+        ContactsResponse response = new ContactsResponse();
 
+        response.setId(entity.getId().intValue());
+        response.setParentType(ParentTypes.fromString(entity.getParentType()));
+        response.setParentId(entity.getParentId());
+        response.setContactType(ContactTypes.fromString(entity.getContactType()));
+        response.setDetails(entity.getDetails());
+        response.setStatus(StatusEnum.fromString(entity.getStatus()));
+        response.setDateCreated(entity.getDateCreated());
+        if (entity.getAuthor() != null) {
+            response.setAuthorId(entity.getAuthor().getId().intValue());
+        }
+
+        return response;
+
+    }
 
 }
