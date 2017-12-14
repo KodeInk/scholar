@@ -10,6 +10,7 @@ import com.codemovers.scholar.engine.api.v1.roles.entities.RoleResponse;
 import com.codemovers.scholar.engine.api.v1.roles.entities._Role;
 import com.codemovers.scholar.engine.db.controllers.RolesJpaController;
 import com.codemovers.scholar.engine.db.entities.Roles;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -50,21 +51,21 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
         return null;
     }
 
-    public Roles getRoleByName(String name) throws Exception {
+    public Roles getRoleByName(SchoolData schoolData, String name) throws Exception {
 
-//        Roles r = null;
-//        try {
-//            List<Roles> list = controller.findByName(name);
-//            if (list != null) {
-//                r = list.get(0);
-//            }
-//        } catch (Exception er) {
-//            LOG.log(Level.INFO, er.toString());
-//            throw er;
-//        }
-//
-//        return r;
-        return null;
+        Roles r = null;
+        try {
+            List<Roles> list = controller.findByName(name, schoolData);
+            if (list != null) {
+                r = list.get(0);
+            }
+        } catch (Exception er) {
+            LOG.log(Level.INFO, er.toString());
+            throw er;
+        }
+
+        return r;
+
     }
 
 }

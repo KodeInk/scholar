@@ -587,15 +587,12 @@ public class Users implements Serializable {
             return false;
         }
         Users other = (Users) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override
     public String toString() {
-        return "com.codemovers.scholar.engine.db.entities.Users[ id=" + id + " ]";
+        return "Users[ id=" + id + " ]";
     }
     
 }

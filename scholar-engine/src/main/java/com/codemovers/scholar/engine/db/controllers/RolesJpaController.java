@@ -138,6 +138,7 @@ public class RolesJpaController extends EngineJpaController {
         try {
             RoleList = query.getResultList();
 
+
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, "unexpected exception {0}\n{1}", new Object[]{ex.getMessage(), Utilities.getStackTrace(ex)});
             return null;

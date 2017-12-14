@@ -6,10 +6,20 @@
 package com.codemovers.scholar.engine.api.v1.users;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
+import com.codemovers.scholar.engine.api.v1.roles.RolesService;
 import com.codemovers.scholar.engine.api.v1.users.entities.UserResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities._User;
 import com.codemovers.scholar.engine.db.controllers.UsersJpaController;
+import com.codemovers.scholar.engine.db.entities.Roles;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Users;
+import static com.codemovers.scholar.engine.helper.Utilities.encryptPassword_md5;
+import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 import org.sonatype.plexus.components.cipher.Base64;
 
@@ -37,9 +47,42 @@ public class UserService extends AbstractService<_User, UserResponse> {
     }
 
     @Override
-    public UserResponse create(_User entity) throws Exception {
+    public UserResponse create(SchoolData data, _User entity) throws Exception {
         //todo: validate mandatories
         entity.validate();
+
+        Users USER = new Users();
+
+        USER.setUsername(entity.getUsername());
+        String encryptedPassword = encryptPassword_md5(entity.getPassword());
+
+        //get the role in the Database ::
+        String[] rs = entity.getRoles();
+        //   Set<Roles> roles = new HashMap<>();
+
+        List<Roles> roleses = new ArrayList<>();
+
+        if (rs != null) {
+
+            for (String rolename : rs) {
+                Roles _role = RolesService.getInstance().getRoleByName(data, rolename);
+
+                if (_role != null) {
+                    roleses.add(_role);
+                }
+
+            }
+        }
+
+        if (roleses.isEmpty()) {
+            throw new BadRequestException(" Roles do not exist");
+        }
+
+        Roles[] _roles = new Roles[roleses.size()];
+        Set<Roles> roles = new HashSet<>(Arrays.asList(roleses.toArray(_roles)));
+
+        USER.setUserRoles(roles);
+
 
         //todo: create User :: 
         return null;
