@@ -6,16 +6,14 @@
 package com.codemovers.scholar.engine.api.v1.profile.entities;
 
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
 import java.util.Objects;
 
 /**
  *
- * @author MOver 12/13/2017
+ * @author Mover
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class _profile {
+public class ProfileResponse {
 
     private Integer id;
     private String firstName;
@@ -30,7 +28,7 @@ public class _profile {
     private Date dateCreated;
     private Integer authorId;
 
-    public _profile() {
+    public ProfileResponse() {
     }
 
     public Integer getId() {
@@ -131,19 +129,19 @@ public class _profile {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 29 * hash + Objects.hashCode(this.id);
-        hash = 29 * hash + Objects.hashCode(this.firstName);
-        hash = 29 * hash + Objects.hashCode(this.middleName);
-        hash = 29 * hash + Objects.hashCode(this.lastName);
-        hash = 29 * hash + Objects.hashCode(this.prefix);
-        hash = 29 * hash + Objects.hashCode(this.dateOfBirth);
-        hash = 29 * hash + Objects.hashCode(this.image);
-        hash = 29 * hash + Objects.hashCode(this.profileType);
-        hash = 29 * hash + Objects.hashCode(this.parentId);
-        hash = 29 * hash + Objects.hashCode(this.status);
-        hash = 29 * hash + Objects.hashCode(this.dateCreated);
-        hash = 29 * hash + Objects.hashCode(this.authorId);
+        int hash = 3;
+        hash = 41 * hash + Objects.hashCode(this.id);
+        hash = 41 * hash + Objects.hashCode(this.firstName);
+        hash = 41 * hash + Objects.hashCode(this.middleName);
+        hash = 41 * hash + Objects.hashCode(this.lastName);
+        hash = 41 * hash + Objects.hashCode(this.prefix);
+        hash = 41 * hash + Objects.hashCode(this.dateOfBirth);
+        hash = 41 * hash + Objects.hashCode(this.image);
+        hash = 41 * hash + Objects.hashCode(this.profileType);
+        hash = 41 * hash + Objects.hashCode(this.parentId);
+        hash = 41 * hash + Objects.hashCode(this.status);
+        hash = 41 * hash + Objects.hashCode(this.dateCreated);
+        hash = 41 * hash + Objects.hashCode(this.authorId);
         return hash;
     }
 
@@ -158,7 +156,7 @@ public class _profile {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final _profile other = (_profile) obj;
+        final ProfileResponse other = (ProfileResponse) obj;
         if (!Objects.equals(this.firstName, other.firstName)) {
             return false;
         }
@@ -197,7 +195,7 @@ public class _profile {
 
     @Override
     public String toString() {
-        return "profile{"
+        return "ProfileResponse{"
                 + "id=" + id
                 + ", firstName=" + firstName
                 + ", middleName=" + middleName
@@ -212,5 +210,6 @@ public class _profile {
                 + ", authorId=" + authorId
                 + "}";
     }
+
 
 }

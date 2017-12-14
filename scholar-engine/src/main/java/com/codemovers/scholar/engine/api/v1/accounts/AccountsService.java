@@ -5,6 +5,7 @@
  */
 package com.codemovers.scholar.engine.api.v1.accounts;
 
+import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.accounts.entities._Account;
 import com.codemovers.scholar.engine.api.v1.accounts.entities._login;
@@ -26,7 +27,7 @@ import java.util.logging.Logger;
  *
  * @author mover 11/18/2017
  */
-public class AccountsService {
+public class AccountsService extends AbstractService<_Account, AccountResponse> {
 
     private static final Logger LOG = Logger.getLogger(AccountsService.class.getName());
 
@@ -111,6 +112,7 @@ public class AccountsService {
         //todo: 
     }
 
+    @Override
     public AccountResponse create(SchoolData tenantData, _Account entity) throws Exception {
 
         try {
@@ -123,8 +125,7 @@ public class AccountsService {
             USER.setRoles(entity.getRoles());
             UserResponse userResponse = userService.create(USER);
 
-
-            //todo: assign permissions to the user
+            // todo : create profile
             //todo: create profile  and add parent type and parent_id
             //todo: create user contact information 
             //todo: check to see if there is an email with the same
