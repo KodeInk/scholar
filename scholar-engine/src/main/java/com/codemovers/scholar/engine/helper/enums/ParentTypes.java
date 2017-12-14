@@ -10,7 +10,7 @@ package com.codemovers.scholar.engine.helper.enums;
  * @author Mover 6/7/2017
  */
 public enum ParentTypes {
-    PERSON, COMPANY, PROPERTY, OTHERS, GENERALACCOUNT;
+    PROFILE, SCHOOL, GUADIAN, SPONSOR, STUDENT, OTHERS, TEACHER;
 
     public static final ParentTypes fromString(String text) {
         ParentTypes returnValue = OTHERS;

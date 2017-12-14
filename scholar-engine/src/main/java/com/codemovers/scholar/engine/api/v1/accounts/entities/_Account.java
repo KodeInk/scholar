@@ -24,8 +24,7 @@ public class _Account extends _Profile {
     String username;
     private @Mandatory
     String password;
-    private @Mandatory
-    String emailaddress;
+    private    String emailaddress;
 
 
     private StatusEnum status;

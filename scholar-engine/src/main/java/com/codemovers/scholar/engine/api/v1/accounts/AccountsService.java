@@ -9,6 +9,10 @@ import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.accounts.entities._Account;
 import com.codemovers.scholar.engine.api.v1.accounts.entities._login;
+import com.codemovers.scholar.engine.api.v1.profile.ProfileService;
+import com.codemovers.scholar.engine.api.v1.profile.entities.ProfileResponse;
+import com.codemovers.scholar.engine.api.v1.profile.entities.ProfileTypesEnum;
+import com.codemovers.scholar.engine.api.v1.profile.entities._Profile;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.api.v1.users.entities.UserResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities._User;
@@ -123,8 +127,28 @@ public class AccountsService extends AbstractService<_Account, AccountResponse> 
             USER.setUsername(entity.getUsername());
             USER.setPassword(entity.getPassword());
             USER.setRoles(entity.getRoles());
-            UserResponse userResponse = userService.create(USER);
+            UserResponse userResponse = userService.create(tenantData, USER);
 
+            //todo: create profile 
+            _Profile profile = new _Profile();
+            profile.setParentId(userResponse.getId());
+            profile.setProfileType(ProfileTypesEnum.USER);
+            profile.setFirstName(entity.getFirstName());
+            profile.setMiddleName(entity.getMiddleName());
+            profile.setLastName(entity.getLastName());
+            profile.setPrefix(entity.getPrefix());
+            profile.setDateOfBirth(entity.getDateOfBirth());
+            profile.setDateCreated(new Date());
+            profile.setStatus(StatusEnum.ACTIVE);
+            profile.setAuthorId(userResponse.getId());
+            ProfileResponse profileResponse = ProfileService.getInstance().create(tenantData, profile);
+
+            //todo: if not empty contact information , add the email
+            if (!entity.getEmailaddress().isEmpty()) {
+                // trigger the sending of an email if enabled to the user etc :: 
+            }
+
+            // if any contacts to the profile are visible:  createthem
             // todo : create profile
             //todo: create profile  and add parent type and parent_id
             //todo: create user contact information 
