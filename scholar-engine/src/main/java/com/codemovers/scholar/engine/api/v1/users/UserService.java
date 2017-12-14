@@ -30,7 +30,7 @@ import org.sonatype.plexus.components.cipher.Base64;
  *
  * @author MOver 11/19/2017
  */
-public class UserService extends AbstractService<_User, UserResponse> {
+public class UserService extends AbstractService<_User, UserResponse> implements UserServiceInterface {
 
     private static final Logger LOG = Logger.getLogger(UserService.class.getName());
 
@@ -117,6 +117,7 @@ public class UserService extends AbstractService<_User, UserResponse> {
     }
 
     //todo: retrieve authentication 
+    @Override
     public Users login(String username, String password, String logid) throws Exception {
 
         return null;
@@ -128,6 +129,7 @@ public class UserService extends AbstractService<_User, UserResponse> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
     public String convertToBasicAuth(String username, String Password) {
         String authString = username + ":" + Password;
         byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
@@ -138,6 +140,7 @@ public class UserService extends AbstractService<_User, UserResponse> {
     }
 
     //todo: validate authenticaton
+    @Override
     public boolean validateAuthentication(String Schoolid, String authentication) throws Exception {
 
 
