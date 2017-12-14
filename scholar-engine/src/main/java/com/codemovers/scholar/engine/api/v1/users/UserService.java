@@ -85,15 +85,28 @@ public class UserService extends AbstractService<_User, UserResponse> {
         USER.setUserRoles(roles);
         USER.setDateCreated(new Date());
 
-
-
-        //todo: create User :: 
-        return null;
+        USER = controller.create(USER, data);
+        return populateResponse(USER);
     }
 
 
-    private UserResponse populateResponse(Users users) throws Exception {
-        return null;
+    private UserResponse populateResponse(Users entity) throws Exception {
+
+        UserResponse response = new UserResponse();
+        response.setId(entity.getId().intValue());
+        response.setUsername(entity.getUsername());
+        Set<Roles> roleSet = entity.getUserRoles();
+
+        if (!roleSet.isEmpty()) {
+            Roles[] rsArray = new Roles[roleSet.size()];
+            List<Roles> rsList = new ArrayList<>();
+            roleSet.forEach((_role) -> {
+                rsList.add(_role);
+            });
+            response.setRoles(rsList.toArray(rsArray));
+
+        }
+        return response;
     }
 
     //todo: retrieve authentication 
