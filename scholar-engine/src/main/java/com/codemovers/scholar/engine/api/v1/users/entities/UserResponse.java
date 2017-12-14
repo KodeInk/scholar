@@ -5,7 +5,9 @@
  */
 package com.codemovers.scholar.engine.api.v1.users.entities;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  *
@@ -16,9 +18,8 @@ public class UserResponse {
     private Integer id;
     private String username;
     private String status;
-    private PersonResponse personResponse;
-    private Integer accountId;
     private Date dateCreated;
+    private String[] Roles;
 
     public UserResponse() {
     }
@@ -51,22 +52,6 @@ public class UserResponse {
         this.status = status;
     }
 
-    public PersonResponse getPersonResponse() {
-        return personResponse;
-    }
-
-    public void setPersonResponse(PersonResponse personResponse) {
-        this.personResponse = personResponse;
-    }
-
-    public Integer getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(Integer accountId) {
-        this.accountId = accountId;
-    }
-
     public Date getDateCreated() {
         return dateCreated;
     }
@@ -75,16 +60,63 @@ public class UserResponse {
         this.dateCreated = dateCreated;
     }
 
+    public String[] getRoles() {
+        return Roles;
+    }
+
+    public void setRoles(String[] Roles) {
+        this.Roles = Roles;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.id);
+        hash = 59 * hash + Objects.hashCode(this.username);
+        hash = 59 * hash + Objects.hashCode(this.status);
+        hash = 59 * hash + Objects.hashCode(this.dateCreated);
+        hash = 59 * hash + Arrays.deepHashCode(this.Roles);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final UserResponse other = (UserResponse) obj;
+        if (!Objects.equals(this.username, other.username)) {
+            return false;
+        }
+        if (!Objects.equals(this.status, other.status)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.dateCreated, other.dateCreated)) {
+            return false;
+        }
+        return Arrays.deepEquals(this.Roles, other.Roles);
+    }
+
     @Override
     public String toString() {
         return "UserResponse{"
                 + "id=" + id
                 + ", username=" + username
                 + ", status=" + status
-                + ", personResponse=" + personResponse
-                + ", accountId=" + accountId
-                + ", dateCreated=" + dateCreated
+                + ", dateCreated="
+                + dateCreated
+                + ", Roles=" + Roles
                 + "}";
     }
+
 
 }

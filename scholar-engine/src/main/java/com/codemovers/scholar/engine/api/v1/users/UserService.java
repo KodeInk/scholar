@@ -17,6 +17,7 @@ import static com.codemovers.scholar.engine.helper.Utilities.encryptPassword_md5
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -55,6 +56,7 @@ public class UserService extends AbstractService<_User, UserResponse> {
 
         USER.setUsername(entity.getUsername());
         String encryptedPassword = encryptPassword_md5(entity.getPassword());
+        USER.setPassword(encryptedPassword);
 
         //get the role in the Database ::
         String[] rs = entity.getRoles();
@@ -80,8 +82,9 @@ public class UserService extends AbstractService<_User, UserResponse> {
 
         Roles[] _roles = new Roles[roleses.size()];
         Set<Roles> roles = new HashSet<>(Arrays.asList(roleses.toArray(_roles)));
-
         USER.setUserRoles(roles);
+        USER.setDateCreated(new Date());
+
 
 
         //todo: create User :: 
