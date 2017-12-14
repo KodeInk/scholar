@@ -5,10 +5,160 @@
  */
 package com.codemovers.scholar.engine.api.v1.contacts.entities;
 
+import com.codemovers.scholar.engine.helper.enums.ContactTypes;
+import com.codemovers.scholar.engine.helper.enums.ParentTypes;
+import com.codemovers.scholar.engine.helper.enums.StatusEnum;
+import java.util.Date;
+import java.util.Objects;
+
 /**
  *
  * @author mover 12/14/2017
  */
 public class ContactsResponse {
+
+    private Integer id;
+    private ParentTypes parentType;
+    private Integer parentId;
+    private ContactTypes contactType;
+    private String details;
+    private StatusEnum status;
+    private Date dateCreated;
+    private Integer authorId;
+
+    public ContactsResponse() {
+    }
+
+    public ContactsResponse(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public ParentTypes getParentType() {
+        return parentType;
+    }
+
+    public void setParentType(ParentTypes parentType) {
+        this.parentType = parentType;
+    }
+
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+    }
+
+    public ContactTypes getContactType() {
+        return contactType;
+    }
+
+    public void setContactType(ContactTypes contactType) {
+        this.contactType = contactType;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public StatusEnum getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusEnum status) {
+        this.status = status;
+    }
+
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public Integer getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(Integer authorId) {
+        this.authorId = authorId;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.id);
+        hash = 29 * hash + Objects.hashCode(this.parentType);
+        hash = 29 * hash + Objects.hashCode(this.parentId);
+        hash = 29 * hash + Objects.hashCode(this.contactType);
+        hash = 29 * hash + Objects.hashCode(this.details);
+        hash = 29 * hash + Objects.hashCode(this.status);
+        hash = 29 * hash + Objects.hashCode(this.dateCreated);
+        hash = 29 * hash + Objects.hashCode(this.authorId);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ContactsResponse other = (ContactsResponse) obj;
+        if (!Objects.equals(this.details, other.details)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (this.parentType != other.parentType) {
+            return false;
+        }
+        if (!Objects.equals(this.parentId, other.parentId)) {
+            return false;
+        }
+        if (this.contactType != other.contactType) {
+            return false;
+        }
+        if (this.status != other.status) {
+            return false;
+        }
+        if (!Objects.equals(this.dateCreated, other.dateCreated)) {
+            return false;
+        }
+        return Objects.equals(this.authorId, other.authorId);
+    }
+
+    @Override
+    public String toString() {
+        return "ContactsResponse{"
+                + "id=" + id
+                + ", parentType=" + parentType
+                + ", parentId=" + parentId
+                + ", contactType=" + contactType
+                + ", details=" + details
+                + ", status=" + status
+                + ", dateCreated=" + dateCreated
+                + ", authorId=" + authorId
+                + "}";
+    }
 
 }
