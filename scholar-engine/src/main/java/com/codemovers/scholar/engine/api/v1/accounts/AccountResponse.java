@@ -17,7 +17,6 @@ class AccountResponse {
     private String username;
     private String emailaddress;
     private String status;
-    private String scholarid;
     private String authentication;
 
 
@@ -64,23 +63,14 @@ class AccountResponse {
         this.status = status;
     }
 
-    public String getScholarid() {
-        return scholarid;
-    }
-
-    public void setScholarid(String scholarid) {
-        this.scholarid = scholarid;
-    }
-
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 17 * hash + Objects.hashCode(this.accounttype);
-        hash = 17 * hash + Objects.hashCode(this.username);
-        hash = 17 * hash + Objects.hashCode(this.emailaddress);
-        hash = 17 * hash + Objects.hashCode(this.status);
-        hash = 17 * hash + Objects.hashCode(this.scholarid);
-        hash = 17 * hash + Objects.hashCode(this.authentication);
+        hash = 59 * hash + Objects.hashCode(this.accounttype);
+        hash = 59 * hash + Objects.hashCode(this.username);
+        hash = 59 * hash + Objects.hashCode(this.emailaddress);
+        hash = 59 * hash + Objects.hashCode(this.status);
+        hash = 59 * hash + Objects.hashCode(this.authentication);
         return hash;
     }
 
@@ -108,9 +98,6 @@ class AccountResponse {
         if (!Objects.equals(this.status, other.status)) {
             return false;
         }
-        if (!Objects.equals(this.scholarid, other.scholarid)) {
-            return false;
-        }
         return Objects.equals(this.authentication, other.authentication);
     }
 
@@ -121,10 +108,8 @@ class AccountResponse {
                 + ", username=" + username
                 + ", emailaddress=" + emailaddress
                 + ", status=" + status
-                + ", scholarid=" + scholarid
                 + ", authentication=" + authentication
                 + "}";
     }
-
 
 }

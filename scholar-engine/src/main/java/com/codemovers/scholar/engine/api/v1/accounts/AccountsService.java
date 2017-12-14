@@ -163,6 +163,8 @@ public class AccountsService extends AbstractService<_Account, AccountResponse> 
 
             }
 
+            AccountResponse accountResponse = new AccountResponse();
+
             return null;
 
         } catch (Exception e) {
