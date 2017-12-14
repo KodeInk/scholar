@@ -9,6 +9,9 @@ import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.accounts.entities._Account;
 import com.codemovers.scholar.engine.api.v1.accounts.entities._login;
+import com.codemovers.scholar.engine.api.v1.contacts.ContactsService;
+import com.codemovers.scholar.engine.api.v1.contacts.entities.ContactsResponse;
+import com.codemovers.scholar.engine.api.v1.contacts.entities._Contacts;
 import com.codemovers.scholar.engine.api.v1.profile.ProfileService;
 import com.codemovers.scholar.engine.api.v1.profile.entities.ProfileResponse;
 import com.codemovers.scholar.engine.api.v1.profile.entities.ProfileTypesEnum;
@@ -144,101 +147,33 @@ public class AccountsService extends AbstractService<_Account, AccountResponse> 
             ProfileResponse profileResponse = ProfileService.getInstance().create(tenantData, profile);
 
             //todo: if not empty contact information , add the email
-            if (!entity.getEmailaddress().isEmpty()) {
-                // trigger the sending of an email if enabled to the user etc :: 
-            }
-
-            // if any contacts to the profile are visible:  createthem
-            // todo : create profile
-            //todo: create profile  and add parent type and parent_id
-            //todo: create user contact information 
-            //todo: check to see if there is an email with the same
-            //todo: person
-            Person person = null;
-
-            //todo : create a general account
-            accounts = new GeneralAccounts();
-            accounts.setExternalid(getNewExternalId());
-
-            accounts.setAccountType(entity.getAccounttype().toString());
-
-            //accounts.setStatus(entity.getStatus().toString());
-            accounts.setStatus("ACTIVE");
-
-            accounts.setDateCreated(new Date());
-
-            //todo: create General AcFcount ::
-            GeneralAccounts account = controller.create(accounts);
-
             ContactsResponse contactsResponse = null;
-            //todo: create the email contact for the account
-            {
-                if (entity.getEmailaddress() != null) {
-                    //emailaddress
-                    _contacts contacts = new _contacts();
-                    contacts.setContactType(ContactTypes.EMAIL.toString());
-                    contacts.setDetails(entity.getEmailaddress());
-                    contacts.setParentType(ParentTypes.GENERALACCOUNT.toString());
-                    contacts.setParentId(account.getId());
+            if (!entity.getEmailaddress().isEmpty()) {
+                // trigger the sending of an email if enabled to the user etc ::
 
-                    contactsResponse = ContactsService.getInstance().create(contacts);
-                }
-
-            }
-            //todo: create a user
-            _User user = new _User();
-            user.setAccount_id(account.getId());
-
-            user.setUsername(entity.getUsername());
-            user.setPassword(entity.getPassword());
-            user.setStatus(StatusEnum.ACTIVE.toString());
-
-            if (accounts.getAccountType() != null) {
-                switch (accounts.getAccountType()) {
-
-                    case "NORMAL":
-                        user.setRole("ADMIN");
-                        break;
-
-                    case "COMPANY":
-                        user.setRole("ADMIN");
-                        break;
-
-                    case "ORGANISATION":
-                        user.setRole("ADMIN");
-                        break;
-
-                    default:
-                        user.setRole("ADMIN");
-                        break;
-                }
+                _Contacts contacts = new _Contacts();
+                contacts.setParentType(ParentTypes.PROFILE);
+                contacts.setParentId(userResponse.getId());
+                contacts.setContactType(ContactTypes.EMAIL);
+                contacts.setDetails(entity.getEmailaddress());
+                contacts.setStatus(StatusEnum.ACTIVE);
+                contacts.setDateCreated(new Date());
+                contacts.setAuthorId(userResponse.getId());
+                contactsResponse = ContactsService.getInstance().create(tenantData, contacts);
 
             }
 
-            UserResponse userResponse = UserService.getInstance().create(user);
-            String authentication = null;
+            return null;
 
-            if (userResponse != null) {
-                authentication = UserService.getInstance().convertToBasicAuth(entity.getUsername(), entity.getPassword());
-            } else {
-                throw new BadRequestException(" Account not succesfully created ");
-            }
-
-            AccountResponse response = new AccountResponse();
-            response.setAccounttype(accounts.getAccountType());
-            response.setUsername(entity.getUsername());
-            if (contactsResponse != null) {
-                response.setEmailaddress(contactsResponse.getDetails());
-            }
-
-            response.setStatus(accounts.getStatus());
-            response.setScholarid(accounts.getExternalid());
-            response.setAuthentication(authentication);
-
-            return response;
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    public AccountResponse populateResponse() {
+
+        AccountResponse accountResponse = new AccountResponse();
+        return accountResponse;
     }
 
 }
