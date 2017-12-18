@@ -50,11 +50,18 @@ public class AccountsEndpoint {
     }
 
     //todo: missing adding authentication 
+    /**
+     *
+     * @param account
+     * @param authentication
+     * @param httpRequest
+     * @return
+     * @throws Exception
+     */
     @POST
-    @Path("create/")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public AuthenticationResponse createAccount(
+    public AccountResponse create(
             _Account account,
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest
@@ -62,11 +69,10 @@ public class AccountsEndpoint {
         try {
 
             validate(tenantdata, authentication);
-
             String logId = context.getProperty("logId").toString();
             LOG.log(Level.INFO, " IF THIS WORKS {0} CELEBERATION ", tenantdata.getExternalId());
-            //   return service.login(tenantdata, account, logId);
-            return null;
+            return service.create(tenantdata, account);
+
         } catch (Exception er) {
             throw er;
         }
