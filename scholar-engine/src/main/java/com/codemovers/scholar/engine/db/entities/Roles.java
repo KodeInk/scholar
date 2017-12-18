@@ -8,6 +8,7 @@ package com.codemovers.scholar.engine.db.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -80,11 +81,19 @@ public class Roles implements Serializable {
         @JoinColumn(name = "user_id", referencedColumnName = "id")})
     @ManyToMany
     private Collection<Users> usersCollection;
+
     @ManyToMany(mappedBy = "rolesCollection")
     private Collection<Permissions> permissionsCollection;
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users authorId;
+
+    @JoinTable(name = "role_permission", joinColumns = {
+        @JoinColumn(name = "permission_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "role_id", referencedColumnName = "id")})
+    @ManyToMany
+    private Set<Permissions> permissions;
+
 
     public Roles() {
     }
@@ -174,6 +183,14 @@ public class Roles implements Serializable {
 
     public void setAuthorId(Users authorId) {
         this.authorId = authorId;
+    }
+
+    public Set<Permissions> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(Set<Permissions> permissions) {
+        this.permissions = permissions;
     }
 
     @Override

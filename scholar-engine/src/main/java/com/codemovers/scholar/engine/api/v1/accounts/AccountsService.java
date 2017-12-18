@@ -79,19 +79,19 @@ public class AccountsService extends AbstractService<_Account, AccountResponse> 
                     // create response ::
                     authentication = UserService.getInstance().convertToBasicAuth(login.getUsername(), login.getPassword());
                     response.setAuthentication(authentication);
-                    Set<Roles> roleslist = users.getRoles();
+                    Set<Roles> roleslist = users.getUserRoles();
                     List<PermissionsResponse> permissionsResponses = new ArrayList<>();
 
-//                      for (Roles r : roleslist) {
-//
-//                        Set<Permissions> _permissionset = r.getPermissions();
-//
-//                        for (Permissions p : _permissionset) {
-//                            permissions.add(p);
-//                        }
-//
-//
-//                    }
+                    for (Roles r : roleslist) {
+
+                        Set<Permissions> _permissionset = r.getPermissions();
+
+                        for (Permissions p : _permissionset) {
+                            permissions.add(p);
+                        }
+
+                    }
+
                     roleslist.stream().map((r) -> r.getPermissions()).forEachOrdered((_permissionset) -> {
                         _permissionset.forEach((p) -> {
                             PermissionsResponse permissionsResponse = new PermissionsResponse();
