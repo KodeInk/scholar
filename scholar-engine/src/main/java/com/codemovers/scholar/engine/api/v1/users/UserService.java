@@ -24,7 +24,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.InternalServerErrorException;
-import org.sonatype.plexus.components.cipher.Base64;
+import java.util.Base64;
 
 /**
  *
@@ -153,7 +153,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
     @Override
     public String convertToBasicAuth(String username, String Password) {
         String authString = username + ":" + Password;
-        byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
+        byte[] authEncBytes = Base64.getEncoder().encode(authString.getBytes());
         String authStringEnc = new String(authEncBytes);
         return ("Basic:" + authStringEnc);
     }
@@ -168,7 +168,11 @@ public class UserService extends AbstractService<_User, UserResponse> implements
      */
     @Override
     public boolean validateAuthentication(SchoolData schoolData, String authentication) throws Exception {
+        authentication = authentication.replace("Basic:", "");
+        String usernamePassword = new String(Base64.getDecoder().decode(authentication));
+        String[] parts = usernamePassword.split(":");
 
+        // at this time, there is already approved school data :
         return true;
     }
 
