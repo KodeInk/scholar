@@ -26,15 +26,14 @@ public abstract class AbstractEndpoint<T, Z> {
 
     UserService service = null;
 
-    public AbstractEndpoint(@HeaderParam("schoolid") String school_name, @HeaderParam("authentication") String authentication) {
+    public void validateAuthentication(SchoolData schoolData, String authentication) {
         try {
             //todo: validate login functionality
-            UserService.getInstance().validateAuthentication(school_name, authentication);
+            UserService.getInstance().validateAuthentication(schoolData, authentication);
         } catch (Exception ex) {
             Logger.getLogger(AbstractEndpoint.class.getName()).log(Level.SEVERE, null, ex);
             throw new BadRequestException("INVALID CREDENTIALS");
         }
-
     }
 
     /**
