@@ -6,6 +6,7 @@
 package com.codemovers.scholar.engine.api.v1.users;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEndpoint;
+import com.codemovers.scholar.engine.api.v1.accounts.AccountsEndpoint;
 import com.codemovers.scholar.engine.api.v1.accounts.AccountsService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.accounts.entities._login;
@@ -14,11 +15,13 @@ import com.codemovers.scholar.engine.api.v1.users.entities._User;
 import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
 import java.util.Collection;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -29,6 +32,10 @@ import javax.ws.rs.core.Response;
  */
 @Path("/")
 public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
+
+    private static final Logger LOG = Logger.getLogger(UsersEndpoint.class.getName());
+    @Context
+    private ContainerRequestContext context;
 
     private AccountsService service = null;
 

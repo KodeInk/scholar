@@ -18,6 +18,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
@@ -39,8 +40,6 @@ public class AccountsEndpoint {
 
     public AccountsEndpoint() {
         service = new AccountsService();
-        // with the context issue, I can get headers off this context 
-        // context.getHeaders()
     }
 
     //todo: find if the user is ligerly in 
@@ -80,11 +79,33 @@ public class AccountsEndpoint {
     }
 
     @POST
-    @Path("login/")
+    @Path("deactivate/{account_id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public AuthenticationResponse login(
-            _login login,
+    public AuthenticationResponse deactiveAccount(
+            @HeaderParam("schoolname") String schoolname,
+            @HeaderParam("authentication") String authentication,
+            @PathParam("account_id") Integer account_id,
+            @Context HttpServletRequest httpRequest
+    ) throws Exception {
+        try {
+            validate(tenantdata, authentication);
+            String logId = context.getProperty("logId").toString();
+            LOG.log(Level.INFO, " IF THIS WORKS {0} CELEBERATION ", tenantdata.getExternalId());
+
+            return service.login(tenantdata, login, logId);
+        } catch (Exception er) {
+            throw er;
+        }
+
+    }
+
+    @POST
+    @Path("dactivate/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public AuthenticationResponse activeAccount(
+            @HeaderParam("schoolname") String schoolname, _login login,
             @Context HttpServletRequest httpRequest
     ) throws Exception {
         try {
@@ -102,42 +123,6 @@ public class AccountsEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public AuthenticationResponse resetPassword(
-            @HeaderParam("schoolname") String schoolname, _login login,
-            @Context HttpServletRequest httpRequest
-    ) throws Exception {
-        try {
-            String logId = context.getProperty("logId").toString();
-            LOG.log(Level.INFO, " IF THIS WORKS {0} CELEBERATION ", tenantdata.getExternalId());
-            return service.login(tenantdata, login, logId);
-        } catch (Exception er) {
-            throw er;
-        }
-
-    }
-
-    @POST
-    @Path("deactivate/")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public AuthenticationResponse deactiveAccount(
-            @HeaderParam("schoolname") String schoolname, _login login,
-            @Context HttpServletRequest httpRequest
-    ) throws Exception {
-        try {
-            String logId = context.getProperty("logId").toString();
-            LOG.log(Level.INFO, " IF THIS WORKS {0} CELEBERATION ", tenantdata.getExternalId());
-            return service.login(tenantdata, login, logId);
-        } catch (Exception er) {
-            throw er;
-        }
-
-    }
-
-    @POST
-    @Path("dactivate/")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public AuthenticationResponse activeAccount(
             @HeaderParam("schoolname") String schoolname, _login login,
             @Context HttpServletRequest httpRequest
     ) throws Exception {

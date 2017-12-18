@@ -98,25 +98,6 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         }
     }
 
-    private UserResponse populateResponse(Users entity) throws Exception {
-
-        UserResponse response = new UserResponse();
-        response.setId(entity.getId().intValue());
-        response.setUsername(entity.getUsername());
-        Set<Roles> roleSet = entity.getUserRoles();
-
-        if (!roleSet.isEmpty()) {
-            String[] rsArray = new String[roleSet.size()];
-            List<String> rsList = new ArrayList<>();
-            roleSet.forEach((_role) -> {
-                rsList.add(_role.getName());
-            });
-            response.setRoles(rsList.toArray(rsArray));
-
-        }
-        return response;
-    }
-
     //todo: retrieve authentication 
     /**
      *
@@ -143,7 +124,14 @@ public class UserService extends AbstractService<_User, UserResponse> implements
      */
     @Override
     public UserResponse getById(SchoolData schoolData, Integer Id) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        Users _user = controller.findUser(Id, schoolData);
+        if (_user == null) {
+            throw new BadRequestException("USER DOES NOT EXIST");
+
+        }
+        return populateResponse(_user);
+
     }
 
     /**
@@ -184,6 +172,25 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         login(schoolData, username, password, "LOGID");
         // at this time, there is already approved school data :
         return true;
+    }
+
+    private UserResponse populateResponse(Users entity) throws Exception {
+
+        UserResponse response = new UserResponse();
+        response.setId(entity.getId().intValue());
+        response.setUsername(entity.getUsername());
+        Set<Roles> roleSet = entity.getUserRoles();
+
+        if (!roleSet.isEmpty()) {
+            String[] rsArray = new String[roleSet.size()];
+            List<String> rsList = new ArrayList<>();
+            roleSet.forEach((_role) -> {
+                rsList.add(_role.getName());
+            });
+            response.setRoles(rsList.toArray(rsArray));
+
+        }
+        return response;
     }
 
 }

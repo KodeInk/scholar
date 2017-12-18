@@ -165,12 +165,15 @@ public class AccountsService extends AbstractService<_Account, AccountResponse> 
 
             AccountResponse accountResponse = new AccountResponse();
 
-
             return null;
 
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    public void deactivate(SchoolData tenantData, Integer account_id) {
+
     }
 
     public AccountResponse populateResponse() {
