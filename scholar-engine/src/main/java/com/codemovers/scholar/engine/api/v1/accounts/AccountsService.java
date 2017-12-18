@@ -54,6 +54,7 @@ public class AccountsService extends AbstractService<_Account, AccountResponse> 
     public AuthenticationResponse login(SchoolData tenantData, _login login, String logId) throws Exception {
 
         LOG.log(Level.INFO, "School Name {0} ", tenantData.getName());
+        login.validate();
         /*   try {
         LOG.log(Level.INFO, " General Account Service Login ");
         String authentication = null;

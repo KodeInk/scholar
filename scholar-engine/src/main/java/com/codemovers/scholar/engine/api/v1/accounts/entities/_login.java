@@ -6,7 +6,8 @@
 package com.codemovers.scholar.engine.api.v1.accounts.entities;
 
 import com.codemovers.scholar.engine.annotation.Mandatory;
-import com.codemovers.scholar.engine.helper.Utilities;
+import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
+import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Objects;
 
@@ -15,7 +16,8 @@ import java.util.Objects;
  * @author mover
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class _login {
+public class _login extends AbstractEntity {
+
     private @Mandatory
     String username;
     private @Mandatory
@@ -66,15 +68,10 @@ public class _login {
         return Objects.equals(this.password, other.password);
     }
 
-    public boolean validate() {
-        try {
-            Utilities.validateMandatoryFields(this.getClass(), this);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
+    @Override
+    public void validate() {
+        validateMandatoryFields(this.getClass(), this);
     }
-
 
     @Override
     public String toString() {
@@ -83,6 +80,5 @@ public class _login {
                 + ", password=" + password
                 + "}";
     }
-
 
 }

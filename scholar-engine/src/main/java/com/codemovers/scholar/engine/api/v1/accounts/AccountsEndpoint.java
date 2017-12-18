@@ -23,6 +23,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -79,11 +80,10 @@ public class AccountsEndpoint {
     }
 
     @POST
-    @Path("deactivate/{account_id}")
+    @Path("/deactivate/{account_id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public AuthenticationResponse deactiveAccount(
-            @HeaderParam("schoolname") String schoolname,
+    public Response deactiveAccount(
             @HeaderParam("authentication") String authentication,
             @PathParam("account_id") Integer account_id,
             @Context HttpServletRequest httpRequest
@@ -92,20 +92,22 @@ public class AccountsEndpoint {
             validate(tenantdata, authentication);
             String logId = context.getProperty("logId").toString();
             LOG.log(Level.INFO, " IF THIS WORKS {0} CELEBERATION ", tenantdata.getExternalId());
+            service.deactivate(tenantdata, account_id);
+            return Response.ok().build();
 
-            return service.login(tenantdata, login, logId);
         } catch (Exception er) {
             throw er;
         }
 
     }
 
+//todo: login account_login:
     @POST
-    @Path("dactivate/")
+    @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public AuthenticationResponse activeAccount(
-            @HeaderParam("schoolname") String schoolname, _login login,
+    public AuthenticationResponse login(
+            _login login,
             @Context HttpServletRequest httpRequest
     ) throws Exception {
         try {
@@ -119,7 +121,7 @@ public class AccountsEndpoint {
     }
 
     @POST
-    @Path("reset/")
+    @Path("/reset")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public AuthenticationResponse resetPassword(
