@@ -6,6 +6,7 @@
 package com.codemovers.scholar.engine.api.v1.abstracts;
 
 import com.codemovers.scholar.engine.api.v1.users.UserService;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.Collection;
 import java.util.logging.Level;
@@ -45,7 +46,6 @@ public abstract class AbstractEndpoint<T, Z> {
     public Z create(T entity) throws Exception {
         throw new UnsupportedOperationException();
     }
-
 
     /**
      *
@@ -87,7 +87,9 @@ public abstract class AbstractEndpoint<T, Z> {
         throw new UnsupportedOperationException();
     }
 
+    protected void validate(SchoolData schoolData, String authentication) {
+        //todo: checkout to see that the user exiss in the db befor creation
 
-
+    }
 
 }

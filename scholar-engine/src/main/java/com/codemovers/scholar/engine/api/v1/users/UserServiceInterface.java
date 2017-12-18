@@ -20,12 +20,12 @@ public interface UserServiceInterface {
 
     UserResponse create(SchoolData data, _User entity) throws Exception;
 
-    UserResponse getById(Integer Id) throws Exception;
+    UserResponse getById(SchoolData schoolData, Integer Id) throws Exception;
 
     //todo: retrieve authentication
-    Users login(String username, String password, String logid) throws Exception;
+    Users login(SchoolData schoolData, String username, String password, String logid) throws Exception;
 
     //todo: validate authenticaton
-    boolean validateAuthentication(String Schoolid, String authentication) throws Exception;
+    boolean validateAuthentication(SchoolData schoolData, String authentication) throws Exception;
 
 }

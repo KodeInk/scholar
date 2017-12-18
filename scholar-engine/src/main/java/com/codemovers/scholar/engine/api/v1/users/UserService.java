@@ -53,49 +53,48 @@ public class UserService extends AbstractService<_User, UserResponse> implements
     public UserResponse create(SchoolData data, _User entity) throws Exception {
         try {
             //todo: validate mandatories
-        entity.validate();
+            entity.validate();
 
-        Users USER = new Users();
+            Users USER = new Users();
 
-        USER.setUsername(entity.getUsername());
-        String encryptedPassword = encryptPassword_md5(entity.getPassword());
-        USER.setPassword(encryptedPassword);
+            USER.setUsername(entity.getUsername());
+            String encryptedPassword = encryptPassword_md5(entity.getPassword());
+            USER.setPassword(encryptedPassword);
 
-        //get the role in the Database ::
-        String[] rs = entity.getRoles();
-        //   Set<Roles> roles = new HashMap<>();
+            //get the role in the Database ::
+            String[] rs = entity.getRoles();
+            //   Set<Roles> roles = new HashMap<>();
 
-        List<Roles> roleses = new ArrayList<>();
+            List<Roles> roleses = new ArrayList<>();
 
-        if (rs != null) {
+            if (rs != null) {
 
-            for (String rolename : rs) {
-                Roles _role = RolesService.getInstance().getRoleByName(data, rolename);
+                for (String rolename : rs) {
+                    Roles _role = RolesService.getInstance().getRoleByName(data, rolename);
 
-                if (_role != null) {
-                    roleses.add(_role);
+                    if (_role != null) {
+                        roleses.add(_role);
+                    }
+
                 }
-
             }
-        }
 
-        if (roleses.isEmpty()) {
-            throw new BadRequestException(" Roles do not exist");
-        }
+            if (roleses.isEmpty()) {
+                throw new BadRequestException(" Roles do not exist");
+            }
 
-        Roles[] _roles = new Roles[roleses.size()];
-        Set<Roles> roles = new HashSet<>(Arrays.asList(roleses.toArray(_roles)));
-        USER.setUserRoles(roles);
-        USER.setDateCreated(new Date());
+            Roles[] _roles = new Roles[roleses.size()];
+            Set<Roles> roles = new HashSet<>(Arrays.asList(roleses.toArray(_roles)));
+            USER.setUserRoles(roles);
+            USER.setDateCreated(new Date());
 
-        USER = controller.create(USER, data);
+            USER = controller.create(USER, data);
             return populateResponse(USER);
         } catch (Exception er) {
             LOG.log(Level.SEVERE, "USER-SERVICE CREATE USER FAILED");
             throw new InternalServerErrorException("User could not be created successfully ");
         }
     }
-
 
     private UserResponse populateResponse(Users entity) throws Exception {
 
@@ -117,32 +116,58 @@ public class UserService extends AbstractService<_User, UserResponse> implements
     }
 
     //todo: retrieve authentication 
+    /**
+     *
+     * @param schoolData
+     * @param username
+     * @param password
+     * @param logid
+     * @return
+     * @throws Exception
+     */
     @Override
-    public Users login(String username, String password, String logid) throws Exception {
+    public Users login(SchoolData schoolData, String username, String password, String logid) throws Exception {
 
         return null;
 
     }
 
+    /**
+     *
+     * @param schoolData
+     * @param Id
+     * @return
+     * @throws Exception
+     */
     @Override
-    public UserResponse getById(Integer Id) throws Exception {
+    public UserResponse getById(SchoolData schoolData, Integer Id) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param username
+     * @param Password
+     * @return
+     */
     @Override
     public String convertToBasicAuth(String username, String Password) {
         String authString = username + ":" + Password;
         byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
         String authStringEnc = new String(authEncBytes);
         return ("Basic:" + authStringEnc);
-        //  String possibleAuthenticationKey = "Basic " + Base64.getEncoder().encodeToString(usernamePassowrd.trim().getBytes());
-
     }
 
     //todo: validate authenticaton
+    /**
+     *
+     * @param schoolData
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
-    public boolean validateAuthentication(String Schoolid, String authentication) throws Exception {
-
+    public boolean validateAuthentication(SchoolData schoolData, String authentication) throws Exception {
 
         return true;
     }
