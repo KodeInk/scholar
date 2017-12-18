@@ -179,6 +179,9 @@ public class UserService extends AbstractService<_User, UserResponse> implements
             throw new WebApplicationException("invalid security credentials", Response.Status.UNAUTHORIZED);
         }
 
+        String username = parts[0];
+        String password = parts[1];
+        login(schoolData, username, password, "LOGID");
         // at this time, there is already approved school data :
         return true;
     }
