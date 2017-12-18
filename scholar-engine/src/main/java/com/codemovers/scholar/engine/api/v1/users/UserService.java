@@ -110,9 +110,10 @@ public class UserService extends AbstractService<_User, UserResponse> implements
      */
     @Override
     public Users login(SchoolData schoolData, String username, String password, String logid) throws Exception {
-
-        return null;
-
+        if (username.isEmpty() || password.isEmpty()) {
+            throw new BadRequestException("Username and Password must not be null");
+        }
+        return controller.login(username, password, schoolData);
     }
 
     /**

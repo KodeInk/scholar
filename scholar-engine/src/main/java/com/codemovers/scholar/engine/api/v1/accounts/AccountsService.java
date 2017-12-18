@@ -7,6 +7,7 @@ package com.codemovers.scholar.engine.api.v1.accounts;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
+import com.codemovers.scholar.engine.api.v1.accounts.entities.PermissionsResponse;
 import com.codemovers.scholar.engine.api.v1.accounts.entities._Account;
 import com.codemovers.scholar.engine.api.v1.accounts.entities._login;
 import com.codemovers.scholar.engine.api.v1.contacts.ContactsService;
@@ -19,14 +20,18 @@ import com.codemovers.scholar.engine.api.v1.profile.entities._Profile;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.api.v1.users.entities.UserResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities._User;
+import com.codemovers.scholar.engine.db.entities.Roles;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
-import static com.codemovers.scholar.engine.helper.Utilities.getNewExternalId;
+import com.codemovers.scholar.engine.db.entities.Users;
 import com.codemovers.scholar.engine.helper.enums.ContactTypes;
 import com.codemovers.scholar.engine.helper.enums.ParentTypes;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
+import java.util.ArrayList;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -55,22 +60,18 @@ public class AccountsService extends AbstractService<_Account, AccountResponse> 
 
         LOG.log(Level.INFO, "School Name {0} ", tenantData.getName());
         login.validate();
-        /*   try {
+        try {
         LOG.log(Level.INFO, " General Account Service Login ");
         String authentication = null;
 
-        boolean status = login.validate();
-
-        if (status == false) {
-            throw new BadRequestException("FILL BLANKS ");
-        }
 
         AuthenticationResponse response = new AuthenticationResponse();
 
         {
             if (login.getPassword() != null && login.getUsername() != null) {
                 // todo : encrypt password
-                Users users = UserService.getInstance().login(login.getUsername(), login.getPassword(), logId);
+                Users users = UserService.getInstance().login(tenantData, login.getUsername(), login.getPassword(), logId);
+
 
                 if (users == null) {
                     throw new BadRequestException("INVALID USERNAME AND OR PASSWORD ");
@@ -110,14 +111,14 @@ public class AccountsService extends AbstractService<_Account, AccountResponse> 
                 throw new BadRequestException(" USERNAME AND OR PASSWORD IS MANDATORY  ");
             }
 
-         */
 
-        //  }
+            }
+
+            }catch (Exception er) {
+            throw new BadRequestException(" USERNAME AND OR PASSWORD IS MANDATORY  ");
+        }
+
         return null;
-//        } catch (Exception er) {
-//            throw new BadRequestException(" USERNAME AND OR PASSWORD IS MANDATORY  ");
-//        }
-        //todo: 
     }
 
     @Override

@@ -6,10 +6,11 @@
 package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.EngineJpaController;
-import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Terms;
 import com.codemovers.scholar.engine.db.entities.Users;
+import com.codemovers.scholar.engine.helper.Utilities;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -70,7 +71,7 @@ public class UsersJpaController extends EngineJpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = user.getId().intValue();
-                if (findUser(id,data) == null) {
+                if (findUser(id, data) == null) {
                     throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
                 }
             }
@@ -127,6 +128,56 @@ public class UsersJpaController extends EngineJpaController {
         } finally {
             em.close();
         }
+    }
+
+    public List<Users> findByUserName(String username, SchoolData data) {
+        List<Users> userList = new ArrayList<>();
+        EntityManager em = getEntityManager(data.getExternalId());
+        Query query = em.createNamedQuery("Users.findByUsername");
+        query.setParameter("username", username);
+        try {
+            userList = query.getResultList();
+            LOG.log(Level.FINE, "offices found for username {0}", new Object[]{username});
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "unexpected exception {0}\n{1}", new Object[]{ex.getMessage(), Utilities.getStackTrace(ex)});
+            return null;
+            // don't throw WebApplicationException, force caller to handle this
+        } finally {
+            LOG.log(Level.FINER, "closing entity manager {0}", em);
+            em.close();
+        }
+        return userList;
+    }
+
+    public Users login(String username, String password, SchoolData data) {
+
+        Users users = null;
+        EntityManager em = getEntityManager(data.getExternalId());
+
+        try {
+            Query query = em.createNamedQuery("Users.login");
+            query.setParameter("username", username);
+            query.setParameter("password", password);
+
+            LOG.log(Level.INFO, " TEST 1234    ");
+            List<Users> list = query.getResultList();
+            LOG.log(Level.FINE, " User with username {0} found ", new Object[]{username});
+            if (list != null) {
+                users = list.get(0);
+            } else {
+                throw new BadRequestException("USERNAME AND OR PASSWORD NOT VALID");
+            }
+
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "unexpected exception {0}\n{1}", new Object[]{ex.getMessage(), Utilities.getStackTrace(ex)});
+            return null;
+        } finally {
+            LOG.log(Level.FINER, "closing entity manager {0}", em);
+            em.close();
+        }
+
+        return users;
+
     }
 
 }
