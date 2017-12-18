@@ -8,6 +8,8 @@ package com.codemovers.scholar.engine.api.v1.accounts;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.accounts.entities._Account;
 import com.codemovers.scholar.engine.api.v1.accounts.entities._login;
+import com.codemovers.scholar.engine.api.v1.users.UserService;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,6 +43,12 @@ public class AccountsEndpoint {
         // context.getHeaders()
     }
 
+    //todo: find if the user is ligerly in 
+    //todo: check permission to perform a given operation 
+    public void validate(SchoolData schoolData, String authentication) throws Exception {
+        UserService.getInstance().validateAuthentication(schoolData, authentication);
+    }
+
     //todo: missing adding authentication 
     @POST
     @Path("create/")
@@ -48,9 +56,13 @@ public class AccountsEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public AuthenticationResponse createAccount(
             _Account account,
+            @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest
     ) throws Exception {
         try {
+
+            validate(tenantdata, authentication);
+
             String logId = context.getProperty("logId").toString();
             LOG.log(Level.INFO, " IF THIS WORKS {0} CELEBERATION ", tenantdata.getExternalId());
             //   return service.login(tenantdata, account, logId);

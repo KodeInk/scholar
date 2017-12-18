@@ -10,7 +10,6 @@ import com.codemovers.scholar.engine.api.v1.users.entities.UserResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities._User;
 import java.util.Collection;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -23,10 +22,6 @@ import javax.ws.rs.core.Response;
  */
 @Path("/")
 public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
-
-    public UsersEndpoint(@HeaderParam("schoolid") String school_name, @HeaderParam("authentication") String authentication) {
-        super(school_name, authentication);
-    }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -54,6 +49,5 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
     public Collection<UserResponse> list(int start, int end) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 
 }
