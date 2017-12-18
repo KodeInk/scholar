@@ -25,6 +25,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.InternalServerErrorException;
 import java.util.Base64;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -171,6 +173,11 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         authentication = authentication.replace("Basic:", "");
         String usernamePassword = new String(Base64.getDecoder().decode(authentication));
         String[] parts = usernamePassword.split(":");
+
+        if (parts.length != 2) {
+            LOG.log(Level.WARNING, "{0} :: invalid security credentials");
+            throw new WebApplicationException("invalid security credentials", Response.Status.UNAUTHORIZED);
+        }
 
         // at this time, there is already approved school data :
         return true;
