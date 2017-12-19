@@ -55,13 +55,15 @@ public abstract class AbstractEndpoint<T, Z> {
 
     /**
      *
-     * @param school_name
      * @param authentication
-     * @param id
      * @param entity
+     * @param httpRequest
      * @return
      */
-    public Z update(@PathParam("id") Integer id, T entity) {
+    public Z update(
+            T entity,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest            ) {
         throw new UnsupportedOperationException();
     }
 
@@ -70,7 +72,9 @@ public abstract class AbstractEndpoint<T, Z> {
      * @param id
      * @return
      */
-    public Response archive(@PathParam("id") Integer id) {
+    public Response archive(@PathParam("id") Integer id,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest            ) {
         throw new UnsupportedOperationException();
     }
 
@@ -79,7 +83,10 @@ public abstract class AbstractEndpoint<T, Z> {
      * @param id
      * @return
      */
-    public Response delete(@PathParam("id") Integer id) {
+    public Response delete(@PathParam("id") Integer id,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest
+    ) {
         throw new UnsupportedOperationException();
     }
 
@@ -89,7 +96,12 @@ public abstract class AbstractEndpoint<T, Z> {
      * @param end
      * @return
      */
-    public Collection<Z> list(@QueryParam("start") int start, @QueryParam("end") int end) {
+    public Collection<Z> list(
+            @QueryParam("start") int start,
+            @QueryParam("end") int end,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest
+    ) {
         throw new UnsupportedOperationException();
     }
 

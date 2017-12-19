@@ -9,6 +9,6 @@ package com.codemovers.scholar.engine.api.v1.classes;
  *
  * @author mover 12/19/2017
  */
-public class ClassesService {
+public class ClassService {
 
 }
