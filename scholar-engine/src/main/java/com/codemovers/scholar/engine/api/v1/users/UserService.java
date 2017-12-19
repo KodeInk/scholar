@@ -15,7 +15,6 @@ import com.codemovers.scholar.engine.api.v1.users.entities._User;
 import com.codemovers.scholar.engine.db.controllers.UsersJpaController;
 import com.codemovers.scholar.engine.db.entities.Permissions;
 import com.codemovers.scholar.engine.db.entities.Roles;
-import static com.codemovers.scholar.engine.db.entities.Roles_.permissions;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.encryptPassword_md5;
@@ -265,6 +264,10 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         }
 
         return null;
+    }
+
+    public void deactivate(SchoolData tenantData, Integer account_id) {
+
     }
 
 }

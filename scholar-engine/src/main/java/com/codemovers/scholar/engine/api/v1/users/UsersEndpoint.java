@@ -17,8 +17,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
@@ -52,8 +54,13 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public UserResponse create(_User entity) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public UserResponse create(_User entity,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest) throws Exception {
+        validate(tenantdata, authentication);
+        String logId = context.getProperty("logId").toString();
+        return service.create(tenantdata, entity);
+
     }
 
     public UserResponse update(String school_name, String authentication, Integer id, _User entity) {
@@ -75,7 +82,13 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-
+    /**
+     *
+     * @param login
+     * @param httpRequest
+     * @return
+     * @throws Exception
+     */
     @POST
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -93,6 +106,37 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
         }
 
     }
+
+    /**
+     *
+     * @param authentication
+     * @param id
+     * @param httpRequest
+     * @return
+     * @throws Exception
+     */
+    @POST
+    @Path("/deactivate/{user_id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deactiveAccount(
+            @HeaderParam("authentication") String authentication,
+            @PathParam("user_id") Integer id,
+            @Context HttpServletRequest httpRequest
+    ) throws Exception {
+        try {
+            validate(tenantdata, authentication);
+            String logId = context.getProperty("logId").toString();
+            LOG.log(Level.INFO, " IF THIS WORKS {0} CELEBERATION ", tenantdata.getExternalId());
+            service.deactivate(tenantdata, id);
+            return Response.ok().build();
+
+        } catch (Exception er) {
+            throw er;
+        }
+
+    }
+
 
 
 }

@@ -11,9 +11,11 @@ import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
 /**
@@ -39,10 +41,15 @@ public abstract class AbstractEndpoint<T, Z> {
     /**
      *
      * @param entity
+     * @param authentication
+     * @param httpRequest
      * @return
      * @throws Exception
      */
-    public Z create(T entity) throws Exception {
+    public Z create(T entity,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest
+    ) throws Exception {
         throw new UnsupportedOperationException();
     }
 
