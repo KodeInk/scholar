@@ -47,14 +47,7 @@ public abstract class AbstractService<T, Z> {
         throw new UnsupportedOperationException("Not Supported ");
     }
 
-    /**
-     *
-     * @param authentication
-     * @param Id
-     * @return
-     * @throws Exception
-     */
-    public Z getById(String authentication, Integer Id) throws Exception {
+    public Z getById(SchoolData data, Integer Id) throws Exception {
         throw new UnsupportedOperationException("Not Supported ");
     }
 
@@ -67,4 +60,24 @@ public abstract class AbstractService<T, Z> {
         //todo: checkout to see that the user exiss in the db befor creation
 
     }
+
+    public Z update(SchoolData data, T entity) throws Exception {
+        throw new UnsupportedOperationException("Not Supported ");
+    }
+
+    public Z archive(SchoolData data, Integer id) throws Exception {
+        throw new UnsupportedOperationException("Not Supported ");
+    }
+
+    public Z delete(SchoolData data, Integer id) throws Exception {
+        throw new UnsupportedOperationException("Not Supported ");
+    }
+
+    public Z list(SchoolData data, Integer ofset, Integer limit) throws Exception {
+        throw new UnsupportedOperationException("Not Supported ");
+    }
+
+
+
+
 }
