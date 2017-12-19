@@ -8,7 +8,6 @@ package com.codemovers.scholar.engine.api.v1.classes.entities;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import java.util.Date;
 import java.util.Objects;
-import java.util.logging.Logger;
 
 /**
  *
