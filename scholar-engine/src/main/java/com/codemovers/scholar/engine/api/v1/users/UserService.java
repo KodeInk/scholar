@@ -118,7 +118,6 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         Users _user = controller.findUser(Id, schoolData);
         if (_user == null) {
             throw new BadRequestException("USER DOES NOT EXIST");
-
         }
         return populateResponse(_user);
 
@@ -161,7 +160,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         String password = parts[1];
 
         _login login = new _login();
-        login.setUsername(username);;
+        login.setUsername(username);
         login.setPassword(password);
 
         login(schoolData, login, "LOGID");
@@ -198,6 +197,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
      * @return
      * @throws Exception
      */
+    @Override
     public AuthenticationResponse login(SchoolData tenantData, _login login, String logId) throws Exception {
 
         LOG.log(Level.INFO, "School Name {0} ", tenantData.getName());

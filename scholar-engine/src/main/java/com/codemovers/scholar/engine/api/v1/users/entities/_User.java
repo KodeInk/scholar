@@ -8,9 +8,9 @@ package com.codemovers.scholar.engine.api.v1.users.entities;
 import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
 import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
+import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -21,14 +21,14 @@ import java.util.Objects;
 public class _User extends AbstractEntity {
 
     private Integer id;
-
     private @Mandatory
     String username;
     private @Mandatory
     String password;
-    private Date datecreated;
-    private String status;
-
+    private String emailaddress;
+    private StatusEnum status;
+    private String externalid;
+    private String date_created;
     private @Mandatory
     String[] roles;
 
@@ -63,20 +63,36 @@ public class _User extends AbstractEntity {
         this.password = password;
     }
 
-    public Date getDatecreated() {
-        return datecreated;
+    public String getEmailaddress() {
+        return emailaddress;
     }
 
-    public void setDatecreated(Date datecreated) {
-        this.datecreated = datecreated;
+    public void setEmailaddress(String emailaddress) {
+        this.emailaddress = emailaddress;
     }
 
-    public String getStatus() {
+    public StatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusEnum status) {
         this.status = status;
+    }
+
+    public String getExternalid() {
+        return externalid;
+    }
+
+    public void setExternalid(String externalid) {
+        this.externalid = externalid;
+    }
+
+    public String getDate_created() {
+        return date_created;
+    }
+
+    public void setDate_created(String date_created) {
+        this.date_created = date_created;
     }
 
     public String[] getRoles() {
@@ -90,12 +106,14 @@ public class _User extends AbstractEntity {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 41 * hash + Objects.hashCode(this.id);
-        hash = 41 * hash + Objects.hashCode(this.username);
-        hash = 41 * hash + Objects.hashCode(this.password);
-        hash = 41 * hash + Objects.hashCode(this.datecreated);
-        hash = 41 * hash + Objects.hashCode(this.status);
-        hash = 41 * hash + Arrays.deepHashCode(this.roles);
+        hash = 59 * hash + Objects.hashCode(this.id);
+        hash = 59 * hash + Objects.hashCode(this.username);
+        hash = 59 * hash + Objects.hashCode(this.password);
+        hash = 59 * hash + Objects.hashCode(this.emailaddress);
+        hash = 59 * hash + Objects.hashCode(this.status);
+        hash = 59 * hash + Objects.hashCode(this.externalid);
+        hash = 59 * hash + Objects.hashCode(this.date_created);
+        hash = 59 * hash + Arrays.deepHashCode(this.roles);
         return hash;
     }
 
@@ -117,21 +135,29 @@ public class _User extends AbstractEntity {
         if (!Objects.equals(this.password, other.password)) {
             return false;
         }
-        if (!Objects.equals(this.status, other.status)) {
+        if (!Objects.equals(this.emailaddress, other.emailaddress)) {
+            return false;
+        }
+        if (!Objects.equals(this.externalid, other.externalid)) {
+            return false;
+        }
+        if (!Objects.equals(this.date_created, other.date_created)) {
             return false;
         }
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.datecreated, other.datecreated)) {
+        if (this.status != other.status) {
             return false;
         }
         return Arrays.deepEquals(this.roles, other.roles);
     }
 
+
     @Override
     public void validate() {
         validateMandatoryFields(this.getClass(), this);
+
     }
 
     @Override
@@ -140,9 +166,11 @@ public class _User extends AbstractEntity {
                 + "id=" + id
                 + ", username=" + username
                 + ", password=" + password
-                + ", datecreated=" + datecreated
+                + ", emailaddress=" + emailaddress
                 + ", status=" + status
-                + ", roles=" + roles
+                + ", externalid=" + externalid
+                + ", date_created=" + date_created
+                + ", roles=" + Arrays.asList(roles)
                 + "}";
     }
 

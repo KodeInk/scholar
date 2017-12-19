@@ -5,6 +5,7 @@
  */
 package com.codemovers.scholar.engine.api.v1.users;
 
+import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.accounts.entities._login;
 import com.codemovers.scholar.engine.api.v1.users.entities.UserResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities._User;
@@ -53,7 +54,7 @@ public interface UserServiceInterface {
      * @return
      * @throws Exception
      */
-    Users login(SchoolData schoolData, _login login, String password, String logid) throws Exception;
+    AuthenticationResponse login(SchoolData schoolData, _login login, String logid) throws Exception;
 
     //todo: validate authenticaton
     /**
