@@ -6,12 +6,11 @@
 package com.codemovers.scholar.engine.api.v1.users;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEndpoint;
-import com.codemovers.scholar.engine.api.v1.accounts.AccountsEndpoint;
-import com.codemovers.scholar.engine.api.v1.accounts.AccountsService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.accounts.entities._login;
 import com.codemovers.scholar.engine.api.v1.users.entities.UserResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities._User;
+import com.codemovers.scholar.engine.db.entities.SchoolData;
 import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
 import java.util.Collection;
 import java.util.logging.Level;
@@ -37,11 +36,17 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
     @Context
     private ContainerRequestContext context;
 
-    private AccountsService service = null;
+    private UserService service = null;
 
     public UsersEndpoint() {
-        service = new AccountsService();
+        service = new UserService();
     }
+
+    @Override
+    public void validate(SchoolData schoolData, String authentication) throws Exception {
+        service.validateAuthentication(schoolData, authentication);
+    }
+
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -70,8 +75,9 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+
     @POST
-    @Path("login/")
+    @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public AuthenticationResponse login(
@@ -87,5 +93,6 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
         }
 
     }
+
 
 }

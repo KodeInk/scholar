@@ -86,7 +86,7 @@ public abstract class AbstractEndpoint<T, Z> {
         throw new UnsupportedOperationException();
     }
 
-    protected void validate(SchoolData schoolData, String authentication) {
+    protected void validate(SchoolData schoolData, String authentication) throws Exception {
         //todo: checkout to see that the user exiss in the db befor creation
 
     }

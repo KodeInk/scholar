@@ -6,11 +6,16 @@
 package com.codemovers.scholar.engine.api.v1.users;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
+import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
+import com.codemovers.scholar.engine.api.v1.accounts.entities.PermissionsResponse;
+import com.codemovers.scholar.engine.api.v1.accounts.entities._login;
 import com.codemovers.scholar.engine.api.v1.roles.RolesService;
 import com.codemovers.scholar.engine.api.v1.users.entities.UserResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities._User;
 import com.codemovers.scholar.engine.db.controllers.UsersJpaController;
+import com.codemovers.scholar.engine.db.entities.Permissions;
 import com.codemovers.scholar.engine.db.entities.Roles;
+import static com.codemovers.scholar.engine.db.entities.Roles_.permissions;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.encryptPassword_md5;
@@ -99,22 +104,6 @@ public class UserService extends AbstractService<_User, UserResponse> implements
     }
 
     //todo: retrieve authentication 
-    /**
-     *
-     * @param schoolData
-     * @param username
-     * @param password
-     * @param logid
-     * @return
-     * @throws Exception
-     */
-    @Override
-    public Users login(SchoolData schoolData, String username, String password, String logid) throws Exception {
-        if (username.isEmpty() || password.isEmpty()) {
-            throw new BadRequestException("Username and Password must not be null");
-        }
-        return controller.login(username, password, schoolData);
-    }
 
     /**
      *
@@ -170,7 +159,14 @@ public class UserService extends AbstractService<_User, UserResponse> implements
 
         String username = parts[0];
         String password = parts[1];
-        login(schoolData, username, password, "LOGID");
+
+        _login login = new _login();
+        login.setUsername(username);;
+        login.setPassword(password);
+
+        login(schoolData, login, "LOGID");
+
+        //login(schoolData, username, password, "LOGID");
         // at this time, there is already approved school data :
         return true;
     }
@@ -192,6 +188,83 @@ public class UserService extends AbstractService<_User, UserResponse> implements
 
         }
         return response;
+    }
+
+    /**
+     *
+     * @param tenantData
+     * @param login
+     * @param logId
+     * @return
+     * @throws Exception
+     */
+    public AuthenticationResponse login(SchoolData tenantData, _login login, String logId) throws Exception {
+
+        LOG.log(Level.INFO, "School Name {0} ", tenantData.getName());
+        login.validate();
+        try {
+            LOG.log(Level.INFO, " General Account Service Login ");
+            String authentication = null;
+
+            AuthenticationResponse response = new AuthenticationResponse();
+
+            {
+                if (login.getPassword() != null && login.getUsername() != null) {
+                    // todo : encrypt password
+
+                    String username = login.getUsername();
+                    String password = login.getPassword();
+
+                    password = encryptPassword_md5(password);
+
+                    Users users = controller.login(username, password, tenantData);
+
+
+                    if (users == null) {
+                        throw new BadRequestException("INVALID USERNAME AND OR PASSWORD ");
+                    } else {
+                        // create response ::
+                        authentication = UserService.getInstance().convertToBasicAuth(login.getUsername(), login.getPassword());
+                        response.setAuthentication(authentication);
+                        Set<Roles> roleslist = users.getUserRoles();
+                        List<PermissionsResponse> permissionsResponses = new ArrayList<>();
+
+                        for (Roles r : roleslist) {
+
+                            Set<Permissions> _permissionset = r.getPermissions();
+
+//                            for (Permissions p : _permissionset) {
+//                                permissions.add(p);
+//                            }
+
+                        }
+
+                        roleslist.stream().map((r) -> r.getPermissions()).forEachOrdered((_permissionset) -> {
+                            _permissionset.forEach((p) -> {
+                                PermissionsResponse permissionsResponse = new PermissionsResponse();
+                                permissionsResponse.setCode(p.getCode());
+                                permissionsResponse.setName(p.getName());
+                                permissionsResponse.setId(p.getId().intValue());
+                                permissionsResponses.add(permissionsResponse);
+                            });
+                        });
+
+                        response.setPermissions(permissionsResponses);
+                        response.setIsLoggedIn(true);
+
+                    }
+                    //todo : check username and password
+                } else {
+                    throw new BadRequestException(" USERNAME AND OR PASSWORD IS MANDATORY  ");
+                }
+
+            }
+
+        } catch (Exception er) {
+            throw new BadRequestException(" USERNAME AND OR PASSWORD IS MANDATORY  ");
+        }
+
+        return null;
     }
 
 }

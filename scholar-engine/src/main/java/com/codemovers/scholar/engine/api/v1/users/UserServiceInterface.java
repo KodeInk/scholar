@@ -5,6 +5,7 @@
  */
 package com.codemovers.scholar.engine.api.v1.users;
 
+import com.codemovers.scholar.engine.api.v1.accounts.entities._login;
 import com.codemovers.scholar.engine.api.v1.users.entities.UserResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities._User;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
@@ -16,16 +17,52 @@ import com.codemovers.scholar.engine.db.entities.Users;
  */
 public interface UserServiceInterface {
 
+    /**
+     *
+     * @param username
+     * @param Password
+     * @return
+     */
     String convertToBasicAuth(String username, String Password);
 
+    /**
+     *
+     * @param data
+     * @param entity
+     * @return
+     * @throws Exception
+     */
     UserResponse create(SchoolData data, _User entity) throws Exception;
 
+    /**
+     *
+     * @param schoolData
+     * @param Id
+     * @return
+     * @throws Exception
+     */
     UserResponse getById(SchoolData schoolData, Integer Id) throws Exception;
 
     //todo: retrieve authentication
-    Users login(SchoolData schoolData, String username, String password, String logid) throws Exception;
+    /**
+     *
+     * @param schoolData
+     * @param login
+     * @param password
+     * @param logid
+     * @return
+     * @throws Exception
+     */
+    Users login(SchoolData schoolData, _login login, String password, String logid) throws Exception;
 
     //todo: validate authenticaton
+    /**
+     *
+     * @param schoolData
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     boolean validateAuthentication(SchoolData schoolData, String authentication) throws Exception;
 
 }
