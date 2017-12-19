@@ -7,9 +7,9 @@ package com.codemovers.scholar.engine.api.v1.users;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import com.codemovers.scholar.engine.api.v1.accounts.entities.PermissionsResponse;
-import com.codemovers.scholar.engine.api.v1.accounts.entities._login;
+import com.codemovers.scholar.engine.api.v1.users.entities._login;
 import com.codemovers.scholar.engine.api.v1.roles.RolesService;
+import com.codemovers.scholar.engine.api.v1.roles.entities.PermissionsResponse;
 import com.codemovers.scholar.engine.api.v1.roles.entities.RoleResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities.UserResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities._User;
@@ -96,7 +96,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
             USER.setDateCreated(new Date());
 
             USER = controller.create(USER, data);
-            return populateResponse(USER);
+            return populateResponse(USER, true);
         } catch (Exception er) {
             LOG.log(Level.SEVERE, "USER-SERVICE CREATE USER FAILED");
             throw new InternalServerErrorException("User could not be created successfully ");
@@ -119,7 +119,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         if (_user == null) {
             throw new BadRequestException("USER DOES NOT EXIST");
         }
-        return populateResponse(_user);
+        return populateResponse(_user, true);
 
     }
 
@@ -168,48 +168,6 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         //login(schoolData, username, password, "LOGID");
         // at this time, there is already approved school data :
         return true;
-    }
-
-    private UserResponse populateResponse(Users entity, boolean extended) throws Exception {
-
-        UserResponse response = new UserResponse();
-        response.setId(entity.getId().intValue());
-        response.setUsername(entity.getUsername());
-        Set<Roles> roleSet = entity.getUserRoles();
-
-        if (!roleSet.isEmpty()) {
-            String[] rsArray = new String[roleSet.size()];
-            RoleResponse[] roleResponses = new RoleResponse[roleSet.size()];
-            List<RoleResponse> rrs = new ArrayList<>();
-            List<String> rsList = new ArrayList<>();
-            roleSet.forEach((_role) -> {
-
-                RoleResponse roleResponse = new RoleResponse();
-                roleResponse.setDescription(_role.getDescription());
-                roleResponse.setIsSystem(_role.getIsSystem() == 1);
-                roleResponse.setName(_role.getName());
-
-                if (extended == true) {
-
-                    if (_role.getPermissions() != null) {
-                        List<PermissionsResponse> permissionsResponses = new ArrayList<>();
-                        for (Permissions p : _role.getPermissions()) {
-                            PermissionsResponse permissionsResponse = new PermissionsResponse();
-                            permissionsResponse.setCode(p.getCode());
-                            permissionsResponse.setName(p.getName());
-                            permissionsResponses.add(permissionsResponse);
-                        }
-                        PermissionsResponse[] prs = new PermissionsResponse[permissionsResponses.size()];
-                        roleResponse.setPermissions(permissionsResponses.toArray(prs));
-                    }
-                }
-
-                rsList.add(_role.getName());
-            });
-            response.setRoles(rsList.toArray(rsArray));
-
-        }
-        return response;
     }
 
     /**
@@ -290,8 +248,57 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         return null;
     }
 
+    /**
+     *
+     * @param tenantData
+     * @param account_id
+     */
     public void deactivate(SchoolData tenantData, Integer account_id) {
 
+    }
+
+    private UserResponse populateResponse(Users entity, boolean extended) throws Exception {
+
+        UserResponse response = new UserResponse();
+        response.setId(entity.getId().intValue());
+        response.setUsername(entity.getUsername());
+        Set<Roles> roleSet = entity.getUserRoles();
+
+        if (!roleSet.isEmpty()) {
+            String[] rsArray = new String[roleSet.size()];
+
+            List<RoleResponse> rrs = new ArrayList<>();
+            List<RoleResponse> rsList = new ArrayList<>();
+            roleSet.forEach((_role) -> {
+
+                RoleResponse roleResponse = new RoleResponse();
+                roleResponse.setDescription(_role.getDescription());
+                roleResponse.setIsSystem(_role.getIsSystem() == 1);
+                roleResponse.setName(_role.getName());
+
+                if (extended == true) {
+
+                    if (_role.getPermissions() != null) {
+                        List<PermissionsResponse> permissionsResponses = new ArrayList<>();
+                        for (Permissions p : _role.getPermissions()) {
+                            PermissionsResponse permissionsResponse = new PermissionsResponse();
+                            permissionsResponse.setCode(p.getCode());
+                            permissionsResponse.setName(p.getName());
+                            permissionsResponses.add(permissionsResponse);
+                        }
+                        PermissionsResponse[] prs = new PermissionsResponse[permissionsResponses.size()];
+                        roleResponse.setPermissions(permissionsResponses.toArray(prs));
+                    }
+                }
+
+                rsList.add(roleResponse);
+            });
+
+            RoleResponse[] roleResponses = new RoleResponse[rsList.size()];
+            response.setRoles(rsList.toArray(roleResponses));
+
+        }
+        return response;
     }
 
 }

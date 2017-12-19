@@ -15,6 +15,9 @@ public class PermissionsResponse {
     private Integer id;
     private String name;
     private String code;
+    private String status;
+
+
 
     public PermissionsResponse() {
     }
@@ -47,12 +50,21 @@ public class PermissionsResponse {
         this.code = code;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 29 * hash + Objects.hashCode(this.id);
         hash = 29 * hash + Objects.hashCode(this.name);
         hash = 29 * hash + Objects.hashCode(this.code);
+        hash = 29 * hash + Objects.hashCode(this.status);
         return hash;
     }
 
@@ -74,17 +86,15 @@ public class PermissionsResponse {
         if (!Objects.equals(this.code, other.code)) {
             return false;
         }
+        if (!Objects.equals(this.status, other.status)) {
+            return false;
+        }
         return Objects.equals(this.id, other.id);
     }
 
     @Override
     public String toString() {
-        return "PermissionsResponse{"
-                + "id=" + id
-                + ", name=" + name
-                + ", code=" + code
-                + "}";
+        return "PermissionsResponse{" + "id=" + id + ", name=" + name + ", code=" + code + ", status=" + status + '}';
     }
-
 
 }
