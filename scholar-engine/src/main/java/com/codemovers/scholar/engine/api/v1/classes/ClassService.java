@@ -10,7 +10,6 @@ import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 import com.codemovers.scholar.engine.api.v1.classes.entities._Class;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.controllers.ClassJpaController;
-import com.codemovers.scholar.engine.db.controllers.UsersJpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.logging.Logger;
 

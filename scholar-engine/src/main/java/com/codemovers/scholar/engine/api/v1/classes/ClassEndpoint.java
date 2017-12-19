@@ -41,12 +41,6 @@ public class ClassEndpoint extends AbstractEndpoint<_Class, ClassResponse> {
     }
 
     @Override
-    public void validateAuthentication(SchoolData schoolData, String authentication) {
-        super.validateAuthentication(schoolData, authentication);
-
-    }
-
-    @Override
     public void validate(SchoolData schoolData, String authentication) throws Exception {
         UserService.getInstance().validateAuthentication(schoolData, authentication);
     }
