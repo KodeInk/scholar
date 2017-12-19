@@ -5,6 +5,7 @@
  */
 package com.codemovers.scholar.engine.api.v1.streams.entities;
 
+import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
 import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
@@ -14,17 +15,20 @@ import java.util.Objects;
 
 /**
  *
- * @author mover
+ * @author mover 12/19/2017
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class _Stream extends AbstractEntity {
 
     private Integer id;
-    private String name;
-    private String code;
+    private @Mandatory
+    String name;
+    private @Mandatory
+    String code;
     private StatusEnum status;
     private Date date_created;
-    private Integer author_id;
+    private @Mandatory
+    Integer author_id;
 
     public _Stream() {
     }
