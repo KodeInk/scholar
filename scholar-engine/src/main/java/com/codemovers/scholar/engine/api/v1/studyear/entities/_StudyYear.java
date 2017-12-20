@@ -5,6 +5,7 @@
  */
 package com.codemovers.scholar.engine.api.v1.studyear.entities;
 
+import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
 import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
@@ -17,9 +18,12 @@ import java.util.Objects;
  */
 public class _StudyYear extends AbstractEntity {
     private Integer id;
-    private String theme;
-    private Date start_date;
-    private Date end_date;
+    private @Mandatory
+    String theme;
+    private @Mandatory
+    Date start_date;
+    private @Mandatory
+    Date end_date;
     private StatusEnum status;
     private Integer author_id;
     private Date date_created;
