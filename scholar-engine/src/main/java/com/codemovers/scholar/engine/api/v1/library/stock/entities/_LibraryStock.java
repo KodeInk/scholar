@@ -5,6 +5,7 @@
  */
 package com.codemovers.scholar.engine.api.v1.library.stock.entities;
 
+import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
 import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import java.util.Date;
@@ -17,11 +18,16 @@ import java.util.Objects;
 public class _LibraryStock extends AbstractEntity {
 
     private Integer id;
-    private String stock_number;
-    private String stock_title;
-    private Integer number_of_items;
-    private Integer section_id;
-    private Date date_created;
+    private @Mandatory
+    String stock_number;
+    private @Mandatory
+    String stock_title;
+    private @Mandatory
+    Integer number_of_items;
+    private @Mandatory
+    Integer section_id;
+    private @Mandatory
+    Date date_created;
     private Integer author_id;
 
     public _LibraryStock() {
