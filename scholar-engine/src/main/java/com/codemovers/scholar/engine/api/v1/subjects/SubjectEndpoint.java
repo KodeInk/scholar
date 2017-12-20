@@ -57,6 +57,4 @@ public class SubjectEndpoint extends AbstractEndpoint<_Subject, SubjectResponse>
         return super.list(start, end, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
-
-
 }

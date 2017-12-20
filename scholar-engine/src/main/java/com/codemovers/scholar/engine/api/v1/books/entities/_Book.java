@@ -155,5 +155,4 @@ public class _Book extends AbstractEntity {
                 + "}";
     }
 
-
 }

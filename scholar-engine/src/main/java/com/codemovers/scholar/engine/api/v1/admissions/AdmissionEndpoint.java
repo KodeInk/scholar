@@ -57,5 +57,4 @@ public class AdmissionEndpoint extends AbstractEndpoint<_Admission, AdmissionRes
         return super.archive(id, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
-
 }

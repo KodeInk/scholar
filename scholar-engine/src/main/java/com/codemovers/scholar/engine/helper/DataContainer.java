@@ -7,5 +7,5 @@ package com.codemovers.scholar.engine.helper;
 public interface DataContainer {
 
     Object getMainId();
-    
+
 }

@@ -70,7 +70,7 @@ public class ProfileJpaController extends EngineJpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = profile.getId().intValue();
-                if (findProfile(id,data) == null) {
+                if (findProfile(id, data) == null) {
                     throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
                 }
             }

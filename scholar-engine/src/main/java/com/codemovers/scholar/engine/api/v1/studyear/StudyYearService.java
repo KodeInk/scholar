@@ -60,5 +60,4 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
         return super.list(data, ofset, limit); //To change body of generated methods, choose Tools | Templates.
     }
 
-
 }

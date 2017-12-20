@@ -138,5 +138,5 @@ public class ExamTem implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.ExamTem[ id=" + id + " ]";
     }
-    
+
 }

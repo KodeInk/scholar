@@ -194,7 +194,6 @@ public class _MarkSheet extends AbstractEntity {
         return Objects.equals(this.date_created, other.date_created);
     }
 
-
     @Override
     public void validate() {
         validateMandatoryFields(this.getClass(), this);
@@ -216,6 +215,5 @@ public class _MarkSheet extends AbstractEntity {
                 + ", date_created=" + date_created
                 + "}";
     }
-
 
 }

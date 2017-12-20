@@ -143,5 +143,5 @@ public class BookType implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.BookType[ id=" + id + " ]";
     }
-    
+
 }

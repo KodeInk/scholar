@@ -194,5 +194,5 @@ public class LibraryStockInventory implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.LibraryStockInventory[ id=" + id + " ]";
     }
-    
+
 }

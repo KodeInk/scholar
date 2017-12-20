@@ -132,5 +132,4 @@ public class GradingResponse {
         return Objects.equals(this.author_id, other.author_id);
     }
 
-
 }

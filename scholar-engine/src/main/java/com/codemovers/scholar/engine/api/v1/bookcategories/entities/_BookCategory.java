@@ -17,6 +17,7 @@ import java.util.Objects;
  * @author mover 12/20/2017
  */
 public class _BookCategory extends AbstractEntity {
+
     private Integer id;
     private @Mandatory
     String name;
@@ -116,7 +117,6 @@ public class _BookCategory extends AbstractEntity {
     public void validate() {
         validateMandatoryFields(this.getClass(), this);
     }
-
 
     @Override
     public String toString() {

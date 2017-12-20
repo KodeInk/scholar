@@ -201,5 +201,5 @@ public class ExamTimetable implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.ExamTimetable[ id=" + id + " ]";
     }
-    
+
 }

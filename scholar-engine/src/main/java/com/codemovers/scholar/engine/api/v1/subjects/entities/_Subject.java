@@ -17,6 +17,7 @@ import java.util.Objects;
  * @author mover 12/20/2017
  */
 public class _Subject extends AbstractEntity {
+
     private Integer id;
     private @Mandatory
     String name;
@@ -124,7 +125,6 @@ public class _Subject extends AbstractEntity {
         return Objects.equals(this.author_id, other.author_id);
     }
 
-
     @Override
     public void validate() {
         validateMandatoryFields(this.getClass(), this);
@@ -141,6 +141,5 @@ public class _Subject extends AbstractEntity {
                 + ", author_id=" + author_id
                 + "}";
     }
-
 
 }

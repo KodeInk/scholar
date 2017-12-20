@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 
 /**
  * Created by Mover on 4/28/2017.
+ *
  * @param <T>
  */
 public abstract class JpaController<T extends Entity> implements Serializable {

@@ -3,30 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.codemovers.scholar.engine.api.v1.subjects.entities;
+package com.codemovers.scholar.engine.api.v1.booktypes.entities;
 
-import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import java.util.Date;
 import java.util.Objects;
 
 /**
  *
- * @author Manny
+ * @author mover 12/20/2017
  */
-public class SubjectResponse {
+public class BookTypeResponse {
 
     private Integer id;
     private String name;
-    private String code;
     private StatusEnum status;
     private Date date_created;
-    private String author;
+    private Integer author_id;
 
-    public SubjectResponse() {
+    public BookTypeResponse() {
     }
 
-    public SubjectResponse(Integer id) {
+    public BookTypeResponse(Integer id) {
         this.id = id;
     }
 
@@ -46,14 +44,6 @@ public class SubjectResponse {
         this.name = name;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
     public StatusEnum getStatus() {
         return status;
     }
@@ -70,23 +60,22 @@ public class SubjectResponse {
         this.date_created = date_created;
     }
 
-    public String getAuthor() {
-        return author;
+    public Integer getAuthor_id() {
+        return author_id;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthor_id(Integer author_id) {
+        this.author_id = author_id;
     }
 
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 23 * hash + Objects.hashCode(this.id);
-        hash = 23 * hash + Objects.hashCode(this.name);
-        hash = 23 * hash + Objects.hashCode(this.code);
-        hash = 23 * hash + Objects.hashCode(this.status);
-        hash = 23 * hash + Objects.hashCode(this.date_created);
-        hash = 23 * hash + Objects.hashCode(this.author);
+        hash = 71 * hash + Objects.hashCode(this.id);
+        hash = 71 * hash + Objects.hashCode(this.name);
+        hash = 71 * hash + Objects.hashCode(this.status);
+        hash = 71 * hash + Objects.hashCode(this.date_created);
+        hash = 71 * hash + Objects.hashCode(this.author_id);
         return hash;
     }
 
@@ -101,14 +90,8 @@ public class SubjectResponse {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final SubjectResponse other = (SubjectResponse) obj;
+        final BookTypeResponse other = (BookTypeResponse) obj;
         if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        if (!Objects.equals(this.code, other.code)) {
-            return false;
-        }
-        if (!Objects.equals(this.author, other.author)) {
             return false;
         }
         if (!Objects.equals(this.id, other.id)) {
@@ -117,18 +100,23 @@ public class SubjectResponse {
         if (this.status != other.status) {
             return false;
         }
-        return Objects.equals(this.date_created, other.date_created);
+        if (!Objects.equals(this.date_created, other.date_created)) {
+            return false;
+        }
+        return Objects.equals(this.author_id, other.author_id);
     }
 
     @Override
     public String toString() {
-        return "SubjectResponse{"
+        return "BookTypeResponse{"
                 + "id=" + id
                 + ", name=" + name
-                + ", code=" + code
                 + ", status=" + status
                 + ", date_created=" + date_created
-                + ", author=" + author + '}';
+                + ", author_id=" + author_id
+                + "}";
     }
+
+
 
 }

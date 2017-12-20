@@ -160,5 +160,5 @@ public class SubjectTeachers implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.SubjectTeachers[ id=" + id + " ]";
     }
-    
+
 }

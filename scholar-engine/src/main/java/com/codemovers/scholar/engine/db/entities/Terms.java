@@ -245,5 +245,5 @@ public class Terms implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.Terms[ id=" + id + " ]";
     }
-    
+
 }

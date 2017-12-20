@@ -171,5 +171,4 @@ public class _CurriculumDetail extends AbstractEntity {
                 + "}";
     }
 
-
 }

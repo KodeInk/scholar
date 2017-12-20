@@ -60,7 +60,4 @@ public class SubjectService extends AbstractService<_Subject, SubjectResponse> {
         return super.getById(data, Id); //To change body of generated methods, choose Tools | Templates.
     }
 
-
-
-
 }

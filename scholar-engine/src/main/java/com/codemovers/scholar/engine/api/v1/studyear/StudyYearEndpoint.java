@@ -57,6 +57,4 @@ public class StudyYearEndpoint extends AbstractEndpoint<_StudyYear, StudyYearRes
         return super.list(start, end, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
-
-
 }

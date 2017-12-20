@@ -17,6 +17,7 @@ import java.util.logging.Logger;
  * @author mover 12/20/2017
  */
 public class TermService extends AbstractService<_Term, TermResponse> {
+
     private static final Logger LOG = Logger.getLogger(TermService.class.getName());
 
     private final TermsJpaController controller;
@@ -58,6 +59,5 @@ public class TermService extends AbstractService<_Term, TermResponse> {
     public TermResponse list(SchoolData data, Integer ofset, Integer limit) throws Exception {
         return super.list(data, ofset, limit); //To change body of generated methods, choose Tools | Templates.
     }
-
 
 }

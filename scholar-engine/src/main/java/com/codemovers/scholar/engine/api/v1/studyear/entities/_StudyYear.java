@@ -17,6 +17,7 @@ import java.util.Objects;
  * @author mover 12/20/2017
  */
 public class _StudyYear extends AbstractEntity {
+
     private Integer id;
     private @Mandatory
     String theme;
@@ -137,7 +138,6 @@ public class _StudyYear extends AbstractEntity {
         return Objects.equals(this.date_created, other.date_created);
     }
 
-
     @Override
     public void validate() {
         validateMandatoryFields(this.getClass(), this);
@@ -155,6 +155,5 @@ public class _StudyYear extends AbstractEntity {
                 + ", date_created=" + date_created
                 + "}";
     }
-
 
 }

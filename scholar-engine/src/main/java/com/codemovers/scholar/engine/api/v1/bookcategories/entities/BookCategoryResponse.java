@@ -16,7 +16,7 @@ import java.util.Objects;
 public class BookCategoryResponse {
 
     private Integer id;
-    private    String name;
+    private String name;
     private StatusEnum status;
     private Date date_created;
     private Integer author_id;
@@ -105,6 +105,5 @@ public class BookCategoryResponse {
         }
         return Objects.equals(this.author_id, other.author_id);
     }
-
 
 }

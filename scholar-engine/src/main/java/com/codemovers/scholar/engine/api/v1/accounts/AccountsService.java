@@ -30,5 +30,4 @@ public class AccountsService extends AbstractService<_Account, AccountResponse> 
         return service;
     }
 
-
 }

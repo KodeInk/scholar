@@ -27,29 +27,28 @@ public class LogOutputResponseFilter implements ContainerResponseFilter {
             if (userAgent != null && userAgent.contains("ELB-HealthChecker")) {
                 return;
             }
-            
+
 //            requestContext.getPropertyNames().stream().forEach((propertyName) -> {
 //                System.out.println(propertyName + " :: " + requestContext.getProperty(propertyName));
 //            });
-
             Object logIdObject = requestContext.getProperty("logId");
             String logId = logIdObject == null ? "unknown tenant" : logIdObject.toString();
             String logString = logId + " :: logging outgoing response\n\tStatus=" + responseContext.getStatus();
-                if (responseContext instanceof ContainerResponse) {
-                    ContainerResponse response = (ContainerResponse) responseContext;
-                    
-                    if (responseContext.hasEntity() && response.getLength() > 2) {
-                        logString += "\n\tbody=" + response.getEntity();
-                    } else {
-                        logString += "\n\tBody=<none>";
-                    }
+            if (responseContext instanceof ContainerResponse) {
+                ContainerResponse response = (ContainerResponse) responseContext;
+
+                if (responseContext.hasEntity() && response.getLength() > 2) {
+                    logString += "\n\tbody=" + response.getEntity();
+                } else {
+                    logString += "\n\tBody=<none>";
                 }
+            }
             LOG.log(Level.INFO, logString);
-            LOG.log(Level.INFO, "{0} ::\n------------------------------ session end -------------------------------------", new Object[] { logId });
+            LOG.log(Level.INFO, "{0} ::\n------------------------------ session end -------------------------------------", new Object[]{logId});
         } catch (Exception e) {
             LOG.log(Level.SEVERE, "unexpected exception\n{0}", new Object[]{Utilities.getStackTrace(e)});
         }
-        
+
     }
 
 }

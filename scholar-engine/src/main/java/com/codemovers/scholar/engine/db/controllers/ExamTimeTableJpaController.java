@@ -70,7 +70,7 @@ public class ExamTimeTableJpaController extends EngineJpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = exam_time_table.getId().intValue();
-                if (findExamTerm(id,data) == null) {
+                if (findExamTerm(id, data) == null) {
                     throw new BadRequestException("The Contact with id " + id + " no longer exists.");
                 }
             }

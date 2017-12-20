@@ -160,5 +160,5 @@ public class StudentSubjectRegistration implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.StudentSubjectRegistration[ id=" + id + " ]";
     }
-    
+
 }

@@ -174,5 +174,5 @@ public class TeachingTimetable implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.TeachingTimetable[ id=" + id + " ]";
     }
-    
+
 }

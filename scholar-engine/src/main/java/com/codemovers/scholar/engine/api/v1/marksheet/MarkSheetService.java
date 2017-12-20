@@ -22,7 +22,6 @@ public class MarkSheetService extends AbstractService<_MarkSheet, MarkSheetRespo
 
     private final MarksheetJpaController controller;
 
-
     private static MarkSheetService service = null;
 
     public MarkSheetService() {
@@ -61,6 +60,5 @@ public class MarkSheetService extends AbstractService<_MarkSheet, MarkSheetRespo
     public MarkSheetResponse list(SchoolData data, Integer ofset, Integer limit) throws Exception {
         return super.list(data, ofset, limit); //To change body of generated methods, choose Tools | Templates.
     }
-
 
 }

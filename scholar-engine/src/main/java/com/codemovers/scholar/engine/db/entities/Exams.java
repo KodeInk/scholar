@@ -197,5 +197,5 @@ public class Exams implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.Exams[ id=" + id + " ]";
     }
-    
+
 }

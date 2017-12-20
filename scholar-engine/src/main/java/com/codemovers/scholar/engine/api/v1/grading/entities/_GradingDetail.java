@@ -143,6 +143,4 @@ public class _GradingDetail extends AbstractEntity {
                 + "}";
     }
 
-
-
 }

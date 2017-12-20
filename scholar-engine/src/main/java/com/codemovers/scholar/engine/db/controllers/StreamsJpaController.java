@@ -70,7 +70,7 @@ public class StreamsJpaController extends EngineJpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = stream.getId().intValue();
-                if (findStream(id,data) == null) {
+                if (findStream(id, data) == null) {
                     throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
                 }
             }

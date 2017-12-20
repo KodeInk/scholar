@@ -94,7 +94,6 @@ public class Roles implements Serializable {
     @ManyToMany
     private Set<Permissions> permissions;
 
-
     public Roles() {
     }
 
@@ -217,5 +216,5 @@ public class Roles implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.Roles[ id=" + id + " ]";
     }
-    
+
 }

@@ -138,5 +138,5 @@ public class StudyYearCurriculum implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.StudyYearCurriculum[ id=" + id + " ]";
     }
-    
+
 }

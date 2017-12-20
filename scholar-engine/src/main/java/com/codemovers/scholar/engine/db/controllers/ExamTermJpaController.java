@@ -69,7 +69,7 @@ public class ExamTermJpaController extends EngineJpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = exam_term.getId().intValue();
-                if (findExamTerm(id,data) == null) {
+                if (findExamTerm(id, data) == null) {
                     throw new BadRequestException("The Contact with id " + id + " no longer exists.");
                 }
             }

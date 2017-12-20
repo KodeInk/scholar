@@ -69,7 +69,7 @@ public class BookTypesJpaController extends EngineJpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = book_type.getId().intValue();
-                if (findBookType(id,data) == null) {
+                if (findBookType(id, data) == null) {
                     throw new BadRequestException("The Contact with id " + id + " no longer exists.");
                 }
             }

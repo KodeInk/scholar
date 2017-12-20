@@ -58,7 +58,4 @@ public class StreamsEndpoint extends AbstractEndpoint<_Stream, StreamResponse> {
         return super.create(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
-
-
-
 }

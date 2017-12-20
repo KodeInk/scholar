@@ -57,7 +57,6 @@ public enum ProfileTypesEnum {
 
         return profile_type;
 
-
     }
 
     public static ProfileTypesEnum fromString(String profile_name) {
@@ -82,6 +81,5 @@ public enum ProfileTypesEnum {
         return profile_type;
 
     }
-
 
 }

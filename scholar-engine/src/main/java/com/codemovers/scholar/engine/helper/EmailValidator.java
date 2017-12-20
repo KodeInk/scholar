@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
  * @author mover 6/14/2017
  */
 public class EmailValidator {
+
     private Pattern pattern;
     private Matcher matcher;
 

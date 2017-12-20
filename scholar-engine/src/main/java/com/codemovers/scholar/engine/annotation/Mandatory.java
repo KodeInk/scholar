@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  *
  * @author Mover
  */
-@Target(value={ElementType.FIELD})
+@Target(value = {ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Mandatory {
 }

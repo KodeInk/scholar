@@ -70,7 +70,7 @@ public class LibraryStockJpaController extends EngineJpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = librarystock.getId().intValue();
-                if (findLibraryStock(id,data) == null) {
+                if (findLibraryStock(id, data) == null) {
                     throw new BadRequestException("The Contact with id " + id + " no longer exists.");
                 }
             }

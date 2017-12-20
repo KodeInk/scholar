@@ -226,5 +226,5 @@ public class LibraryTransactions implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.LibraryTransactions[ id=" + id + " ]";
     }
-    
+
 }

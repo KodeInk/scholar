@@ -63,7 +63,4 @@ public class GradingService extends AbstractService<_Grading, GradingResponse> {
         return super.getById(data, Id); //To change body of generated methods, choose Tools | Templates.
     }
 
-
-
-
 }

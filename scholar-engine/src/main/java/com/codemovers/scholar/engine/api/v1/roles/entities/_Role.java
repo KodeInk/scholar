@@ -141,7 +141,6 @@ public class _Role extends AbstractEntity {
 
     }
 
-
     @Override
     public String toString() {
         return this.getClass().getCanonicalName()
@@ -154,6 +153,5 @@ public class _Role extends AbstractEntity {
                 + ", author_id=" + author_id
                 + "}";
     }
-
 
 }
