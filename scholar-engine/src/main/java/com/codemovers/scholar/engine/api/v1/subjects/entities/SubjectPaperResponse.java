@@ -5,34 +5,28 @@
  */
 package com.codemovers.scholar.engine.api.v1.subjects.entities;
 
-import com.codemovers.scholar.engine.annotation.Mandatory;
-import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
-import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import java.util.Date;
 import java.util.Objects;
 
 /**
  *
- * @author mover 12/20/2017
+ * @author Manny
  */
-public class SubjectPaper extends AbstractEntity {
+public class SubjectPaperResponse {
 
     private Integer id;
-    private @Mandatory
-    Integer subject_id;
-    private @Mandatory
-    String name;
-    private @Mandatory
-    String code;
+    private Integer subject_id;
+    private String name;
+    private String code;
     private StatusEnum status;
     private Date date_created;
-    private Integer author_id;
+    private String author;
 
-    public SubjectPaper() {
+    public SubjectPaperResponse() {
     }
 
-    public SubjectPaper(Integer id) {
+    public SubjectPaperResponse(Integer id) {
         this.id = id;
     }
 
@@ -84,24 +78,24 @@ public class SubjectPaper extends AbstractEntity {
         this.date_created = date_created;
     }
 
-    public Integer getAuthor_id() {
-        return author_id;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setAuthor_id(Integer author_id) {
-        this.author_id = author_id;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 47 * hash + Objects.hashCode(this.id);
-        hash = 47 * hash + Objects.hashCode(this.subject_id);
-        hash = 47 * hash + Objects.hashCode(this.name);
-        hash = 47 * hash + Objects.hashCode(this.code);
-        hash = 47 * hash + Objects.hashCode(this.status);
-        hash = 47 * hash + Objects.hashCode(this.date_created);
-        hash = 47 * hash + Objects.hashCode(this.author_id);
+        int hash = 3;
+        hash = 17 * hash + Objects.hashCode(this.id);
+        hash = 17 * hash + Objects.hashCode(this.subject_id);
+        hash = 17 * hash + Objects.hashCode(this.name);
+        hash = 17 * hash + Objects.hashCode(this.code);
+        hash = 17 * hash + Objects.hashCode(this.status);
+        hash = 17 * hash + Objects.hashCode(this.date_created);
+        hash = 17 * hash + Objects.hashCode(this.author);
         return hash;
     }
 
@@ -116,11 +110,14 @@ public class SubjectPaper extends AbstractEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final SubjectPaper other = (SubjectPaper) obj;
+        final SubjectPaperResponse other = (SubjectPaperResponse) obj;
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }
         if (!Objects.equals(this.code, other.code)) {
+            return false;
+        }
+        if (!Objects.equals(this.author, other.author)) {
             return false;
         }
         if (!Objects.equals(this.id, other.id)) {
@@ -132,28 +129,21 @@ public class SubjectPaper extends AbstractEntity {
         if (this.status != other.status) {
             return false;
         }
-        if (!Objects.equals(this.date_created, other.date_created)) {
-            return false;
-        }
-        return Objects.equals(this.author_id, other.author_id);
-    }
-
-    @Override
-    public void validate() {
-        validateMandatoryFields(this.getClass(), this);
+        return Objects.equals(this.date_created, other.date_created);
     }
 
     @Override
     public String toString() {
-        return "SubjectPaper{"
+        return "SubjectPaperResponse{"
                 + "id=" + id
                 + ", subject_id=" + subject_id
                 + ", name=" + name
                 + ", code=" + code
                 + ", status=" + status
                 + ", date_created=" + date_created
-                + ", author_id=" + author_id
+                + ", author=" + author
                 + "}";
     }
+
 
 }
