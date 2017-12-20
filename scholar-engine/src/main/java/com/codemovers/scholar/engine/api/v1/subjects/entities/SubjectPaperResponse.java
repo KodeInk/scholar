@@ -11,7 +11,7 @@ import java.util.Objects;
 
 /**
  *
- * @author Manny
+ * @author mover 12/20/2017
  */
 public class SubjectPaperResponse {
 
