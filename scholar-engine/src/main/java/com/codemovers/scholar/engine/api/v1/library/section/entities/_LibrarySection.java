@@ -3,28 +3,35 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.codemovers.scholar.engine.api.v1.booktypes.entities;
+package com.codemovers.scholar.engine.api.v1.library.section.entities;
 
+import com.codemovers.scholar.engine.annotation.Mandatory;
+import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
+import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import java.util.Date;
 import java.util.Objects;
 
 /**
  *
- * @author mover 12/20/2017
+ * @author Manny
  */
-public class BookTypeResponse {
+public class _LibrarySection extends AbstractEntity {
 
     private Integer id;
-    private String name;
+    private @Mandatory
+    String name;
+    private @Mandatory
+    String code;
+    private String external_id;
     private StatusEnum status;
     private Date date_created;
     private Integer author_id;
 
-    public BookTypeResponse() {
+    public _LibrarySection() {
     }
 
-    public BookTypeResponse(Integer id) {
+    public _LibrarySection(Integer id) {
         this.id = id;
     }
 
@@ -42,6 +49,22 @@ public class BookTypeResponse {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getExternal_id() {
+        return external_id;
+    }
+
+    public void setExternal_id(String external_id) {
+        this.external_id = external_id;
     }
 
     public StatusEnum getStatus() {
@@ -71,11 +94,13 @@ public class BookTypeResponse {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 71 * hash + Objects.hashCode(this.id);
-        hash = 71 * hash + Objects.hashCode(this.name);
-        hash = 71 * hash + Objects.hashCode(this.status);
-        hash = 71 * hash + Objects.hashCode(this.date_created);
-        hash = 71 * hash + Objects.hashCode(this.author_id);
+        hash = 37 * hash + Objects.hashCode(this.id);
+        hash = 37 * hash + Objects.hashCode(this.name);
+        hash = 37 * hash + Objects.hashCode(this.code);
+        hash = 37 * hash + Objects.hashCode(this.external_id);
+        hash = 37 * hash + Objects.hashCode(this.status);
+        hash = 37 * hash + Objects.hashCode(this.date_created);
+        hash = 37 * hash + Objects.hashCode(this.author_id);
         return hash;
     }
 
@@ -90,8 +115,14 @@ public class BookTypeResponse {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final BookTypeResponse other = (BookTypeResponse) obj;
+        final _LibrarySection other = (_LibrarySection) obj;
         if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.code, other.code)) {
+            return false;
+        }
+        if (!Objects.equals(this.external_id, other.external_id)) {
             return false;
         }
         if (!Objects.equals(this.id, other.id)) {
@@ -107,10 +138,17 @@ public class BookTypeResponse {
     }
 
     @Override
+    public void validate() {
+        validateMandatoryFields(this.getClass(), this);
+    }
+
+    @Override
     public String toString() {
-        return "BookTypeResponse{"
+        return "_LibrarySection{"
                 + "id=" + id
                 + ", name=" + name
+                + ", code=" + code
+                + ", external_id=" + external_id
                 + ", status=" + status
                 + ", date_created=" + date_created
                 + ", author_id=" + author_id
