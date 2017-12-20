@@ -6,8 +6,6 @@
 package com.codemovers.scholar.engine.api.v1.terms;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEndpoint;
-import com.codemovers.scholar.engine.api.v1.subjects.SubjectEndpoint;
-import com.codemovers.scholar.engine.api.v1.subjects.SubjectService;
 import com.codemovers.scholar.engine.api.v1.terms.entities.TermResponse;
 import com.codemovers.scholar.engine.api.v1.terms.entities._Term;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
