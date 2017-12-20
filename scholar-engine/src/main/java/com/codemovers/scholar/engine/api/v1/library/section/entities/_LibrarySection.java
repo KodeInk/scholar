@@ -137,7 +137,6 @@ public class _LibrarySection extends AbstractEntity {
         return Objects.equals(this.author_id, other.author_id);
     }
 
-
     @Override
     public void validate() {
         validateMandatoryFields(this.getClass(), this);
@@ -155,6 +154,5 @@ public class _LibrarySection extends AbstractEntity {
                 + ", author_id=" + author_id
                 + "}";
     }
-
 
 }

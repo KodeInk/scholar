@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.codemovers.scholar.engine.api.v1.booktypes.entities;
+package com.codemovers.scholar.engine.api.v1.library.section.entities;
 
+import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import java.util.Date;
 import java.util.Objects;
@@ -13,18 +14,20 @@ import java.util.Objects;
  *
  * @author mover 12/20/2017
  */
-public class BookTypeResponse {
+public class LibrarySectionResponse {
 
     private Integer id;
     private String name;
+    private String code;
+    private String external_id;
     private StatusEnum status;
     private Date date_created;
-    private Integer author_id;
+    private String author;
 
-    public BookTypeResponse() {
+    public LibrarySectionResponse() {
     }
 
-    public BookTypeResponse(Integer id) {
+    public LibrarySectionResponse(Integer id) {
         this.id = id;
     }
 
@@ -44,6 +47,22 @@ public class BookTypeResponse {
         this.name = name;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getExternal_id() {
+        return external_id;
+    }
+
+    public void setExternal_id(String external_id) {
+        this.external_id = external_id;
+    }
+
     public StatusEnum getStatus() {
         return status;
     }
@@ -60,22 +79,24 @@ public class BookTypeResponse {
         this.date_created = date_created;
     }
 
-    public Integer getAuthor_id() {
-        return author_id;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setAuthor_id(Integer author_id) {
-        this.author_id = author_id;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 71 * hash + Objects.hashCode(this.id);
-        hash = 71 * hash + Objects.hashCode(this.name);
-        hash = 71 * hash + Objects.hashCode(this.status);
-        hash = 71 * hash + Objects.hashCode(this.date_created);
-        hash = 71 * hash + Objects.hashCode(this.author_id);
+        hash = 47 * hash + Objects.hashCode(this.id);
+        hash = 47 * hash + Objects.hashCode(this.name);
+        hash = 47 * hash + Objects.hashCode(this.code);
+        hash = 47 * hash + Objects.hashCode(this.external_id);
+        hash = 47 * hash + Objects.hashCode(this.status);
+        hash = 47 * hash + Objects.hashCode(this.date_created);
+        hash = 47 * hash + Objects.hashCode(this.author);
         return hash;
     }
 
@@ -90,8 +111,17 @@ public class BookTypeResponse {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final BookTypeResponse other = (BookTypeResponse) obj;
+        final LibrarySectionResponse other = (LibrarySectionResponse) obj;
         if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.code, other.code)) {
+            return false;
+        }
+        if (!Objects.equals(this.external_id, other.external_id)) {
+            return false;
+        }
+        if (!Objects.equals(this.author, other.author)) {
             return false;
         }
         if (!Objects.equals(this.id, other.id)) {
@@ -100,21 +130,22 @@ public class BookTypeResponse {
         if (this.status != other.status) {
             return false;
         }
-        if (!Objects.equals(this.date_created, other.date_created)) {
-            return false;
-        }
-        return Objects.equals(this.author_id, other.author_id);
+        return Objects.equals(this.date_created, other.date_created);
     }
 
     @Override
     public String toString() {
-        return "BookTypeResponse{"
+        return "LibrarySectionResponse{"
                 + "id=" + id
                 + ", name=" + name
+                + ", code=" + code
+                + ", external_id=" + external_id
                 + ", status=" + status
                 + ", date_created=" + date_created
-                + ", author_id=" + author_id
+                + ", author=" + author
                 + "}";
     }
+
+
 
 }
