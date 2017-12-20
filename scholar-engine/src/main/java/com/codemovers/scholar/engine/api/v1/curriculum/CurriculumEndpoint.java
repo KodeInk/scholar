@@ -28,10 +28,18 @@ public class CurriculumEndpoint extends AbstractEndpoint<_Curriculum, Curriculum
 
     private CurriculumService service = null;
 
+    /**
+     *
+     */
     public CurriculumEndpoint() {
         service = new CurriculumService();
     }
 
+    /**
+     *
+     * @param schoolData
+     * @param authentication
+     */
     @Override
     public void validateAuthentication(SchoolData schoolData, String authentication) {
         super.validateAuthentication(schoolData, authentication); //To change body of generated methods, choose Tools | Templates.
