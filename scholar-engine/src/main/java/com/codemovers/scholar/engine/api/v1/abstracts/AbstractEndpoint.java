@@ -63,7 +63,7 @@ public abstract class AbstractEndpoint<T, Z> {
     public Z update(
             T entity,
             @HeaderParam("authentication") String authentication,
-            @Context HttpServletRequest httpRequest            ) {
+            @Context HttpServletRequest httpRequest) {
         throw new UnsupportedOperationException();
     }
 
@@ -74,7 +74,7 @@ public abstract class AbstractEndpoint<T, Z> {
      */
     public Response archive(@PathParam("id") Integer id,
             @HeaderParam("authentication") String authentication,
-            @Context HttpServletRequest httpRequest            ) {
+            @Context HttpServletRequest httpRequest) {
         throw new UnsupportedOperationException();
     }
 
