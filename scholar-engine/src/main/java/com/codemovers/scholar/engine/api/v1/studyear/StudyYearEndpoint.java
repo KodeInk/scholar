@@ -6,8 +6,6 @@
 package com.codemovers.scholar.engine.api.v1.studyear;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEndpoint;
-import com.codemovers.scholar.engine.api.v1.streams.StreamsEndpoint;
-import com.codemovers.scholar.engine.api.v1.streams.StreamsService;
 import com.codemovers.scholar.engine.api.v1.studyear.entities.StudyYearResponse;
 import com.codemovers.scholar.engine.api.v1.studyear.entities._StudyYear;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
