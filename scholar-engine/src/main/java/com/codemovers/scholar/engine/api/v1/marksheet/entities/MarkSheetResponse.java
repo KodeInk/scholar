@@ -13,7 +13,7 @@ import java.util.Objects;
  *
  * @author mover 12/20/2017
  */
-public class MarksheetResponse {
+public class MarkSheetResponse {
 
     private Integer id;
     private Integer student_id;
@@ -27,10 +27,10 @@ public class MarksheetResponse {
     private Integer author_id;
     private Date date_created;
 
-    public MarksheetResponse() {
+    public MarkSheetResponse() {
     }
 
-    public MarksheetResponse(Integer id) {
+    public MarkSheetResponse(Integer id) {
         this.id = id;
     }
 
@@ -150,7 +150,7 @@ public class MarksheetResponse {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final MarksheetResponse other = (MarksheetResponse) obj;
+        final MarkSheetResponse other = (MarkSheetResponse) obj;
         if (!Objects.equals(this.comment, other.comment)) {
             return false;
         }

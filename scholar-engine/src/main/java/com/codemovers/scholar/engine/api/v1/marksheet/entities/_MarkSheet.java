@@ -18,7 +18,7 @@ import java.util.Objects;
  * @author mover 12/20/2017
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class _Marksheet extends AbstractEntity {
+public class _MarkSheet extends AbstractEntity {
 
     private Integer id;
     private @Mandatory
@@ -37,10 +37,10 @@ public class _Marksheet extends AbstractEntity {
     private Integer author_id;
     private Date date_created;
 
-    public _Marksheet() {
+    public _MarkSheet() {
     }
 
-    public _Marksheet(Integer id) {
+    public _MarkSheet(Integer id) {
         this.id = id;
     }
 
@@ -160,7 +160,7 @@ public class _Marksheet extends AbstractEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final _Marksheet other = (_Marksheet) obj;
+        final _MarkSheet other = (_MarkSheet) obj;
         if (!Objects.equals(this.comment, other.comment)) {
             return false;
         }
