@@ -81,13 +81,17 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
             _login login,
             @Context HttpServletRequest httpRequest
     ) throws Exception {
+
         try {
             String logId = context.getProperty("logId").toString();
             LOG.log(Level.INFO, " IF THIS WORKS {0} CELEBERATION ", tenantdata.getExternalId());
             return service.login(tenantdata, login, logId);
-        } catch (Exception er) {
-            throw er;
+        } catch (Exception ex) {
+            Logger.getLogger(UsersEndpoint.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            throw ex;
         }
+
 
     }
 

@@ -180,13 +180,14 @@ public class UserService extends AbstractService<_User, UserResponse> implements
     @Override
     public AuthenticationResponse login(SchoolData tenantData, _login login, String logId) throws Exception {
 
+        AuthenticationResponse response = new AuthenticationResponse();
+
         LOG.log(Level.INFO, "School Name {0} ", tenantData.getName());
         login.validate();
         try {
-            LOG.log(Level.INFO, " General Account Service Login ");
+            LOG.log(Level.INFO, " School User Login ");
             String authentication = null;
 
-            AuthenticationResponse response = new AuthenticationResponse();
 
             {
                 if (login.getPassword() != null && login.getUsername() != null) {
@@ -197,15 +198,17 @@ public class UserService extends AbstractService<_User, UserResponse> implements
 
                     password = encryptPassword_md5(password);
 
+
                     Users users = controller.login(username, password, tenantData);
 
                     if (users == null) {
                         throw new BadRequestException("INVALID USERNAME AND OR PASSWORD ");
                     } else {
                         // create response ::
-                        authentication = UserService.getInstance().convertToBasicAuth(login.getUsername(), login.getPassword());
+                        authentication = convertToBasicAuth(login.getUsername(), login.getPassword());
                         response.setAuthentication(authentication);
                         Set<Roles> roleslist = users.getUserRoles();
+
                         List<PermissionsResponse> permissionsResponses = new ArrayList<>();
 
                         for (Roles r : roleslist) {
@@ -238,11 +241,15 @@ public class UserService extends AbstractService<_User, UserResponse> implements
 
             }
 
-        } catch (Exception er) {
+        } catch (BadRequestException er) {
             throw new BadRequestException(" USERNAME AND OR PASSWORD IS MANDATORY  ");
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
         }
 
-        return null;
+
+        return response;
     }
 
     /**
