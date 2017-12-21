@@ -210,5 +210,5 @@ public class GradingDetails implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.GradingDetails[ id=" + id + " ]";
     }
-    
+
 }

@@ -64,5 +64,4 @@ public enum accountTypes {
         return _accountType;
     }
 
-
 }

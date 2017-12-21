@@ -66,6 +66,4 @@ public class ClassService extends AbstractService<_Class, ClassResponse> {
         return super.getById(data, Id); //To change body of generated methods, choose Tools | Templates.
     }
 
-
-
 }

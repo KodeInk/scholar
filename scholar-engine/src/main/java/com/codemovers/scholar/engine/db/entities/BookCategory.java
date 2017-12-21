@@ -157,5 +157,5 @@ public class BookCategory implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.BookCategory[ id=" + id + " ]";
     }
-    
+
 }

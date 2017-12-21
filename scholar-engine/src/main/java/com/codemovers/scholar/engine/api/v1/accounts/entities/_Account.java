@@ -24,8 +24,7 @@ public class _Account extends _Profile {
     String username;
     private @Mandatory
     String password;
-    private    String emailaddress;
-
+    private String emailaddress;
 
     private StatusEnum status;
     private String externalid;
@@ -35,7 +34,6 @@ public class _Account extends _Profile {
     String[] roles;
 
     private Integer id;
-
 
     public _Account() {
     }
@@ -63,7 +61,6 @@ public class _Account extends _Profile {
     public void setEmailaddress(String emailaddress) {
         this.emailaddress = emailaddress;
     }
-
 
     public StatusEnum getStatus() {
         return status;
@@ -176,6 +173,5 @@ public class _Account extends _Profile {
                 + ", id=" + id
                 + "}";
     }
-
 
 }

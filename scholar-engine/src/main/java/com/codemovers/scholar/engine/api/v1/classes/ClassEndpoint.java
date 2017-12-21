@@ -75,6 +75,4 @@ public class ClassEndpoint extends AbstractEndpoint<_Class, ClassResponse> {
         return super.list(start, end, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
-
-
 }

@@ -70,7 +70,7 @@ public class StudyYearJpaController extends EngineJpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = studyYear.getId().intValue();
-                if (findStudyYear(id,data) == null) {
+                if (findStudyYear(id, data) == null) {
                     throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
                 }
             }

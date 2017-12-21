@@ -243,5 +243,5 @@ public class Subjects implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.Subjects[ id=" + id + " ]";
     }
-    
+
 }

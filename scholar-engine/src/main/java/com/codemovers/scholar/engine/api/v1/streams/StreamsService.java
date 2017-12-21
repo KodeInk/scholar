@@ -6,11 +6,8 @@
 package com.codemovers.scholar.engine.api.v1.streams;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
-import com.codemovers.scholar.engine.api.v1.classes.ClassService;
 import com.codemovers.scholar.engine.api.v1.streams.entities.StreamResponse;
 import com.codemovers.scholar.engine.api.v1.streams.entities._Stream;
-import com.codemovers.scholar.engine.api.v1.users.UserService;
-import com.codemovers.scholar.engine.db.controllers.ClassJpaController;
 import com.codemovers.scholar.engine.db.controllers.StreamsJpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.logging.Logger;
@@ -62,8 +59,5 @@ public class StreamsService extends AbstractService<_Stream, StreamResponse> {
     public StreamResponse create(SchoolData data, _Stream entity) throws Exception {
         return super.create(data, entity); //To change body of generated methods, choose Tools | Templates.
     }
-
-
-
 
 }

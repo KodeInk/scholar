@@ -71,7 +71,7 @@ public class ClassJpaController extends EngineJpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = _classes.getId().intValue();
-                if (findClassStream(id,data) == null) {
+                if (findClassStream(id, data) == null) {
                     throw new BadRequestException("The Contact with id " + id + " no longer exists.");
                 }
             }

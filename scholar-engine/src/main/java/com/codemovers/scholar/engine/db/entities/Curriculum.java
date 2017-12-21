@@ -189,5 +189,5 @@ public class Curriculum implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.Curriculum[ id=" + id + " ]";
     }
-    
+
 }

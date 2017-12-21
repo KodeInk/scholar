@@ -5,6 +5,7 @@
  */
 package com.codemovers.scholar.engine.api.v1.curriculum.entities;
 
+import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
 import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
@@ -13,17 +14,22 @@ import java.util.Objects;
 
 /**
  *
- * @author mover
+ * @author mover 12/20/2017
  */
 public class _CurriculumDetail extends AbstractEntity {
 
     private Integer id;
-    private Integer currulum_id;
-    private String name;
-    private String description;
+    private @Mandatory
+    Integer curriculum_id;
+    private @Mandatory
+    String name;
+    private @Mandatory
+    String code;
+    private @Mandatory
+    String description;
     private StatusEnum status;
     private Integer author_id;
-    private Date date_created;
+    private Date date_cteated;
 
     public _CurriculumDetail() {
     }
@@ -40,12 +46,12 @@ public class _CurriculumDetail extends AbstractEntity {
         this.id = id;
     }
 
-    public Integer getCurrulum_id() {
-        return currulum_id;
+    public Integer getCurriculum_id() {
+        return curriculum_id;
     }
 
-    public void setCurrulum_id(Integer currulum_id) {
-        this.currulum_id = currulum_id;
+    public void setCurriculum_id(Integer curriculum_id) {
+        this.curriculum_id = curriculum_id;
     }
 
     public String getName() {
@@ -54,6 +60,14 @@ public class _CurriculumDetail extends AbstractEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getDescription() {
@@ -80,24 +94,25 @@ public class _CurriculumDetail extends AbstractEntity {
         this.author_id = author_id;
     }
 
-    public Date getDate_created() {
-        return date_created;
+    public Date getDate_cteated() {
+        return date_cteated;
     }
 
-    public void setDate_created(Date date_created) {
-        this.date_created = date_created;
+    public void setDate_cteated(Date date_cteated) {
+        this.date_cteated = date_cteated;
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 29 * hash + Objects.hashCode(this.id);
-        hash = 29 * hash + Objects.hashCode(this.currulum_id);
-        hash = 29 * hash + Objects.hashCode(this.name);
-        hash = 29 * hash + Objects.hashCode(this.description);
-        hash = 29 * hash + Objects.hashCode(this.status);
-        hash = 29 * hash + Objects.hashCode(this.author_id);
-        hash = 29 * hash + Objects.hashCode(this.date_created);
+        int hash = 7;
+        hash = 41 * hash + Objects.hashCode(this.id);
+        hash = 41 * hash + Objects.hashCode(this.curriculum_id);
+        hash = 41 * hash + Objects.hashCode(this.name);
+        hash = 41 * hash + Objects.hashCode(this.code);
+        hash = 41 * hash + Objects.hashCode(this.description);
+        hash = 41 * hash + Objects.hashCode(this.status);
+        hash = 41 * hash + Objects.hashCode(this.author_id);
+        hash = 41 * hash + Objects.hashCode(this.date_cteated);
         return hash;
     }
 
@@ -116,13 +131,16 @@ public class _CurriculumDetail extends AbstractEntity {
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }
+        if (!Objects.equals(this.code, other.code)) {
+            return false;
+        }
         if (!Objects.equals(this.description, other.description)) {
             return false;
         }
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.currulum_id, other.currulum_id)) {
+        if (!Objects.equals(this.curriculum_id, other.curriculum_id)) {
             return false;
         }
         if (this.status != other.status) {
@@ -131,7 +149,7 @@ public class _CurriculumDetail extends AbstractEntity {
         if (!Objects.equals(this.author_id, other.author_id)) {
             return false;
         }
-        return Objects.equals(this.date_created, other.date_created);
+        return Objects.equals(this.date_cteated, other.date_cteated);
     }
 
     @Override
@@ -143,12 +161,13 @@ public class _CurriculumDetail extends AbstractEntity {
     public String toString() {
         return "_CurriculumDetail{"
                 + "id=" + id
-                + ", currulum_id=" + currulum_id
+                + ", curriculum_id=" + curriculum_id
                 + ", name=" + name
+                + ", code=" + code
                 + ", description=" + description
                 + ", status=" + status
                 + ", author_id=" + author_id
-                + ", date_created=" + date_created
+                + ", date_cteated=" + date_cteated
                 + "}";
     }
 

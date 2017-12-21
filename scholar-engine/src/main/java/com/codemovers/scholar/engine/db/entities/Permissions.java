@@ -76,7 +76,6 @@ public class Permissions implements Serializable {
         this.code = code;
     }
 
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -98,5 +97,5 @@ public class Permissions implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.Permissions[ id=" + id + " ]";
     }
-    
+
 }

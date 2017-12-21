@@ -17,8 +17,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
 
 /**
- * This must be evaluated BEFORE the cache kicks in!
- * => @Priority(200), cache uses priority 300
+ * This must be evaluated BEFORE the cache kicks in! => @Priority(200), cache
+ * uses priority 300
  *
  * @author Mover
  */
@@ -27,7 +27,8 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
 
     private static final Logger LOG = Logger.getLogger(AuthorizationRequestFilter.class.getName());
 
-    @Context private ResourceInfo info;
+    @Context
+    private ResourceInfo info;
 
     final String skippedPaths
             = "/tenant/v1c/mis/login,method:login"
@@ -68,8 +69,7 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
             + "/status/v1d/cockpitRestart,method:cockpitRestart"
             + "/health/v1d/full,method:fullHealthCheck" //this is the health check url
             + "/mobileofficeupdate/v1d/upload,method:upload"
-            + "/user/v1d/login,method:login"
-            ;
+            + "/user/v1d/login,method:login";
 
     @Override
     public void filter(ContainerRequestContext requestContext) {
@@ -85,40 +85,40 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
                     String path = requestContext.getUriInfo().getRequestUri().getPath();
                     String name = info.getResourceMethod().getName();
                     String identifier = path + ",method:" + name;
-                    if(name!="activation")
-                    if (!skippedPaths.contains(identifier)) {
-                        
-                        String tenantId = null;
-                        String authentication = null;
-                        String token = null;
+                    if (name != "activation") {
+                        if (!skippedPaths.contains(identifier)) {
 
-                        MultivaluedMap<String, String> headerMap = requestContext.getHeaders();
-                        MultivaluedMap<String, String> qParametersMap = requestContext.getUriInfo().getQueryParameters();
-                        if (!headerMap.isEmpty()) {
+                            String tenantId = null;
+                            String authentication = null;
+                            String token = null;
 
-                            if (headerMap.containsKey("authentication")) {
-                                if (headerMap.get("authentication").size() > 0) {
-                                    authentication = headerMap.get("authentication").get(0);
+                            MultivaluedMap<String, String> headerMap = requestContext.getHeaders();
+                            MultivaluedMap<String, String> qParametersMap = requestContext.getUriInfo().getQueryParameters();
+                            if (!headerMap.isEmpty()) {
+
+                                if (headerMap.containsKey("authentication")) {
+                                    if (headerMap.get("authentication").size() > 0) {
+                                        authentication = headerMap.get("authentication").get(0);
+                                    }
+                                }
+
+                                if (headerMap.containsKey("token")) {
+                                    if (headerMap.get("token").size() > 0) {
+                                        token = headerMap.get("token").get(0);
+                                    }
+                                } else if (qParametersMap.containsKey("token")) {
+                                    // TODO, this should be deleted and its only to handle current LoanEndpoint
+                                    if (qParametersMap.get("token").size() > 0) {
+                                        token = qParametersMap.get("token").get(0);
+                                    }
+                                }
+
+                                if (headerMap.containsKey("tenantId")) {
+                                    if (headerMap.get("tenantId").size() > 0) {
+                                        tenantId = headerMap.get("tenantId").get(0);
+                                    }
                                 }
                             }
-
-                            if (headerMap.containsKey("token")) {
-                                if (headerMap.get("token").size() > 0) {
-                                    token = headerMap.get("token").get(0);
-                                }
-                            } else if (qParametersMap.containsKey("token")) {
-                                // TODO, this should be deleted and its only to handle current LoanEndpoint
-                                if (qParametersMap.get("token").size() > 0) {
-                                    token = qParametersMap.get("token").get(0);
-                                }
-                            }
-
-                            if (headerMap.containsKey("tenantId")) {
-                                if (headerMap.get("tenantId").size() > 0) {
-                                    tenantId = headerMap.get("tenantId").get(0);
-                                }
-                            }
-                        }
 //                        Tenantdata tenantdata = Utilities.getSchoolData(token, tenantId, authentication, logId);
 //                        requestContext.setProperty("tenantdata", tenantdata);
 //
@@ -127,6 +127,7 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
 //                            String pureLogId = parts[parts.length - 1];
 //                            requestContext.setProperty("logId", tenantdata.getTenantId() + "_" + pureLogId);
 //                        }
+                        }
                     }
                 }
             }
@@ -141,7 +142,7 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
         } catch (Exception e) {
             LOG.log(Level.SEVERE, "unexpected exception\n{0}", new Object[]{
                 getStackTrace(e)
-        });
+            });
         }
 
     }

@@ -69,7 +69,7 @@ public class StudentSubjectRegistrationJpaController extends EngineJpaController
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = studentSubjectRegistration.getId().intValue();
-                if (findStudentSubjectRegistration(id,data) == null) {
+                if (findStudentSubjectRegistration(id, data) == null) {
                     throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
                 }
             }

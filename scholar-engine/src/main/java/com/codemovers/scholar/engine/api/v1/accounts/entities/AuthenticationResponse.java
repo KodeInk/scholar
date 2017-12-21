@@ -52,7 +52,6 @@ public class AuthenticationResponse {
         this.isLoggedIn = isLoggedIn;
     }
 
-
     @Override
     public String toString() {
         return this.getClass().getCanonicalName()

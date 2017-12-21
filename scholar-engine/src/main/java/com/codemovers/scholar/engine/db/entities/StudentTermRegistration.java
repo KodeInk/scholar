@@ -186,5 +186,5 @@ public class StudentTermRegistration implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.StudentTermRegistration[ id=" + id + " ]";
     }
-    
+
 }

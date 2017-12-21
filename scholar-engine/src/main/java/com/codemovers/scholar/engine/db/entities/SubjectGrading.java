@@ -123,5 +123,5 @@ public class SubjectGrading implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.SubjectGrading[ id=" + id + " ]";
     }
-    
+
 }

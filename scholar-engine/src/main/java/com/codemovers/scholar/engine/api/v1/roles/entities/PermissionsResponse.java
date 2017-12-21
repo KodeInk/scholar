@@ -12,12 +12,11 @@ import java.util.Objects;
  * @author mover 12/19/2017
  */
 public class PermissionsResponse {
+
     private Integer id;
     private String name;
     private String code;
     private String status;
-
-
 
     public PermissionsResponse() {
     }

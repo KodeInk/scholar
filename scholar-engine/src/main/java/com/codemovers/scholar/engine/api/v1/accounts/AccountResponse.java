@@ -19,7 +19,6 @@ class AccountResponse {
     private String status;
     private String authentication;
 
-
     public AccountResponse() {
     }
 

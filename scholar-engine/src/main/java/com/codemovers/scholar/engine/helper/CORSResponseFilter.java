@@ -8,11 +8,11 @@ import javax.ws.rs.core.MultivaluedMap;
 
 /**
  * TODO: remove when only operation within the process engine
- * 
+ *
  * @author podolak
  */
 public class CORSResponseFilter implements ContainerResponseFilter {
-    
+
     @Override
     public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
         // TODO: check if this is really needed in production
@@ -24,5 +24,5 @@ public class CORSResponseFilter implements ContainerResponseFilter {
         headers.add("Access-Control-Allow-Headers", "tenantId, username, password, authentication,officeId, Content-Type, data");
         headers.add("Access-Control-Expose-Headers", "ETag");
     }
-    
+
 }

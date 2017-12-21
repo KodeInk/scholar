@@ -16,7 +16,9 @@ import java.lang.annotation.Repeatable;
 public @interface ConditionallyMandatory {
 
     public String parent();
+
     public String notMandatoryOnValue() default "";
+
     public String mandatoryOnValue() default "";
-    
+
 }

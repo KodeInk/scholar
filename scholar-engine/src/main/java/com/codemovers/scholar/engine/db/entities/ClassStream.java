@@ -138,5 +138,5 @@ public class ClassStream implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.ClassStream[ id=" + id + " ]";
     }
-    
+
 }

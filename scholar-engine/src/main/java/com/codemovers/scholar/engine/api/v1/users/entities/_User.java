@@ -153,7 +153,6 @@ public class _User extends AbstractEntity {
         return Arrays.deepEquals(this.roles, other.roles);
     }
 
-
     @Override
     public void validate() {
         validateMandatoryFields(this.getClass(), this);
@@ -173,7 +172,5 @@ public class _User extends AbstractEntity {
                 + ", roles=" + Arrays.asList(roles)
                 + "}";
     }
-
-
 
 }

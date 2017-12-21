@@ -224,7 +224,6 @@ public class Users implements Serializable {
 //    public void setRolesCollection(Collection<Roles> rolesCollection) {
 //        this.rolesCollection = rolesCollection;
 //    }
-
     @XmlTransient
     public Collection<LibraryStock> getLibraryStockCollection() {
         return libraryStockCollection;
@@ -597,5 +596,5 @@ public class Users implements Serializable {
     public String toString() {
         return "Users[ id=" + id + " ]";
     }
-    
+
 }

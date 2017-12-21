@@ -71,7 +71,7 @@ public class MarksheetJpaController extends EngineJpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = marksheet.getId().intValue();
-                if (findMarkSheet(id,data) == null) {
+                if (findMarkSheet(id, data) == null) {
                     throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
                 }
             }

@@ -230,5 +230,5 @@ public class Classes implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.Classes[ id=" + id + " ]";
     }
-    
+
 }

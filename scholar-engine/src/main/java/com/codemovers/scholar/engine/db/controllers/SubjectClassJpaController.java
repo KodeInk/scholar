@@ -70,7 +70,7 @@ public class SubjectClassJpaController extends EngineJpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = subjectClass.getId().intValue();
-                if (findSubjectClass(id,data) == null) {
+                if (findSubjectClass(id, data) == null) {
                     throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
                 }
             }

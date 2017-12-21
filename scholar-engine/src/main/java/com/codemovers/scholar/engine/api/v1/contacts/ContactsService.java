@@ -46,7 +46,7 @@ public class ContactsService extends AbstractService<_Contacts, ContactsResponse
     public ContactsResponse create(SchoolData data, _Contacts entity) throws Exception {
         entity.validate();
         Contacts contacts = new Contacts();
-        
+
         contacts.setParentType(entity.getParentType().toString());
         contacts.setParentId(entity.getParentId());
         contacts.setContactType(entity.getContactType().toString());
@@ -58,7 +58,6 @@ public class ContactsService extends AbstractService<_Contacts, ContactsResponse
         contacts = controller.create(contacts, data);
 
         return populateResponse(contacts);
-
 
     }
 
