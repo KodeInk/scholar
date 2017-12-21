@@ -43,9 +43,14 @@ public class SchoolDataJpaController implements Serializable {
     }
 
     public SchoolDataJpaController() {
+        try {
 
-        this.emf = EntityManagerFactoryProvider.getInstance().getFactory(
-                EntityManagerFactoryProvider.DBModule.SC_BACK, "scholar-tenants");
+            this.emf = EntityManagerFactoryProvider.getInstance().getFactory(
+                    EntityManagerFactoryProvider.DBModule.SC_BACK, "scholar-tenants");
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        }
 
     }
 
@@ -101,7 +106,6 @@ public class SchoolDataJpaController implements Serializable {
     }
 
     public SchoolData findSchoolDataByName(String name) {
-        LOG.log(Level.INFO, "------------------------------ LOOK LOOK  -----------------------{0}------------");
 
         EntityManager em = getEntityManager();
 
@@ -116,7 +120,7 @@ public class SchoolDataJpaController implements Serializable {
                 return schoolDatas.get(0);
             }
         } catch (Exception er) {
-
+            LOG.log(Level.INFO, "------------------------------ LOOK LOOK  -----------------------{0}------------", er.getMessage());
             return null;
 
         } finally {

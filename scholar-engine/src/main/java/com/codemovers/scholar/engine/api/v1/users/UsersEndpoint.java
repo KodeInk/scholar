@@ -49,7 +49,6 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
         service.validateAuthentication(schoolData, authentication);
     }
 
-
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -66,7 +65,6 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
     public UserResponse update(String school_name, String authentication, Integer id, _User entity) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 
     /**
      *
@@ -102,7 +100,7 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
      * @throws Exception
      */
     @POST
-    @Path("/deactivate/{user_id}")
+    @Path("/deactivate")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response deactiveAccount(
@@ -122,7 +120,5 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
         }
 
     }
-
-
 
 }
