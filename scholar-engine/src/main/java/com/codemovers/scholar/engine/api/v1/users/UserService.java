@@ -104,7 +104,6 @@ public class UserService extends AbstractService<_User, UserResponse> implements
     }
 
     //todo: retrieve authentication 
-
     /**
      *
      * @param schoolData
@@ -200,7 +199,6 @@ public class UserService extends AbstractService<_User, UserResponse> implements
 
                     Users users = controller.login(username, password, tenantData);
 
-
                     if (users == null) {
                         throw new BadRequestException("INVALID USERNAME AND OR PASSWORD ");
                     } else {
@@ -217,7 +215,6 @@ public class UserService extends AbstractService<_User, UserResponse> implements
 //                            for (Permissions p : _permissionset) {
 //                                permissions.add(p);
 //                            }
-
                         }
 
                         roleslist.stream().map((r) -> r.getPermissions()).forEachOrdered((_permissionset) -> {

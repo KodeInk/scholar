@@ -36,5 +36,4 @@ public class AccountsEndpoint {
         UserService.getInstance().validateAuthentication(schoolData, authentication);
     }
 
-
 }
