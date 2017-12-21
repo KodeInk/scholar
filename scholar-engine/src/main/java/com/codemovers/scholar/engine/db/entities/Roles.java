@@ -10,8 +10,10 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,6 +23,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -45,6 +48,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Roles.findByIsSystem", query = "SELECT r FROM Roles r WHERE r.isSystem = :isSystem")
     , @NamedQuery(name = "Roles.findByDateCreated", query = "SELECT r FROM Roles r WHERE r.dateCreated = :dateCreated")})
 public class Roles implements Serializable {
+
+    @OneToMany(mappedBy = "roleId")
+    private Collection<UserRole> userRoleCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -79,7 +85,7 @@ public class Roles implements Serializable {
     @JoinTable(name = "user_role", joinColumns = {
         @JoinColumn(name = "role_id", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "user_id", referencedColumnName = "id")})
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Collection<Users> usersCollection;
 
 //    @ManyToMany(mappedBy = "rolesCollection")
@@ -92,7 +98,7 @@ public class Roles implements Serializable {
     @JoinTable(name = "role_permission", joinColumns = {
         @JoinColumn(name = "permission_id", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "role_id", referencedColumnName = "id")})
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Permissions> permissions;
 
     public Roles() {
@@ -215,6 +221,15 @@ public class Roles implements Serializable {
     @Override
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.Roles[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<UserRole> getUserRoleCollection() {
+        return userRoleCollection;
+    }
+
+    public void setUserRoleCollection(Collection<UserRole> userRoleCollection) {
+        this.userRoleCollection = userRoleCollection;
     }
 
 }

@@ -76,14 +76,19 @@ public class Users implements Serializable {
     @Column(name = "date_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
-//    @ManyToMany(mappedBy = "usersCollection")
-//    private Collection<Roles> rolesCollection;
+    @ManyToMany(mappedBy = "usersCollection", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Roles> rolesCollection;
+    //rolesCollection;
 
     @JoinTable(name = "user_role", joinColumns = {
-        @JoinColumn(name = "role_id", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "user_id", referencedColumnName = "id")})
+        @JoinColumn(name = "user_id")}, inverseJoinColumns = {
+        @JoinColumn(name = "role_id")})
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Roles> UserRoles;
+
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Collection<UserRole> userRoleCollection;
+
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "authorId")
     private Collection<LibraryStock> libraryStockCollection;
@@ -597,6 +602,15 @@ public class Users implements Serializable {
     @Override
     public String toString() {
         return "Users[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<UserRole> getUserRoleCollection() {
+        return userRoleCollection;
+    }
+
+    public void setUserRoleCollection(Collection<UserRole> userRoleCollection) {
+        this.userRoleCollection = userRoleCollection;
     }
     
 }

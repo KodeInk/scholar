@@ -17,6 +17,7 @@ import com.codemovers.scholar.engine.db.controllers.UsersJpaController;
 import com.codemovers.scholar.engine.db.entities.Permissions;
 import com.codemovers.scholar.engine.db.entities.Roles;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import com.codemovers.scholar.engine.db.entities.UserRole;
 import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.encryptPassword_md5;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
@@ -30,6 +31,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.InternalServerErrorException;
 import java.util.Base64;
+import java.util.Collection;
+import javax.management.relation.Role;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
@@ -211,24 +214,34 @@ public class UserService extends AbstractService<_User, UserResponse> implements
 
                         List<PermissionsResponse> permissionsResponses = new ArrayList<>();
 
+                        Collection<UserRole> arolesList = users.getUserRoleCollection();
+
+                        if (arolesList.isEmpty()) {
+                            LOG.log(Level.INFO, " RESPONSE S  EMPTY ");
+                        }
+
                         for (Roles r : roleslist) {
 
                             Set<Permissions> _permissionset = r.getPermissions();
+                            PermissionsResponse permissionsResponse = new PermissionsResponse();
+                            permissionsResponse.setName(r.getName());
+                            permissionsResponses.add(permissionsResponse);
+
 
 //                            for (Permissions p : _permissionset) {
 //                                permissions.add(p);
 //                            }
                         }
 
-                        roleslist.stream().map((r) -> r.getPermissions()).forEachOrdered((_permissionset) -> {
-                            _permissionset.forEach((p) -> {
-                                PermissionsResponse permissionsResponse = new PermissionsResponse();
-                                permissionsResponse.setCode(p.getCode());
-                                permissionsResponse.setName(p.getName());
-                                permissionsResponse.setId(p.getId().intValue());
-                                permissionsResponses.add(permissionsResponse);
-                            });
-                        });
+//                        roleslist.stream().map((r) -> r.getPermissions()).forEachOrdered((_permissionset) -> {
+//                            _permissionset.forEach((p) -> {
+//                                PermissionsResponse permissionsResponse = new PermissionsResponse();
+//                                permissionsResponse.setCode(p.getCode());
+//                                permissionsResponse.setName(p.getName());
+//                                permissionsResponse.setId(p.getId().intValue());
+//                                permissionsResponses.add(permissionsResponse);
+//                            });
+//                        });
 
                         response.setPermissions(permissionsResponses);
                         response.setIsLoggedIn(true);

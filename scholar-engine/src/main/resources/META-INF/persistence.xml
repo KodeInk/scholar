@@ -42,6 +42,7 @@
     <class>com.codemovers.scholar.engine.db.entities.StudyYear</class>
     <class>com.codemovers.scholar.engine.db.entities.StudentTermRegistration</class>
     <class>com.codemovers.scholar.engine.db.entities.SchoolData</class>
+    <class>com.codemovers.scholar.engine.db.entities.UserRole</class>
     <properties>
       <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
       <!--            <property name="javax.persistence.schema-generation.database.action" value="create"/>-->
