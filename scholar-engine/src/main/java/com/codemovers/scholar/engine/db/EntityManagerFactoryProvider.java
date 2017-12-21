@@ -43,13 +43,17 @@ public class EntityManagerFactoryProvider {
 
         EntityManagerFactory factory = null;
 
-        if (factories.containsKey(database)) {
-            LOG.log(Level.INFO, "Re Using Existing Database ");
-            factory = factories.get(database);
-        } else {
-            LOG.log(Level.INFO, " ====   LIKE REALLY  == {0} ", database);
+        try {
+            if (factories.containsKey(database)) {
+                LOG.log(Level.INFO, "Re Using Existing Database ");
+                factory = factories.get(database);
+            } else {
+                LOG.log(Level.INFO, " ====   LIKE REALLY  == {0} ", database);
 
-            return createFactory(dBModule, database);
+                factory = createFactory(dBModule, database);
+            }
+        } catch (Exception er) {
+            throw er;
         }
 
         return factory;
@@ -77,7 +81,8 @@ public class EntityManagerFactoryProvider {
             emf = Persistence.createEntityManagerFactory("scholar", properties);
 
         } catch (Exception e) {
-            LOG.log(Level.SEVERE, "Un Expected Error {0}", e.toString());
+            LOG.log(Level.SEVERE, "Un Expected Error {0}", e.getStackTrace());
+            e.getStackTrace();
             throw e;
         }
 

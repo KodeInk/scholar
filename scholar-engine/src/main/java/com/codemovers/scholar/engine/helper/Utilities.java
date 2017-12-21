@@ -430,6 +430,7 @@ Using SHA-256 :
 
     public static SchoolData getSchoolData(String schoolName, String authentication, String logId) {
 
+        LOG.log(Level.INFO, " ++++++++++++++++++++++= ");
         if (schoolName != null) {
 
             tenantdata = SchoolDataJpaController.getInstance().findSchoolDataByName(schoolName);

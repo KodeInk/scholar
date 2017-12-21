@@ -82,8 +82,9 @@ public class Roles implements Serializable {
     @ManyToMany
     private Collection<Users> usersCollection;
 
-    @ManyToMany(mappedBy = "rolesCollection")
-    private Collection<Permissions> permissionsCollection;
+//    @ManyToMany(mappedBy = "rolesCollection")
+//    private Collection<Permissions> permissionsCollection;
+//    
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users authorId;
@@ -93,7 +94,6 @@ public class Roles implements Serializable {
         @JoinColumn(name = "role_id", referencedColumnName = "id")})
     @ManyToMany
     private Set<Permissions> permissions;
-
 
     public Roles() {
     }
@@ -168,15 +168,14 @@ public class Roles implements Serializable {
         this.usersCollection = usersCollection;
     }
 
-    @XmlTransient
-    public Collection<Permissions> getPermissionsCollection() {
-        return permissionsCollection;
-    }
-
-    public void setPermissionsCollection(Collection<Permissions> permissionsCollection) {
-        this.permissionsCollection = permissionsCollection;
-    }
-
+//    @XmlTransient
+//    public Collection<Permissions> getPermissionsCollection() {
+//        return permissionsCollection;
+//    }
+//
+//    public void setPermissionsCollection(Collection<Permissions> permissionsCollection) {
+//        this.permissionsCollection = permissionsCollection;
+//    }
     public Users getAuthorId() {
         return authorId;
     }
@@ -217,5 +216,5 @@ public class Roles implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.Roles[ id=" + id + " ]";
     }
-    
+
 }
