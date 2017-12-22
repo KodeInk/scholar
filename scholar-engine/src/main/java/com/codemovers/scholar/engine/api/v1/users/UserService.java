@@ -61,15 +61,17 @@ public class UserService extends AbstractService<_User, UserResponse> implements
 
     @Override
     public UserResponse create(SchoolData data, _User entity) throws Exception {
+        Users USER = new Users();
+
         try {
             //todo: validate mandatories
             entity.validate();
 
-            Users USER = new Users();
 
             USER.setUsername(entity.getUsername());
             String encryptedPassword = encryptPassword_md5(entity.getPassword());
             USER.setPassword(encryptedPassword);
+            USER.setStatus("ACTIVE");
 
             //get the role in the Database ::
             String[] rs = entity.getRoles();
@@ -95,14 +97,22 @@ public class UserService extends AbstractService<_User, UserResponse> implements
 
             Roles[] _roles = new Roles[roleses.size()];
             Set<Roles> roles = new HashSet<>(Arrays.asList(roleses.toArray(_roles)));
-            USER.setUserRoles(roles);
+            //    USER.setUserRoles(roles);
             USER.setDateCreated(new Date());
 
             USER = controller.create(USER, data);
+
+            // assign roles to user :: 
             return populateResponse(USER, true);
         } catch (Exception er) {
+
+            if (USER != null && USER.getId() > 0L) {
+                //   controller.destroy(USER.getId().intValue(), data);
+            }
             LOG.log(Level.SEVERE, "USER-SERVICE CREATE USER FAILED");
-            throw new InternalServerErrorException("User could not be created successfully ");
+            er.printStackTrace();
+
+            throw er;
         }
     }
 
