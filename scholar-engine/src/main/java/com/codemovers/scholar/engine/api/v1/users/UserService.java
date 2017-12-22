@@ -13,6 +13,7 @@ import com.codemovers.scholar.engine.api.v1.roles.entities.PermissionsResponse;
 import com.codemovers.scholar.engine.api.v1.roles.entities.RoleResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities.UserResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities._User;
+import com.codemovers.scholar.engine.db.controllers.UserRoleJpaController;
 import com.codemovers.scholar.engine.db.controllers.UsersJpaController;
 import com.codemovers.scholar.engine.db.entities.Permissions;
 import com.codemovers.scholar.engine.db.entities.Roles;
@@ -103,6 +104,15 @@ public class UserService extends AbstractService<_User, UserResponse> implements
             USER = controller.create(USER, data);
 
             //   UserRoleJ
+            UserRole userRole = new UserRole();
+            userRole.setUser(USER);
+            if (roleses != null) {
+                for (Roles r : roleses) {
+                    userRole.setRole(r);
+                    UserRoleJpaController.getInstance().create(userRole, data);
+                }
+            }
+
 
             // assign roles to user :: 
             return populateResponse(USER, true);
@@ -136,6 +146,8 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         return populateResponse(_user, true);
 
     }
+
+
 
     /**
      *
@@ -282,9 +294,27 @@ public class UserService extends AbstractService<_User, UserResponse> implements
      * @param tenantData
      * @param account_id
      */
-    public void deactivate(SchoolData tenantData, Integer account_id) {
+    public void deactivate(SchoolData schoolData, Integer account_id) throws Exception {
+        Users _user = controller.findUser(account_id, schoolData);
+        if (_user == null) {
+            throw new BadRequestException("USER DOES NOT EXIST");
+
+        }
+        _user.setStatus("DISABLED");
+
 
     }
+
+    public void activate(SchoolData schoolData, Integer account_id) throws Exception {
+        Users _user = controller.findUser(account_id, schoolData);
+        if (_user == null) {
+            throw new BadRequestException("USER DOES NOT EXIST");
+
+        }
+        _user.setStatus("ACTIVE");
+
+    }
+
 
     private UserResponse populateResponse(Users entity, boolean extended) throws Exception {
 

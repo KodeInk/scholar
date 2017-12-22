@@ -49,7 +49,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Roles.findByDateCreated", query = "SELECT r FROM Roles r WHERE r.dateCreated = :dateCreated")})
 public class Roles implements Serializable {
 
-    @OneToMany(mappedBy = "roleId")
+    @OneToMany(mappedBy = "role")
     private Collection<UserRole> userRoleCollection;
 
     private static final long serialVersionUID = 1L;

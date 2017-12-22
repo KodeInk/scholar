@@ -107,7 +107,7 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
     @Path("/deactivate")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deactiveAccount(
+    public Response deactivateAccount(
             @HeaderParam("authentication") String authentication,
             @PathParam("user_id") Integer id,
             @Context HttpServletRequest httpRequest
@@ -124,5 +124,28 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
         }
 
     }
+
+    @POST
+    @Path("/activate")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response activateAccount(
+            @HeaderParam("authentication") String authentication,
+            @PathParam("user_id") Integer id,
+            @Context HttpServletRequest httpRequest
+    ) throws Exception {
+        try {
+            validate(tenantdata, authentication);
+            String logId = context.getProperty("logId").toString();
+            LOG.log(Level.INFO, " IF THIS WORKS {0} CELEBERATION ", tenantdata.getExternalId());
+            service.activate(tenantdata, id);
+            return Response.ok().build();
+
+        } catch (Exception er) {
+            throw er;
+        }
+
+    }
+
 
 }

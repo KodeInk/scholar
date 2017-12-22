@@ -7,19 +7,11 @@ package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
-import com.codemovers.scholar.engine.db.entities.Terms;
 import com.codemovers.scholar.engine.db.entities.UserRole;
-import com.codemovers.scholar.engine.db.entities.Users;
-import com.codemovers.scholar.engine.helper.Utilities;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import javax.ws.rs.BadRequestException;
 
 /**
