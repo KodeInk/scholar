@@ -102,6 +102,8 @@ public class UserService extends AbstractService<_User, UserResponse> implements
 
             USER = controller.create(USER, data);
 
+            //   UserRoleJ
+
             // assign roles to user :: 
             return populateResponse(USER, true);
         } catch (Exception er) {
@@ -291,7 +293,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         response.setUsername(entity.getUsername());
         Set<Roles> roleSet = entity.getUserRoles();
 
-        if (!roleSet.isEmpty()) {
+        if (roleSet != null) {
             String[] rsArray = new String[roleSet.size()];
 
             List<RoleResponse> rrs = new ArrayList<>();
