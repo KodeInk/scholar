@@ -12,7 +12,6 @@ import com.codemovers.scholar.engine.api.v1.users.entities.UserResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities._User;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
-import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
