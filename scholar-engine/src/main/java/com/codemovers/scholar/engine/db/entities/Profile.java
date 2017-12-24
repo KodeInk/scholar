@@ -6,7 +6,6 @@
 package com.codemovers.scholar.engine.db.entities;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -73,8 +72,6 @@ public class Profile implements Serializable {
     @Size(max = 8)
     @Column(name = "parent_type")
     private String parentType;
-    @Column(name = "parent_id")
-    private Integer parentId;
     @Size(max = 8)
     @Column(name = "status")
     private String status;
@@ -84,6 +81,9 @@ public class Profile implements Serializable {
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne
     private Users authorId;
+
+    @Column(name = "parent_id")
+    private Integer parentId;
 
     public Profile() {
     }
@@ -212,5 +212,5 @@ public class Profile implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.Profile[ id=" + id + " ]";
     }
-    
+
 }

@@ -612,5 +612,5 @@ public class Users implements Serializable {
     public void setUserRoleCollection(Collection<UserRole> userRoleCollection) {
         this.userRoleCollection = userRoleCollection;
     }
-    
+
 }
