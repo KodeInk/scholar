@@ -10,6 +10,7 @@ import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 import com.codemovers.scholar.engine.api.v1.classes.entities._Class;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
 import java.util.Collection;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -50,6 +51,7 @@ public class ClassEndpoint extends AbstractEndpoint<_Class, ClassResponse> {
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
     public ClassResponse create(_Class entity, String authentication, HttpServletRequest httpRequest) throws Exception {
+        validate(tenantdata, authentication);
         return super.create(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
