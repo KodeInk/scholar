@@ -91,6 +91,22 @@ public class ClassService extends AbstractService<_Class, ClassResponse> {
         return super.getById(data, Id); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public ClassResponse populateResponse(Classes entity) {
+        ClassResponse response = new ClassResponse();
+        response.setId(entity.getId().intValue());
+        response.setName(entity.getName());
+        response.setCode(entity.getCode());
+        if (entity.getRanking() > 0) {
+            Long ranking = entity.getRanking();
+            response.setRanking(ranking.intValue());
+        }
+        response.setDate_created(entity.getDateCreated());
+        if (entity.getAuthor() != null) {
+            response.setAuthor(entity.getAuthor().getUsername());
+        }
+        return response;
+    }
+
 
 
 }
