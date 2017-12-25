@@ -123,7 +123,9 @@ public class ClassService extends AbstractService<_Class, ClassResponse> {
 
 
         //todo: update
-        return super.update(data, entity); //To change body of generated methods, choose Tools | Templates.
+        classes = controller.edit(classes, data);
+        return populateResponse(classes);
+
     }
 
     @Override

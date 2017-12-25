@@ -5,6 +5,7 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
+import com.codemovers.scholar.engine.api.v1.classes.entities._Class;
 import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.BookType;
@@ -60,7 +61,7 @@ public class ClassJpaController extends EngineJpaController {
 
     }
 
-    public void edit(Classes _classes, SchoolData data) throws Exception {
+    public Classes edit(Classes _classes, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
             em = getEntityManager(data.getExternalId());
@@ -81,6 +82,9 @@ public class ClassJpaController extends EngineJpaController {
                 em.close();
             }
         }
+
+        return _classes;
+
     }
 
     public Classes findClass(Integer id, SchoolData data) {
