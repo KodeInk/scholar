@@ -102,7 +102,26 @@ public class ClassService extends AbstractService<_Class, ClassResponse> {
         //todo: validate
         entity.validate();
         //todo: get the entity by id if exists
+        if (entity.getId() == null) {
+            throw new BadRequestException("UNIQUE ID MISSING");
+        }
         Classes classes = controller.findClass(entity.getId(), data);
+
+        if (entity.getName() != null && !entity.getName().equalsIgnoreCase(classes.getName())) {
+            classes.setName(entity.getName());
+        }
+
+        if (entity.getCode() != null && !entity.getCode().equalsIgnoreCase(classes.getCode())) {
+            classes.setCode(entity.getCode());
+        }
+        if (entity.getRanking() != null) {
+            Long ranking = classes.getRanking();
+            if (entity.getRanking() != null && (ranking.intValue() != entity.getRanking())) {
+                classes.setRanking(ranking);
+            }
+        }
+
+
         //todo: update
         return super.update(data, entity); //To change body of generated methods, choose Tools | Templates.
     }
