@@ -60,10 +60,9 @@ public class ClassService extends AbstractService<_Class, ClassResponse> {
         classes.setRanking(entity.getRanking());
         classes.setDateCreated(new Date());
 
-        controller.create(classes, data);
+        classes = controller.create(classes, data);
+        return populateResponse(classes);
 
-
-        return super.create(data, entity); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
