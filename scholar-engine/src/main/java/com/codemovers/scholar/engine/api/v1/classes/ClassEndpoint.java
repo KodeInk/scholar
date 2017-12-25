@@ -54,7 +54,7 @@ public class ClassEndpoint extends AbstractEndpoint<_Class, ClassResponse> {
     @Override
     public ClassResponse create(_Class entity, String authentication, HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
-        return service.create(tenantdata, entity);
+        return service.create(tenantdata, entity, this.authentication);
     }
 
     @PUT

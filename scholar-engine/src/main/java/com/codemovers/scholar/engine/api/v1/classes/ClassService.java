@@ -6,6 +6,7 @@
 package com.codemovers.scholar.engine.api.v1.classes;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
+import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 import com.codemovers.scholar.engine.api.v1.classes.entities._Class;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
@@ -37,8 +38,9 @@ public class ClassService extends AbstractService<_Class, ClassResponse> {
     }
 
     @Override
-    public ClassResponse create(SchoolData data, _Class entity) throws Exception {
+    public ClassResponse create(SchoolData data, _Class entity, AuthenticationResponse authentication) throws Exception {
 
+        //todo: check permissions 
         //todo: validate the class creation
         // call the controller and create the class
         return super.create(data, entity); //To change body of generated methods, choose Tools | Templates.

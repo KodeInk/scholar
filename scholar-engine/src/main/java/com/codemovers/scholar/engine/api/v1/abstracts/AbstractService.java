@@ -5,6 +5,7 @@
  */
 package com.codemovers.scholar.engine.api.v1.abstracts;
 
+import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 
 /**
@@ -36,6 +37,11 @@ public abstract class AbstractService<T, Z> {
     public Z create(SchoolData data, T entity) throws Exception {
         throw new UnsupportedOperationException("Not Supported ");
     }
+
+    public Z create(SchoolData data, T entity, AuthenticationResponse authentication) throws Exception {
+        throw new UnsupportedOperationException("Not Supported ");
+    }
+
 
     /**
      *
