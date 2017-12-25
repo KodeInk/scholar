@@ -77,7 +77,7 @@ public class Classes implements Serializable {
     private Date dateCreated;
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Users authorId;
+    private Users author;
     @OneToMany(mappedBy = "classId")
     private Collection<ClassStream> classStreamCollection;
     @OneToMany(mappedBy = "classId")
@@ -153,12 +153,12 @@ public class Classes implements Serializable {
         this.dateCreated = dateCreated;
     }
 
-    public Users getAuthorId() {
-        return authorId;
+    public Users getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(Users authorId) {
-        this.authorId = authorId;
+    public void setAuthor(Users author) {
+        this.author = author;
     }
 
     @XmlTransient

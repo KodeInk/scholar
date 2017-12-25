@@ -92,7 +92,7 @@ public class Users implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "authorId")
     private Collection<LibraryStock> libraryStockCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "authorId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
     private Collection<Classes> classesCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "authorId")
     private Collection<Roles> rolesCollection1;

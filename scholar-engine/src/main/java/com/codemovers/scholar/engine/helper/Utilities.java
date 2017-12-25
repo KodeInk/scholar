@@ -447,6 +447,10 @@ Using SHA-256 :
 
     private static final String[] permissions_list = {"ALL_FUNCTIONS"};
 
+    /**
+     *
+     * @param permissions
+     */
     public static void check_access(String[] permissions) {
         boolean status = false;
 
