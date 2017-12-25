@@ -33,6 +33,7 @@ public class ClassService extends AbstractService<_Class, ClassResponse> {
     private static ClassService service = null;
     private final String[] CREATE_CLASS_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_CLASS"};
     private final String[] LIST_CLASSES_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_CLASSES"};
+    private final String[] UPDATE_CLASS_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_CLASS"};
 
 
     public ClassService() {
@@ -97,6 +98,12 @@ public class ClassService extends AbstractService<_Class, ClassResponse> {
 
     @Override
     public ClassResponse update(SchoolData data, _Class entity, AuthenticationResponse authentication) throws Exception {
+        check_access(UPDATE_CLASS_PERMISSION);
+        //todo: validate
+        entity.validate();
+        //todo: get the entity by id if exists
+        Classes classes = controller.findClass(entity.getId(), data);
+        //todo: update
         return super.update(data, entity); //To change body of generated methods, choose Tools | Templates.
     }
 

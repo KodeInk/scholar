@@ -71,7 +71,7 @@ public class ClassJpaController extends EngineJpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = _classes.getId().intValue();
-                if (findClassStream(id,data) == null) {
+                if (findClass(id, data) == null) {
                     throw new BadRequestException("The Contact with id " + id + " no longer exists.");
                 }
             }
@@ -83,10 +83,10 @@ public class ClassJpaController extends EngineJpaController {
         }
     }
 
-    public Classes findClassStream(Integer id, SchoolData data) {
+    public Classes findClass(Integer id, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
-            return em.find(Classes.class, id);
+            return em.find(Classes.class, id.longValue());
         } finally {
             em.close();
         }
