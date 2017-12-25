@@ -451,14 +451,14 @@ Using SHA-256 :
         boolean status = false;
 
         for (String permission : permissions) {
-            status = Arrays.asList(permissions_list).contains(permissions);
+            status = Arrays.asList(permissions_list).contains(permission);
             if (status == true) {
                 break;
             }
         }
 
         if (status == false) {
-            throw new UnauthorizedException();
+            throw new BadRequestException("YOU ARE NOT AUTHORIZED TO PERFORM THIS OPERATION");
         }
 
     }
