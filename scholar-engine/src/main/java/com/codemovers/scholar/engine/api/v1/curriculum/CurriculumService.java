@@ -11,6 +11,7 @@ import com.codemovers.scholar.engine.api.v1.curriculum.entities._Curriculum;
 import com.codemovers.scholar.engine.db.controllers.CurriculumDetailsJpaController;
 import com.codemovers.scholar.engine.db.controllers.CurriculumJpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**

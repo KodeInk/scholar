@@ -101,7 +101,7 @@ public abstract class AbstractEndpoint<T, Z> {
             @QueryParam("end") int end,
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest
-    ) {
+    ) throws Exception {
         throw new UnsupportedOperationException();
     }
 

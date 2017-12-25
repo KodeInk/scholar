@@ -75,8 +75,9 @@ public class ClassEndpoint extends AbstractEndpoint<_Class, ClassResponse> {
     }
 
     @Override
-    public Collection<ClassResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) {
-        return super.list(start, end, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+    public Collection<ClassResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
+        validate(tenantdata, authentication);
+        return service.list(tenantdata, start, end, this.authentication);
     }
 
 
