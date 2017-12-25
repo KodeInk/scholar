@@ -72,6 +72,10 @@ public abstract class AbstractService<T, Z> {
         throw new UnsupportedOperationException("Not Supported ");
     }
 
+    public Z update(SchoolData data, T entity, AuthenticationResponse authentication) throws Exception {
+        throw new UnsupportedOperationException("Not Supported ");
+    }
+
     public Z archive(SchoolData data, Integer id) throws Exception {
         throw new UnsupportedOperationException("Not Supported ");
     }

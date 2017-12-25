@@ -61,8 +61,9 @@ public class ClassEndpoint extends AbstractEndpoint<_Class, ClassResponse> {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public ClassResponse update(_Class entity, String authentication, HttpServletRequest httpRequest) {
-        return super.update(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+    public ClassResponse update(_Class entity, String authentication, HttpServletRequest httpRequest) throws Exception {
+        validate(tenantdata, authentication);
+        return service.update(tenantdata, entity, this.authentication);
     }
 
     @POST

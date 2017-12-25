@@ -96,7 +96,7 @@ public class ClassService extends AbstractService<_Class, ClassResponse> {
     }
 
     @Override
-    public ClassResponse update(SchoolData data, _Class entity) throws Exception {
+    public ClassResponse update(SchoolData data, _Class entity, AuthenticationResponse authentication) throws Exception {
         return super.update(data, entity); //To change body of generated methods, choose Tools | Templates.
     }
 
