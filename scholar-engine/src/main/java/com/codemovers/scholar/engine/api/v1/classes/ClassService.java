@@ -34,6 +34,7 @@ public class ClassService extends AbstractService<_Class, ClassResponse> {
     private final String[] CREATE_CLASS_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_CLASS"};
     private final String[] LIST_CLASSES_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_CLASSES"};
     private final String[] UPDATE_CLASS_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_CLASS"};
+    private final String[] ARCHIVE_CLASS_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_CLASS"};
 
 
     public ClassService() {
@@ -93,7 +94,16 @@ public class ClassService extends AbstractService<_Class, ClassResponse> {
 
     @Override
     public ClassResponse archive(SchoolData data, Integer id) throws Exception {
-        return super.archive(data, id); //To change body of generated methods, choose Tools | Templates.
+        check_access(ARCHIVE_CLASS_PERMISSION);
+        //todo: get class by id
+       Classes _class = controller.findClass(id, data);
+        if (_class == null) {
+            throw new BadRequestException("Record does not exist");
+        }
+        _class.setStatus(StatusEnum.ARCHIVED.toString());
+        _class = controller.edit(_class, data);
+        return populateResponse(_class);
+
     }
 
     @Override
