@@ -54,7 +54,7 @@ public class CurriculumService extends AbstractService<_Curriculum, CurriculumRe
     }
 
     @Override
-    public CurriculumResponse list(SchoolData data, Integer ofset, Integer limit) throws Exception {
+    public List<CurriculumResponse> list(SchoolData data, Integer ofset, Integer limit) throws Exception {
         return super.list(data, ofset, limit); //To change body of generated methods, choose Tools | Templates.
     }
 

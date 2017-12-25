@@ -16,7 +16,10 @@ import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.check_access;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
+import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -26,10 +29,11 @@ import java.util.logging.Logger;
 public class ClassService extends AbstractService<_Class, ClassResponse> {
 
     private static final Logger LOG = Logger.getLogger(UserService.class.getName());
-
     private final ClassJpaController controller;
-
     private static ClassService service = null;
+    private final String[] CREATE_CLASS_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_CLASS"};
+    private final String[] LIST_CLASSES_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_CLASSES"};
+
 
     public ClassService() {
         controller = ClassJpaController.getInstance();
@@ -42,7 +46,6 @@ public class ClassService extends AbstractService<_Class, ClassResponse> {
         return service;
     }
 
-    private final String[] CREATE_CLASS_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_CLASS"};
     @Override
     public ClassResponse create(SchoolData data, _Class entity, AuthenticationResponse authentication) throws Exception {
         //todo: check permissions
@@ -66,8 +69,20 @@ public class ClassService extends AbstractService<_Class, ClassResponse> {
     }
 
     @Override
-    public ClassResponse list(SchoolData data, Integer ofset, Integer limit) throws Exception {
-        return super.list(data, ofset, limit); //To change body of generated methods, choose Tools | Templates.
+    public List<ClassResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
+        //todo: check list classes permissions
+        check_access(LIST_CLASSES_PERMISSION);
+        //todo: you will need logging of  every operation of a logged in user
+        //todo, get list  a range from the  jpa controller
+      List<Classes> list = controller.findClassEntities(ofset, limit, data);
+        List<ClassResponse> responses = new ArrayList<>();
+        if (list != null) {
+            list.forEach((_class) -> {
+                responses.add(populateResponse(_class));
+            });
+        }
+
+        return responses;
     }
 
     @Override
