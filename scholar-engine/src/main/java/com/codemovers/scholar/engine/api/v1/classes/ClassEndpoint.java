@@ -6,6 +6,7 @@
 package com.codemovers.scholar.engine.api.v1.classes;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEndpoint;
+import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 import com.codemovers.scholar.engine.api.v1.classes.entities._Class;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
@@ -36,6 +37,7 @@ public class ClassEndpoint extends AbstractEndpoint<_Class, ClassResponse> {
     private ContainerRequestContext context;
 
     private ClassService service = null;
+    private AuthenticationResponse authentication = null;
 
     public ClassEndpoint() {
         service = new ClassService();
@@ -43,7 +45,7 @@ public class ClassEndpoint extends AbstractEndpoint<_Class, ClassResponse> {
 
     @Override
     public void validate(SchoolData schoolData, String authentication) throws Exception {
-        UserService.getInstance().validateAuthentication(schoolData, authentication);
+        this.authentication = UserService.getInstance().validateAuthentication(schoolData, authentication);
     }
 
     @POST
@@ -52,7 +54,7 @@ public class ClassEndpoint extends AbstractEndpoint<_Class, ClassResponse> {
     @Override
     public ClassResponse create(_Class entity, String authentication, HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
-        return super.create(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+        return service.create(tenantdata, entity);
     }
 
     @PUT

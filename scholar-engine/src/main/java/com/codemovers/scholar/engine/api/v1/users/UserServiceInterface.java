@@ -64,6 +64,6 @@ public interface UserServiceInterface {
      * @return
      * @throws Exception
      */
-    boolean validateAuthentication(SchoolData schoolData, String authentication) throws Exception;
+    AuthenticationResponse validateAuthentication(SchoolData schoolData, String authentication) throws Exception;
 
 }

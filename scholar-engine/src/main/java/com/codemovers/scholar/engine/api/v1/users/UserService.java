@@ -30,10 +30,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ws.rs.InternalServerErrorException;
 import java.util.Base64;
 import java.util.Collection;
-import javax.management.relation.Role;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
@@ -172,7 +170,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
      * @throws Exception
      */
     @Override
-    public boolean validateAuthentication(SchoolData schoolData, String authentication) throws Exception {
+    public AuthenticationResponse validateAuthentication(SchoolData schoolData, String authentication) throws Exception {
         authentication = authentication.replace("Basic:", "");
         String usernamePassword = new String(Base64.getDecoder().decode(authentication));
         String[] parts = usernamePassword.split(":");
@@ -189,11 +187,8 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         login.setUsername(username);
         login.setPassword(password);
 
-        login(schoolData, login, "LOGID");
+        return login(schoolData, login, "LOGID");
 
-        //login(schoolData, username, password, "LOGID");
-        // at this time, there is already approved school data :
-        return true;
     }
 
     /**

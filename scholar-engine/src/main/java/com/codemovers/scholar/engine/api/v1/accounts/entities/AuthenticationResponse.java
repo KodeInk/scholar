@@ -24,6 +24,7 @@ public class AuthenticationResponse {
     private String authentication;
     private List<PermissionsResponse> permissions;
     private Boolean isLoggedIn;
+    private Integer id;
 
     public AuthenticationResponse() {
     }
@@ -51,6 +52,15 @@ public class AuthenticationResponse {
     public void setIsLoggedIn(Boolean isLoggedIn) {
         this.isLoggedIn = isLoggedIn;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
 
 
     @Override

@@ -38,6 +38,9 @@ public class ClassService extends AbstractService<_Class, ClassResponse> {
 
     @Override
     public ClassResponse create(SchoolData data, _Class entity) throws Exception {
+
+        //todo: validate the class creation
+        // call the controller and create the class
         return super.create(data, entity); //To change body of generated methods, choose Tools | Templates.
     }
 
