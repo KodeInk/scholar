@@ -7,7 +7,6 @@ package com.codemovers.scholar.engine.api.v1.streams;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import static com.codemovers.scholar.engine.api.v1.classes.ClassServiceInterface.CREATE_CLASS_PERMISSION;
 import com.codemovers.scholar.engine.api.v1.streams.entities.StreamResponse;
 import com.codemovers.scholar.engine.api.v1.streams.entities._Stream;
 import com.codemovers.scholar.engine.db.controllers.StreamsJpaController;
@@ -33,6 +32,7 @@ public class StreamsService extends AbstractService<_Stream, StreamResponse> {
 
     final String[] CREATE_STREAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_STREAM"};
     final String[] UPDATE_STREAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_STREAM"};
+    final String[] ARCHIVE_STREAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCIVE_STREAM"};
 
 
     public StreamsService() {
@@ -94,18 +94,32 @@ public class StreamsService extends AbstractService<_Stream, StreamResponse> {
     }
 
     @Override
+    public StreamResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
+        check_access(ARCHIVE_STREAM_PERMISSION);
+        Streams _stream = controller.findStream(id, data);
+        if (_stream == null) {
+            throw new BadRequestException(" Stream does not exist ");
+        }
+
+        _stream.setStatus(StatusEnum.ARCHIVED.toString());
+        _stream = controller.edit(_stream, data);
+        return populateResponse(_stream);
+    }
+
+    @Override
     public List<StreamResponse> list(SchoolData data, Integer ofset, Integer limit) throws Exception {
         return super.list(data, ofset, limit); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public StreamResponse delete(SchoolData data, Integer id) throws Exception {
-        return super.delete(data, id); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public StreamResponse getById(SchoolData data, Integer Id) throws Exception {
         return super.getById(data, Id); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
+    @Override
+    public StreamResponse delete(SchoolData data, Integer id) throws Exception {
+        return super.delete(data, id); //To change body of generated methods, choose Tools | Templates.
     }
 
     public StreamResponse populateResponse(Streams entity) {

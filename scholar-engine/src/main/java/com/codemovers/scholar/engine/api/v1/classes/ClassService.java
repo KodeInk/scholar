@@ -134,7 +134,7 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
      * @throws Exception
      */
     @Override
-    public ClassResponse archive(SchoolData data, Integer id) throws Exception {
+    public ClassResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
         check_access(ARCHIVE_CLASS_PERMISSION);
         //todo: get class by id
        Classes _class = controller.findClass(id, data);
