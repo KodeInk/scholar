@@ -74,7 +74,8 @@ public class StreamsEndpoint extends AbstractEndpoint<_Stream, StreamResponse> {
 
     @Override
     public Collection<StreamResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
-        return super.list(start, end, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+        validate(tenantdata, authentication);
+        return service.list(tenantdata, start, end, this.authentication);
     }
 
 
