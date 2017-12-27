@@ -28,7 +28,7 @@ import java.util.logging.Logger;
  *
  * @author mover 12/19/2017
  */
-public class StreamsService extends AbstractService<_Stream, StreamResponse> {
+public class StreamsService extends AbstractService<_Stream, StreamResponse> implements StreamsServiceInterface {
 
     private static final Logger LOG = Logger.getLogger(StreamsService.class.getName());
     private final StreamsJpaController controller;
@@ -142,6 +142,7 @@ public class StreamsService extends AbstractService<_Stream, StreamResponse> {
         return null;
     }
 
+    @Override
     public StreamResponse populateResponse(Streams entity) {
 
         StreamResponse response = new StreamResponse();
