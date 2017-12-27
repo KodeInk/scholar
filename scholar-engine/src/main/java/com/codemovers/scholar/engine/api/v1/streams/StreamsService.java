@@ -34,12 +34,6 @@ public class StreamsService extends AbstractService<_Stream, StreamResponse> imp
     private final StreamsJpaController controller;
     private static StreamsService service = null;
 
-    final String[] CREATE_STREAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_STREAM"};
-    final String[] UPDATE_STREAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_STREAM"};
-    final String[] ARCHIVE_STREAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCIVE_STREAM"};
-    final String[] LIST_STREAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_STREAM_PERMISSION"};
-    final String[] DELETE_STREAM_PERMISSION = new String[]{"LIST_STREAM_PERMISSION"};
-
     public StreamsService() {
         controller = StreamsJpaController.getInstance();
     }

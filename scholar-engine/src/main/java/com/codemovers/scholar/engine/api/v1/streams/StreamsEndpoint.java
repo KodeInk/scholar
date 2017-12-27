@@ -66,8 +66,9 @@ public class StreamsEndpoint extends AbstractEndpoint<_Stream, StreamResponse> {
     }
 
     @Override
-    public Response archive(Integer id, String authentication, HttpServletRequest httpRequest) {
-        return super.archive(id, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+    public StreamResponse archive(Integer id, String authentication, HttpServletRequest httpRequest) throws Exception {
+        validate(tenantdata, authentication);
+        return service.archive(tenantdata, id, this.authentication);
     }
 
 
