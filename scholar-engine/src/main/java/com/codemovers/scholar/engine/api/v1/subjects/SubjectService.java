@@ -10,6 +10,7 @@ import com.codemovers.scholar.engine.api.v1.subjects.entities.SubjectResponse;
 import com.codemovers.scholar.engine.api.v1.subjects.entities._Subject;
 import com.codemovers.scholar.engine.db.controllers.SubjectsJpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -51,7 +52,7 @@ public class SubjectService extends AbstractService<_Subject, SubjectResponse> {
     }
 
     @Override
-    public SubjectResponse list(SchoolData data, Integer ofset, Integer limit) throws Exception {
+    public List<SubjectResponse> list(SchoolData data, Integer ofset, Integer limit) throws Exception {
         return super.list(data, ofset, limit); //To change body of generated methods, choose Tools | Templates.
     }
 

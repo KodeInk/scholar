@@ -10,6 +10,7 @@ import com.codemovers.scholar.engine.api.v1.admissions.entities.AdmissionRespons
 import com.codemovers.scholar.engine.api.v1.admissions.entities._Admission;
 import com.codemovers.scholar.engine.db.controllers.StudentAdmissionJpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -56,7 +57,7 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
     }
 
     @Override
-    public AdmissionResponse list(SchoolData data, Integer ofset, Integer limit) throws Exception {
+    public List<AdmissionResponse> list(SchoolData data, Integer ofset, Integer limit) throws Exception {
         return super.list(data, ofset, limit); //To change body of generated methods, choose Tools | Templates.
     }
 

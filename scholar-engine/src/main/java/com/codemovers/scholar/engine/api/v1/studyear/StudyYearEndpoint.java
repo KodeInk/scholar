@@ -43,17 +43,17 @@ public class StudyYearEndpoint extends AbstractEndpoint<_StudyYear, StudyYearRes
     }
 
     @Override
-    public StudyYearResponse update(_StudyYear entity, String authentication, HttpServletRequest httpRequest) {
+    public StudyYearResponse update(_StudyYear entity, String authentication, HttpServletRequest httpRequest) throws Exception {
         return super.update(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Response archive(Integer id, String authentication, HttpServletRequest httpRequest) {
+    public StudyYearResponse archive(Integer id, String authentication, HttpServletRequest httpRequest) throws Exception {
         return super.archive(id, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Collection<StudyYearResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) {
+    public Collection<StudyYearResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
         return super.list(start, end, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 

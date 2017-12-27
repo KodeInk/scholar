@@ -43,17 +43,17 @@ public class SubjectEndpoint extends AbstractEndpoint<_Subject, SubjectResponse>
     }
 
     @Override
-    public SubjectResponse update(_Subject entity, String authentication, HttpServletRequest httpRequest) {
+    public SubjectResponse update(_Subject entity, String authentication, HttpServletRequest httpRequest) throws Exception {
         return super.update(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Response archive(Integer id, String authentication, HttpServletRequest httpRequest) {
+    public SubjectResponse archive(Integer id, String authentication, HttpServletRequest httpRequest) throws Exception {
         return super.archive(id, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Collection<SubjectResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) {
+    public Collection<SubjectResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
         return super.list(start, end, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 

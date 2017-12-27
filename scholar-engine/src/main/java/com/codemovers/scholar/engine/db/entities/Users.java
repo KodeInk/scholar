@@ -13,6 +13,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -75,18 +76,23 @@ public class Users implements Serializable {
     @Column(name = "date_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
-//    @ManyToMany(mappedBy = "usersCollection")
-//    private Collection<Roles> rolesCollection;
+    @ManyToMany(mappedBy = "usersCollection", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Roles> rolesCollection;
+    //rolesCollection;
 
     @JoinTable(name = "user_role", joinColumns = {
-        @JoinColumn(name = "role_id", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "user_id", referencedColumnName = "id")})
-    @ManyToMany
+        @JoinColumn(name = "user_id")}, inverseJoinColumns = {
+        @JoinColumn(name = "role_id")})
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Roles> UserRoles;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Collection<UserRole> userRoleCollection;
+
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "authorId")
     private Collection<LibraryStock> libraryStockCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "authorId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
     private Collection<Classes> classesCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "authorId")
     private Collection<Roles> rolesCollection1;
@@ -126,7 +132,7 @@ public class Users implements Serializable {
     private Collection<BookCategory> bookCategoryCollection;
     @OneToMany(mappedBy = "authorId")
     private Collection<Profile> profileCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "authorId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
     private Collection<Streams> streamsCollection;
     @OneToMany(mappedBy = "authorId")
     private Collection<Subjects> subjectsCollection;
@@ -595,6 +601,15 @@ public class Users implements Serializable {
     @Override
     public String toString() {
         return "Users[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<UserRole> getUserRoleCollection() {
+        return userRoleCollection;
+    }
+
+    public void setUserRoleCollection(Collection<UserRole> userRoleCollection) {
+        this.userRoleCollection = userRoleCollection;
     }
 
 }

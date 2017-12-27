@@ -31,13 +31,12 @@ public class LogInputRequestFilter implements ContainerRequestFilter {
             LOG.log(Level.INFO, "------------------------------ session start -----------------------------------");
             String logId = Utilities.getLogId();
 
-            LOG.log(Level.INFO, "------------------------------ MOVER KIOLO -----------------------{0}------------", requestContext.getHeaderString("schoolname"));
-
             if (requestContext.getHeaderString("schoolname") != null) {
+                LOG.log(Level.INFO, "------------------------------ MOVER KIOLO -----------------------{0}------------", requestContext.getHeaderString("schoolname"));
 
                 schoolData = Utilities.getSchoolData(requestContext.getHeaderString("schoolname"), null, logId);
                 //todo: make sure that the school data exists
-                LOG.log(Level.INFO, "------------------------------ pass pass me -----------------------{0}------------", requestContext.getHeaderString("schoolname"));
+                LOG.log(Level.INFO, "------------------------------ pass pass me -----------------------{0}------------", schoolData.getExternalId());
 
                 // validate school_data
                 logId = requestContext.getHeaderString("schoolname") + "_" + logId;

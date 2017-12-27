@@ -46,17 +46,17 @@ public class MarkSheetEndpoint extends AbstractEndpoint<_MarkSheet, MarkSheetRes
     }
 
     @Override
-    public MarkSheetResponse update(_MarkSheet entity, String authentication, HttpServletRequest httpRequest) {
+    public MarkSheetResponse update(_MarkSheet entity, String authentication, HttpServletRequest httpRequest) throws Exception {
         return super.update(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Response archive(Integer id, String authentication, HttpServletRequest httpRequest) {
+    public MarkSheetResponse archive(Integer id, String authentication, HttpServletRequest httpRequest) throws Exception {
         return super.archive(id, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Collection<MarkSheetResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) {
+    public Collection<MarkSheetResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
         return super.list(start, end, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -5,7 +5,9 @@
  */
 package com.codemovers.scholar.engine.api.v1.abstracts;
 
+import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import java.util.List;
 
 /**
  *
@@ -37,6 +39,11 @@ public abstract class AbstractService<T, Z> {
         throw new UnsupportedOperationException("Not Supported ");
     }
 
+    public Z create(SchoolData data, T entity, AuthenticationResponse authentication) throws Exception {
+        throw new UnsupportedOperationException("Not Supported ");
+    }
+
+
     /**
      *
      * @param Id
@@ -65,15 +72,28 @@ public abstract class AbstractService<T, Z> {
         throw new UnsupportedOperationException("Not Supported ");
     }
 
+    public Z update(SchoolData data, T entity, AuthenticationResponse authentication) throws Exception {
+        throw new UnsupportedOperationException("Not Supported ");
+    }
+
     public Z archive(SchoolData data, Integer id) throws Exception {
         throw new UnsupportedOperationException("Not Supported ");
     }
+
+    public Z archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
+        throw new UnsupportedOperationException("Not Supported ");
+    }
+
 
     public Z delete(SchoolData data, Integer id) throws Exception {
         throw new UnsupportedOperationException("Not Supported ");
     }
 
-    public Z list(SchoolData data, Integer ofset, Integer limit) throws Exception {
+    public List<Z> list(SchoolData data, Integer ofset, Integer limit) throws Exception {
+        throw new UnsupportedOperationException("Not Supported ");
+    }
+
+    public List<Z> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
         throw new UnsupportedOperationException("Not Supported ");
     }
 

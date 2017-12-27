@@ -7,6 +7,7 @@ package com.codemovers.scholar.engine.api.v1.classes.entities;
 
 import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
+import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
@@ -141,7 +142,7 @@ public class _Class extends AbstractEntity {
 
     @Override
     public void validate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        validateMandatoryFields(this.getClass(), this);
     }
 
     @Override

@@ -12,7 +12,6 @@ import com.codemovers.scholar.engine.api.v1.users.entities.UserResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities._User;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
-import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -81,13 +80,17 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
             _login login,
             @Context HttpServletRequest httpRequest
     ) throws Exception {
+
         try {
             String logId = context.getProperty("logId").toString();
             LOG.log(Level.INFO, " IF THIS WORKS {0} CELEBERATION ", tenantdata.getExternalId());
             return service.login(tenantdata, login, logId);
-        } catch (Exception er) {
-            throw er;
+        } catch (Exception ex) {
+            Logger.getLogger(UsersEndpoint.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            throw ex;
         }
+
 
     }
 
@@ -100,10 +103,10 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
      * @throws Exception
      */
     @POST
-    @Path("/deactivate/{user_id}")
+    @Path("/deactivate")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deactiveAccount(
+    public Response deactivateAccount(
             @HeaderParam("authentication") String authentication,
             @PathParam("user_id") Integer id,
             @Context HttpServletRequest httpRequest
@@ -113,6 +116,28 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
             String logId = context.getProperty("logId").toString();
             LOG.log(Level.INFO, " IF THIS WORKS {0} CELEBERATION ", tenantdata.getExternalId());
             service.deactivate(tenantdata, id);
+            return Response.ok().build();
+
+        } catch (Exception er) {
+            throw er;
+        }
+
+    }
+
+    @POST
+    @Path("/activate")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response activateAccount(
+            @HeaderParam("authentication") String authentication,
+            @PathParam("user_id") Integer id,
+            @Context HttpServletRequest httpRequest
+    ) throws Exception {
+        try {
+            validate(tenantdata, authentication);
+            String logId = context.getProperty("logId").toString();
+            LOG.log(Level.INFO, " IF THIS WORKS {0} CELEBERATION ", tenantdata.getExternalId());
+            service.activate(tenantdata, id);
             return Response.ok().build();
 
         } catch (Exception er) {

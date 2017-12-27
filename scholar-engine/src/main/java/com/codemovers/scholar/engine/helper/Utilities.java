@@ -23,6 +23,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -430,6 +431,7 @@ Using SHA-256 :
 
     public static SchoolData getSchoolData(String schoolName, String authentication, String logId) {
 
+        LOG.log(Level.INFO, " ++++++++++++++++++++++= ");
         if (schoolName != null) {
 
             tenantdata = SchoolDataJpaController.getInstance().findSchoolDataByName(schoolName);
@@ -441,6 +443,28 @@ Using SHA-256 :
         }
 
         return tenantdata;
+    }
+
+    private static final String[] permissions_list = {"ALL_FUNCTIONS"};
+
+    /**
+     *
+     * @param permissions
+     */
+    public static void check_access(String[] permissions) {
+        boolean status = false;
+
+        for (String permission : permissions) {
+            status = Arrays.asList(permissions_list).contains(permission);
+            if (status == true) {
+                break;
+            }
+        }
+
+        if (status == false) {
+            throw new BadRequestException("YOU ARE NOT AUTHORIZED TO PERFORM THIS OPERATION");
+        }
+
     }
 
 }

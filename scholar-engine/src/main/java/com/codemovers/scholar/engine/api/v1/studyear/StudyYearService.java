@@ -10,6 +10,7 @@ import com.codemovers.scholar.engine.api.v1.studyear.entities.StudyYearResponse;
 import com.codemovers.scholar.engine.api.v1.studyear.entities._StudyYear;
 import com.codemovers.scholar.engine.db.controllers.StudyYearJpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -56,7 +57,7 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
     }
 
     @Override
-    public StudyYearResponse list(SchoolData data, Integer ofset, Integer limit) throws Exception {
+    public List<StudyYearResponse> list(SchoolData data, Integer ofset, Integer limit) throws Exception {
         return super.list(data, ofset, limit); //To change body of generated methods, choose Tools | Templates.
     }
 

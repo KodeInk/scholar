@@ -10,8 +10,10 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,6 +23,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -79,11 +82,12 @@ public class Roles implements Serializable {
     @JoinTable(name = "user_role", joinColumns = {
         @JoinColumn(name = "role_id", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "user_id", referencedColumnName = "id")})
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Collection<Users> usersCollection;
 
-    @ManyToMany(mappedBy = "rolesCollection")
-    private Collection<Permissions> permissionsCollection;
+//    @ManyToMany(mappedBy = "rolesCollection")
+//    private Collection<Permissions> permissionsCollection;
+//    
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users authorId;
@@ -91,7 +95,7 @@ public class Roles implements Serializable {
     @JoinTable(name = "role_permission", joinColumns = {
         @JoinColumn(name = "permission_id", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "role_id", referencedColumnName = "id")})
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Permissions> permissions;
 
     public Roles() {
@@ -167,15 +171,14 @@ public class Roles implements Serializable {
         this.usersCollection = usersCollection;
     }
 
-    @XmlTransient
-    public Collection<Permissions> getPermissionsCollection() {
-        return permissionsCollection;
-    }
-
-    public void setPermissionsCollection(Collection<Permissions> permissionsCollection) {
-        this.permissionsCollection = permissionsCollection;
-    }
-
+//    @XmlTransient
+//    public Collection<Permissions> getPermissionsCollection() {
+//        return permissionsCollection;
+//    }
+//
+//    public void setPermissionsCollection(Collection<Permissions> permissionsCollection) {
+//        this.permissionsCollection = permissionsCollection;
+//    }
     public Users getAuthorId() {
         return authorId;
     }

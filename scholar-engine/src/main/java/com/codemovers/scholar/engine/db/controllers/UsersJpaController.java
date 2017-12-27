@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -179,5 +180,28 @@ public class UsersJpaController extends EngineJpaController {
         return users;
 
     }
+
+    public void destroy(Integer id, SchoolData tenantdata) throws Exception {
+        EntityManager em = null;
+        try {
+            em = getEntityManager(tenantdata.getExternalId());
+            em.getTransaction().begin();
+            Users _user;
+            try {
+                _user = em.getReference(Users.class, id.longValue());
+                _user.getId();
+            } catch (EntityNotFoundException enfe) {
+                throw enfe;
+
+            }
+            em.remove(_user);
+            em.getTransaction().commit();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
 
 }

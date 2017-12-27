@@ -32,10 +32,10 @@ public class EntityManagerFactoryProvider {
     }
 
     public static EntityManagerFactoryProvider getInstance() {
-        if (instance == null) {
-            instance = new EntityManagerFactoryProvider();
-        }
-
+//        if (instance == null) {
+//            instance = new EntityManagerFactoryProvider();
+//        }
+        instance = new EntityManagerFactoryProvider();
         return instance;
     }
 
@@ -43,13 +43,19 @@ public class EntityManagerFactoryProvider {
 
         EntityManagerFactory factory = null;
 
-        if (factories.containsKey(database)) {
-            LOG.log(Level.INFO, "Re Using Existing Database ");
-            factory = factories.get(database);
-        } else {
-            LOG.log(Level.INFO, " ====   LIKE REALLY  == {0} ", database);
+        try {
+//            if (factories.containsKey(database)) {
+//                LOG.log(Level.INFO, "Re Using Existing Database ");
+//                factory = factories.get(database);
+//            } else {
+//                LOG.log(Level.INFO, " ====   LIKE REALLY  == {0} ", database);
+//
+//                factory = createFactory(dBModule, database);
+//            }
 
-            return createFactory(dBModule, database);
+            factory = createFactory(dBModule, database);
+        } catch (Exception er) {
+            throw er;
         }
 
         return factory;
@@ -74,10 +80,22 @@ public class EntityManagerFactoryProvider {
             LOG.log(Level.SEVERE, "     PASS THREE ");
 
             // properties
-            emf = Persistence.createEntityManagerFactory("scholar", properties);
+            switch (dBModule.toString()) {
+                case "SC_BACK":
+                    emf = Persistence.createEntityManagerFactory("scholar", properties);
+                    break;
+                case "SC_ENGINE":
+                    emf = Persistence.createEntityManagerFactory("engine", properties);
+                    break;
+                default:
+                    emf = Persistence.createEntityManagerFactory("scholar", properties);
+                    break;
+            }
+
 
         } catch (Exception e) {
-            LOG.log(Level.SEVERE, "Un Expected Error {0}", e.toString());
+            LOG.log(Level.SEVERE, "Un Expected Error {0}", e.getStackTrace());
+            e.getStackTrace();
             throw e;
         }
 

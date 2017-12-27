@@ -43,17 +43,17 @@ public class TermEndpoint extends AbstractEndpoint<_Term, TermResponse> {
     }
 
     @Override
-    public TermResponse update(_Term entity, String authentication, HttpServletRequest httpRequest) {
+    public TermResponse update(_Term entity, String authentication, HttpServletRequest httpRequest) throws Exception {
         return super.update(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Response archive(Integer id, String authentication, HttpServletRequest httpRequest) {
+    public TermResponse archive(Integer id, String authentication, HttpServletRequest httpRequest) throws Exception {
         return super.archive(id, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Collection<TermResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) {
+    public Collection<TermResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
         return super.list(start, end, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 

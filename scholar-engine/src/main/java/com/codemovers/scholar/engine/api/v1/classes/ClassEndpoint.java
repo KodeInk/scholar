@@ -6,10 +6,12 @@
 package com.codemovers.scholar.engine.api.v1.classes;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEndpoint;
+import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 import com.codemovers.scholar.engine.api.v1.classes.entities._Class;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
 import java.util.Collection;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +30,7 @@ import javax.ws.rs.core.Response;
  *
  * @author mover 12/19/2017
  */
+@Path("/")
 public class ClassEndpoint extends AbstractEndpoint<_Class, ClassResponse> {
 
     private static final Logger LOG = Logger.getLogger(ClassEndpoint.class.getName());
@@ -35,14 +38,24 @@ public class ClassEndpoint extends AbstractEndpoint<_Class, ClassResponse> {
     private ContainerRequestContext context;
 
     private ClassService service = null;
+    private AuthenticationResponse authentication = null;
 
+    /**
+     *
+     */
     public ClassEndpoint() {
         service = new ClassService();
     }
 
+    /**
+     *
+     * @param schoolData
+     * @param authentication
+     * @throws Exception
+     */
     @Override
     public void validate(SchoolData schoolData, String authentication) throws Exception {
-        UserService.getInstance().validateAuthentication(schoolData, authentication);
+        this.authentication = UserService.getInstance().validateAuthentication(schoolData, authentication);
     }
 
     @POST
@@ -50,15 +63,17 @@ public class ClassEndpoint extends AbstractEndpoint<_Class, ClassResponse> {
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
     public ClassResponse create(_Class entity, String authentication, HttpServletRequest httpRequest) throws Exception {
-        return super.create(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+        validate(tenantdata, authentication);
+        return service.create(tenantdata, entity, this.authentication);
     }
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public ClassResponse update(_Class entity, String authentication, HttpServletRequest httpRequest) {
-        return super.update(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+    public ClassResponse update(_Class entity, String authentication, HttpServletRequest httpRequest) throws Exception {
+        validate(tenantdata, authentication);
+        return service.update(tenantdata, entity, this.authentication);
     }
 
     @POST
@@ -66,13 +81,14 @@ public class ClassEndpoint extends AbstractEndpoint<_Class, ClassResponse> {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public Response archive(@PathParam("id") Integer id, String authentication, HttpServletRequest httpRequest) {
+    public ClassResponse archive(@PathParam("id") Integer id, String authentication, HttpServletRequest httpRequest) throws Exception, Exception {
         return super.archive(id, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Collection<ClassResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) {
-        return super.list(start, end, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+    public Collection<ClassResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
+        validate(tenantdata, authentication);
+        return service.list(tenantdata, start, end, this.authentication);
     }
 
 }

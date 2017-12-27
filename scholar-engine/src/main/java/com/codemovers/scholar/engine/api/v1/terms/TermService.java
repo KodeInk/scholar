@@ -10,6 +10,7 @@ import com.codemovers.scholar.engine.api.v1.terms.entities.TermResponse;
 import com.codemovers.scholar.engine.api.v1.terms.entities._Term;
 import com.codemovers.scholar.engine.db.controllers.TermsJpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -56,7 +57,7 @@ public class TermService extends AbstractService<_Term, TermResponse> {
     }
 
     @Override
-    public TermResponse list(SchoolData data, Integer ofset, Integer limit) throws Exception {
+    public List<TermResponse> list(SchoolData data, Integer ofset, Integer limit) throws Exception {
         return super.list(data, ofset, limit); //To change body of generated methods, choose Tools | Templates.
     }
 

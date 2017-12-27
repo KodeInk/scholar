@@ -11,6 +11,7 @@ import com.codemovers.scholar.engine.api.v1.grading.entities._Grading;
 import com.codemovers.scholar.engine.db.controllers.GradingDetailsJpaController;
 import com.codemovers.scholar.engine.db.controllers.GradingJpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -54,7 +55,7 @@ public class GradingService extends AbstractService<_Grading, GradingResponse> {
     }
 
     @Override
-    public GradingResponse list(SchoolData data, Integer ofset, Integer limit) throws Exception {
+    public List<GradingResponse> list(SchoolData data, Integer ofset, Integer limit) throws Exception {
         return super.list(data, ofset, limit); //To change body of generated methods, choose Tools | Templates.
     }
 

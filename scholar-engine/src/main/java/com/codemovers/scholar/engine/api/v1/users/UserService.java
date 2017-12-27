@@ -13,10 +13,12 @@ import com.codemovers.scholar.engine.api.v1.roles.entities.PermissionsResponse;
 import com.codemovers.scholar.engine.api.v1.roles.entities.RoleResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities.UserResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities._User;
+import com.codemovers.scholar.engine.db.controllers.UserRoleJpaController;
 import com.codemovers.scholar.engine.db.controllers.UsersJpaController;
 import com.codemovers.scholar.engine.db.entities.Permissions;
 import com.codemovers.scholar.engine.db.entities.Roles;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import com.codemovers.scholar.engine.db.entities.UserRole;
 import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.encryptPassword_md5;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
@@ -28,8 +30,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ws.rs.InternalServerErrorException;
 import java.util.Base64;
+import java.util.Collection;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
@@ -58,15 +60,17 @@ public class UserService extends AbstractService<_User, UserResponse> implements
 
     @Override
     public UserResponse create(SchoolData data, _User entity) throws Exception {
+        Users USER = new Users();
+
         try {
             //todo: validate mandatories
             entity.validate();
 
-            Users USER = new Users();
 
             USER.setUsername(entity.getUsername());
             String encryptedPassword = encryptPassword_md5(entity.getPassword());
             USER.setPassword(encryptedPassword);
+            USER.setStatus("ACTIVE");
 
             //get the role in the Database ::
             String[] rs = entity.getRoles();
@@ -92,14 +96,33 @@ public class UserService extends AbstractService<_User, UserResponse> implements
 
             Roles[] _roles = new Roles[roleses.size()];
             Set<Roles> roles = new HashSet<>(Arrays.asList(roleses.toArray(_roles)));
-            USER.setUserRoles(roles);
+            //    USER.setUserRoles(roles);
             USER.setDateCreated(new Date());
 
             USER = controller.create(USER, data);
+
+            //   UserRoleJ
+            UserRole userRole = new UserRole();
+            userRole.setUser(USER);
+            if (roleses != null) {
+                for (Roles r : roleses) {
+                    userRole.setRole(r);
+                    UserRoleJpaController.getInstance().create(userRole, data);
+                }
+            }
+
+
+            // assign roles to user :: 
             return populateResponse(USER, true);
         } catch (Exception er) {
+
+            if (USER != null && USER.getId() > 0L) {
+                //   controller.destroy(USER.getId().intValue(), data);
+            }
             LOG.log(Level.SEVERE, "USER-SERVICE CREATE USER FAILED");
-            throw new InternalServerErrorException("User could not be created successfully ");
+            er.printStackTrace();
+
+            throw er;
         }
     }
 
@@ -121,6 +144,8 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         return populateResponse(_user, true);
 
     }
+
+
 
     /**
      *
@@ -145,7 +170,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
      * @throws Exception
      */
     @Override
-    public boolean validateAuthentication(SchoolData schoolData, String authentication) throws Exception {
+    public AuthenticationResponse validateAuthentication(SchoolData schoolData, String authentication) throws Exception {
         authentication = authentication.replace("Basic:", "");
         String usernamePassword = new String(Base64.getDecoder().decode(authentication));
         String[] parts = usernamePassword.split(":");
@@ -162,11 +187,8 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         login.setUsername(username);
         login.setPassword(password);
 
-        login(schoolData, login, "LOGID");
+        return login(schoolData, login, "LOGID");
 
-        //login(schoolData, username, password, "LOGID");
-        // at this time, there is already approved school data :
-        return true;
     }
 
     /**
@@ -180,13 +202,14 @@ public class UserService extends AbstractService<_User, UserResponse> implements
     @Override
     public AuthenticationResponse login(SchoolData tenantData, _login login, String logId) throws Exception {
 
+        AuthenticationResponse response = new AuthenticationResponse();
+
         LOG.log(Level.INFO, "School Name {0} ", tenantData.getName());
         login.validate();
         try {
-            LOG.log(Level.INFO, " General Account Service Login ");
+            LOG.log(Level.INFO, " School User Login ");
             String authentication = null;
 
-            AuthenticationResponse response = new AuthenticationResponse();
 
             {
                 if (login.getPassword() != null && login.getUsername() != null) {
@@ -197,35 +220,47 @@ public class UserService extends AbstractService<_User, UserResponse> implements
 
                     password = encryptPassword_md5(password);
 
+
                     Users users = controller.login(username, password, tenantData);
 
                     if (users == null) {
                         throw new BadRequestException("INVALID USERNAME AND OR PASSWORD ");
                     } else {
                         // create response ::
-                        authentication = UserService.getInstance().convertToBasicAuth(login.getUsername(), login.getPassword());
+                        authentication = convertToBasicAuth(login.getUsername(), login.getPassword());
                         response.setAuthentication(authentication);
                         Set<Roles> roleslist = users.getUserRoles();
+
                         List<PermissionsResponse> permissionsResponses = new ArrayList<>();
+
+                        Collection<UserRole> arolesList = users.getUserRoleCollection();
+
+                        if (arolesList.isEmpty()) {
+                            LOG.log(Level.INFO, " RESPONSE S  EMPTY ");
+                        }
 
                         for (Roles r : roleslist) {
 
                             Set<Permissions> _permissionset = r.getPermissions();
+                            PermissionsResponse permissionsResponse = new PermissionsResponse();
+                            permissionsResponse.setName(r.getName());
+                            permissionsResponses.add(permissionsResponse);
+
 
 //                            for (Permissions p : _permissionset) {
 //                                permissions.add(p);
 //                            }
                         }
 
-                        roleslist.stream().map((r) -> r.getPermissions()).forEachOrdered((_permissionset) -> {
-                            _permissionset.forEach((p) -> {
-                                PermissionsResponse permissionsResponse = new PermissionsResponse();
-                                permissionsResponse.setCode(p.getCode());
-                                permissionsResponse.setName(p.getName());
-                                permissionsResponse.setId(p.getId().intValue());
-                                permissionsResponses.add(permissionsResponse);
-                            });
-                        });
+//                        roleslist.stream().map((r) -> r.getPermissions()).forEachOrdered((_permissionset) -> {
+//                            _permissionset.forEach((p) -> {
+//                                PermissionsResponse permissionsResponse = new PermissionsResponse();
+//                                permissionsResponse.setCode(p.getCode());
+//                                permissionsResponse.setName(p.getName());
+//                                permissionsResponse.setId(p.getId().intValue());
+//                                permissionsResponses.add(permissionsResponse);
+//                            });
+//                        });
 
                         response.setPermissions(permissionsResponses);
                         response.setIsLoggedIn(true);
@@ -238,11 +273,15 @@ public class UserService extends AbstractService<_User, UserResponse> implements
 
             }
 
-        } catch (Exception er) {
+        } catch (BadRequestException er) {
             throw new BadRequestException(" USERNAME AND OR PASSWORD IS MANDATORY  ");
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
         }
 
-        return null;
+
+        return response;
     }
 
     /**
@@ -250,9 +289,27 @@ public class UserService extends AbstractService<_User, UserResponse> implements
      * @param tenantData
      * @param account_id
      */
-    public void deactivate(SchoolData tenantData, Integer account_id) {
+    public void deactivate(SchoolData schoolData, Integer account_id) throws Exception {
+        Users _user = controller.findUser(account_id, schoolData);
+        if (_user == null) {
+            throw new BadRequestException("USER DOES NOT EXIST");
+
+        }
+        _user.setStatus("DISABLED");
+
 
     }
+
+    public void activate(SchoolData schoolData, Integer account_id) throws Exception {
+        Users _user = controller.findUser(account_id, schoolData);
+        if (_user == null) {
+            throw new BadRequestException("USER DOES NOT EXIST");
+
+        }
+        _user.setStatus("ACTIVE");
+
+    }
+
 
     private UserResponse populateResponse(Users entity, boolean extended) throws Exception {
 
@@ -261,7 +318,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         response.setUsername(entity.getUsername());
         Set<Roles> roleSet = entity.getUserRoles();
 
-        if (!roleSet.isEmpty()) {
+        if (roleSet != null) {
             String[] rsArray = new String[roleSet.size()];
 
             List<RoleResponse> rrs = new ArrayList<>();
