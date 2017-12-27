@@ -61,7 +61,7 @@ public class CurriculumEndpoint extends AbstractEndpoint<_Curriculum, Curriculum
     }
 
     @Override
-    public Response archive(Integer id, String authentication, HttpServletRequest httpRequest) {
+    public CurriculumResponse archive(Integer id, String authentication, HttpServletRequest httpRequest) throws Exception {
         return super.archive(id, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
