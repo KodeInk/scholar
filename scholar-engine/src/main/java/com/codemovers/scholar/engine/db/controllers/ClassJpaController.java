@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -31,6 +32,10 @@ public class ClassJpaController extends EngineJpaController {
 
     private static ClassJpaController controller = null;
 
+    /**
+     *
+     * @return
+     */
     public static ClassJpaController getInstance() {
         if (controller == null) {
             controller = new ClassJpaController();
@@ -38,10 +43,19 @@ public class ClassJpaController extends EngineJpaController {
         return controller;
     }
 
+    /**
+     *
+     */
     public ClassJpaController() {
         super(Classes.class);
     }
 
+    /**
+     *
+     * @param entity
+     * @param data
+     * @return
+     */
     public Classes create(Classes entity, SchoolData data) {
         EntityManager em = null;
         try {
@@ -61,6 +75,13 @@ public class ClassJpaController extends EngineJpaController {
 
     }
 
+    /**
+     *
+     * @param _classes
+     * @param data
+     * @return
+     * @throws Exception
+     */
     public Classes edit(Classes _classes, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
@@ -87,6 +108,12 @@ public class ClassJpaController extends EngineJpaController {
 
     }
 
+    /**
+     *
+     * @param id
+     * @param data
+     * @return
+     */
     public Classes findClass(Integer id, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
@@ -114,14 +141,31 @@ public class ClassJpaController extends EngineJpaController {
         }
     }
 
+    /**
+     *
+     * @param data
+     * @return
+     */
     public List<Classes> findClassEntities(SchoolData data) {
         return findClassEntities(true, -1, -1, data);
     }
 
+    /**
+     *
+     * @param maxResults
+     * @param firstResult
+     * @param data
+     * @return
+     */
     public List<Classes> findClassEntities(int maxResults, int firstResult, SchoolData data) {
         return findClassEntities(false, maxResults, firstResult, data);
     }
 
+    /**
+     *
+     * @param data
+     * @return
+     */
     public int getCount(SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
@@ -132,6 +176,33 @@ public class ClassJpaController extends EngineJpaController {
             return (Integer) q.getSingleResult();
         } finally {
             em.close();
+        }
+    }
+
+    /**
+     *
+     * @param id
+     * @param data
+     * @throws Exception
+     */
+    public void destroy(Integer id, SchoolData data) throws Exception {
+        EntityManager em = null;
+        try {
+            em = getEntityManager(data.getExternalId());
+            em.getTransaction().begin();
+            Classes _class;
+            try {
+                _class = em.getReference(Classes.class, id.longValue());
+                _class.getId();
+            } catch (EntityNotFoundException enfe) {
+                throw enfe;
+            }
+            em.remove(_class);
+            em.getTransaction().commit();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
         }
     }
 

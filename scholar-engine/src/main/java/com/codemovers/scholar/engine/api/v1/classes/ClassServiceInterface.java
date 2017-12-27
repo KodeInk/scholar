@@ -22,6 +22,7 @@ public interface ClassServiceInterface {
     final String[] LIST_CLASSES_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_CLASSES"};
     final String[] UPDATE_CLASS_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_CLASS"};
     final String[] ARCHIVE_CLASS_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_CLASS"};
+    final String[] DELETE_CLASS_PERMISSION = new String[]{"DESTROY_CLASS"};
 
 
     ClassResponse archive(SchoolData data, Integer id) throws Exception;

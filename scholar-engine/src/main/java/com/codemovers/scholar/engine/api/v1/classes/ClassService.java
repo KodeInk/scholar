@@ -32,10 +32,17 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
     private final ClassJpaController controller;
     private static ClassService service = null;
 
+    /**
+     *
+     */
     public ClassService() {
         controller = ClassJpaController.getInstance();
     }
 
+    /**
+     *
+     * @return
+     */
     public static ClassService getInstance() {
         if (service == null) {
             service = new ClassService();
@@ -43,6 +50,14 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
         return service;
     }
 
+    /**
+     *
+     * @param data
+     * @param entity
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
     public ClassResponse create(SchoolData data, _Class entity, AuthenticationResponse authentication) throws Exception {
         //todo: check permissions
@@ -65,6 +80,15 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
 
     }
 
+    /**
+     *
+     * @param data
+     * @param ofset
+     * @param limit
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<ClassResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
         //todo: check list classes permissions
@@ -82,11 +106,33 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
         return responses;
     }
 
+    /**
+     *
+     * @param data
+     * @param id
+     * @return
+     * @throws Exception
+     */
     @Override
     public ClassResponse delete(SchoolData data, Integer id) throws Exception {
-        return super.delete(data, id); //To change body of generated methods, choose Tools | Templates.
+        check_access(DELETE_CLASS_PERMISSION);
+        //todo: get class by id
+        Classes _class = controller.findClass(id, data);
+        if (_class == null) {
+            throw new BadRequestException("Record does not exist");
+        }
+        controller.destroy(_class.getId().intValue(), data);
+
+        return null;
     }
 
+    /**
+     *
+     * @param data
+     * @param id
+     * @return
+     * @throws Exception
+     */
     @Override
     public ClassResponse archive(SchoolData data, Integer id) throws Exception {
         check_access(ARCHIVE_CLASS_PERMISSION);
@@ -101,6 +147,14 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
 
     }
 
+    /**
+     *
+     * @param data
+     * @param entity
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
     public ClassResponse update(SchoolData data, _Class entity, AuthenticationResponse authentication) throws Exception {
         check_access(UPDATE_CLASS_PERMISSION);
@@ -133,11 +187,23 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
 
     }
 
+    /**
+     *
+     * @param data
+     * @param Id
+     * @return
+     * @throws Exception
+     */
     @Override
     public ClassResponse getById(SchoolData data, Integer Id) throws Exception {
         return super.getById(data, Id); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param entity
+     * @return
+     */
     @Override
     public ClassResponse populateResponse(Classes entity) {
         ClassResponse response = new ClassResponse();
