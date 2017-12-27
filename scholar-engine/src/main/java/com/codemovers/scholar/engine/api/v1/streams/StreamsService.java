@@ -16,6 +16,7 @@ import com.codemovers.scholar.engine.db.entities.Streams;
 import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.check_access;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
+import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -31,6 +32,7 @@ public class StreamsService extends AbstractService<_Stream, StreamResponse> {
     private static StreamsService service = null;
 
     final String[] CREATE_STREAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_STREAM"};
+    final String[] UPDATE_STREAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_STREAM"};
 
 
     public StreamsService() {
@@ -68,6 +70,30 @@ public class StreamsService extends AbstractService<_Stream, StreamResponse> {
     }
 
     @Override
+    public StreamResponse update(SchoolData data, _Stream entity, AuthenticationResponse authentication) throws Exception {
+        check_access(UPDATE_STREAM_PERMISSION);
+        entity.validate();
+
+        if (entity.getId() == null) {
+            throw new BadRequestException("UNIQUE ID MISSING");
+        }
+
+        Streams stream = controller.findStream(entity.getId(), data);
+
+        if (entity.getName() != null && !entity.getName().equalsIgnoreCase(stream.getName())) {
+            stream.setName(entity.getName());
+        }
+
+        if (entity.getCode() != null && !entity.getCode().equalsIgnoreCase(stream.getCode())) {
+            stream.setCode(entity.getCode());
+        }
+
+        stream = controller.edit(stream, data);
+
+        return populateResponse(stream);
+    }
+
+    @Override
     public List<StreamResponse> list(SchoolData data, Integer ofset, Integer limit) throws Exception {
         return super.list(data, ofset, limit); //To change body of generated methods, choose Tools | Templates.
     }
@@ -75,11 +101,6 @@ public class StreamsService extends AbstractService<_Stream, StreamResponse> {
     @Override
     public StreamResponse delete(SchoolData data, Integer id) throws Exception {
         return super.delete(data, id); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public StreamResponse update(SchoolData data, _Stream entity) throws Exception {
-        return super.update(data, entity); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

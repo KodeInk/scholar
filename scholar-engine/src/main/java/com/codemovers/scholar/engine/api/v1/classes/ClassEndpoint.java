@@ -30,6 +30,7 @@ import javax.ws.rs.core.Response;
  *
  * @author mover 12/19/2017
  */
+@Path("/")
 public class ClassEndpoint extends AbstractEndpoint<_Class, ClassResponse> {
 
     private static final Logger LOG = Logger.getLogger(ClassEndpoint.class.getName());

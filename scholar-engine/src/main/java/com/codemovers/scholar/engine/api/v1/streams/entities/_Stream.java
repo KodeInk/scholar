@@ -29,6 +29,7 @@ public class _Stream extends AbstractEntity {
     private Date date_created;
     private @Mandatory
     Integer author_id;
+    private Integer[] classes;
 
     public _Stream() {
     }
@@ -84,6 +85,15 @@ public class _Stream extends AbstractEntity {
     public void setAuthor_id(Integer author_id) {
         this.author_id = author_id;
     }
+
+    public Integer[] getClasses() {
+        return classes;
+    }
+
+    public void setClasses(Integer[] classes) {
+        this.classes = classes;
+    }
+
 
     @Override
     public int hashCode() {

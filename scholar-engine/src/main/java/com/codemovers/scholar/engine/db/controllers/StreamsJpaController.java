@@ -59,7 +59,7 @@ public class StreamsJpaController extends EngineJpaController {
 
     }
 
-    public void edit(Streams stream, SchoolData data) throws Exception {
+    public Streams edit(Streams stream, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
             em = getEntityManager(data.getExternalId());
@@ -71,7 +71,7 @@ public class StreamsJpaController extends EngineJpaController {
             if (msg == null || msg.length() == 0) {
                 Integer id = stream.getId().intValue();
                 if (findStream(id,data) == null) {
-                    throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
+                    throw new BadRequestException("The Stream with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -80,13 +80,14 @@ public class StreamsJpaController extends EngineJpaController {
                 em.close();
             }
         }
+        return stream;
     }
 
     public Streams findStream(Integer id, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
 
         try {
-            return em.find(Streams.class, id);
+            return em.find(Streams.class, id.longValue());
         } finally {
             em.close();
         }
