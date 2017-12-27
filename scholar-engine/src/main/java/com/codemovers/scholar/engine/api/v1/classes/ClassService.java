@@ -26,16 +26,11 @@ import java.util.logging.Logger;
  *
  * @author mover 12/19/2017
  */
-public class ClassService extends AbstractService<_Class, ClassResponse> {
+public class ClassService extends AbstractService<_Class, ClassResponse> implements ClassServiceInterface {
 
     private static final Logger LOG = Logger.getLogger(UserService.class.getName());
     private final ClassJpaController controller;
     private static ClassService service = null;
-    private final String[] CREATE_CLASS_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_CLASS"};
-    private final String[] LIST_CLASSES_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_CLASSES"};
-    private final String[] UPDATE_CLASS_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_CLASS"};
-    private final String[] ARCHIVE_CLASS_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_CLASS"};
-
 
     public ClassService() {
         controller = ClassJpaController.getInstance();
@@ -143,6 +138,7 @@ public class ClassService extends AbstractService<_Class, ClassResponse> {
         return super.getById(data, Id); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
     public ClassResponse populateResponse(Classes entity) {
         ClassResponse response = new ClassResponse();
         response.setId(entity.getId().intValue());

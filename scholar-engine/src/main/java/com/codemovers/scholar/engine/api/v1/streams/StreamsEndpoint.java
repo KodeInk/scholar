@@ -39,7 +39,7 @@ public class StreamsEndpoint extends AbstractEndpoint<_Stream, StreamResponse> {
     }
 
     @Override
-    public Collection<StreamResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) {
+    public Collection<StreamResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
         return super.list(start, end, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -49,7 +49,7 @@ public class StreamsEndpoint extends AbstractEndpoint<_Stream, StreamResponse> {
     }
 
     @Override
-    public StreamResponse update(_Stream entity, String authentication, HttpServletRequest httpRequest) {
+    public StreamResponse update(_Stream entity, String authentication, HttpServletRequest httpRequest) throws Exception {
         return super.update(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
