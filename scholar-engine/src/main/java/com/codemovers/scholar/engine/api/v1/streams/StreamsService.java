@@ -7,15 +7,19 @@ package com.codemovers.scholar.engine.api.v1.streams;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
+import static com.codemovers.scholar.engine.api.v1.classes.ClassServiceInterface.LIST_CLASSES_PERMISSION;
+import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 import com.codemovers.scholar.engine.api.v1.streams.entities.StreamResponse;
 import com.codemovers.scholar.engine.api.v1.streams.entities._Stream;
 import com.codemovers.scholar.engine.db.controllers.StreamsJpaController;
+import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Streams;
 import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.check_access;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -33,7 +37,7 @@ public class StreamsService extends AbstractService<_Stream, StreamResponse> {
     final String[] CREATE_STREAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_STREAM"};
     final String[] UPDATE_STREAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_STREAM"};
     final String[] ARCHIVE_STREAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCIVE_STREAM"};
-
+    final String[] LIST_STREAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_STREAM_PERMISSION"};
 
     public StreamsService() {
         controller = StreamsJpaController.getInstance();
@@ -108,7 +112,17 @@ public class StreamsService extends AbstractService<_Stream, StreamResponse> {
 
     @Override
     public List<StreamResponse> list(SchoolData data, Integer ofset, Integer limit) throws Exception {
-        return super.list(data, ofset, limit); //To change body of generated methods, choose Tools | Templates.
+        check_access(LIST_STREAM_PERMISSION);
+        List<Streams> list = controller.findStreams(ofset, limit, data);
+        List<StreamResponse> responses = new ArrayList<>();
+        if (list != null) {
+
+            list.forEach((stream) -> {
+                responses.add(populateResponse(stream));
+            });
+        }
+
+        return responses;
     }
 
     @Override
