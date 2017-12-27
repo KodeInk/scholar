@@ -64,9 +64,7 @@ public class StreamsService extends AbstractService<_Stream, StreamResponse> {
 
         stream = controller.create(stream, data);
 
-
-
-        return super.create(data, entity); //To change body of generated methods, choose Tools | Templates.
+        return populateResponse(stream);
     }
 
     @Override
