@@ -51,12 +51,12 @@ public class CurriculumEndpoint extends AbstractEndpoint<_Curriculum, Curriculum
     }
 
     @Override
-    public CurriculumResponse update(_Curriculum entity, String authentication, HttpServletRequest httpRequest) {
+    public CurriculumResponse update(_Curriculum entity, String authentication, HttpServletRequest httpRequest) throws Exception {
         return super.update(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Collection<CurriculumResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) {
+    public Collection<CurriculumResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
         return super.list(start, end, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -196,7 +196,14 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
      */
     @Override
     public ClassResponse getById(SchoolData data, Integer Id) throws Exception {
-        return super.getById(data, Id); //To change body of generated methods, choose Tools | Templates.
+        check_access(LIST_CLASSES_PERMISSION);
+        //todo: get class by id
+        Classes _class = controller.findClass(Id, data);
+        if (_class == null) {
+            throw new BadRequestException("Record does not exist");
+        }
+
+        return populateResponse(_class);
     }
 
     /**
