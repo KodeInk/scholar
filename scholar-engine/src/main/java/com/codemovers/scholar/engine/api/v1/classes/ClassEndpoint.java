@@ -39,10 +39,19 @@ public class ClassEndpoint extends AbstractEndpoint<_Class, ClassResponse> {
     private ClassService service = null;
     private AuthenticationResponse authentication = null;
 
+    /**
+     *
+     */
     public ClassEndpoint() {
         service = new ClassService();
     }
 
+    /**
+     *
+     * @param schoolData
+     * @param authentication
+     * @throws Exception
+     */
     @Override
     public void validate(SchoolData schoolData, String authentication) throws Exception {
         this.authentication = UserService.getInstance().validateAuthentication(schoolData, authentication);

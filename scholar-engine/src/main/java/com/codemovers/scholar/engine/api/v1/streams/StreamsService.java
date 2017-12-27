@@ -6,10 +6,17 @@
 package com.codemovers.scholar.engine.api.v1.streams;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
+import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
+import static com.codemovers.scholar.engine.api.v1.classes.ClassServiceInterface.CREATE_CLASS_PERMISSION;
 import com.codemovers.scholar.engine.api.v1.streams.entities.StreamResponse;
 import com.codemovers.scholar.engine.api.v1.streams.entities._Stream;
 import com.codemovers.scholar.engine.db.controllers.StreamsJpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import com.codemovers.scholar.engine.db.entities.Streams;
+import com.codemovers.scholar.engine.db.entities.Users;
+import static com.codemovers.scholar.engine.helper.Utilities.check_access;
+import com.codemovers.scholar.engine.helper.enums.StatusEnum;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -20,10 +27,11 @@ import java.util.logging.Logger;
 public class StreamsService extends AbstractService<_Stream, StreamResponse> {
 
     private static final Logger LOG = Logger.getLogger(StreamsService.class.getName());
-
     private final StreamsJpaController controller;
-
     private static StreamsService service = null;
+
+    final String[] CREATE_STREAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_STREAM"};
+
 
     public StreamsService() {
         controller = StreamsJpaController.getInstance();
@@ -34,6 +42,31 @@ public class StreamsService extends AbstractService<_Stream, StreamResponse> {
             service = new StreamsService();
         }
         return service;
+    }
+
+    @Override
+    public StreamResponse create(SchoolData data, _Stream entity, AuthenticationResponse authentication) throws Exception {
+
+        //todo: check access
+        check_access(CREATE_STREAM_PERMISSION);
+        //todo: validate
+        entity.validate();
+        //todo; create
+        entity.setAuthor_id(authentication.getId());
+        entity.setStatus(StatusEnum.ACTIVE);
+
+        Streams stream = new Streams();
+        stream.setName(entity.getName());
+        stream.setCode(entity.getCode());
+        stream.setDateCreated(new Date());
+        stream.setAuthor(new Users(entity.getAuthor_id().longValue()));
+        stream.setStatus(entity.getStatus().toString());
+
+        stream = controller.create(stream, data);
+
+
+
+        return super.create(data, entity); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -56,11 +89,21 @@ public class StreamsService extends AbstractService<_Stream, StreamResponse> {
         return super.getById(data, Id); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public StreamResponse create(SchoolData data, _Stream entity) throws Exception {
-        return super.create(data, entity); //To change body of generated methods, choose Tools | Templates.
-    }
+    public StreamResponse populateResponse(Streams entity) {
 
+        StreamResponse response = new StreamResponse();
+        response.setName(entity.getName());
+        response.setCode(entity.getCode());
+        response.setId(entity.getId().intValue());
+        response.setDate_created(entity.getDateCreated());
+        response.setStatus(StatusEnum.fromString(entity.getStatus()));
+
+        if (entity.getAuthor() != null) {
+            response.setAuthor(entity.getAuthor().getUsername());
+        }
+
+        return response;
+    }
 
 
 

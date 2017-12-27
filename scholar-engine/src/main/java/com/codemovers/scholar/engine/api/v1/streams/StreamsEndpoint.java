@@ -6,10 +6,12 @@
 package com.codemovers.scholar.engine.api.v1.streams;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEndpoint;
+import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.streams.entities.StreamResponse;
 import com.codemovers.scholar.engine.api.v1.streams.entities._Stream;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
 import java.util.Collection;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -26,8 +28,8 @@ public class StreamsEndpoint extends AbstractEndpoint<_Stream, StreamResponse> {
     private static final Logger LOG = Logger.getLogger(StreamsEndpoint.class.getName());
     @Context
     private ContainerRequestContext context;
-
     StreamsService service = null;
+    private AuthenticationResponse authentication = null;
 
     public StreamsEndpoint() {
         service = new StreamsService();
@@ -35,17 +37,13 @@ public class StreamsEndpoint extends AbstractEndpoint<_Stream, StreamResponse> {
 
     @Override
     public void validate(SchoolData schoolData, String authentication) throws Exception {
-        UserService.getInstance().validateAuthentication(schoolData, authentication);
+        this.authentication = UserService.getInstance().validateAuthentication(schoolData, authentication);
     }
 
     @Override
-    public Collection<StreamResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
-        return super.list(start, end, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Response delete(Integer id, String authentication, HttpServletRequest httpRequest) {
-        return super.delete(id, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+    public StreamResponse create(_Stream entity, String authentication, HttpServletRequest httpRequest) throws Exception {
+        validate(tenantdata, authentication);
+        return service.create(tenantdata, entity, this.authentication);
     }
 
     @Override
@@ -54,8 +52,14 @@ public class StreamsEndpoint extends AbstractEndpoint<_Stream, StreamResponse> {
     }
 
     @Override
-    public StreamResponse create(_Stream entity, String authentication, HttpServletRequest httpRequest) throws Exception {
-        return super.create(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+    public Response archive(Integer id, String authentication, HttpServletRequest httpRequest) {
+        return super.archive(id, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
+    @Override
+    public Collection<StreamResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
+        return super.list(start, end, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
 
