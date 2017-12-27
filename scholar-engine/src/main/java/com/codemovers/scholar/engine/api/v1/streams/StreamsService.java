@@ -38,6 +38,7 @@ public class StreamsService extends AbstractService<_Stream, StreamResponse> {
     final String[] UPDATE_STREAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_STREAM"};
     final String[] ARCHIVE_STREAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCIVE_STREAM"};
     final String[] LIST_STREAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_STREAM_PERMISSION"};
+    final String[] DELETE_STREAM_PERMISSION = new String[]{"LIST_STREAM_PERMISSION"};
 
     public StreamsService() {
         controller = StreamsJpaController.getInstance();
@@ -127,13 +128,18 @@ public class StreamsService extends AbstractService<_Stream, StreamResponse> {
 
     @Override
     public StreamResponse getById(SchoolData data, Integer Id) throws Exception {
-        return super.getById(data, Id); //To change body of generated methods, choose Tools | Templates.
+        check_access(LIST_STREAM_PERMISSION);
+        Streams _stream = controller.findStream(Id, data);
+        return populateResponse(_stream);
+                
     }
 
 
     @Override
     public StreamResponse delete(SchoolData data, Integer id) throws Exception {
-        return super.delete(data, id); //To change body of generated methods, choose Tools | Templates.
+        check_access(DELETE_STREAM_PERMISSION);
+        controller.destroy(id, data);
+        return null;
     }
 
     public StreamResponse populateResponse(Streams entity) {

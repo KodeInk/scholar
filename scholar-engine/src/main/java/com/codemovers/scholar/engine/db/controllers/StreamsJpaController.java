@@ -7,6 +7,7 @@ package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
+import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.Roles;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Streams;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -127,6 +129,27 @@ public class StreamsJpaController extends EngineJpaController {
             return (Integer) q.getSingleResult();
         } finally {
             em.close();
+        }
+    }
+
+    public void destroy(Integer id, SchoolData data) throws Exception {
+        EntityManager em = null;
+        try {
+            em = getEntityManager(data.getExternalId());
+            em.getTransaction().begin();
+            Streams _stream;
+            try {
+                _stream = em.getReference(Streams.class, id.longValue());
+                _stream.getId();
+            } catch (EntityNotFoundException enfe) {
+                throw enfe;
+            }
+            em.remove(_stream);
+            em.getTransaction().commit();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
