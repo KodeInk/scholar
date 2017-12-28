@@ -29,7 +29,7 @@ import java.util.logging.Logger;
  *
  * @author mover 12/28/2017
  */
-public class CurriculumDetailService extends AbstractService<_CurriculumDetail, CurriculumDetailResponse> {
+public class CurriculumDetailService extends AbstractService<_CurriculumDetail, CurriculumDetailResponse> implements CurriculumDetailServiceInterface {
 
     final String[] CREATE_CURRICULUMDETAIL_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_CURRICULUMDETAIL"};
     final String[] UPDATE_CURRICULUMDETAIL_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_CURRICULUMDETAIL"};
@@ -147,6 +147,7 @@ public class CurriculumDetailService extends AbstractService<_CurriculumDetail, 
 
     }
 
+    @Override
     public CurriculumDetailResponse populateResponse(CurriculumDetails entity) {
         CurriculumDetailResponse response = new CurriculumDetailResponse();
         response.setName(entity.getName());
