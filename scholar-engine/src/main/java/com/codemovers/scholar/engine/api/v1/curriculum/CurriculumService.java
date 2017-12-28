@@ -83,7 +83,7 @@ public class CurriculumService extends AbstractService<_Curriculum, CurriculumRe
             throw new BadRequestException("UNIQUE ID MISSING");
         }
 
-        Curriculum _Curriculum = controller.findCurriculum(Integer.SIZE, data);
+        Curriculum _Curriculum = controller.findCurriculum(entity.getId(), data);
 
         if (entity.getName() != null && !entity.getName().equalsIgnoreCase(_Curriculum.getName())) {
             _Curriculum.setName(entity.getName());

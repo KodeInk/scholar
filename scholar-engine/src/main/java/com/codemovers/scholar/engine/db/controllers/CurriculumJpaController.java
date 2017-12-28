@@ -88,7 +88,7 @@ public class CurriculumJpaController extends EngineJpaController {
     public Curriculum findCurriculum(Integer id, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
-            return em.find(Curriculum.class, id);
+            return em.find(Curriculum.class, id.longValue());
         } finally {
             em.close();
         }
