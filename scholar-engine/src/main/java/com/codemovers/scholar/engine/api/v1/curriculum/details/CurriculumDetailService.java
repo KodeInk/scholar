@@ -8,6 +8,7 @@ package com.codemovers.scholar.engine.api.v1.curriculum.details;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import static com.codemovers.scholar.engine.api.v1.classes.ClassServiceInterface.CREATE_CLASS_PERMISSION;
+import static com.codemovers.scholar.engine.api.v1.classes.ClassServiceInterface.UPDATE_CLASS_PERMISSION;
 import com.codemovers.scholar.engine.api.v1.curriculum.CurriculumService;
 import com.codemovers.scholar.engine.api.v1.curriculum.details.entities.CurriculumDetailResponse;
 import com.codemovers.scholar.engine.api.v1.curriculum.details.entities._CurriculumDetail;
@@ -17,6 +18,7 @@ import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.check_access;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
+import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -27,7 +29,8 @@ import java.util.logging.Logger;
  */
 public class CurriculumDetailService extends AbstractService<_CurriculumDetail, CurriculumDetailResponse> {
 
-    final String[] CREATE_CURRICULUMDETAIL_PERMISSION = new String[]{"ALL_FUNCTIONS", "CURRICULUMDETAIL"};
+    final String[] CREATE_CURRICULUMDETAIL_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_CURRICULUMDETAIL"};
+    final String[] UPDATE_CURRICULUMDETAIL_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_CURRICULUMDETAIL"};
 
     private static final Logger LOG = Logger.getLogger(CurriculumService.class.getName());
 
@@ -69,7 +72,29 @@ public class CurriculumDetailService extends AbstractService<_CurriculumDetail, 
 
     @Override
     public CurriculumDetailResponse update(SchoolData data, _CurriculumDetail entity, AuthenticationResponse authentication) throws Exception {
-        return super.update(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
+        check_access(UPDATE_CURRICULUMDETAIL_PERMISSION);
+        entity.validate();
+
+        if (entity.getId() == null) {
+            throw new BadRequestException("UNIQUE ID MISSING");
+        }
+        CurriculumDetails details = controller.findCurriculumDetail(entity.getId(), data);
+
+        if (entity.getName() != null && !entity.getName().equalsIgnoreCase(details.getName())) {
+            details.setName(entity.getName());
+        }
+
+        if (entity.getCode() != null && !entity.getCode().equalsIgnoreCase(details.getCode())) {
+            details.setCode(entity.getCode());
+        }
+
+        if (entity.getDescription() != null && !entity.getDescription().equalsIgnoreCase(details.getDescription())) {
+            details.setDescription(entity.getDescription());
+        }
+
+        details = controller.edit(details, data);
+
+        return populateResponse(details);
     }
 
     @Override

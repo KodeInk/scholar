@@ -59,7 +59,7 @@ public class CurriculumDetailsJpaController extends EngineJpaController {
 
     }
 
-    public void edit(CurriculumDetails curriculum_detail, SchoolData data) throws Exception {
+    public CurriculumDetails edit(CurriculumDetails curriculum_detail, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
             em = getEntityManager(data.getExternalId());
@@ -80,12 +80,14 @@ public class CurriculumDetailsJpaController extends EngineJpaController {
                 em.close();
             }
         }
+
+        return curriculum_detail;
     }
 
     public CurriculumDetails findCurriculumDetail(Integer id, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
-            return em.find(CurriculumDetails.class, id);
+            return em.find(CurriculumDetails.class, id.longValue());
         } finally {
             em.close();
         }
