@@ -132,14 +132,20 @@ public class CurriculumService extends AbstractService<_Curriculum, CurriculumRe
                 responses.add(populateResponse(_class));
             });
         }
-
         return responses;
-
     }
 
     @Override
     public CurriculumResponse getById(SchoolData data, Integer Id) throws Exception {
-        return super.getById(data, Id); //To change body of generated methods, choose Tools | Templates.
+        check_access(LIST_CLASSES_PERMISSION);
+        //todo: get class by id
+        Curriculum _Curriculum = controller.findCurriculum(Id, data);
+        if (_Curriculum == null) {
+            throw new BadRequestException("Record does not exist");
+        }
+
+        return populateResponse(_Curriculum);
+
     }
 
     public CurriculumResponse populateResponse(Curriculum entity) {
