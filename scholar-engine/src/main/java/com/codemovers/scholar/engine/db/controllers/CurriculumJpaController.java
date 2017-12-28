@@ -60,7 +60,7 @@ public class CurriculumJpaController extends EngineJpaController {
 
     }
 
-    public void edit(Curriculum curriculum, SchoolData data) throws Exception {
+    public Curriculum edit(Curriculum curriculum, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
             em = getEntityManager(data.getExternalId());
@@ -81,6 +81,8 @@ public class CurriculumJpaController extends EngineJpaController {
                 em.close();
             }
         }
+
+        return curriculum;
     }
 
     public Curriculum findCurriculum(Integer id, SchoolData data) {

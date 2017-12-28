@@ -16,6 +16,7 @@ import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.check_access;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
+import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -33,6 +34,8 @@ public class CurriculumService extends AbstractService<_Curriculum, CurriculumRe
     private static CurriculumService service = null;
 
     final String[] CREATE_CURRICULUM_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_CURRICULUM"};
+    final String[] ARCHIVE_CURRICULUM_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_CURRICULUM"};
+    final String[] UPDATE_CURRICULUM_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_CURRICULUM"};
 
     public CurriculumService() {
         controller = CurriculumJpaController.getInstance();
@@ -73,11 +76,35 @@ public class CurriculumService extends AbstractService<_Curriculum, CurriculumRe
 
     @Override
     public CurriculumResponse update(SchoolData data, _Curriculum entity) throws Exception {
-        return super.update(data, entity); //To change body of generated methods, choose Tools | Templates.
+        check_access(UPDATE_CURRICULUM_PERMISSION);
+        entity.validate();
+        //todo: get the entity by id if exists
+        if (entity.getId() == null) {
+            throw new BadRequestException("UNIQUE ID MISSING");
+        }
+
+        Curriculum _Curriculum = controller.findCurriculum(Integer.SIZE, data);
+
+        if (entity.getName() != null && !entity.getName().equalsIgnoreCase(_Curriculum.getName())) {
+            _Curriculum.setName(entity.getName());
+        }
+
+        if (entity.getCode() != null && !entity.getCode().equalsIgnoreCase(_Curriculum.getCode())) {
+            _Curriculum.setCode(entity.getCode());
+        }
+
+        if (entity.getDescription() != null && !entity.getDescription().equalsIgnoreCase(_Curriculum.getDescription())) {
+            _Curriculum.setDescription(entity.getDescription());
+        }
+
+        _Curriculum = controller.edit(_Curriculum, data);
+
+        return populateResponse(_Curriculum);
     }
 
     @Override
     public CurriculumResponse archive(SchoolData data, Integer id) throws Exception {
+        check_access(ARCHIVE_CURRICULUM_PERMISSION);
         return super.archive(data, id); //To change body of generated methods, choose Tools | Templates.
     }
 
