@@ -105,7 +105,15 @@ public class CurriculumService extends AbstractService<_Curriculum, CurriculumRe
     @Override
     public CurriculumResponse archive(SchoolData data, Integer id) throws Exception {
         check_access(ARCHIVE_CURRICULUM_PERMISSION);
-        return super.archive(data, id); //To change body of generated methods, choose Tools | Templates.
+        Curriculum _Curriculum = controller.findCurriculum(id, data);
+
+        if (_Curriculum == null) {
+            throw new BadRequestException("Record does not exist");
+        }
+        _Curriculum.setStatus(StatusEnum.ARCHIVED.toString());
+        _Curriculum = controller.edit(_Curriculum, data);
+        return populateResponse(_Curriculum);
+
     }
 
     @Override
