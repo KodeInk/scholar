@@ -7,13 +7,10 @@ package com.codemovers.scholar.engine.api.v1.curriculum;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import static com.codemovers.scholar.engine.api.v1.classes.ClassServiceInterface.LIST_CLASSES_PERMISSION;
-import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 import com.codemovers.scholar.engine.api.v1.curriculum.entities.CurriculumResponse;
 import com.codemovers.scholar.engine.api.v1.curriculum.entities._Curriculum;
 import com.codemovers.scholar.engine.db.controllers.CurriculumDetailsJpaController;
 import com.codemovers.scholar.engine.db.controllers.CurriculumJpaController;
-import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.Curriculum;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Users;
@@ -27,7 +24,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author mover
+ * @author mover 12/28/2017
  */
 public class CurriculumService extends AbstractService<_Curriculum, CurriculumResponse> {
 
@@ -137,7 +134,7 @@ public class CurriculumService extends AbstractService<_Curriculum, CurriculumRe
 
     @Override
     public CurriculumResponse getById(SchoolData data, Integer Id) throws Exception {
-        check_access(LIST_CLASSES_PERMISSION);
+        check_access(LIST_CURRICULUM_PERMISSION);
         //todo: get class by id
         Curriculum _Curriculum = controller.findCurriculum(Id, data);
         if (_Curriculum == null) {
