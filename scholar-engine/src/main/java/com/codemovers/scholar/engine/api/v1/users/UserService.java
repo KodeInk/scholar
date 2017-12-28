@@ -66,7 +66,6 @@ public class UserService extends AbstractService<_User, UserResponse> implements
             //todo: validate mandatories
             entity.validate();
 
-
             USER.setUsername(entity.getUsername());
             String encryptedPassword = encryptPassword_md5(entity.getPassword());
             USER.setPassword(encryptedPassword);
@@ -111,7 +110,6 @@ public class UserService extends AbstractService<_User, UserResponse> implements
                 }
             }
 
-
             // assign roles to user :: 
             return populateResponse(USER, true);
         } catch (Exception er) {
@@ -144,8 +142,6 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         return populateResponse(_user, true);
 
     }
-
-
 
     /**
      *
@@ -210,7 +206,6 @@ public class UserService extends AbstractService<_User, UserResponse> implements
             LOG.log(Level.INFO, " School User Login ");
             String authentication = null;
 
-
             {
                 if (login.getPassword() != null && login.getUsername() != null) {
                     // todo : encrypt password
@@ -219,7 +214,6 @@ public class UserService extends AbstractService<_User, UserResponse> implements
                     String password = login.getPassword();
 
                     password = encryptPassword_md5(password);
-
 
                     Users users = controller.login(username, password, tenantData);
 
@@ -246,7 +240,6 @@ public class UserService extends AbstractService<_User, UserResponse> implements
                             permissionsResponse.setName(r.getName());
                             permissionsResponses.add(permissionsResponse);
 
-
 //                            for (Permissions p : _permissionset) {
 //                                permissions.add(p);
 //                            }
@@ -261,7 +254,6 @@ public class UserService extends AbstractService<_User, UserResponse> implements
 //                                permissionsResponses.add(permissionsResponse);
 //                            });
 //                        });
-
                         response.setPermissions(permissionsResponses);
                         response.setIsLoggedIn(true);
 
@@ -280,7 +272,6 @@ public class UserService extends AbstractService<_User, UserResponse> implements
             throw er;
         }
 
-
         return response;
     }
 
@@ -297,7 +288,6 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         }
         _user.setStatus("DISABLED");
 
-
     }
 
     public void activate(SchoolData schoolData, Integer account_id) throws Exception {
@@ -309,7 +299,6 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         _user.setStatus("ACTIVE");
 
     }
-
 
     private UserResponse populateResponse(Users entity, boolean extended) throws Exception {
 

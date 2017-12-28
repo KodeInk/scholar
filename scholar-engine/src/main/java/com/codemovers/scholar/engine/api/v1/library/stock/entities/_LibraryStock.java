@@ -147,7 +147,6 @@ public class _LibraryStock extends AbstractEntity {
         validateMandatoryFields(this.getClass(), this);
     }
 
-
     @Override
     public String toString() {
         return "_LibraryStock{"
@@ -160,6 +159,5 @@ public class _LibraryStock extends AbstractEntity {
                 + ", author_id=" + author_id
                 + "}";
     }
-
 
 }

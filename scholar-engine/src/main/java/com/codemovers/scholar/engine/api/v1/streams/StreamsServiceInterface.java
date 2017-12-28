@@ -24,7 +24,6 @@ public interface StreamsServiceInterface {
     final String[] LIST_STREAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_STREAM_PERMISSION"};
     final String[] DELETE_STREAM_PERMISSION = new String[]{"LIST_STREAM_PERMISSION"};
 
-
     StreamResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception;
 
     StreamResponse create(SchoolData data, _Stream entity, AuthenticationResponse authentication) throws Exception;

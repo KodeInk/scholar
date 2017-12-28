@@ -61,7 +61,6 @@ public class AuthenticationResponse {
         this.id = id;
     }
 
-
     @Override
     public String toString() {
         return this.getClass().getCanonicalName()

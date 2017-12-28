@@ -111,5 +111,4 @@ public class UserRoleJpaController extends EngineJpaController {
         }
     }
 
-
 }

@@ -95,7 +95,7 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
         check_access(LIST_CLASSES_PERMISSION);
         //todo: you will need logging of  every operation of a logged in user
         //todo, get list  a range from the  jpa controller
-      List<Classes> list = controller.findClassEntities(ofset, limit, data);
+        List<Classes> list = controller.findClassEntities(ofset, limit, data);
         List<ClassResponse> responses = new ArrayList<>();
         if (list != null) {
             list.forEach((_class) -> {
@@ -137,7 +137,7 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
     public ClassResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
         check_access(ARCHIVE_CLASS_PERMISSION);
         //todo: get class by id
-       Classes _class = controller.findClass(id, data);
+        Classes _class = controller.findClass(id, data);
         if (_class == null) {
             throw new BadRequestException("Record does not exist");
         }
@@ -179,7 +179,6 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
                 classes.setRanking(ranking);
             }
         }
-
 
         //todo: update
         classes = controller.edit(classes, data);

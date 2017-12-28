@@ -192,7 +192,6 @@ public class _LibraryTransaction extends AbstractEntity {
         validateMandatoryFields(this.getClass(), this);
     }
 
-
     @Override
     public String toString() {
         return "_LibraryTransaction{"
@@ -210,8 +209,4 @@ public class _LibraryTransaction extends AbstractEntity {
                 + "}";
     }
 
-
-
-
 }
-

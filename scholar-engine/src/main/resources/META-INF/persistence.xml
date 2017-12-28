@@ -2,111 +2,111 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   
     <persistence-unit name="scholar" transaction-type="RESOURCE_LOCAL">
-    <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <class>com.codemovers.scholar.engine.db.entities.TeachingTimetable</class>
-    <class>com.codemovers.scholar.engine.db.entities.Grading</class>
-    <class>com.codemovers.scholar.engine.db.entities.Roles</class>
-    <class>com.codemovers.scholar.engine.db.entities.StudentAdmission</class>
-    <class>com.codemovers.scholar.engine.db.entities.ClassStream</class>
-    <class>com.codemovers.scholar.engine.db.entities.LibrarySection</class>
-    <class>com.codemovers.scholar.engine.db.entities.LibraryStockInventory</class>
-    <class>com.codemovers.scholar.engine.db.entities.ExamTem</class>
-    <class>com.codemovers.scholar.engine.db.entities.SubjectTeachers</class>
-    <class>com.codemovers.scholar.engine.db.entities.Profile</class>
-    <class>com.codemovers.scholar.engine.db.entities.Contacts</class>
-    <class>com.codemovers.scholar.engine.db.entities.Books</class>
-    <class>com.codemovers.scholar.engine.db.entities.Addresses</class>
-    <class>com.codemovers.scholar.engine.db.entities.SubjectCurriculum</class>
-    <class>com.codemovers.scholar.engine.db.entities.GradingDetails</class>
-    <class>com.codemovers.scholar.engine.db.entities.StudentSubjectRegistration</class>
-    <class>com.codemovers.scholar.engine.db.entities.CurriculumDetails</class>
-    <class>com.codemovers.scholar.engine.db.entities.SubjectPapers</class>
-    <class>com.codemovers.scholar.engine.db.entities.LibraryTransactions</class>
-    <class>com.codemovers.scholar.engine.db.entities.Curriculum</class>
-    <class>com.codemovers.scholar.engine.db.entities.BookCategory</class>
-    <class>com.codemovers.scholar.engine.db.entities.SubjectGrading</class>
-    <class>com.codemovers.scholar.engine.db.entities.StudentExamRegistration</class>
-    <class>com.codemovers.scholar.engine.db.entities.Streams</class>
-    <class>com.codemovers.scholar.engine.db.entities.ExamTimetable</class>
-    <class>com.codemovers.scholar.engine.db.entities.SubjectClass</class>
-    <class>com.codemovers.scholar.engine.db.entities.Marksheet</class>
-    <class>com.codemovers.scholar.engine.db.entities.Terms</class>
-    <class>com.codemovers.scholar.engine.db.entities.Permissions</class>
-    <class>com.codemovers.scholar.engine.db.entities.BookType</class>
-    <class>com.codemovers.scholar.engine.db.entities.Subjects</class>
-    <class>com.codemovers.scholar.engine.db.entities.Exams</class>
-    <class>com.codemovers.scholar.engine.db.entities.LibraryStock</class>
-    <class>com.codemovers.scholar.engine.db.entities.Users</class>
-    <class>com.codemovers.scholar.engine.db.entities.Classes</class>
-    <class>com.codemovers.scholar.engine.db.entities.ExamClass</class>
-    <class>com.codemovers.scholar.engine.db.entities.StudyYearCurriculum</class>
-    <class>com.codemovers.scholar.engine.db.entities.StudyYear</class>
-    <class>com.codemovers.scholar.engine.db.entities.StudentTermRegistration</class>
-    <class>com.codemovers.scholar.engine.db.entities.SchoolData</class>
-    <class>com.codemovers.scholar.engine.db.entities.UserRole</class>
-    <properties>
-      <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
-      <!--            <property name="javax.persistence.schema-generation.database.action" value="create"/>-->
-      <property name="javax.persistence.jdbc.url" value=""/>
-      <property name="javax.persistence.jdbc.user" value=""/>
-      <property name="javax.persistence.jdbc.driver" value=""/>
-      <property name="javax.persistence.jdbc.password" value=""/>
-    </properties>
-  </persistence-unit>
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <class>com.codemovers.scholar.engine.db.entities.TeachingTimetable</class>
+        <class>com.codemovers.scholar.engine.db.entities.Grading</class>
+        <class>com.codemovers.scholar.engine.db.entities.Roles</class>
+        <class>com.codemovers.scholar.engine.db.entities.StudentAdmission</class>
+        <class>com.codemovers.scholar.engine.db.entities.ClassStream</class>
+        <class>com.codemovers.scholar.engine.db.entities.LibrarySection</class>
+        <class>com.codemovers.scholar.engine.db.entities.LibraryStockInventory</class>
+        <class>com.codemovers.scholar.engine.db.entities.ExamTem</class>
+        <class>com.codemovers.scholar.engine.db.entities.SubjectTeachers</class>
+        <class>com.codemovers.scholar.engine.db.entities.Profile</class>
+        <class>com.codemovers.scholar.engine.db.entities.Contacts</class>
+        <class>com.codemovers.scholar.engine.db.entities.Books</class>
+        <class>com.codemovers.scholar.engine.db.entities.Addresses</class>
+        <class>com.codemovers.scholar.engine.db.entities.SubjectCurriculum</class>
+        <class>com.codemovers.scholar.engine.db.entities.GradingDetails</class>
+        <class>com.codemovers.scholar.engine.db.entities.StudentSubjectRegistration</class>
+        <class>com.codemovers.scholar.engine.db.entities.CurriculumDetails</class>
+        <class>com.codemovers.scholar.engine.db.entities.SubjectPapers</class>
+        <class>com.codemovers.scholar.engine.db.entities.LibraryTransactions</class>
+        <class>com.codemovers.scholar.engine.db.entities.Curriculum</class>
+        <class>com.codemovers.scholar.engine.db.entities.BookCategory</class>
+        <class>com.codemovers.scholar.engine.db.entities.SubjectGrading</class>
+        <class>com.codemovers.scholar.engine.db.entities.StudentExamRegistration</class>
+        <class>com.codemovers.scholar.engine.db.entities.Streams</class>
+        <class>com.codemovers.scholar.engine.db.entities.ExamTimetable</class>
+        <class>com.codemovers.scholar.engine.db.entities.SubjectClass</class>
+        <class>com.codemovers.scholar.engine.db.entities.Marksheet</class>
+        <class>com.codemovers.scholar.engine.db.entities.Terms</class>
+        <class>com.codemovers.scholar.engine.db.entities.Permissions</class>
+        <class>com.codemovers.scholar.engine.db.entities.BookType</class>
+        <class>com.codemovers.scholar.engine.db.entities.Subjects</class>
+        <class>com.codemovers.scholar.engine.db.entities.Exams</class>
+        <class>com.codemovers.scholar.engine.db.entities.LibraryStock</class>
+        <class>com.codemovers.scholar.engine.db.entities.Users</class>
+        <class>com.codemovers.scholar.engine.db.entities.Classes</class>
+        <class>com.codemovers.scholar.engine.db.entities.ExamClass</class>
+        <class>com.codemovers.scholar.engine.db.entities.StudyYearCurriculum</class>
+        <class>com.codemovers.scholar.engine.db.entities.StudyYear</class>
+        <class>com.codemovers.scholar.engine.db.entities.StudentTermRegistration</class>
+        <class>com.codemovers.scholar.engine.db.entities.SchoolData</class>
+        <class>com.codemovers.scholar.engine.db.entities.UserRole</class>
+        <properties>
+            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+            <!--            <property name="javax.persistence.schema-generation.database.action" value="create"/>-->
+            <property name="javax.persistence.jdbc.url" value=""/>
+            <property name="javax.persistence.jdbc.user" value=""/>
+            <property name="javax.persistence.jdbc.driver" value=""/>
+            <property name="javax.persistence.jdbc.password" value=""/>
+        </properties>
+    </persistence-unit>
 
 
-  <persistence-unit name="engine" transaction-type="RESOURCE_LOCAL">
-      <provider>org.hibernate.ejb.HibernatePersistence</provider>
-      <class>com.codemovers.scholar.engine.db.entities.TeachingTimetable</class>
-      <class>com.codemovers.scholar.engine.db.entities.Grading</class>
-      <class>com.codemovers.scholar.engine.db.entities.Roles</class>
-      <class>com.codemovers.scholar.engine.db.entities.StudentAdmission</class>
-      <class>com.codemovers.scholar.engine.db.entities.ClassStream</class>
-      <class>com.codemovers.scholar.engine.db.entities.LibrarySection</class>
-      <class>com.codemovers.scholar.engine.db.entities.LibraryStockInventory</class>
-      <class>com.codemovers.scholar.engine.db.entities.ExamTem</class>
-      <class>com.codemovers.scholar.engine.db.entities.SubjectTeachers</class>
-      <class>com.codemovers.scholar.engine.db.entities.Profile</class>
-      <class>com.codemovers.scholar.engine.db.entities.Contacts</class>
-      <class>com.codemovers.scholar.engine.db.entities.Books</class>
-      <class>com.codemovers.scholar.engine.db.entities.Addresses</class>
-      <class>com.codemovers.scholar.engine.db.entities.SubjectCurriculum</class>
-      <class>com.codemovers.scholar.engine.db.entities.GradingDetails</class>
-      <class>com.codemovers.scholar.engine.db.entities.StudentSubjectRegistration</class>
-      <class>com.codemovers.scholar.engine.db.entities.CurriculumDetails</class>
-      <class>com.codemovers.scholar.engine.db.entities.SubjectPapers</class>
-      <class>com.codemovers.scholar.engine.db.entities.LibraryTransactions</class>
-      <class>com.codemovers.scholar.engine.db.entities.Curriculum</class>
-      <class>com.codemovers.scholar.engine.db.entities.BookCategory</class>
-      <class>com.codemovers.scholar.engine.db.entities.SubjectGrading</class>
-      <class>com.codemovers.scholar.engine.db.entities.StudentExamRegistration</class>
-      <class>com.codemovers.scholar.engine.db.entities.Streams</class>
-      <class>com.codemovers.scholar.engine.db.entities.ExamTimetable</class>
-      <class>com.codemovers.scholar.engine.db.entities.SubjectClass</class>
-      <class>com.codemovers.scholar.engine.db.entities.Marksheet</class>
-      <class>com.codemovers.scholar.engine.db.entities.Terms</class>
-      <class>com.codemovers.scholar.engine.db.entities.Permissions</class>
-      <class>com.codemovers.scholar.engine.db.entities.BookType</class>
-      <class>com.codemovers.scholar.engine.db.entities.Subjects</class>
-      <class>com.codemovers.scholar.engine.db.entities.Exams</class>
-      <class>com.codemovers.scholar.engine.db.entities.LibraryStock</class>
-      <class>com.codemovers.scholar.engine.db.entities.Users</class>
-      <class>com.codemovers.scholar.engine.db.entities.Classes</class>
-      <class>com.codemovers.scholar.engine.db.entities.ExamClass</class>
-      <class>com.codemovers.scholar.engine.db.entities.StudyYearCurriculum</class>
-      <class>com.codemovers.scholar.engine.db.entities.StudyYear</class>
-      <class>com.codemovers.scholar.engine.db.entities.StudentTermRegistration</class>
-      <class>com.codemovers.scholar.engine.db.entities.SchoolData</class>
-      <class>com.codemovers.scholar.engine.db.entities.UserRole</class>
-      <properties>
-          <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
-          <!--            <property name="javax.persistence.schema-generation.database.action" value="create"/>-->
-          <property name="javax.persistence.jdbc.url" value=""/>
-          <property name="javax.persistence.jdbc.user" value=""/>
-          <property name="javax.persistence.jdbc.driver" value=""/>
-          <property name="javax.persistence.jdbc.password" value=""/>
-      </properties>
-  </persistence-unit>
+    <persistence-unit name="engine" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <class>com.codemovers.scholar.engine.db.entities.TeachingTimetable</class>
+        <class>com.codemovers.scholar.engine.db.entities.Grading</class>
+        <class>com.codemovers.scholar.engine.db.entities.Roles</class>
+        <class>com.codemovers.scholar.engine.db.entities.StudentAdmission</class>
+        <class>com.codemovers.scholar.engine.db.entities.ClassStream</class>
+        <class>com.codemovers.scholar.engine.db.entities.LibrarySection</class>
+        <class>com.codemovers.scholar.engine.db.entities.LibraryStockInventory</class>
+        <class>com.codemovers.scholar.engine.db.entities.ExamTem</class>
+        <class>com.codemovers.scholar.engine.db.entities.SubjectTeachers</class>
+        <class>com.codemovers.scholar.engine.db.entities.Profile</class>
+        <class>com.codemovers.scholar.engine.db.entities.Contacts</class>
+        <class>com.codemovers.scholar.engine.db.entities.Books</class>
+        <class>com.codemovers.scholar.engine.db.entities.Addresses</class>
+        <class>com.codemovers.scholar.engine.db.entities.SubjectCurriculum</class>
+        <class>com.codemovers.scholar.engine.db.entities.GradingDetails</class>
+        <class>com.codemovers.scholar.engine.db.entities.StudentSubjectRegistration</class>
+        <class>com.codemovers.scholar.engine.db.entities.CurriculumDetails</class>
+        <class>com.codemovers.scholar.engine.db.entities.SubjectPapers</class>
+        <class>com.codemovers.scholar.engine.db.entities.LibraryTransactions</class>
+        <class>com.codemovers.scholar.engine.db.entities.Curriculum</class>
+        <class>com.codemovers.scholar.engine.db.entities.BookCategory</class>
+        <class>com.codemovers.scholar.engine.db.entities.SubjectGrading</class>
+        <class>com.codemovers.scholar.engine.db.entities.StudentExamRegistration</class>
+        <class>com.codemovers.scholar.engine.db.entities.Streams</class>
+        <class>com.codemovers.scholar.engine.db.entities.ExamTimetable</class>
+        <class>com.codemovers.scholar.engine.db.entities.SubjectClass</class>
+        <class>com.codemovers.scholar.engine.db.entities.Marksheet</class>
+        <class>com.codemovers.scholar.engine.db.entities.Terms</class>
+        <class>com.codemovers.scholar.engine.db.entities.Permissions</class>
+        <class>com.codemovers.scholar.engine.db.entities.BookType</class>
+        <class>com.codemovers.scholar.engine.db.entities.Subjects</class>
+        <class>com.codemovers.scholar.engine.db.entities.Exams</class>
+        <class>com.codemovers.scholar.engine.db.entities.LibraryStock</class>
+        <class>com.codemovers.scholar.engine.db.entities.Users</class>
+        <class>com.codemovers.scholar.engine.db.entities.Classes</class>
+        <class>com.codemovers.scholar.engine.db.entities.ExamClass</class>
+        <class>com.codemovers.scholar.engine.db.entities.StudyYearCurriculum</class>
+        <class>com.codemovers.scholar.engine.db.entities.StudyYear</class>
+        <class>com.codemovers.scholar.engine.db.entities.StudentTermRegistration</class>
+        <class>com.codemovers.scholar.engine.db.entities.SchoolData</class>
+        <class>com.codemovers.scholar.engine.db.entities.UserRole</class>
+        <properties>
+            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+            <!--            <property name="javax.persistence.schema-generation.database.action" value="create"/>-->
+            <property name="javax.persistence.jdbc.url" value=""/>
+            <property name="javax.persistence.jdbc.user" value=""/>
+            <property name="javax.persistence.jdbc.driver" value=""/>
+            <property name="javax.persistence.jdbc.password" value=""/>
+        </properties>
+    </persistence-unit>
 
 
 

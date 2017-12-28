@@ -71,7 +71,6 @@ public class StreamsEndpoint extends AbstractEndpoint<_Stream, StreamResponse> {
         return service.archive(tenantdata, id, this.authentication);
     }
 
-
     @Override
     public Collection<StreamResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);

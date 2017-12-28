@@ -94,7 +94,6 @@ public class _Stream extends AbstractEntity {
         this.classes = classes;
     }
 
-
     @Override
     public int hashCode() {
         int hash = 5;

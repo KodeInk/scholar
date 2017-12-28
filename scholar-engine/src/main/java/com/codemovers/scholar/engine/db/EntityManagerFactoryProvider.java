@@ -92,7 +92,6 @@ public class EntityManagerFactoryProvider {
                     break;
             }
 
-
         } catch (Exception e) {
             LOG.log(Level.SEVERE, "Un Expected Error {0}", e.getStackTrace());
             e.getStackTrace();

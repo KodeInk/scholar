@@ -24,7 +24,6 @@ public interface ClassServiceInterface {
     final String[] ARCHIVE_CLASS_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_CLASS"};
     final String[] DELETE_CLASS_PERMISSION = new String[]{"DESTROY_CLASS"};
 
-
     ClassResponse archive(SchoolData data, Integer id) throws Exception;
 
     ClassResponse create(SchoolData data, _Class entity, AuthenticationResponse authentication) throws Exception;

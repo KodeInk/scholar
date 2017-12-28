@@ -16,6 +16,7 @@ import java.util.Objects;
  * @author mover 12/20/2017
  */
 public class _LibraryStockInventory extends AbstractEntity {
+
     private Integer id;
     private Integer stock_id;
     private Integer book_id;
@@ -146,13 +147,10 @@ public class _LibraryStockInventory extends AbstractEntity {
         return this.status == other.status;
     }
 
-
-
     @Override
     public void validate() {
         validateMandatoryFields(this.getClass(), this);
     }
-
 
     @Override
     public String toString() {

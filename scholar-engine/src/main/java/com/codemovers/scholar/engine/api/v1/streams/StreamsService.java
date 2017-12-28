@@ -124,9 +124,8 @@ public class StreamsService extends AbstractService<_Stream, StreamResponse> imp
         check_access(LIST_STREAM_PERMISSION);
         Streams _stream = controller.findStream(Id, data);
         return populateResponse(_stream);
-                
-    }
 
+    }
 
     @Override
     public StreamResponse delete(SchoolData data, Integer id) throws Exception {
@@ -151,6 +150,5 @@ public class StreamsService extends AbstractService<_Stream, StreamResponse> imp
 
         return response;
     }
-
 
 }

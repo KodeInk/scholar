@@ -91,7 +91,6 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
             throw ex;
         }
 
-
     }
 
     /**

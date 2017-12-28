@@ -89,7 +89,6 @@ public class Users implements Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Collection<UserRole> userRoleCollection;
 
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "authorId")
     private Collection<LibraryStock> libraryStockCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
