@@ -136,7 +136,7 @@ public class Users implements Serializable {
     private Collection<Streams> streamsCollection;
     @OneToMany(mappedBy = "authorId")
     private Collection<Subjects> subjectsCollection;
-    @OneToMany(mappedBy = "authorId")
+    @OneToMany(mappedBy = "author")
     private Collection<Curriculum> curriculumCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherId")
     private Collection<ExamTimetable> examTimetableCollection;

@@ -71,7 +71,7 @@ public class Curriculum implements Serializable {
     private Collection<CurriculumDetails> curriculumDetailsCollection;
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne
-    private Users authorId;
+    private Users author;
     @OneToMany(mappedBy = "curriculumId")
     private Collection<StudyYearCurriculum> studyYearCurriculumCollection;
 
@@ -148,12 +148,12 @@ public class Curriculum implements Serializable {
         this.curriculumDetailsCollection = curriculumDetailsCollection;
     }
 
-    public Users getAuthorId() {
-        return authorId;
+    public Users getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(Users authorId) {
-        this.authorId = authorId;
+    public void setAuthor(Users author) {
+        this.author = author;
     }
 
     @XmlTransient

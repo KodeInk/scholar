@@ -6,15 +6,21 @@
 package com.codemovers.scholar.engine.api.v1.curriculum;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEndpoint;
+import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.curriculum.entities.CurriculumResponse;
 import com.codemovers.scholar.engine.api.v1.curriculum.entities._Curriculum;
+import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
 import java.util.Collection;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Produces;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.MediaType;
 
 /**
  *
@@ -25,8 +31,8 @@ public class CurriculumEndpoint extends AbstractEndpoint<_Curriculum, Curriculum
     private static final Logger LOG = Logger.getLogger(CurriculumEndpoint.class.getName());
     @Context
     private ContainerRequestContext context;
-
     private CurriculumService service = null;
+    private AuthenticationResponse authentication = null;
 
     /**
      *
@@ -39,15 +45,20 @@ public class CurriculumEndpoint extends AbstractEndpoint<_Curriculum, Curriculum
      *
      * @param schoolData
      * @param authentication
+     * @throws Exception
      */
     @Override
-    public void validateAuthentication(SchoolData schoolData, String authentication) {
-        super.validateAuthentication(schoolData, authentication); //To change body of generated methods, choose Tools | Templates.
+    public void validate(SchoolData schoolData, String authentication) throws Exception {
+        this.authentication = UserService.getInstance().validateAuthentication(schoolData, authentication);
     }
 
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Override
     public CurriculumResponse create(_Curriculum entity, String authentication, HttpServletRequest httpRequest) throws Exception {
-        return super.create(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+        validate(tenantdata, authentication);
+        return service.create(tenantdata, entity, this.authentication);
     }
 
     @Override
