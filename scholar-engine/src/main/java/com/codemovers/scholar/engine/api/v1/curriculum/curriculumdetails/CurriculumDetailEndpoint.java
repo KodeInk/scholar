@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.codemovers.scholar.engine.api.v1.curriculum.details;
+package com.codemovers.scholar.engine.api.v1.curriculum.curriculumdetails;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEndpoint;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.classes.ClassEndpoint;
 import com.codemovers.scholar.engine.api.v1.classes.ClassService;
-import com.codemovers.scholar.engine.api.v1.curriculum.details.entities.CurriculumDetailResponse;
-import com.codemovers.scholar.engine.api.v1.curriculum.details.entities._CurriculumDetail;
+import com.codemovers.scholar.engine.api.v1.curriculum.curriculumdetails.entities.CurriculumDetailResponse;
+import com.codemovers.scholar.engine.api.v1.curriculum.curriculumdetails.entities._CurriculumDetail;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;

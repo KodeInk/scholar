@@ -3,13 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.codemovers.scholar.engine.api.v1.curriculum.details.entities;
+package com.codemovers.scholar.engine.api.v1.curriculum.curriculumdetails.entities;
 
-import com.codemovers.scholar.engine.annotation.Mandatory;
-import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
-import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
 import java.util.Objects;
 
@@ -17,25 +13,21 @@ import java.util.Objects;
  *
  * @author mover 12/28/2017
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class _CurriculumDetail extends AbstractEntity {
+public class CurriculumDetailResponse {
 
     private Integer id;
-    private @Mandatory
-    Integer curriculum_id;
-    private @Mandatory
-    String name;
-    private @Mandatory
-    String code;
+    private Integer curriculum_id;
+    private String name;
+    private String code;
     private String description;
     private StatusEnum status;
-    private Integer author_id;
+    private String author;
     private Date date_created;
 
-    public _CurriculumDetail() {
+    public CurriculumDetailResponse() {
     }
 
-    public _CurriculumDetail(Integer id) {
+    public CurriculumDetailResponse(Integer id) {
         this.id = id;
     }
 
@@ -87,12 +79,12 @@ public class _CurriculumDetail extends AbstractEntity {
         this.status = status;
     }
 
-    public Integer getAuthor_id() {
-        return author_id;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setAuthor_id(Integer author_id) {
-        this.author_id = author_id;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public Date getDate_created() {
@@ -106,14 +98,14 @@ public class _CurriculumDetail extends AbstractEntity {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 29 * hash + Objects.hashCode(this.id);
-        hash = 29 * hash + Objects.hashCode(this.curriculum_id);
-        hash = 29 * hash + Objects.hashCode(this.name);
-        hash = 29 * hash + Objects.hashCode(this.code);
-        hash = 29 * hash + Objects.hashCode(this.description);
-        hash = 29 * hash + Objects.hashCode(this.status);
-        hash = 29 * hash + Objects.hashCode(this.author_id);
-        hash = 29 * hash + Objects.hashCode(this.date_created);
+        hash = 43 * hash + Objects.hashCode(this.id);
+        hash = 43 * hash + Objects.hashCode(this.curriculum_id);
+        hash = 43 * hash + Objects.hashCode(this.name);
+        hash = 43 * hash + Objects.hashCode(this.code);
+        hash = 43 * hash + Objects.hashCode(this.description);
+        hash = 43 * hash + Objects.hashCode(this.status);
+        hash = 43 * hash + Objects.hashCode(this.author);
+        hash = 43 * hash + Objects.hashCode(this.date_created);
         return hash;
     }
 
@@ -128,7 +120,7 @@ public class _CurriculumDetail extends AbstractEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final _CurriculumDetail other = (_CurriculumDetail) obj;
+        final CurriculumDetailResponse other = (CurriculumDetailResponse) obj;
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }
@@ -147,29 +139,25 @@ public class _CurriculumDetail extends AbstractEntity {
         if (this.status != other.status) {
             return false;
         }
-        if (!Objects.equals(this.author_id, other.author_id)) {
+        if (!Objects.equals(this.author, other.author)) {
             return false;
         }
         return Objects.equals(this.date_created, other.date_created);
     }
 
     @Override
-    public void validate() {
-        validateMandatoryFields(this.getClass(), this);
-    }
-
-    @Override
     public String toString() {
-        return "_CurriculumDetail{"
+        return "CurriculumDetailResponse{"
                 + "id=" + id
                 + ", curriculum_id=" + curriculum_id
                 + ", name=" + name
                 + ", code=" + code
                 + ", description=" + description
                 + ", status=" + status
-                + ", author_id=" + author_id
+                + ", author=" + author
                 + ", date_created=" + date_created
                 + "}";
     }
+
 
 }

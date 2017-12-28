@@ -3,9 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.codemovers.scholar.engine.api.v1.curriculum.details.entities;
+package com.codemovers.scholar.engine.api.v1.curriculum.curriculumdetails.entities;
 
+import com.codemovers.scholar.engine.annotation.Mandatory;
+import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
+import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
 import java.util.Objects;
 
@@ -13,21 +17,25 @@ import java.util.Objects;
  *
  * @author mover 12/28/2017
  */
-public class CurriculumDetailResponse {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class _CurriculumDetail extends AbstractEntity {
 
     private Integer id;
-    private Integer curriculum_id;
-    private String name;
-    private String code;
+    private @Mandatory
+    Integer curriculum_id;
+    private @Mandatory
+    String name;
+    private @Mandatory
+    String code;
     private String description;
     private StatusEnum status;
-    private String author;
+    private Integer author_id;
     private Date date_created;
 
-    public CurriculumDetailResponse() {
+    public _CurriculumDetail() {
     }
 
-    public CurriculumDetailResponse(Integer id) {
+    public _CurriculumDetail(Integer id) {
         this.id = id;
     }
 
@@ -79,12 +87,12 @@ public class CurriculumDetailResponse {
         this.status = status;
     }
 
-    public String getAuthor() {
-        return author;
+    public Integer getAuthor_id() {
+        return author_id;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthor_id(Integer author_id) {
+        this.author_id = author_id;
     }
 
     public Date getDate_created() {
@@ -98,14 +106,14 @@ public class CurriculumDetailResponse {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 43 * hash + Objects.hashCode(this.id);
-        hash = 43 * hash + Objects.hashCode(this.curriculum_id);
-        hash = 43 * hash + Objects.hashCode(this.name);
-        hash = 43 * hash + Objects.hashCode(this.code);
-        hash = 43 * hash + Objects.hashCode(this.description);
-        hash = 43 * hash + Objects.hashCode(this.status);
-        hash = 43 * hash + Objects.hashCode(this.author);
-        hash = 43 * hash + Objects.hashCode(this.date_created);
+        hash = 29 * hash + Objects.hashCode(this.id);
+        hash = 29 * hash + Objects.hashCode(this.curriculum_id);
+        hash = 29 * hash + Objects.hashCode(this.name);
+        hash = 29 * hash + Objects.hashCode(this.code);
+        hash = 29 * hash + Objects.hashCode(this.description);
+        hash = 29 * hash + Objects.hashCode(this.status);
+        hash = 29 * hash + Objects.hashCode(this.author_id);
+        hash = 29 * hash + Objects.hashCode(this.date_created);
         return hash;
     }
 
@@ -120,7 +128,7 @@ public class CurriculumDetailResponse {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final CurriculumDetailResponse other = (CurriculumDetailResponse) obj;
+        final _CurriculumDetail other = (_CurriculumDetail) obj;
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }
@@ -139,25 +147,29 @@ public class CurriculumDetailResponse {
         if (this.status != other.status) {
             return false;
         }
-        if (!Objects.equals(this.author, other.author)) {
+        if (!Objects.equals(this.author_id, other.author_id)) {
             return false;
         }
         return Objects.equals(this.date_created, other.date_created);
     }
 
     @Override
+    public void validate() {
+        validateMandatoryFields(this.getClass(), this);
+    }
+
+    @Override
     public String toString() {
-        return "CurriculumDetailResponse{"
+        return "_CurriculumDetail{"
                 + "id=" + id
                 + ", curriculum_id=" + curriculum_id
                 + ", name=" + name
                 + ", code=" + code
                 + ", description=" + description
                 + ", status=" + status
-                + ", author=" + author
+                + ", author_id=" + author_id
                 + ", date_created=" + date_created
                 + "}";
     }
-
 
 }

@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.codemovers.scholar.engine.api.v1.curriculum.details;
+package com.codemovers.scholar.engine.api.v1.curriculum.curriculumdetails;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import static com.codemovers.scholar.engine.api.v1.classes.ClassServiceInterface.LIST_CLASSES_PERMISSION;
 import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 import com.codemovers.scholar.engine.api.v1.curriculum.CurriculumService;
-import com.codemovers.scholar.engine.api.v1.curriculum.details.entities.CurriculumDetailResponse;
-import com.codemovers.scholar.engine.api.v1.curriculum.details.entities._CurriculumDetail;
+import com.codemovers.scholar.engine.api.v1.curriculum.curriculumdetails.entities.CurriculumDetailResponse;
+import com.codemovers.scholar.engine.api.v1.curriculum.curriculumdetails.entities._CurriculumDetail;
 import com.codemovers.scholar.engine.db.controllers.CurriculumDetailsJpaController;
 import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.CurriculumDetails;
@@ -30,11 +30,6 @@ import java.util.logging.Logger;
  * @author mover 12/28/2017
  */
 public class CurriculumDetailService extends AbstractService<_CurriculumDetail, CurriculumDetailResponse> implements CurriculumDetailServiceInterface {
-
-    final String[] CREATE_CURRICULUMDETAIL_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_CURRICULUMDETAIL"};
-    final String[] UPDATE_CURRICULUMDETAIL_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_CURRICULUMDETAIL"};
-    final String[] ARCHIVE_CURRICULUMDETAIL_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_CURRICULUMDETAIL"};
-    final String[] LIST_CURRICULUMDETAIL_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_CURRICULUMDETAIL"};
 
     private static final Logger LOG = Logger.getLogger(CurriculumService.class.getName());
 
