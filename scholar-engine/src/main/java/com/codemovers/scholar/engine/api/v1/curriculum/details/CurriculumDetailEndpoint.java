@@ -31,6 +31,7 @@ import javax.ws.rs.core.MediaType;
  *
  * @author mover 12/28/2017
  */
+@Path("/")
 public class CurriculumDetailEndpoint extends AbstractEndpoint<_CurriculumDetail, CurriculumDetailResponse> {
 
     private static final Logger LOG = Logger.getLogger(CurriculumDetailEndpoint.class.getName());
@@ -89,7 +90,8 @@ public class CurriculumDetailEndpoint extends AbstractEndpoint<_CurriculumDetail
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
     public Collection<CurriculumDetailResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
-        return super.list(start, end, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+        validate(tenantdata, authentication);
+        return service.list(tenantdata, start, end, this.authentication);
     }
 
 
