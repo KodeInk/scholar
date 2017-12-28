@@ -7,18 +7,20 @@ package com.codemovers.scholar.engine.api.v1.curriculum.details;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import static com.codemovers.scholar.engine.api.v1.classes.ClassServiceInterface.CREATE_CLASS_PERMISSION;
-import static com.codemovers.scholar.engine.api.v1.classes.ClassServiceInterface.UPDATE_CLASS_PERMISSION;
+import static com.codemovers.scholar.engine.api.v1.classes.ClassServiceInterface.LIST_CLASSES_PERMISSION;
+import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 import com.codemovers.scholar.engine.api.v1.curriculum.CurriculumService;
 import com.codemovers.scholar.engine.api.v1.curriculum.details.entities.CurriculumDetailResponse;
 import com.codemovers.scholar.engine.api.v1.curriculum.details.entities._CurriculumDetail;
 import com.codemovers.scholar.engine.db.controllers.CurriculumDetailsJpaController;
+import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.CurriculumDetails;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.check_access;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -31,6 +33,8 @@ public class CurriculumDetailService extends AbstractService<_CurriculumDetail, 
 
     final String[] CREATE_CURRICULUMDETAIL_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_CURRICULUMDETAIL"};
     final String[] UPDATE_CURRICULUMDETAIL_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_CURRICULUMDETAIL"};
+    final String[] ARCHIVE_CURRICULUMDETAIL_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_CURRICULUMDETAIL"};
+    final String[] LIST_CURRICULUMDETAIL_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_CURRICULUMDETAIL"};
 
     private static final Logger LOG = Logger.getLogger(CurriculumService.class.getName());
 
@@ -99,17 +103,48 @@ public class CurriculumDetailService extends AbstractService<_CurriculumDetail, 
 
     @Override
     public CurriculumDetailResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
-        return super.archive(data, id, authentication); //To change body of generated methods, choose Tools | Templates.
+        check_access(ARCHIVE_CURRICULUMDETAIL_PERMISSION);
+
+        CurriculumDetails _curriculumDetail = controller.findCurriculumDetail(id, data);
+        if (_curriculumDetail == null) {
+            throw new BadRequestException("Record does not exist");
+        }
+        _curriculumDetail.setStatus(StatusEnum.ARCHIVED.toString());
+        _curriculumDetail = controller.edit(_curriculumDetail, data);
+        return populateResponse(_curriculumDetail);
+
     }
 
     @Override
     public List<CurriculumDetailResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
-        return super.list(data, ofset, limit, authentication); //To change body of generated methods, choose Tools | Templates.
+        //todo: check list classes permissions
+        check_access(LIST_CURRICULUMDETAIL_PERMISSION);
+        //todo: you will need logging of  every operation of a logged in user
+        //todo, get list  a range from the  jpa controller
+        List<CurriculumDetails> list = controller.findCurriculumDetailEntities(ofset, limit, data);
+        List<CurriculumDetailResponse> responses = new ArrayList<>();
+        if (list != null) {
+            list.forEach((_class) -> {
+                responses.add(populateResponse(_class));
+            });
+        }
+
+        return responses;
+
     }
 
     @Override
     public CurriculumDetailResponse getById(SchoolData data, Integer Id) throws Exception {
-        return super.getById(data, Id); //To change body of generated methods, choose Tools | Templates.
+        check_access(LIST_CURRICULUMDETAIL_PERMISSION);
+        //todo: get class by id
+        CurriculumDetails _detail = controller.findCurriculumDetail(Id, data);
+        if (_detail == null) {
+            throw new BadRequestException("Record does not exist");
+        }
+
+        return populateResponse(_detail);
+
+
     }
 
     public CurriculumDetailResponse populateResponse(CurriculumDetails entity) {
