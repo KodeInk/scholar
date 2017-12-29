@@ -59,7 +59,7 @@ public class StudyYearJpaController extends EngineJpaController {
 
     }
 
-    public void edit(StudyYear studyYear, SchoolData data) throws Exception {
+    public StudyYear edit(StudyYear studyYear, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
             em = getEntityManager(data.getExternalId());
@@ -80,6 +80,8 @@ public class StudyYearJpaController extends EngineJpaController {
                 em.close();
             }
         }
+
+        return studyYear;
     }
 
     public StudyYear findStudyYear(Integer id, SchoolData data) {

@@ -7,7 +7,6 @@ package com.codemovers.scholar.engine.api.v1.studyear;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import static com.codemovers.scholar.engine.api.v1.classes.ClassServiceInterface.CREATE_CLASS_PERMISSION;
 import com.codemovers.scholar.engine.api.v1.studyear.entities.StudyYearResponse;
 import com.codemovers.scholar.engine.api.v1.studyear.entities._StudyYear;
 import com.codemovers.scholar.engine.db.controllers.StudyYearJpaController;
@@ -16,6 +15,7 @@ import com.codemovers.scholar.engine.db.entities.StudyYear;
 import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.check_access;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
+import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -31,6 +31,7 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
     private static StudyYearService service = null;
 
     final String[] CREATE_STUDYEAR_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_STUDYEAR"};
+    final String[] UPDATE_STUDYEAR_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_STUDYEAR"};
 
 
     public StudyYearService() {
@@ -59,18 +60,39 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
         studyYear.setStatus(entity.getStatus().toString());
         studyYear.setDateCreated(new Date());
         studyYear.setAuthor(new Users(entity.getAuthor_id().longValue()));
-
         studyYear = controller.create(studyYear, data);
+        return populateResponse(studyYear);
 
-
-
-        return super.create(data, entity);
-        //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public StudyYearResponse update(SchoolData data, _StudyYear entity) throws Exception {
-        return super.update(data, entity); //To change body of generated methods, choose Tools | Templates.
+    public StudyYearResponse update(SchoolData data, _StudyYear entity, AuthenticationResponse authentication) throws Exception {
+
+        check_access(UPDATE_STUDYEAR_PERMISSION);
+        entity.validate();
+
+        //todo: get the entity by id if exists
+        if (entity.getId() == null) {
+            throw new BadRequestException("UNIQUE ID MISSING");
+        }
+
+        StudyYear studyYear = controller.findStudyYear(entity.getId(), data);
+
+        if (entity.getTheme() != null && !entity.getTheme().equalsIgnoreCase(studyYear.getTheme())) {
+            studyYear.setTheme(entity.getTheme());
+        }
+
+        if (entity.getStart_date() != null && entity.getStart_date() != (studyYear.getStartDate())) {
+            studyYear.setStartDate(entity.getStart_date());
+        }
+
+        if (entity.getStart_date() != null && entity.getStart_date() != (studyYear.getEndDate())) {
+            studyYear.setEndDate(entity.getEnd_date());
+        }
+
+
+        studyYear = controller.edit(studyYear, data);
+        return populateResponse(studyYear);
     }
 
     @Override
