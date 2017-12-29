@@ -7,16 +7,18 @@ package com.codemovers.scholar.engine.api.v1.studyear;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import static com.codemovers.scholar.engine.api.v1.classes.ClassServiceInterface.ARCHIVE_CLASS_PERMISSION;
+import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 import com.codemovers.scholar.engine.api.v1.studyear.entities.StudyYearResponse;
 import com.codemovers.scholar.engine.api.v1.studyear.entities._StudyYear;
 import com.codemovers.scholar.engine.db.controllers.StudyYearJpaController;
+import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.StudyYear;
 import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.check_access;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -34,6 +36,7 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
     final String[] CREATE_STUDYEAR_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_STUDYEAR"};
     final String[] UPDATE_STUDYEAR_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_STUDYEAR"};
     final String[] ARCHIVE_STUDYEAR_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_STUDYEAR"};
+    final String[] LIST_STUDYEAR_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_STUDYEAR"};
 
     public StudyYearService() {
         controller = StudyYearJpaController.getInstance();
@@ -113,12 +116,31 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
 
     @Override
     public StudyYearResponse getById(SchoolData data, Integer Id) throws Exception {
-        return super.getById(data, Id); //To change body of generated methods, choose Tools | Templates.
+
+        check_access(LIST_STUDYEAR_PERMISSION);
+        StudyYear studyYear = controller.findStudyYear(Id, data);
+
+        if (studyYear == null) {
+            throw new BadRequestException("Record does not exist");
+        }
+
+        return populateResponse(studyYear);
+
     }
 
     @Override
     public List<StudyYearResponse> list(SchoolData data, Integer ofset, Integer limit) throws Exception {
-        return super.list(data, ofset, limit); //To change body of generated methods, choose Tools | Templates.
+        check_access(LIST_STUDYEAR_PERMISSION);
+
+        List<StudyYear> list = controller.findStudyYears(ofset, limit, data);
+        List<StudyYearResponse> responses = new ArrayList<>();
+        if (list != null) {
+            list.forEach((studyYear) -> {
+                responses.add(populateResponse(studyYear));
+            });
+        }
+
+        return responses;
     }
 
     public StudyYearResponse populateResponse(StudyYear entity) {
