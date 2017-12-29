@@ -7,6 +7,7 @@ package com.codemovers.scholar.engine.api.v1.studyear;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
+import static com.codemovers.scholar.engine.api.v1.classes.ClassServiceInterface.ARCHIVE_CLASS_PERMISSION;
 import com.codemovers.scholar.engine.api.v1.studyear.entities.StudyYearResponse;
 import com.codemovers.scholar.engine.api.v1.studyear.entities._StudyYear;
 import com.codemovers.scholar.engine.db.controllers.StudyYearJpaController;
@@ -32,7 +33,7 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
 
     final String[] CREATE_STUDYEAR_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_STUDYEAR"};
     final String[] UPDATE_STUDYEAR_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_STUDYEAR"};
-
+    final String[] ARCHIVE_STUDYEAR_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_STUDYEAR"};
 
     public StudyYearService() {
         controller = StudyYearJpaController.getInstance();
@@ -97,7 +98,17 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
 
     @Override
     public StudyYearResponse archive(SchoolData data, Integer id) throws Exception {
-        return super.archive(data, id); //To change body of generated methods, choose Tools | Templates.
+        check_access(ARCHIVE_STUDYEAR_PERMISSION);
+        StudyYear studyYear = controller.findStudyYear(id, data);
+
+        if (studyYear == null) {
+            throw new BadRequestException("Record does not exist");
+        }
+
+        studyYear.setStatus(StatusEnum.ARCHIVED.toString());
+        studyYear = controller.edit(studyYear, data);
+
+        return populateResponse(studyYear);
     }
 
     @Override
