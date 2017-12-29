@@ -5,7 +5,6 @@
  */
 package com.codemovers.scholar.engine.api.v1.studyear.entities;
 
-import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import java.util.Date;
 
 /**
@@ -18,8 +17,8 @@ public class StudyYearResponse {
     private String theme;
     private Date start_date;
     private Date end_date;
-    private StatusEnum status;
-    private Integer author_id;
+    private String status;
+    private String author;
     private Date date_created;
 
     public StudyYearResponse() {
@@ -61,20 +60,20 @@ public class StudyYearResponse {
         this.end_date = end_date;
     }
 
-    public StatusEnum getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(StatusEnum status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public Integer getAuthor_id() {
-        return author_id;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setAuthor_id(Integer author_id) {
-        this.author_id = author_id;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public Date getDate_created() {
@@ -93,7 +92,7 @@ public class StudyYearResponse {
                 + ", start_date=" + start_date
                 + ", end_date=" + end_date
                 + ", status=" + status
-                + ", author_id=" + author_id
+                + ", author_id=" + author
                 + ", date_created=" + date_created
                 + "}";
     }

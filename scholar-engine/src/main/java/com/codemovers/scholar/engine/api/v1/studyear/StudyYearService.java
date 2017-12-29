@@ -91,6 +91,14 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
     public StudyYearResponse populateResponse(StudyYear entity) {
         StudyYearResponse response = new StudyYearResponse();
 
+        response.setTheme(entity.getTheme());
+        response.setStart_date(entity.getStartDate());
+        response.setEnd_date(entity.getEndDate());
+        response.setStatus(entity.getStatus());
+        if (entity.getAuthor() != null) {
+            response.setAuthor(entity.getAuthor().getUsername());
+        }
+
         return response;
     }
 
