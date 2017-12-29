@@ -71,7 +71,7 @@ public class StudyYear implements Serializable {
     private Collection<StudyYearCurriculum> studyYearCurriculumCollection;
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne
-    private Users authorId;
+    private Users author;
 
     public StudyYear() {
     }
@@ -146,12 +146,12 @@ public class StudyYear implements Serializable {
         this.studyYearCurriculumCollection = studyYearCurriculumCollection;
     }
 
-    public Users getAuthorId() {
-        return authorId;
+    public Users getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(Users authorId) {
-        this.authorId = authorId;
+    public void setAuthor(Users author) {
+        this.author = author;
     }
 
     @Override

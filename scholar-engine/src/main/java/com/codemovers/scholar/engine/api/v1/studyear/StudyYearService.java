@@ -6,10 +6,17 @@
 package com.codemovers.scholar.engine.api.v1.studyear;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
+import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
+import static com.codemovers.scholar.engine.api.v1.classes.ClassServiceInterface.CREATE_CLASS_PERMISSION;
 import com.codemovers.scholar.engine.api.v1.studyear.entities.StudyYearResponse;
 import com.codemovers.scholar.engine.api.v1.studyear.entities._StudyYear;
 import com.codemovers.scholar.engine.db.controllers.StudyYearJpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import com.codemovers.scholar.engine.db.entities.StudyYear;
+import com.codemovers.scholar.engine.db.entities.Users;
+import static com.codemovers.scholar.engine.helper.Utilities.check_access;
+import com.codemovers.scholar.engine.helper.enums.StatusEnum;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -20,10 +27,11 @@ import java.util.logging.Logger;
 public class StudyYearService extends AbstractService<_StudyYear, StudyYearResponse> {
 
     private static final Logger LOG = Logger.getLogger(StudyYearService.class.getName());
-
     private final StudyYearJpaController controller;
-
     private static StudyYearService service = null;
+
+    final String[] CREATE_STUDYEAR_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_STUDYEAR"};
+
 
     public StudyYearService() {
         controller = StudyYearJpaController.getInstance();
@@ -37,8 +45,27 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
     }
 
     @Override
-    public StudyYearResponse create(SchoolData data, _StudyYear entity) throws Exception {
-        return super.create(data, entity); //To change body of generated methods, choose Tools | Templates.
+    public StudyYearResponse create(SchoolData data, _StudyYear entity, AuthenticationResponse authentication) throws Exception {
+        check_access(CREATE_STUDYEAR_PERMISSION);
+        entity.validate();
+
+        entity.setAuthor_id(authentication.getId());
+        entity.setStatus(StatusEnum.ACTIVE);
+
+        StudyYear studyYear = new StudyYear();
+        studyYear.setTheme(entity.getTheme());
+        studyYear.setStartDate(entity.getStart_date());
+        studyYear.setEndDate(entity.getEnd_date());
+        studyYear.setStatus(entity.getStatus().toString());
+        studyYear.setDateCreated(new Date());
+        studyYear.setAuthor(new Users(entity.getAuthor_id().longValue()));
+
+        studyYear = controller.create(studyYear, data);
+
+
+
+        return super.create(data, entity);
+        //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -59,6 +86,12 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
     @Override
     public List<StudyYearResponse> list(SchoolData data, Integer ofset, Integer limit) throws Exception {
         return super.list(data, ofset, limit); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public StudyYearResponse populateResponse(StudyYear entity) {
+        StudyYearResponse response = new StudyYearResponse();
+
+        return response;
     }
 
 }
