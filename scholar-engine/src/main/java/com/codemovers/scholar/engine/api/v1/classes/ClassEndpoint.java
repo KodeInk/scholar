@@ -82,7 +82,8 @@ public class ClassEndpoint extends AbstractEndpoint<_Class, ClassResponse> {
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
     public ClassResponse archive(@PathParam("id") Integer id, String authentication, HttpServletRequest httpRequest) throws Exception, Exception {
-        return super.archive(id, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+        validate(tenantdata, authentication);
+        return service.archive(tenantdata, id, this.authentication);
     }
 
     @GET
