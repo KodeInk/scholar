@@ -6,10 +6,13 @@
 package com.codemovers.scholar.engine.api.v1.terms;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
+import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
+import static com.codemovers.scholar.engine.api.v1.classes.ClassServiceInterface.CREATE_CLASS_PERMISSION;
 import com.codemovers.scholar.engine.api.v1.terms.entities.TermResponse;
 import com.codemovers.scholar.engine.api.v1.terms.entities._Term;
 import com.codemovers.scholar.engine.db.controllers.TermsJpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import static com.codemovers.scholar.engine.helper.Utilities.check_access;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -37,7 +40,8 @@ public class TermService extends AbstractService<_Term, TermResponse> {
     }
 
     @Override
-    public TermResponse create(SchoolData data, _Term entity) throws Exception {
+    public TermResponse create(SchoolData data, _Term entity, AuthenticationResponse authentication) throws Exception {
+        check_access(CREATE_CLASS_PERMISSION);
         return super.create(data, entity); //To change body of generated methods, choose Tools | Templates.
     }
 

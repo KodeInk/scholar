@@ -29,6 +29,7 @@ import javax.ws.rs.core.MediaType;
  *
  * @author mover 12/20/2017
  */
+@Path("/")
 public class TermEndpoint extends AbstractEndpoint<_Term, TermResponse> {
 
     private static final Logger LOG = Logger.getLogger(TermEndpoint.class.getName());
