@@ -8,7 +8,6 @@ package com.codemovers.scholar.engine.api.v1.students.admission.entities;
 import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 import com.codemovers.scholar.engine.api.v1.profile.entities.ProfileResponse;
 import com.codemovers.scholar.engine.api.v1.terms.entities.TermResponse;
-import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import java.util.Date;
 import java.util.Objects;
 
