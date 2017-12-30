@@ -34,6 +34,7 @@ public class TermService extends AbstractService<_Term, TermResponse> {
     private static TermService service = null;
 
     final String[] CREATE_TERM_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_TERM"};
+    final String[] UPDATE_TERM_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_TERM"};
 
     public TermService() {
         controller = TermsJpaController.getInstance();
@@ -80,6 +81,35 @@ public class TermService extends AbstractService<_Term, TermResponse> {
 
     @Override
     public TermResponse update(SchoolData data, _Term entity) throws Exception {
+        check_access(UPDATE_TERM_PERMISSION);
+        entity.validate();
+
+        if (entity.getId() == null) {
+            throw new BadRequestException("UNIQUE ID MISSING");
+        }
+
+        Terms term = controller.findTerm(entity.getId(), data);
+
+        StudyYear studyYear = StudyYearJpaController.getInstance().findStudyYear(entity.getStudy_year(), data);
+
+        if (studyYear == null) {
+            throw new BadRequestException("STUDY YEAR RECORD DOES NOT EXIST");
+        }
+
+        if (entity.getName() != null && !entity.getName().equalsIgnoreCase(term.getName())) {
+            term.setName(entity.getName());
+        }
+
+        if (term.getStudyYear() != studyYear) {
+            term.setStudyYear(studyYear);
+        }
+
+        if (entity.getRanking() != null && entity.getRanking() != (term.getRanking())) {
+            term.setRanking(entity.getRanking());
+        }
+
+
+
         return super.update(data, entity); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -86,7 +86,7 @@ public class TermsJpaController extends EngineJpaController {
         EntityManager em = getEntityManager(data.getExternalId());
 
         try {
-            return em.find(Terms.class, id);
+            return em.find(Terms.class, id.longValue());
         } finally {
             em.close();
         }
