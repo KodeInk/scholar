@@ -7,11 +7,8 @@ package com.codemovers.scholar.engine.api.v1.exams;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import com.codemovers.scholar.engine.api.v1.curriculum.CurriculumService;
 import com.codemovers.scholar.engine.api.v1.exams.entities.ExamResponse;
 import com.codemovers.scholar.engine.api.v1.exams.entities._Exam;
-import com.codemovers.scholar.engine.db.controllers.CurriculumDetailsJpaController;
-import com.codemovers.scholar.engine.db.controllers.CurriculumJpaController;
 import com.codemovers.scholar.engine.db.controllers.ExamsJpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.List;

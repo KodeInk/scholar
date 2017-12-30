@@ -11,16 +11,23 @@ import com.codemovers.scholar.engine.api.v1.exams.entities.ExamResponse;
 import com.codemovers.scholar.engine.api.v1.exams.entities._Exam;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
 import java.util.Collection;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 
 /**
  *
  * @author mover 12/30/2017
  */
+@Path("/")
 public class ExamsEndpoint extends AbstractEndpoint<_Exam, ExamResponse> {
 
     private static final Logger LOG = Logger.getLogger(ExamsEndpoint.class.getName());
@@ -38,14 +45,19 @@ public class ExamsEndpoint extends AbstractEndpoint<_Exam, ExamResponse> {
         this.authentication = UserService.getInstance().validateAuthentication(schoolData, authentication);
     }
 
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Override
     public ExamResponse create(_Exam entity, String authentication, HttpServletRequest httpRequest) throws Exception {
-        return super.create(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+        validate(tenantdata, authentication);
+        return service.create(tenantdata, entity, this.authentication);
     }
 
     @Override
     public ExamResponse update(_Exam entity, String authentication, HttpServletRequest httpRequest) throws Exception {
         return super.update(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     @Override
