@@ -16,7 +16,7 @@ import java.util.Objects;
  *
  * @author mover 12/30/2017
  */
-public class StudentAdmissionResponse extends ProfileResponse {
+public class StudentAdmissionResponse {
 
     private Integer id;
     private Integer student_id;
@@ -28,6 +28,7 @@ public class StudentAdmissionResponse extends ProfileResponse {
     private String status;
     private Date date_created;
     private String author;
+    private ProfileResponse profileResponse;
 
     public StudentAdmissionResponse() {
     }
@@ -111,6 +112,15 @@ public class StudentAdmissionResponse extends ProfileResponse {
     public void setAuthor(String author) {
         this.author = author;
     }
+
+    public ProfileResponse getProfileResponse() {
+        return profileResponse;
+    }
+
+    public void setProfileResponse(ProfileResponse profileResponse) {
+        this.profileResponse = profileResponse;
+    }
+
 
     @Override
     public int hashCode() {
