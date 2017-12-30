@@ -88,7 +88,7 @@ public class ExamsJpaController extends EngineJpaController {
     public Exams findExam(Integer id, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
-            return em.find(Exams.class, id);
+            return em.find(Exams.class, id.longValue());
         } finally {
             em.close();
         }

@@ -7,15 +7,18 @@ package com.codemovers.scholar.engine.api.v1.exams;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
+import com.codemovers.scholar.engine.api.v1.curriculum.entities.CurriculumResponse;
 import com.codemovers.scholar.engine.api.v1.exams.entities.ExamResponse;
 import com.codemovers.scholar.engine.api.v1.exams.entities._Exam;
 import com.codemovers.scholar.engine.db.controllers.ExamsJpaController;
+import com.codemovers.scholar.engine.db.entities.Curriculum;
 import com.codemovers.scholar.engine.db.entities.Exams;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.check_access;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +33,8 @@ public class ExamsService extends AbstractService<_Exam, ExamResponse> {
 
     final String[] CREATE_EXAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_EXAM"};
     final String[] UPDATE_EXAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_EXAM"};
-
+    final String[] ARCHIVE_EXAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_EXAM"};
+    final String[] LIST_EXAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_EXAM"};
 
     public ExamsService() {
         controller = ExamsJpaController.getInstance();
@@ -91,22 +95,45 @@ public class ExamsService extends AbstractService<_Exam, ExamResponse> {
 
     @Override
     public ExamResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
-        return super.archive(data, id, authentication); //To change body of generated methods, choose Tools | Templates.
+        check_access(ARCHIVE_EXAM_PERMISSION);
+        Exams exam = controller.findExam(id, data);
+
+        if (exam == null) {
+            throw new BadRequestException("Record does not exist");
+        }
+        exam.setStatus(StatusEnum.ARCHIVED.toString());
+        exam = controller.edit(exam, data);
+        return populateResponse(exam);
+
     }
 
     @Override
     public List<ExamResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
-        return super.list(data, ofset, limit, authentication); //To change body of generated methods, choose Tools | Templates.
+        check_access(LIST_EXAM_PERMISSION);
+
+        List<Exams> list = controller.findExamEntities(ofset, limit, data);
+        List<ExamResponse> responses = new ArrayList<>();
+        if (list != null) {
+            list.forEach((_exam) -> {
+                responses.add(populateResponse(_exam));
+            });
+        }
+        return responses;
+
     }
 
     @Override
     public ExamResponse getById(SchoolData data, Integer Id) throws Exception {
-        return super.getById(data, Id); //To change body of generated methods, choose Tools | Templates.
+        check_access(LIST_EXAM_PERMISSION);
+        Exams exam = controller.findExam(Id, data);
+        return populateResponse(exam);
+
     }
 
     public ExamResponse populateResponse(Exams entity) {
 
         ExamResponse response = new ExamResponse();
+        response.setId(entity.getId().intValue());
         response.setName(entity.getName());
         Long contribution = entity.getContribution();
         response.setContribution(contribution.intValue());
