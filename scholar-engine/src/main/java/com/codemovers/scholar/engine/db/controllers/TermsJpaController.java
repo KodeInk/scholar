@@ -59,7 +59,7 @@ public class TermsJpaController extends EngineJpaController {
 
     }
 
-    public void edit(Terms terms, SchoolData data) throws Exception {
+    public Terms edit(Terms terms, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
             em = getEntityManager(data.getExternalId());
@@ -80,13 +80,14 @@ public class TermsJpaController extends EngineJpaController {
                 em.close();
             }
         }
+        return terms;
     }
 
     public Terms findTerm(Integer id, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
 
         try {
-            return em.find(Terms.class, id);
+            return em.find(Terms.class, id.longValue());
         } finally {
             em.close();
         }

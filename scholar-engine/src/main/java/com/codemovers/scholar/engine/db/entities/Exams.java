@@ -70,7 +70,7 @@ public class Exams implements Serializable {
     private Collection<ExamClass> examClassCollection;
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne
-    private Users authorId;
+    private Users author;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "examId")
     private Collection<StudentExamRegistration> studentExamRegistrationCollection;
 
@@ -156,12 +156,12 @@ public class Exams implements Serializable {
         this.examClassCollection = examClassCollection;
     }
 
-    public Users getAuthorId() {
-        return authorId;
+    public Users getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(Users authorId) {
-        this.authorId = authorId;
+    public void setAuthor(Users author) {
+        this.author = author;
     }
 
     @XmlTransient

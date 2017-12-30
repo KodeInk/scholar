@@ -27,16 +27,11 @@ import java.util.logging.Logger;
  *
  * @author mover 12/20/2017
  */
-public class StudyYearService extends AbstractService<_StudyYear, StudyYearResponse> {
+public class StudyYearService extends AbstractService<_StudyYear, StudyYearResponse> implements StudyYearServiceInterface {
 
     private static final Logger LOG = Logger.getLogger(StudyYearService.class.getName());
     private final StudyYearJpaController controller;
     private static StudyYearService service = null;
-
-    final String[] CREATE_STUDYEAR_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_STUDYEAR"};
-    final String[] UPDATE_STUDYEAR_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_STUDYEAR"};
-    final String[] ARCHIVE_STUDYEAR_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_STUDYEAR"};
-    final String[] LIST_STUDYEAR_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_STUDYEAR"};
 
     public StudyYearService() {
         controller = StudyYearJpaController.getInstance();
@@ -143,6 +138,7 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
         return responses;
     }
 
+    @Override
     public StudyYearResponse populateResponse(StudyYear entity) {
         StudyYearResponse response = new StudyYearResponse();
 

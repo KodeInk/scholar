@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.codemovers.scholar.engine.api.v1.terms;
+package com.codemovers.scholar.engine.api.v1.exams;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEndpoint;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import com.codemovers.scholar.engine.api.v1.terms.entities.TermResponse;
-import com.codemovers.scholar.engine.api.v1.terms.entities._Term;
+import com.codemovers.scholar.engine.api.v1.exams.entities.ExamResponse;
+import com.codemovers.scholar.engine.api.v1.exams.entities._Exam;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
@@ -27,20 +27,19 @@ import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author mover 12/20/2017
+ * @author mover 12/30/2017
  */
 @Path("/")
-public class TermEndpoint extends AbstractEndpoint<_Term, TermResponse> {
+public class ExamsEndpoint extends AbstractEndpoint<_Exam, ExamResponse> {
 
-    private static final Logger LOG = Logger.getLogger(TermEndpoint.class.getName());
+    private static final Logger LOG = Logger.getLogger(ExamsEndpoint.class.getName());
     @Context
     private ContainerRequestContext context;
-
-    TermService service = null;
+    private ExamsService service = null;
     private AuthenticationResponse authentication = null;
 
-    public TermEndpoint() {
-        service = new TermService();
+    public ExamsEndpoint() {
+        service = new ExamsService();
     }
 
     @Override
@@ -52,7 +51,7 @@ public class TermEndpoint extends AbstractEndpoint<_Term, TermResponse> {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public TermResponse create(_Term entity, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public ExamResponse create(_Exam entity, String authentication, HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.create(tenantdata, entity, this.authentication);
     }
@@ -61,9 +60,10 @@ public class TermEndpoint extends AbstractEndpoint<_Term, TermResponse> {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public TermResponse update(_Term entity, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public ExamResponse update(_Exam entity, String authentication, HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.update(tenantdata, entity, this.authentication);
+
     }
 
     @POST
@@ -71,7 +71,7 @@ public class TermEndpoint extends AbstractEndpoint<_Term, TermResponse> {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public TermResponse archive(Integer id, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public ExamResponse archive(Integer id, String authentication, HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.archive(tenantdata, id, this.authentication);
     }
@@ -80,9 +80,11 @@ public class TermEndpoint extends AbstractEndpoint<_Term, TermResponse> {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public Collection<TermResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public Collection<ExamResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.list(tenantdata, start, end, this.authentication);
     }
+
+
 
 }

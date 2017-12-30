@@ -22,7 +22,7 @@ public class TermResponse {
     private Date end_date;
     private Integer ranking;
     private StatusEnum status;
-    private Integer author_id;
+    private String author;
     private Date date_created;
 
     public TermResponse() {
@@ -88,12 +88,12 @@ public class TermResponse {
         this.status = status;
     }
 
-    public Integer getAuthor_id() {
-        return author_id;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setAuthor_id(Integer author_id) {
-        this.author_id = author_id;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public Date getDate_created() {
@@ -114,7 +114,7 @@ public class TermResponse {
         hash = 23 * hash + Objects.hashCode(this.end_date);
         hash = 23 * hash + Objects.hashCode(this.ranking);
         hash = 23 * hash + Objects.hashCode(this.status);
-        hash = 23 * hash + Objects.hashCode(this.author_id);
+        hash = 23 * hash + Objects.hashCode(this.author);
         hash = 23 * hash + Objects.hashCode(this.date_created);
         return hash;
     }
@@ -152,7 +152,7 @@ public class TermResponse {
         if (this.status != other.status) {
             return false;
         }
-        if (!Objects.equals(this.author_id, other.author_id)) {
+        if (!Objects.equals(this.author, other.author)) {
             return false;
         }
         return Objects.equals(this.date_created, other.date_created);
@@ -168,7 +168,7 @@ public class TermResponse {
                 + ", end_date=" + end_date
                 + ", ranking=" + ranking
                 + ", status=" + status
-                + ", author_id=" + author_id
+                + ", author=" + author
                 + ", date_created=" + date_created
                 + "}";
     }
