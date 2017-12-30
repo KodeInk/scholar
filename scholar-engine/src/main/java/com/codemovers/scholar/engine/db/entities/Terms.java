@@ -87,10 +87,10 @@ public class Terms implements Serializable {
     private Collection<TeachingTimetable> teachingTimetableCollection;
     @JoinColumn(name = "study_year_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private StudyYear studyYearId;
+    private StudyYear studyYear;
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Users authorId;
+    private Users author;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "termId")
     private Collection<StudentAdmission> studentAdmissionCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "termId")
@@ -187,20 +187,20 @@ public class Terms implements Serializable {
         this.teachingTimetableCollection = teachingTimetableCollection;
     }
 
-    public StudyYear getStudyYearId() {
-        return studyYearId;
+    public StudyYear getStudyYear() {
+        return studyYear;
     }
 
-    public void setStudyYearId(StudyYear studyYearId) {
-        this.studyYearId = studyYearId;
+    public void setStudyYear(StudyYear studyYear) {
+        this.studyYear = studyYear;
     }
 
-    public Users getAuthorId() {
-        return authorId;
+    public Users getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(Users authorId) {
-        this.authorId = authorId;
+    public void setAuthor(Users author) {
+        this.author = author;
     }
 
     @XmlTransient

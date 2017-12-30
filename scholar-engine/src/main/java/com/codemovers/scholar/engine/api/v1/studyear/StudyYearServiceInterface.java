@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  *
- * @author Manny
+ * @author mover 12/20/2017
  */
 public interface StudyYearServiceInterface {
 

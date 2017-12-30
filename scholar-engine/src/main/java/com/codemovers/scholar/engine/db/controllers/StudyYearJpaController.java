@@ -88,7 +88,9 @@ public class StudyYearJpaController extends EngineJpaController {
         EntityManager em = getEntityManager(data.getExternalId());
 
         try {
-            return em.find(StudyYear.class, id);
+            return em.find(StudyYear.class, id.longValue());
+        } catch (Exception er) {
+            return null;
         } finally {
             em.close();
         }
