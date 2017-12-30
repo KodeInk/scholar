@@ -108,9 +108,16 @@ public class TermService extends AbstractService<_Term, TermResponse> {
             term.setRanking(entity.getRanking());
         }
 
+        if (entity.getStart_date() != null && entity.getStart_date() != (term.getStartDate())) {
+            term.setStartDate(entity.getStart_date());
+        }
 
+        if (entity.getEnd_date() != null && entity.getEnd_date() != (term.getEndDate())) {
+            term.setEndDate(entity.getEnd_date());
+        }
+        term = controller.edit(term, data);
 
-        return super.update(data, entity); //To change body of generated methods, choose Tools | Templates.
+        return populateResponse(term);
     }
 
     @Override
