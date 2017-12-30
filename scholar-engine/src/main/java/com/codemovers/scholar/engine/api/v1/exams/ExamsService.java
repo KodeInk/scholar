@@ -7,11 +7,9 @@ package com.codemovers.scholar.engine.api.v1.exams;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import com.codemovers.scholar.engine.api.v1.curriculum.entities.CurriculumResponse;
 import com.codemovers.scholar.engine.api.v1.exams.entities.ExamResponse;
 import com.codemovers.scholar.engine.api.v1.exams.entities._Exam;
 import com.codemovers.scholar.engine.db.controllers.ExamsJpaController;
-import com.codemovers.scholar.engine.db.entities.Curriculum;
 import com.codemovers.scholar.engine.db.entities.Exams;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Users;
@@ -19,22 +17,17 @@ import static com.codemovers.scholar.engine.helper.Utilities.check_access;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
  *
  * @author mover 12/30/2017
  */
-public class ExamsService extends AbstractService<_Exam, ExamResponse> {
+public class ExamsService extends AbstractService<_Exam, ExamResponse> implements ExamsServiceInterface {
 
     private final ExamsJpaController controller;
     private static ExamsService service = null;
 
-    final String[] CREATE_EXAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_EXAM"};
-    final String[] UPDATE_EXAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_EXAM"};
-    final String[] ARCHIVE_EXAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_EXAM"};
-    final String[] LIST_EXAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_EXAM"};
 
     public ExamsService() {
         controller = ExamsJpaController.getInstance();
@@ -130,6 +123,7 @@ public class ExamsService extends AbstractService<_Exam, ExamResponse> {
 
     }
 
+    @Override
     public ExamResponse populateResponse(Exams entity) {
 
         ExamResponse response = new ExamResponse();
