@@ -35,6 +35,7 @@ public class TermService extends AbstractService<_Term, TermResponse> {
 
     final String[] CREATE_TERM_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_TERM"};
     final String[] UPDATE_TERM_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_TERM"};
+    final String[] ARCHIVE_TERM_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_TERM"};
 
     public TermService() {
         controller = TermsJpaController.getInstance();
@@ -122,7 +123,15 @@ public class TermService extends AbstractService<_Term, TermResponse> {
 
     @Override
     public TermResponse archive(SchoolData data, Integer id) throws Exception {
-        return super.archive(data, id); //To change body of generated methods, choose Tools | Templates.
+        check_access(ARCHIVE_TERM_PERMISSION);
+        Terms term = controller.findTerm(id, data);
+
+        if (term == null) {
+            throw new BadRequestException("Record does not exist");
+        }
+        term.setStatus(StatusEnum.ARCHIVED.toString());
+        term = controller.edit(term, data);
+        return populateResponse(term);
     }
 
     @Override
