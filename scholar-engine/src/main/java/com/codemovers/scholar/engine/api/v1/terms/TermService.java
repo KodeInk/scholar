@@ -61,6 +61,8 @@ public class TermService extends AbstractService<_Term, TermResponse> {
             throw new BadRequestException("STUDY YEAR RECORD DOES NOT EXIST");
         }
 
+        //todo: validate period: it should not be between the ranges of the study period:
+
         Terms term = new Terms();
         term.setStudyYear(studyYear);
         term.setName(entity.getName());
@@ -72,9 +74,8 @@ public class TermService extends AbstractService<_Term, TermResponse> {
         term.setDateCreated(new Date());
 
         term = controller.create(term, data);
+        return populateResponse(term);
 
-
-        return super.create(data, entity);
     }
 
     @Override
