@@ -7,6 +7,8 @@ package com.codemovers.scholar.engine.api.v1.terms;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
+import static com.codemovers.scholar.engine.api.v1.studyear.StudyYearServiceInterface.LIST_STUDYEAR_PERMISSION;
+import com.codemovers.scholar.engine.api.v1.studyear.entities.StudyYearResponse;
 import com.codemovers.scholar.engine.api.v1.terms.entities.TermResponse;
 import com.codemovers.scholar.engine.api.v1.terms.entities._Term;
 import com.codemovers.scholar.engine.db.controllers.StudyYearJpaController;
@@ -18,6 +20,7 @@ import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.check_access;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -36,6 +39,8 @@ public class TermService extends AbstractService<_Term, TermResponse> {
     final String[] CREATE_TERM_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_TERM"};
     final String[] UPDATE_TERM_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_TERM"};
     final String[] ARCHIVE_TERM_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_TERM"};
+    final String[] LIST_TERM_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_TERM"};
+
 
     public TermService() {
         controller = TermsJpaController.getInstance();
@@ -136,12 +141,26 @@ public class TermService extends AbstractService<_Term, TermResponse> {
 
     @Override
     public TermResponse getById(SchoolData data, Integer Id) throws Exception {
-        return super.getById(data, Id); //To change body of generated methods, choose Tools | Templates.
+        check_access(LIST_TERM_PERMISSION);
+        Terms term = controller.findTerm(Id, data);
+        return populateResponse(term);
     }
 
     @Override
     public List<TermResponse> list(SchoolData data, Integer ofset, Integer limit) throws Exception {
-        return super.list(data, ofset, limit); //To change body of generated methods, choose Tools | Templates.
+
+        check_access(LIST_STUDYEAR_PERMISSION);
+
+        List<Terms> list = controller.findTerms(ofset, limit, data);
+        List<TermResponse> responses = new ArrayList<>();
+        if (list != null) {
+            list.forEach((term) -> {
+                responses.add(populateResponse(term));
+            });
+        }
+
+        return responses;
+
     }
 
     public TermResponse populateResponse(Terms entity) {
