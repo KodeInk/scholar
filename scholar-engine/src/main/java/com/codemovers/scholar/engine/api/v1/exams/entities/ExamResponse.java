@@ -17,7 +17,7 @@ public class ExamResponse {
     private Integer id;
     private String name;
     private Integer contribution;
-    private StatusEnum status;
+    private String status;
     private String author;
 
     public ExamResponse() {
@@ -51,11 +51,11 @@ public class ExamResponse {
         this.contribution = contribution;
     }
 
-    public StatusEnum getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(StatusEnum status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
