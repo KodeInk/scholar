@@ -5,6 +5,7 @@
  */
 package com.codemovers.scholar.engine.api.v1.students.admission.entities;
 
+import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
 import com.codemovers.scholar.engine.api.v1.profile.entities._Profile;
 import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
@@ -20,7 +21,8 @@ public class _StudentAdmission extends AbstractEntity {
 
     private Integer id;
     private Integer student_id;
-    private String admission_number;
+    private @Mandatory
+    String admission_number;
     private Date date_of_admission;
     private String external_id;
     private Integer term_id;
@@ -28,7 +30,8 @@ public class _StudentAdmission extends AbstractEntity {
     private StatusEnum status;
     private Date date_created;
     private Integer author_id;
-    private _Profile profile;
+    private @Mandatory
+    _Profile profile;
 
     public _StudentAdmission() {
     }
