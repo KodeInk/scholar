@@ -23,7 +23,8 @@ public class _StudentAdmission extends AbstractEntity {
     private Integer student_id;
     private @Mandatory
     String admission_number;
-    private Date date_of_admission;
+    private @Mandatory
+    Date date_of_admission;
     private String external_id;
     private Integer term_id;
     private Integer class_id;

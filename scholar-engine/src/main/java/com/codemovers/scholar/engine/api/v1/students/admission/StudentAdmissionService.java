@@ -12,7 +12,9 @@ import com.codemovers.scholar.engine.api.v1.profile.entities.ProfileResponse;
 import com.codemovers.scholar.engine.api.v1.streams.StreamsService;
 import com.codemovers.scholar.engine.api.v1.students.admission.entities.StudentAdmissionResponse;
 import com.codemovers.scholar.engine.api.v1.students.admission.entities._StudentAdmission;
+import com.codemovers.scholar.engine.db.controllers.ProfileJpaController;
 import com.codemovers.scholar.engine.db.controllers.StudentAdmissionJpaController;
+import com.codemovers.scholar.engine.db.entities.Profile;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.StudentAdmission;
 import static com.codemovers.scholar.engine.helper.Utilities.check_access;
@@ -54,6 +56,8 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
         entity.setAuthor_id(authentication.getId());
         entity.setStatus(StatusEnum.ACTIVE);
 
+        //todo: checkt to see if there is no account with this admision number :: 
+
         //todo: create a profile_by id
         ProfileResponse pr = ProfileService.getInstance().create(data, entity.getProfile());
         //todo: generate external Id 
@@ -61,13 +65,21 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
             entity.setExternal_id(getNewExternalId());
         }
 
+        Profile profile = ProfileJpaController.getInstance().findProfile(pr.getId(), data);
 
         StudentAdmission admission = new StudentAdmission();
 
         //todo: creation pojo ::
         StudentAdmission studentAdmission = new StudentAdmission();
+        studentAdmission.setAdmissionNo(entity.getAdmission_number());
+        studentAdmission.setExternalId(entity.getExternal_id());
+        studentAdmission.setDateOfAdmission(entity.getDate_of_admission());
+        studentAdmission.setStatus(entity.getStatus().toString());
+
+        controller.create(admission, data);
 
 
+        //todo: create  Student Admission Profile connector ::
 
 
         return super.create(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
