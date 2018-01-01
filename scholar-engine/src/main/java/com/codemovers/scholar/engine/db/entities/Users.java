@@ -163,7 +163,7 @@ public class Users implements Serializable {
     private Collection<Contacts> contactsCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "authorId")
     private Collection<LibraryStockInventory> libraryStockInventoryCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "authorId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
     private Collection<StudentTermRegistration> studentTermRegistrationCollection;
 
     public Users() {

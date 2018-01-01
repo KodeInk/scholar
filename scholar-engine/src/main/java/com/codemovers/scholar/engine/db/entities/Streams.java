@@ -77,7 +77,7 @@ public class Streams implements Serializable {
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users author;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "streamId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Registration_Stream")
     private Collection<StudentTermRegistration> studentTermRegistrationCollection;
 
     public Streams() {

@@ -82,6 +82,15 @@ public class _StudentTermRegistration extends AbstractEntity {
         this.author_id = author_id;
     }
 
+    public Integer getClass_id() {
+        return class_id;
+    }
+
+    public void setClass_id(Integer class_id) {
+        this.class_id = class_id;
+    }
+
+
     @Override
     public int hashCode() {
         int hash = 7;

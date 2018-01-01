@@ -45,7 +45,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Classes.findByDateCreated", query = "SELECT c FROM Classes c WHERE c.dateCreated = :dateCreated")})
 public class Classes implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "StudentTermRegistrationClass")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Registration_Class")
     private Collection<StudentTermRegistration> studentTermRegistrationCollection;
 
     private static final long serialVersionUID = 1L;

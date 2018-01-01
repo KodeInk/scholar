@@ -65,20 +65,20 @@ public class StudentTermRegistration implements Serializable {
     private Collection<StudentExamRegistration> studentExamRegistrationCollection;
     @JoinColumn(name = "stream_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Streams streamId;
+    private Streams Registration_Stream;
     @JoinColumn(name = "admission_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private StudentAdmission admissionId;
+    private StudentAdmission Student_Admission;
     @JoinColumn(name = "term_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Terms termId;
+    private Terms Registration_term;
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Users authorId;
+    private Users author;
 
     @JoinColumn(name = "class_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Classes StudentTermRegistrationClass;
+    private Classes Registration_Class;
 
 
     public StudentTermRegistration() {
@@ -136,44 +136,44 @@ public class StudentTermRegistration implements Serializable {
         this.studentExamRegistrationCollection = studentExamRegistrationCollection;
     }
 
-    public Streams getStreamId() {
-        return streamId;
+    public Streams getRegistration_Stream() {
+        return Registration_Stream;
     }
 
-    public void setStreamId(Streams streamId) {
-        this.streamId = streamId;
+    public void setRegistration_Stream(Streams Registration_Stream) {
+        this.Registration_Stream = Registration_Stream;
     }
 
-    public StudentAdmission getAdmissionId() {
-        return admissionId;
+    public StudentAdmission getStudent_Admission() {
+        return Student_Admission;
     }
 
-    public void setAdmissionId(StudentAdmission admissionId) {
-        this.admissionId = admissionId;
+    public void setStudent_Admission(StudentAdmission Student_Admission) {
+        this.Student_Admission = Student_Admission;
     }
 
-    public Terms getTermId() {
-        return termId;
+    public Terms getRegistration_term() {
+        return Registration_term;
     }
 
-    public void setTermId(Terms termId) {
-        this.termId = termId;
+    public void setRegistration_term(Terms Registration_term) {
+        this.Registration_term = Registration_term;
     }
 
-    public Users getAuthorId() {
-        return authorId;
+    public Users getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(Users authorId) {
-        this.authorId = authorId;
+    public void setAuthor(Users author) {
+        this.author = author;
     }
 
-    public Classes getStudentTermRegistrationClass() {
-        return StudentTermRegistrationClass;
+    public Classes getRegistration_Class() {
+        return Registration_Class;
     }
 
-    public void setStudentTermRegistrationClass(Classes StudentTermRegistrationClass) {
-        this.StudentTermRegistrationClass = StudentTermRegistrationClass;
+    public void setRegistration_Class(Classes Registration_Class) {
+        this.Registration_Class = Registration_Class;
     }
 
 

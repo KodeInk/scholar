@@ -93,7 +93,7 @@ public class StudentAdmission implements Serializable {
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users author;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "admissionId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Student_Admission")
     private Collection<StudentTermRegistration> studentTermRegistrationCollection;
 
     public StudentAdmission() {

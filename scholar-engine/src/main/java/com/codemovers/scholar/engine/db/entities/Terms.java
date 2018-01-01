@@ -93,7 +93,7 @@ public class Terms implements Serializable {
     private Users author;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "admissionTerm")
     private Collection<StudentAdmission> studentAdmissionCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "termId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Registration_term")
     private Collection<StudentTermRegistration> studentTermRegistrationCollection;
 
     public Terms() {
