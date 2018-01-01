@@ -75,13 +75,11 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
         Profile profile = ProfileJpaController.getInstance().findProfile(pr.getId(), data);
         //todo: get  class by Id
 
-        Classes _class = ClassJpaController.getInstance().findClass(entity.getClass_id(), data);
+        Classes AdmissionClass = ClassJpaController.getInstance().findClass(entity.getClass_id(), data);
         //todo: get stream by id
-        Streams _stream = StreamsJpaController.getInstance().findStream(entity.getStream_id(), data);
+        Streams AdmissionStream = StreamsJpaController.getInstance().findStream(entity.getStream_id(), data);
         //todo: get  Term by ID
-        Terms _term = TermsJpaController.getInstance().findTerm(entity.getTerm_id(), data);
-
-        StudentAdmission admission = new StudentAdmission();
+        Terms AdmissionTerm = TermsJpaController.getInstance().findTerm(entity.getTerm_id(), data);
 
         //todo: creation pojo ::
         StudentAdmission studentAdmission = new StudentAdmission();
@@ -90,10 +88,19 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
         studentAdmission.setDateOfAdmission(entity.getDate_of_admission());
         studentAdmission.setStatus(entity.getStatus().toString());
 
-        studentAdmission.setAdmissionTerm(_term);
+        if (AdmissionTerm != null) {
+            studentAdmission.setAdmissionTerm(AdmissionTerm);
+        }
+        if (AdmissionClass != null) {
+            studentAdmission.setAdmissionClass(AdmissionClass);
+        }
+        if (AdmissionStream != null) {
+            studentAdmission.setAdmissionStream(AdmissionStream);
+        }
 
-        admission = controller.create(admission, data);
-        return populateResponse(admission);
+
+        studentAdmission = controller.create(studentAdmission, data);
+        return populateResponse(studentAdmission);
 
     }
 
