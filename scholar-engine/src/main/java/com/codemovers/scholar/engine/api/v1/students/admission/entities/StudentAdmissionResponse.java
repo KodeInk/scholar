@@ -7,6 +7,7 @@ package com.codemovers.scholar.engine.api.v1.students.admission.entities;
 
 import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 import com.codemovers.scholar.engine.api.v1.profile.entities.ProfileResponse;
+import com.codemovers.scholar.engine.api.v1.streams.entities.StreamResponse;
 import com.codemovers.scholar.engine.api.v1.terms.entities.TermResponse;
 import java.util.Date;
 import java.util.Objects;
@@ -24,6 +25,7 @@ public class StudentAdmissionResponse {
     private String external_id;
     private TermResponse term_response;
     private ClassResponse class_response;
+    private StreamResponse streamResponse;
     private String status;
     private Date date_created;
     private String author;
@@ -120,6 +122,13 @@ public class StudentAdmissionResponse {
         this.profileResponse = profileResponse;
     }
 
+    public StreamResponse getStreamResponse() {
+        return streamResponse;
+    }
+
+    public void setStreamResponse(StreamResponse streamResponse) {
+        this.streamResponse = streamResponse;
+    }
 
     @Override
     public int hashCode() {

@@ -7,12 +7,14 @@ package com.codemovers.scholar.engine.api.v1.students.admission;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
+import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 import com.codemovers.scholar.engine.api.v1.profile.ProfileService;
 import com.codemovers.scholar.engine.api.v1.profile.entities.ProfileResponse;
 import com.codemovers.scholar.engine.api.v1.streams.StreamsService;
 import com.codemovers.scholar.engine.api.v1.streams.entities.StreamResponse;
 import com.codemovers.scholar.engine.api.v1.students.admission.entities.StudentAdmissionResponse;
 import com.codemovers.scholar.engine.api.v1.students.admission.entities._StudentAdmission;
+import com.codemovers.scholar.engine.api.v1.terms.entities.TermResponse;
 import com.codemovers.scholar.engine.db.controllers.ClassJpaController;
 import com.codemovers.scholar.engine.db.controllers.ProfileJpaController;
 import com.codemovers.scholar.engine.db.controllers.StreamsJpaController;
@@ -191,13 +193,43 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
 
         return responses;
 
-
-
     }
 
 
     public StudentAdmissionResponse populateResponse(StudentAdmission entity) {
         StudentAdmissionResponse response = new StudentAdmissionResponse();
+        if (entity.getAdmissionClass() != null) {
+            Classes _class = entity.getAdmissionClass();
+            ClassResponse classResponse = new ClassResponse();
+            classResponse.setId(_class.getId().intValue());
+            classResponse.setName(_class.getName());
+            classResponse.setCode(_class.getCode());
+            response.setClass_response(classResponse);
+        }
+
+        if (entity.getAdmissionStream() != null) {
+            Streams _stream = entity.getAdmissionStream();
+            StreamResponse streamResponse = new StreamResponse();
+            streamResponse.setId(_stream.getId().intValue());
+            streamResponse.setName(_stream.getName());
+            streamResponse.setCode(_stream.getCode());
+            response.setStreamResponse(streamResponse);
+        }
+
+        if (entity.getAdmissionTerm() != null) {
+            Terms _term = entity.getAdmissionTerm();
+            TermResponse termResponse = new TermResponse();
+            //termResponse.setStudy_year(_term.getStudyYear());
+            termResponse.setName(_term.getName());
+            termResponse.setStart_date(_term.getStartDate());
+            termResponse.setEnd_date(_term.getEndDate());
+            response.setTerm_response(termResponse);
+
+        }
+        response.setDate_of_admission(entity.getDateOfAdmission());
+        response.setAdmission_number(entity.getAdmissionNo());
+        response.setExternal_id(entity.getExternalId());
+
 
         return response;
     }
