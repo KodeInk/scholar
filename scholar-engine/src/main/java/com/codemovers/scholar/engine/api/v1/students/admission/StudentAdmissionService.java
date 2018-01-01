@@ -38,16 +38,11 @@ import java.util.logging.Logger;
  *
  * @author mover 12/30/2017
  */
-public class StudentAdmissionService extends AbstractService<_StudentAdmission, StudentAdmissionResponse> {
+public class StudentAdmissionService extends AbstractService<_StudentAdmission, StudentAdmissionResponse> implements StudentAdmissionServiceInterface {
 
     private static final Logger LOG = Logger.getLogger(StreamsService.class.getName());
     private final StudentAdmissionJpaController controller;
     private static StudentAdmissionService service = null;
-
-    final String[] ADMIT_STUDENT_PERMISSION = new String[]{"ALL_FUNCTIONS", "ADMIT_STUDENT_ADMISSION"};
-    final String[] UPDATE_STUDENT_ADMISSION_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_STUDENT_ADMISSION"};
-    final String[] ARCHIVE_STUDENT_ADMISSION_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_STUDENT_ADMISSION"};
-    final String[] LIST_STUDENT_ADMISSION_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_STUDENT_ADMISSION_PERMISSION"};
 
 
     public StudentAdmissionService() {
@@ -196,6 +191,7 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
     }
 
 
+    @Override
     public StudentAdmissionResponse populateResponse(StudentAdmission entity) {
         StudentAdmissionResponse response = new StudentAdmissionResponse();
         if (entity.getAdmissionClass() != null) {
