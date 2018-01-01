@@ -40,8 +40,9 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
     private final StudentAdmissionJpaController controller;
     private static StudentAdmissionService service = null;
 
-    final String[] ADMIT_STUDENT_PERMISSION = new String[]{"ALL_FUNCTIONS", "ADMIT_STUDENT"};
-    final String[] UPDATE_STUDENT_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_STUDENT"};
+    final String[] ADMIT_STUDENT_PERMISSION = new String[]{"ALL_FUNCTIONS", "ADMIT_STUDENT_ADMISSION"};
+    final String[] UPDATE_STUDENT_ADMISSION_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_STUDENT_ADMISSION"};
+    final String[] ARCHIVE_STUDENT_ADMISSION_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_STUDENT_ADMISSION"};
 
 
     public StudentAdmissionService() {
@@ -106,7 +107,7 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
 
     @Override
     public StudentAdmissionResponse update(SchoolData data, _StudentAdmission entity, AuthenticationResponse authentication) throws Exception {
-        check_access(UPDATE_STUDENT_PERMISSION);
+        check_access(UPDATE_STUDENT_ADMISSION_PERMISSION);
         entity.validate();
 
         if (entity.getId() == null) {
@@ -151,11 +152,14 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
 
     @Override
     public StudentAdmissionResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
+
+        check_access(ARCHIVE_STUDENT_ADMISSION_PERMISSION);
         return super.archive(data, id, authentication); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public StudentAdmissionResponse getById(SchoolData data, Integer Id) throws Exception {
+
         return super.getById(data, Id); //To change body of generated methods, choose Tools | Templates.
     }
 
