@@ -12,11 +12,17 @@ import com.codemovers.scholar.engine.api.v1.profile.entities.ProfileResponse;
 import com.codemovers.scholar.engine.api.v1.streams.StreamsService;
 import com.codemovers.scholar.engine.api.v1.students.admission.entities.StudentAdmissionResponse;
 import com.codemovers.scholar.engine.api.v1.students.admission.entities._StudentAdmission;
+import com.codemovers.scholar.engine.db.controllers.ClassJpaController;
 import com.codemovers.scholar.engine.db.controllers.ProfileJpaController;
+import com.codemovers.scholar.engine.db.controllers.StreamsJpaController;
 import com.codemovers.scholar.engine.db.controllers.StudentAdmissionJpaController;
+import com.codemovers.scholar.engine.db.controllers.TermsJpaController;
+import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.Profile;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import com.codemovers.scholar.engine.db.entities.Streams;
 import com.codemovers.scholar.engine.db.entities.StudentAdmission;
+import com.codemovers.scholar.engine.db.entities.Terms;
 import static com.codemovers.scholar.engine.helper.Utilities.check_access;
 import static com.codemovers.scholar.engine.helper.Utilities.getNewExternalId;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
@@ -67,7 +73,13 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
 
         //get profile by Id;
         Profile profile = ProfileJpaController.getInstance().findProfile(pr.getId(), data);
-        //get  class by Id
+        //todo: get  class by Id
+
+        Classes _class = ClassJpaController.getInstance().findClass(entity.getClass_id(), data);
+        //todo: get stream by id
+        Streams _stream = StreamsJpaController.getInstance().findStream(entity.getStream_id(), data);
+        //todo: get  Term by ID
+        Terms _term = TermsJpaController.getInstance().findTerm(entity.getTerm_id(), data);
 
         StudentAdmission admission = new StudentAdmission();
 
@@ -77,6 +89,8 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
         studentAdmission.setExternalId(entity.getExternal_id());
         studentAdmission.setDateOfAdmission(entity.getDate_of_admission());
         studentAdmission.setStatus(entity.getStatus().toString());
+
+        studentAdmission.setAdmissionTerm(_term);
 
         admission = controller.create(admission, data);
         return populateResponse(admission);

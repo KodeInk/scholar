@@ -72,7 +72,7 @@ public class Streams implements Serializable {
     private Date dateCreated;
     @OneToMany(mappedBy = "streamId")
     private Collection<ClassStream> classStreamCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "streamId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "admissionStream")
     private Collection<StudentAdmission> studentAdmissionCollection;
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)

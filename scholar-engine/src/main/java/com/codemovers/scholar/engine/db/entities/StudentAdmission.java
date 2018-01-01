@@ -83,16 +83,16 @@ public class StudentAdmission implements Serializable {
     private Date dateCreated;
     @JoinColumn(name = "class_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Classes classId;
+    private Classes admissionClass;
     @JoinColumn(name = "stream_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Streams streamId;
+    private Streams admissionStream;
     @JoinColumn(name = "term_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Terms termId;
+    private Terms admissionTerm;
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Users authorId;
+    private Users author;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "admissionId")
     private Collection<StudentTermRegistration> studentTermRegistrationCollection;
 
@@ -169,36 +169,36 @@ public class StudentAdmission implements Serializable {
         this.dateCreated = dateCreated;
     }
 
-    public Classes getClassId() {
-        return classId;
+    public Classes getAdmissionClass() {
+        return admissionClass;
     }
 
-    public void setClassId(Classes classId) {
-        this.classId = classId;
+    public void setAdmissionClass(Classes admissionClass) {
+        this.admissionClass = admissionClass;
     }
 
-    public Streams getStreamId() {
-        return streamId;
+    public Streams getAdmissionStream() {
+        return admissionStream;
     }
 
-    public void setStreamId(Streams streamId) {
-        this.streamId = streamId;
+    public void setAdmissionStream(Streams admissionStream) {
+        this.admissionStream = admissionStream;
     }
 
-    public Terms getTermId() {
-        return termId;
+    public Terms getAdmissionTerm() {
+        return admissionTerm;
     }
 
-    public void setTermId(Terms termId) {
-        this.termId = termId;
+    public void setAdmissionTerm(Terms admissionTerm) {
+        this.admissionTerm = admissionTerm;
     }
 
-    public Users getAuthorId() {
-        return authorId;
+    public Users getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(Users authorId) {
-        this.authorId = authorId;
+    public void setAuthor(Users author) {
+        this.author = author;
     }
 
     @XmlTransient

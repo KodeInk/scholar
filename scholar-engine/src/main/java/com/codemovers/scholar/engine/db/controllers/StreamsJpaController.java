@@ -92,6 +92,9 @@ public class StreamsJpaController extends EngineJpaController {
 
         try {
             return em.find(Streams.class, id.longValue());
+        } catch (Exception er) {
+
+            return null;
         } finally {
             em.close();
         }
