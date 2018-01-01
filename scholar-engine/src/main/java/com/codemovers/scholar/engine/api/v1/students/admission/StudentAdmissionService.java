@@ -113,24 +113,40 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
             throw new BadRequestException("UNIQUE ID MISSING");
         }
 
-        StudentAdmission admission = controller.findStudentAdmission(entity.getId(), data);
-        if (admission == null) {
+        StudentAdmission studentAdmission = controller.findStudentAdmission(entity.getId(), data);
+        if (studentAdmission == null) {
             throw new BadRequestException("RECORD DOES NOT EXIST ");
         }
 
-        if (entity.getAdmission_number() != null && !entity.getAdmission_number().equalsIgnoreCase(admission.getAdmissionNo())) {
-            admission.setAdmissionNo(entity.getAdmission_number());
+        if (entity.getAdmission_number() != null && !entity.getAdmission_number().equalsIgnoreCase(studentAdmission.getAdmissionNo())) {
+            studentAdmission.setAdmissionNo(entity.getAdmission_number());
         }
 
-        if (entity.getDate_of_admission() != null && entity.getDate_of_admission() != (admission.getDateOfAdmission())) {
-            admission.setDateOfAdmission(entity.getDate_of_admission());
+        if (entity.getDate_of_admission() != null && entity.getDate_of_admission() != (studentAdmission.getDateOfAdmission())) {
+            studentAdmission.setDateOfAdmission(entity.getDate_of_admission());
         }
 
 
+        Classes AdmissionClass = ClassJpaController.getInstance().findClass(entity.getClass_id(), data);
+        //todo: get stream by id
+        Streams AdmissionStream = StreamsJpaController.getInstance().findStream(entity.getStream_id(), data);
+        //todo: get  Term by ID
+        Terms AdmissionTerm = TermsJpaController.getInstance().findTerm(entity.getTerm_id(), data);
 
+        if (AdmissionTerm != null) {
+            studentAdmission.setAdmissionTerm(AdmissionTerm);
+        }
+        if (AdmissionClass != null) {
+            studentAdmission.setAdmissionClass(AdmissionClass);
+        }
+        if (AdmissionStream != null) {
+            studentAdmission.setAdmissionStream(AdmissionStream);
+        }
 
+        studentAdmission = controller.edit(studentAdmission, data);
 
-        return super.update(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
+        return populateResponse(studentAdmission);
+
     }
 
     @Override
