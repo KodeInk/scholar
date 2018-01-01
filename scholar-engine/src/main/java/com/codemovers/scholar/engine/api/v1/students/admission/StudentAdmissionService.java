@@ -65,7 +65,9 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
             entity.setExternal_id(getNewExternalId());
         }
 
+        //get profile by Id;
         Profile profile = ProfileJpaController.getInstance().findProfile(pr.getId(), data);
+        //get  class by Id
 
         StudentAdmission admission = new StudentAdmission();
 
@@ -77,12 +79,8 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
         studentAdmission.setStatus(entity.getStatus().toString());
 
         admission = controller.create(admission, data);
+        return populateResponse(admission);
 
-
-        //todo: create  Student Admission Profile connector ::
-
-
-        return super.create(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -93,6 +91,22 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
         if (entity.getId() == null) {
             throw new BadRequestException("UNIQUE ID MISSING");
         }
+
+        StudentAdmission admission = controller.findStudentAdmission(entity.getId(), data);
+        if (admission == null) {
+            throw new BadRequestException("RECORD DOES NOT EXIST ");
+        }
+
+        if (entity.getAdmission_number() != null && !entity.getAdmission_number().equalsIgnoreCase(admission.getAdmissionNo())) {
+            admission.setAdmissionNo(entity.getAdmission_number());
+        }
+
+        if (entity.getDate_of_admission() != null && entity.getDate_of_admission() != (admission.getDateOfAdmission())) {
+            admission.setDateOfAdmission(entity.getDate_of_admission());
+        }
+
+
+
 
 
         return super.update(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.

@@ -27,6 +27,7 @@ public class _StudentAdmission extends AbstractEntity {
     Date date_of_admission;
     private String external_id;
     private Integer term_id;
+    private Integer stream_id;
     private Integer class_id;
     private StatusEnum status;
     private Date date_created;
@@ -129,20 +130,29 @@ public class _StudentAdmission extends AbstractEntity {
         this.profile = profile;
     }
 
+    public Integer getStream_id() {
+        return stream_id;
+    }
+
+    public void setStream_id(Integer stream_id) {
+        this.stream_id = stream_id;
+    }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 19 * hash + Objects.hashCode(this.id);
-        hash = 19 * hash + Objects.hashCode(this.student_id);
-        hash = 19 * hash + Objects.hashCode(this.admission_number);
-        hash = 19 * hash + Objects.hashCode(this.date_of_admission);
-        hash = 19 * hash + Objects.hashCode(this.external_id);
-        hash = 19 * hash + Objects.hashCode(this.term_id);
-        hash = 19 * hash + Objects.hashCode(this.class_id);
-        hash = 19 * hash + Objects.hashCode(this.status);
-        hash = 19 * hash + Objects.hashCode(this.date_created);
-        hash = 19 * hash + Objects.hashCode(this.author_id);
+        int hash = 3;
+        hash = 59 * hash + Objects.hashCode(this.id);
+        hash = 59 * hash + Objects.hashCode(this.student_id);
+        hash = 59 * hash + Objects.hashCode(this.admission_number);
+        hash = 59 * hash + Objects.hashCode(this.date_of_admission);
+        hash = 59 * hash + Objects.hashCode(this.external_id);
+        hash = 59 * hash + Objects.hashCode(this.term_id);
+        hash = 59 * hash + Objects.hashCode(this.stream_id);
+        hash = 59 * hash + Objects.hashCode(this.class_id);
+        hash = 59 * hash + Objects.hashCode(this.status);
+        hash = 59 * hash + Objects.hashCode(this.date_created);
+        hash = 59 * hash + Objects.hashCode(this.author_id);
+        hash = 59 * hash + Objects.hashCode(this.profile);
         return hash;
     }
 
@@ -176,6 +186,9 @@ public class _StudentAdmission extends AbstractEntity {
         if (!Objects.equals(this.term_id, other.term_id)) {
             return false;
         }
+        if (!Objects.equals(this.stream_id, other.stream_id)) {
+            return false;
+        }
         if (!Objects.equals(this.class_id, other.class_id)) {
             return false;
         }
@@ -185,8 +198,15 @@ public class _StudentAdmission extends AbstractEntity {
         if (!Objects.equals(this.date_created, other.date_created)) {
             return false;
         }
-        return Objects.equals(this.author_id, other.author_id);
+        if (!Objects.equals(this.author_id, other.author_id)) {
+            return false;
+        }
+        if (!Objects.equals(this.profile, other.profile)) {
+            return false;
+        }
+        return true;
     }
+
 
     @Override
     public void validate() {
@@ -202,6 +222,7 @@ public class _StudentAdmission extends AbstractEntity {
                 + ", date_of_admission=" + date_of_admission
                 + ", external_id=" + external_id
                 + ", term_id=" + term_id
+                + ", stream_id=" + stream_id
                 + ", class_id=" + class_id
                 + ", status=" + status
                 + ", date_created=" + date_created
