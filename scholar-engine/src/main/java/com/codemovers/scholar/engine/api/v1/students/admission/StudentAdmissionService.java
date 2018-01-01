@@ -76,7 +76,7 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
         studentAdmission.setDateOfAdmission(entity.getDate_of_admission());
         studentAdmission.setStatus(entity.getStatus().toString());
 
-        controller.create(admission, data);
+        admission = controller.create(admission, data);
 
 
         //todo: create  Student Admission Profile connector ::
@@ -114,6 +114,10 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
     }
 
 
+    public StudentAdmissionResponse populateResponse(StudentAdmission entity) {
+        StudentAdmissionResponse response = new StudentAdmissionResponse();
 
+        return response;
+    }
 
 }
