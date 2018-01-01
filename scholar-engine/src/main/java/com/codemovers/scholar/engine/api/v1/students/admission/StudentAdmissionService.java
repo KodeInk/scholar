@@ -154,13 +154,22 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
     public StudentAdmissionResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
 
         check_access(ARCHIVE_STUDENT_ADMISSION_PERMISSION);
-        return super.archive(data, id, authentication); //To change body of generated methods, choose Tools | Templates.
+        StudentAdmission studentAdmission = controller.findStudentAdmission(id, data);
+        if (studentAdmission == null) {
+            throw new BadRequestException("RECORD DOES NOT EXIST ");
+        }
+
+        studentAdmission.setStatus(StatusEnum.ARCHIVED.toString());
+
+        studentAdmission = controller.edit(studentAdmission, data);
+
+        return populateResponse(studentAdmission);
     }
 
     @Override
     public StudentAdmissionResponse getById(SchoolData data, Integer Id) throws Exception {
-
-        return super.getById(data, Id); //To change body of generated methods, choose Tools | Templates.
+        StudentAdmission studentAdmission = controller.findStudentAdmission(Id, data);
+        return populateResponse(studentAdmission);
     }
 
     @Override
