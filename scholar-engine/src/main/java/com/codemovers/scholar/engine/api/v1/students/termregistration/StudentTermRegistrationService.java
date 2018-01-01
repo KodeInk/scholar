@@ -8,7 +8,6 @@ package com.codemovers.scholar.engine.api.v1.students.termregistration;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.streams.StreamsService;
-import static com.codemovers.scholar.engine.api.v1.students.admission.StudentAdmissionServiceInterface.ADMIT_STUDENT_PERMISSION;
 import com.codemovers.scholar.engine.api.v1.students.termregistration.entities.StudentTermRegistrationResponse;
 import com.codemovers.scholar.engine.api.v1.students.termregistration.entities._StudentTermRegistration;
 import com.codemovers.scholar.engine.db.controllers.ClassJpaController;
@@ -27,6 +26,7 @@ import static com.codemovers.scholar.engine.helper.Utilities.check_access;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import java.util.List;
 import java.util.logging.Logger;
+import javax.ws.rs.BadRequestException;
 
 /**
  *
@@ -38,7 +38,8 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
     private final StudentTermRegistrationJpaController controller;
     private static StudentTermRegistrationService service = null;
 
-    final String[] REGISTER_STUDENT_TERMT_PERMISSION = new String[]{"ALL_FUNCTIONS", "REGISTER_STUDENT_TERM"};
+    final String[] REGISTER_STUDENT_TERM_PERMISSION = new String[]{"ALL_FUNCTIONS", "REGISTER_STUDENT_TERM"};
+    final String[] UPDATE_STUDENT_TERM_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_STUDENT_TERM"};
 
 
     public StudentTermRegistrationService() {
@@ -54,7 +55,7 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
 
     @Override
     public StudentTermRegistrationResponse create(SchoolData data, _StudentTermRegistration entity, AuthenticationResponse authentication) throws Exception {
-        check_access(REGISTER_STUDENT_TERMT_PERMISSION);
+        check_access(REGISTER_STUDENT_TERM_PERMISSION);
         entity.validate();
 
         entity.setAuthor_id(authentication.getId());
@@ -89,7 +90,36 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
 
     @Override
     public StudentTermRegistrationResponse update(SchoolData data, _StudentTermRegistration entity, AuthenticationResponse authentication) throws Exception {
-        return super.update(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
+        check_access(UPDATE_STUDENT_TERM_PERMISSION);
+        entity.validate();
+
+        if (entity.getId() == null) {
+            throw new BadRequestException("UNIQUE ID MISSING");
+        }
+
+        StudentTermRegistration registration = controller.findStudentTermRegistration(entity.getId(), data);
+
+        if (registration == null) {
+            throw new BadRequestException("RECORD DOES NOT EXIST");
+        }
+
+        //todo: get the admission by id;
+        StudentAdmission admission = StudentAdmissionJpaController.getInstance().findStudentAdmission(entity.getAdmission_id(), data);
+        //TODO: get term by id
+        Terms registration_term = TermsJpaController.getInstance().findTerm(entity.getTerm_id(), data);
+        //TODO: get term by id
+        Classes RegistrationClass = ClassJpaController.getInstance().findClass(entity.getClass_id(), data);
+
+        //Todo: get Stream by Id
+        Streams RegistrationStream = StreamsJpaController.getInstance().findStream(entity.getStream_id(), data);
+
+        registration.setRegistration_term(registration_term);
+        registration.setRegistration_Class(RegistrationClass);
+        registration.setRegistration_Stream(RegistrationStream);
+        registration.setStudent_Admission(admission);
+
+        controller.edit(registration, data);
+        return populateResponse(registration);
     }
 
     @Override

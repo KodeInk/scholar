@@ -87,6 +87,8 @@ public class StudentTermRegistrationJpaController extends EngineJpaController {
 
         try {
             return em.find(StudentTermRegistration.class, id);
+        } catch (Exception er) {
+            return null;
         } finally {
             em.close();
         }
