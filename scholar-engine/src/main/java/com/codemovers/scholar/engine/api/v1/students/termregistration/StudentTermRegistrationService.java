@@ -7,10 +7,19 @@ package com.codemovers.scholar.engine.api.v1.students.termregistration;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
+import com.codemovers.scholar.engine.api.v1.admissions.AdmissionService;
+import com.codemovers.scholar.engine.api.v1.admissions.entities.AdmissionResponse;
+import com.codemovers.scholar.engine.api.v1.classes.ClassService;
+import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
+import com.codemovers.scholar.engine.api.v1.registrations.entities.StudentRegistrationResponse;
 import com.codemovers.scholar.engine.api.v1.streams.StreamsService;
+import com.codemovers.scholar.engine.api.v1.streams.entities.StreamResponse;
+import com.codemovers.scholar.engine.api.v1.students.admission.StudentAdmissionService;
 import com.codemovers.scholar.engine.api.v1.students.admission.entities.StudentAdmissionResponse;
 import com.codemovers.scholar.engine.api.v1.students.termregistration.entities.StudentTermRegistrationResponse;
 import com.codemovers.scholar.engine.api.v1.students.termregistration.entities._StudentTermRegistration;
+import com.codemovers.scholar.engine.api.v1.terms.TermService;
+import com.codemovers.scholar.engine.api.v1.terms.entities.TermResponse;
 import com.codemovers.scholar.engine.db.controllers.ClassJpaController;
 import com.codemovers.scholar.engine.db.controllers.StreamsJpaController;
 import com.codemovers.scholar.engine.db.controllers.StudentAdmissionJpaController;
@@ -172,6 +181,38 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
 
     public StudentTermRegistrationResponse populateResponse(StudentTermRegistration entity) {
         StudentTermRegistrationResponse response = new StudentTermRegistrationResponse();
+
+        response.setId(entity.getId().intValue());
+
+        //AdmissionResponse
+        if (response.getStudentAdmission() != null) {
+            StudentAdmission admission = entity.getStudent_Admission();
+            StudentAdmissionResponse admissionResponse = StudentAdmissionService.getInstance().populateResponse(admission);
+        }
+
+        if (response.getRegistration_term() != null) {
+            Terms term = entity.getRegistration_term();
+            TermResponse termResponse = TermService.getInstance().populateResponse(term);
+            response.setRegistration_term(termResponse);
+        }
+
+        if (response.getRegistration_class() != null) {
+            Classes _class = entity.getRegistration_Class();
+            ClassResponse classResponse = ClassService.getInstance().populateResponse(_class);
+            response.setRegistration_class(classResponse);
+        }
+
+        if (response.getRegistration_stream() != null) {
+            Streams _Stream = entity.getRegistration_Stream();
+            StreamResponse streamResponse = StreamsService.getInstance().populateResponse(_Stream);
+            response.setRegistration_stream(streamResponse);
+        }
+
+        response.setStatus(entity.getStatus());
+
+        if (entity.getAuthor() != null) {
+            response.setAuthor(entity.getAuthor().getUsername());
+        }
 
         return response;
     }
