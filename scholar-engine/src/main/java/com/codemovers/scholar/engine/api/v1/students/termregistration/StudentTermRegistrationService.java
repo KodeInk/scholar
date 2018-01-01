@@ -43,16 +43,11 @@ import javax.ws.rs.BadRequestException;
  *
  * @author mover 1/1/2018
  */
-public class StudentTermRegistrationService extends AbstractService<_StudentTermRegistration, StudentTermRegistrationResponse> {
+public class StudentTermRegistrationService extends AbstractService<_StudentTermRegistration, StudentTermRegistrationResponse> implements StudentTermRegistrationServiceInterface {
 
     private static final Logger LOG = Logger.getLogger(StreamsService.class.getName());
     private final StudentTermRegistrationJpaController controller;
     private static StudentTermRegistrationService service = null;
-
-    final String[] REGISTER_STUDENT_TERM_PERMISSION = new String[]{"ALL_FUNCTIONS", "REGISTER_STUDENT_TERM"};
-    final String[] UPDATE_STUDENT_TERM_REGISTRATION_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_STUDENT_TERM_REGISTRATION"};
-    final String[] ARCHIVE_STUDENT_TERM_REGISTRATION_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_STUDENT_TERM_REGISTRATION"};
-    final String[] LIST_STUDENT_TERM_REGISTRATION_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_STUDENT_TERM_REGISTRATION"};
 
 
     public StudentTermRegistrationService() {
@@ -179,6 +174,7 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
 
     }
 
+    @Override
     public StudentTermRegistrationResponse populateResponse(StudentTermRegistration entity) {
         StudentTermRegistrationResponse response = new StudentTermRegistrationResponse();
 
