@@ -10,6 +10,7 @@ import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
 import com.codemovers.scholar.engine.api.v1.profile.entities._Profile;
 import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
 import java.util.Objects;
 
@@ -17,6 +18,7 @@ import java.util.Objects;
  *
  * @author mover 12/30/2017
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class _StudentAdmission extends AbstractEntity {
 
     private Integer id;
