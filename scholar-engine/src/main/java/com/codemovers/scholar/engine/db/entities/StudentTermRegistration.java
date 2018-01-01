@@ -42,6 +42,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "StudentTermRegistration.findByStatus", query = "SELECT s FROM StudentTermRegistration s WHERE s.status = :status")})
 public class StudentTermRegistration implements Serializable {
 
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,6 +75,11 @@ public class StudentTermRegistration implements Serializable {
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users authorId;
+
+    @JoinColumn(name = "class_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Classes StudentTermRegistrationClass;
+
 
     public StudentTermRegistration() {
     }
@@ -161,6 +167,15 @@ public class StudentTermRegistration implements Serializable {
     public void setAuthorId(Users authorId) {
         this.authorId = authorId;
     }
+
+    public Classes getStudentTermRegistrationClass() {
+        return StudentTermRegistrationClass;
+    }
+
+    public void setStudentTermRegistrationClass(Classes StudentTermRegistrationClass) {
+        this.StudentTermRegistrationClass = StudentTermRegistrationClass;
+    }
+
 
     @Override
     public int hashCode() {

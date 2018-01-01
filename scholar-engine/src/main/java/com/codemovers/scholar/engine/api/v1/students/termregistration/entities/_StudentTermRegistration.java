@@ -5,6 +5,7 @@
  */
 package com.codemovers.scholar.engine.api.v1.students.termregistration.entities;
 
+import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
 import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
@@ -16,8 +17,12 @@ import java.util.Objects;
  */
 public class _StudentTermRegistration extends AbstractEntity {
     private Integer id;
-    private Integer admission_id;
-    private Integer term_id;
+    private @Mandatory
+    Integer admission_id;
+    private @Mandatory
+    Integer term_id;
+    private @Mandatory
+    Integer class_id;
     private Integer stream_id;
     private StatusEnum status;
     private Integer author_id;
