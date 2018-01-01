@@ -84,13 +84,14 @@ public class _StudentTermRegistration extends AbstractEntity {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 11 * hash + Objects.hashCode(this.id);
-        hash = 11 * hash + Objects.hashCode(this.admission_id);
-        hash = 11 * hash + Objects.hashCode(this.term_id);
-        hash = 11 * hash + Objects.hashCode(this.stream_id);
-        hash = 11 * hash + Objects.hashCode(this.status);
-        hash = 11 * hash + Objects.hashCode(this.author_id);
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.id);
+        hash = 79 * hash + Objects.hashCode(this.admission_id);
+        hash = 79 * hash + Objects.hashCode(this.term_id);
+        hash = 79 * hash + Objects.hashCode(this.class_id);
+        hash = 79 * hash + Objects.hashCode(this.stream_id);
+        hash = 79 * hash + Objects.hashCode(this.status);
+        hash = 79 * hash + Objects.hashCode(this.author_id);
         return hash;
     }
 
@@ -115,13 +116,19 @@ public class _StudentTermRegistration extends AbstractEntity {
         if (!Objects.equals(this.term_id, other.term_id)) {
             return false;
         }
+        if (!Objects.equals(this.class_id, other.class_id)) {
+            return false;
+        }
         if (!Objects.equals(this.stream_id, other.stream_id)) {
             return false;
         }
         if (this.status != other.status) {
             return false;
         }
-        return Objects.equals(this.author_id, other.author_id);
+        if (!Objects.equals(this.author_id, other.author_id)) {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -135,6 +142,7 @@ public class _StudentTermRegistration extends AbstractEntity {
         return "_StudentTermRegistration{"
                 + "id=" + id
                 + ", admission_id=" + admission_id
+                + ", class_id=" + class_id
                 + ", term_id=" + term_id
                 + ", stream_id=" + stream_id
                 + ", status=" + status

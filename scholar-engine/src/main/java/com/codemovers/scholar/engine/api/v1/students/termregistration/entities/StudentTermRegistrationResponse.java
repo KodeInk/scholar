@@ -11,4 +11,12 @@ package com.codemovers.scholar.engine.api.v1.students.termregistration.entities;
  */
 public class StudentTermRegistrationResponse {
 
+    private Integer id;
+    private Integer admission_id;
+    private Integer term_id;
+    private Integer class_id;
+    private Integer stream_id;
+    private String status;
+    private Integer author_id;
+
 }
