@@ -10,6 +10,7 @@ import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResp
 import com.codemovers.scholar.engine.api.v1.profile.ProfileService;
 import com.codemovers.scholar.engine.api.v1.profile.entities.ProfileResponse;
 import com.codemovers.scholar.engine.api.v1.streams.StreamsService;
+import com.codemovers.scholar.engine.api.v1.streams.entities.StreamResponse;
 import com.codemovers.scholar.engine.api.v1.students.admission.entities.StudentAdmissionResponse;
 import com.codemovers.scholar.engine.api.v1.students.admission.entities._StudentAdmission;
 import com.codemovers.scholar.engine.db.controllers.ClassJpaController;
@@ -27,6 +28,7 @@ import static com.codemovers.scholar.engine.helper.Utilities.check_access;
 import static com.codemovers.scholar.engine.helper.Utilities.getNewExternalId;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -43,6 +45,7 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
     final String[] ADMIT_STUDENT_PERMISSION = new String[]{"ALL_FUNCTIONS", "ADMIT_STUDENT_ADMISSION"};
     final String[] UPDATE_STUDENT_ADMISSION_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_STUDENT_ADMISSION"};
     final String[] ARCHIVE_STUDENT_ADMISSION_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_STUDENT_ADMISSION"};
+    final String[] LIST_STUDENT_ADMISSION_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_STUDENT_ADMISSION_PERMISSION"};
 
 
     public StudentAdmissionService() {
@@ -168,13 +171,28 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
 
     @Override
     public StudentAdmissionResponse getById(SchoolData data, Integer Id) throws Exception {
+        check_access(LIST_STUDENT_ADMISSION_PERMISSION);
         StudentAdmission studentAdmission = controller.findStudentAdmission(Id, data);
         return populateResponse(studentAdmission);
     }
 
     @Override
     public List<StudentAdmissionResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
-        return super.list(data, ofset, limit, authentication); //To change body of generated methods, choose Tools | Templates.
+        check_access(LIST_STUDENT_ADMISSION_PERMISSION);
+
+        List<StudentAdmission> list = controller.findStudentAdmissions(ofset, limit, data);
+        List<StudentAdmissionResponse> responses = new ArrayList<>();
+        if (list != null) {
+
+            list.forEach((studentAdmission) -> {
+                responses.add(populateResponse(studentAdmission));
+            });
+        }
+
+        return responses;
+
+
+
     }
 
 
