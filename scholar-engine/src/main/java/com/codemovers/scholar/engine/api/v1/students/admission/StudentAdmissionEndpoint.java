@@ -11,6 +11,7 @@ import com.codemovers.scholar.engine.api.v1.students.admission.entities.StudentA
 import com.codemovers.scholar.engine.api.v1.students.admission.entities._StudentAdmission;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
 import java.util.Collection;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -40,22 +41,26 @@ public class StudentAdmissionEndpoint extends AbstractEndpoint<_StudentAdmission
 
     @Override
     public StudentAdmissionResponse create(_StudentAdmission entity, String authentication, HttpServletRequest httpRequest) throws Exception {
-        return super.create(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+        validate(tenantdata, authentication);
+        return service.update(tenantdata, entity, this.authentication);
     }
 
     @Override
     public StudentAdmissionResponse update(_StudentAdmission entity, String authentication, HttpServletRequest httpRequest) throws Exception {
-        return super.update(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+        validate(tenantdata, authentication);
+        return service.update(tenantdata, entity, this.authentication);
     }
 
     @Override
     public StudentAdmissionResponse archive(Integer id, String authentication, HttpServletRequest httpRequest) throws Exception {
-        return super.archive(id, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+        validate(tenantdata, authentication);
+        return service.archive(tenantdata, id, this.authentication);
     }
 
     @Override
     public Collection<StudentAdmissionResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
-        return super.list(start, end, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+        validate(tenantdata, authentication);
+        return service.list(tenantdata, start, end, this.authentication);
     }
 
 

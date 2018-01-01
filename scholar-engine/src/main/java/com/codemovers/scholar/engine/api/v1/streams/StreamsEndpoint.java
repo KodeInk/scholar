@@ -52,7 +52,7 @@ public class StreamsEndpoint extends AbstractEndpoint<_Stream, StreamResponse> {
     @Override
     public StreamResponse create(_Stream entity, String authentication, HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
-        return service.update(tenantdata, entity, this.authentication);
+        return service.create(tenantdata, entity, this.authentication);
     }
 
     @PUT
