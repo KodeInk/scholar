@@ -6,6 +6,7 @@
 package com.codemovers.scholar.engine.api.v1.students.termregistration.entities;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
+import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import java.util.Objects;
 
@@ -120,8 +121,9 @@ public class _StudentTermRegistration extends AbstractEntity {
 
     @Override
     public void validate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        validateMandatoryFields(this.getClass(), this);
     }
+
 
     @Override
     public String toString() {
