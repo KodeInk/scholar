@@ -59,7 +59,7 @@ public class StudentTermRegistrationJpaController extends EngineJpaController {
 
     }
 
-    public void edit(StudentTermRegistration studentTermRegistration, SchoolData data) throws Exception {
+    public StudentTermRegistration edit(StudentTermRegistration studentTermRegistration, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
             em = getEntityManager(data.getExternalId());
@@ -80,6 +80,8 @@ public class StudentTermRegistrationJpaController extends EngineJpaController {
                 em.close();
             }
         }
+
+        return studentTermRegistration;
     }
 
     public StudentTermRegistration findStudentTermRegistration(Integer id, SchoolData data) {

@@ -8,6 +8,7 @@ package com.codemovers.scholar.engine.api.v1.students.termregistration;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.streams.StreamsService;
+import com.codemovers.scholar.engine.api.v1.students.admission.entities.StudentAdmissionResponse;
 import com.codemovers.scholar.engine.api.v1.students.termregistration.entities.StudentTermRegistrationResponse;
 import com.codemovers.scholar.engine.api.v1.students.termregistration.entities._StudentTermRegistration;
 import com.codemovers.scholar.engine.db.controllers.ClassJpaController;
@@ -24,6 +25,7 @@ import com.codemovers.scholar.engine.db.entities.Terms;
 import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.check_access;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.ws.rs.BadRequestException;
@@ -39,7 +41,9 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
     private static StudentTermRegistrationService service = null;
 
     final String[] REGISTER_STUDENT_TERM_PERMISSION = new String[]{"ALL_FUNCTIONS", "REGISTER_STUDENT_TERM"};
-    final String[] UPDATE_STUDENT_TERM_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_STUDENT_TERM"};
+    final String[] UPDATE_STUDENT_TERM_REGISTRATION_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_STUDENT_TERM_REGISTRATION"};
+    final String[] ARCHIVE_STUDENT_TERM_REGISTRATION_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_STUDENT_TERM_REGISTRATION"};
+    final String[] LIST_STUDENT_TERM_REGISTRATION_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_STUDENT_TERM_REGISTRATION"};
 
 
     public StudentTermRegistrationService() {
@@ -90,7 +94,7 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
 
     @Override
     public StudentTermRegistrationResponse update(SchoolData data, _StudentTermRegistration entity, AuthenticationResponse authentication) throws Exception {
-        check_access(UPDATE_STUDENT_TERM_PERMISSION);
+        check_access(UPDATE_STUDENT_TERM_REGISTRATION_PERMISSION);
         entity.validate();
 
         if (entity.getId() == null) {
@@ -124,17 +128,46 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
 
     @Override
     public StudentTermRegistrationResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
-        return super.archive(data, id, authentication); //To change body of generated methods, choose Tools | Templates.
+
+        check_access(ARCHIVE_STUDENT_TERM_REGISTRATION_PERMISSION);
+
+        StudentTermRegistration registration = controller.findStudentTermRegistration(id, data);
+        if (registration == null) {
+            throw new BadRequestException("RECORD DOES NOT EXIST");
+        }
+
+        registration.setStatus(StatusEnum.ARCHIVED.toString());
+
+        registration = controller.edit(registration, data);
+
+        return populateResponse(registration);
     }
 
     @Override
     public StudentTermRegistrationResponse getById(SchoolData data, Integer Id) throws Exception {
-        return super.getById(data, Id); //To change body of generated methods, choose Tools | Templates.
+        check_access(LIST_STUDENT_TERM_REGISTRATION_PERMISSION);
+        StudentTermRegistration registration = controller.findStudentTermRegistration(Id, data);
+        if (registration == null) {
+            throw new BadRequestException("RECORD DOES NOT EXIST");
+        }
+
+        return populateResponse(registration);
     }
 
     @Override
     public List<StudentTermRegistrationResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
-        return super.list(data, ofset, limit, authentication); //To change body of generated methods, choose Tools | Templates.
+        check_access(LIST_STUDENT_TERM_REGISTRATION_PERMISSION);
+        List<StudentTermRegistration> list = controller.findStudentTermRegistrations(ofset, limit, data);
+        List<StudentTermRegistrationResponse> responses = new ArrayList<>();
+        if (list != null) {
+
+            list.forEach((registration) -> {
+                responses.add(populateResponse(registration));
+            });
+        }
+
+        return responses;
+
     }
 
     public StudentTermRegistrationResponse populateResponse(StudentTermRegistration entity) {
