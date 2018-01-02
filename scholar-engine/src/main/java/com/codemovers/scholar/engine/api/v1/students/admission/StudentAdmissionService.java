@@ -40,7 +40,7 @@ import java.util.logging.Logger;
  */
 public class StudentAdmissionService extends AbstractService<_StudentAdmission, StudentAdmissionResponse> implements StudentAdmissionServiceInterface {
 
-    private static final Logger LOG = Logger.getLogger(StreamsService.class.getName());
+    private static final Logger LOG = Logger.getLogger(StudentAdmissionService.class.getName());
     private final StudentAdmissionJpaController controller;
     private static StudentAdmissionService service = null;
 
