@@ -85,13 +85,42 @@ public class StudentExamRegistrationService extends AbstractService<_StudentExam
     @Override
     public StudentExamRegistrationResponse update(SchoolData data, _StudentExamRegistration entity, AuthenticationResponse authentication) throws Exception {
         check_access(UPDATE_EXAMREGISTRATION_PERMISSION);
-        return super.update(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
+        entity.validate();
+
+        if (entity.getId() == null) {
+            throw new BadRequestException("UNIQUE ID MISSING");
+        }
+
+        StudentExamRegistration examRegistration = controller.findStudentExamRegistration(entity.getId(), data);
+
+        if (examRegistration == null) {
+            throw new BadRequestException("Record does not Exist");
+        }
+
+        StudentTermRegistration studentTermRegistration = StudentTermRegistrationJpaController.getInstance().findStudentTermRegistration(entity.getTerm_registration_id(), data);
+        Exams registration_exam = ExamsJpaController.getInstance().findExam(entity.getExam_id(), data);
+
+        if (studentTermRegistration != null) {
+            examRegistration.setTermRegistration(studentTermRegistration);
+        }
+
+        if (registration_exam != null) {
+            examRegistration.setExam(registration_exam);
+        }
+
+        examRegistration = controller.edit(examRegistration, data);
+
+        return populateResponse(examRegistration);
+
     }
 
     @Override
     public StudentExamRegistrationResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
         check_access(ARCHIVE_EXAMREGISTRATION_PERMISSION);
-        return super.archive(data, id, authentication); //To change body of generated methods, choose Tools | Templates.
+
+
+        return super.archive(data, id, authentication);
+//To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
