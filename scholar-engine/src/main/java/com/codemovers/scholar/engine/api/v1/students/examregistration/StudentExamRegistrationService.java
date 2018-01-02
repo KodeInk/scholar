@@ -8,6 +8,7 @@ package com.codemovers.scholar.engine.api.v1.students.examregistration;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import static com.codemovers.scholar.engine.api.v1.students.admission.StudentAdmissionServiceInterface.ADMIT_STUDENT_PERMISSION;
+import com.codemovers.scholar.engine.api.v1.students.admission.entities.StudentAdmissionResponse;
 import com.codemovers.scholar.engine.api.v1.students.examregistration.entities.StudentExamRegistrationResponse;
 import com.codemovers.scholar.engine.api.v1.students.examregistration.entities._StudentExamRegistration;
 import com.codemovers.scholar.engine.db.controllers.ExamsJpaController;
@@ -16,6 +17,7 @@ import com.codemovers.scholar.engine.db.controllers.StudentTermRegistrationJpaCo
 import com.codemovers.scholar.engine.db.controllers.TermsJpaController;
 import com.codemovers.scholar.engine.db.entities.Exams;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import com.codemovers.scholar.engine.db.entities.StudentAdmission;
 import com.codemovers.scholar.engine.db.entities.StudentExamRegistration;
 import com.codemovers.scholar.engine.db.entities.StudentTermRegistration;
 import com.codemovers.scholar.engine.db.entities.Terms;
@@ -23,6 +25,7 @@ import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.check_access;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -117,22 +120,46 @@ public class StudentExamRegistrationService extends AbstractService<_StudentExam
     @Override
     public StudentExamRegistrationResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
         check_access(ARCHIVE_EXAMREGISTRATION_PERMISSION);
+        StudentExamRegistration examRegistration = controller.findStudentExamRegistration(id, data);
 
+        if (examRegistration == null) {
+            throw new BadRequestException("Record does not Exist");
+        }
+        examRegistration.setStatus(StatusEnum.ARCHIVED.toString());
 
-        return super.archive(data, id, authentication);
-//To change body of generated methods, choose Tools | Templates.
+        examRegistration = controller.edit(examRegistration, data);
+
+        return populateResponse(examRegistration);
+
     }
 
     @Override
     public List<StudentExamRegistrationResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
         check_access(LIST_EXAMREGISTRATION_PERMISSION);
-        return super.list(data, ofset, limit, authentication); //To change body of generated methods, choose Tools | Templates.
+
+        List<StudentExamRegistration> list = controller.findStudentExamRegistrations(ofset, limit, data);
+        List<StudentExamRegistrationResponse> responses = new ArrayList<>();
+        if (list != null) {
+
+            list.forEach((studentExamRegistration) -> {
+                responses.add(populateResponse(studentExamRegistration));
+            });
+        }
+
+        return responses;
+
     }
 
     @Override
     public StudentExamRegistrationResponse getById(SchoolData data, Integer Id) throws Exception {
         check_access(LIST_EXAMREGISTRATION_PERMISSION);
-        return super.getById(data, Id); //To change body of generated methods, choose Tools | Templates.
+
+        StudentExamRegistration examRegistration = controller.findStudentExamRegistration(Id, data);
+
+        if (examRegistration == null) {
+            throw new BadRequestException("Record does not Exist");
+        }
+        return populateResponse(examRegistration);
     }
 
     public StudentExamRegistrationResponse populateResponse(StudentExamRegistration entity) {
