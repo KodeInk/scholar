@@ -17,9 +17,12 @@ import com.codemovers.scholar.engine.db.controllers.TermsJpaController;
 import com.codemovers.scholar.engine.db.entities.Exams;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.StudentExamRegistration;
+import com.codemovers.scholar.engine.db.entities.StudentTermRegistration;
 import com.codemovers.scholar.engine.db.entities.Terms;
+import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.check_access;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
+import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -58,7 +61,11 @@ public class StudentExamRegistrationService extends AbstractService<_StudentExam
         entity.setAuthor_id(authentication.getId());
         entity.setStatus(StatusEnum.ACTIVE);
 
-        StudentTermRegistrationJpaController.getInstance().create(entity, data);
+        StudentTermRegistration studentTermRegistration = StudentTermRegistrationJpaController.getInstance().findStudentTermRegistration(entity.getTerm_registration_id(), data);
+
+        if (studentTermRegistration == null) {
+            throw new BadRequestException("STUDENT IS NOT YET REGISTERED FOR THIS TERM");
+        }
 
         Terms registration_term = TermsJpaController.getInstance().findTerm(entity.getTerm_registration_id(), data);
         Exams registration_exam = ExamsJpaController.getInstance().findExam(entity.getExam_id(), data);
@@ -66,10 +73,13 @@ public class StudentExamRegistrationService extends AbstractService<_StudentExam
         //StudentTermRegistration
         StudentExamRegistration examRegistration = new StudentExamRegistration();
         examRegistration.setExam(registration_exam);
-        // examRegistration.setTermRegistration(registration_term);
-        // examRegistration
-        //todo: populate pojo ::
-        return super.create(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
+        examRegistration.setTermRegistration(studentTermRegistration);
+        examRegistration.setStatus(entity.getStatus().toString());
+        examRegistration.setAuthor(new Users(entity.getAuthor_id().longValue()));
+
+        examRegistration = controller.create(examRegistration, data);
+
+        return populateResponse(examRegistration);
     }
 
     @Override
@@ -96,5 +106,11 @@ public class StudentExamRegistrationService extends AbstractService<_StudentExam
         return super.getById(data, Id); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public StudentExamRegistrationResponse populateResponse(StudentExamRegistration entity) {
+
+        StudentExamRegistrationResponse response = new StudentExamRegistrationResponse();
+
+        return response;
+    }
 
 }
