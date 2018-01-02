@@ -10,9 +10,16 @@ import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResp
 import static com.codemovers.scholar.engine.api.v1.students.admission.StudentAdmissionServiceInterface.ADMIT_STUDENT_PERMISSION;
 import com.codemovers.scholar.engine.api.v1.students.examregistration.entities.StudentExamRegistrationResponse;
 import com.codemovers.scholar.engine.api.v1.students.examregistration.entities._StudentExamRegistration;
+import com.codemovers.scholar.engine.db.controllers.ExamsJpaController;
 import com.codemovers.scholar.engine.db.controllers.StudentExamRegistrationJpaController;
+import com.codemovers.scholar.engine.db.controllers.StudentTermRegistrationJpaController;
+import com.codemovers.scholar.engine.db.controllers.TermsJpaController;
+import com.codemovers.scholar.engine.db.entities.Exams;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import com.codemovers.scholar.engine.db.entities.StudentExamRegistration;
+import com.codemovers.scholar.engine.db.entities.Terms;
 import static com.codemovers.scholar.engine.helper.Utilities.check_access;
+import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -47,6 +54,21 @@ public class StudentExamRegistrationService extends AbstractService<_StudentExam
     public StudentExamRegistrationResponse create(SchoolData data, _StudentExamRegistration entity, AuthenticationResponse authentication) throws Exception {
         check_access(CREATE_EXAMREGISTRATION_PERMISSION);
 
+        entity.validate();
+        entity.setAuthor_id(authentication.getId());
+        entity.setStatus(StatusEnum.ACTIVE);
+
+        StudentTermRegistrationJpaController.getInstance().create(entity, data);
+
+        Terms registration_term = TermsJpaController.getInstance().findTerm(entity.getTerm_registration_id(), data);
+        Exams registration_exam = ExamsJpaController.getInstance().findExam(entity.getExam_id(), data);
+
+        //StudentTermRegistration
+        StudentExamRegistration examRegistration = new StudentExamRegistration();
+        examRegistration.setExam(registration_exam);
+        // examRegistration.setTermRegistration(registration_term);
+        // examRegistration
+        //todo: populate pojo ::
         return super.create(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
     }
 

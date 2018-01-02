@@ -56,13 +56,13 @@ public class StudentExamRegistration implements Serializable {
     private Date dateCreated;
     @JoinColumn(name = "exam_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Exams examId;
+    private Exams exam;
     @JoinColumn(name = "term_registration_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private StudentTermRegistration termRegistrationId;
+    private StudentTermRegistration termRegistration;
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Users authorId;
+    private Users author;
 
     public StudentExamRegistration() {
     }
@@ -101,28 +101,28 @@ public class StudentExamRegistration implements Serializable {
         this.dateCreated = dateCreated;
     }
 
-    public Exams getExamId() {
-        return examId;
+    public Exams getExam() {
+        return exam;
     }
 
-    public void setExamId(Exams examId) {
-        this.examId = examId;
+    public void setExam(Exams exam) {
+        this.exam = exam;
     }
 
-    public StudentTermRegistration getTermRegistrationId() {
-        return termRegistrationId;
+    public StudentTermRegistration getTermRegistration() {
+        return termRegistration;
     }
 
-    public void setTermRegistrationId(StudentTermRegistration termRegistrationId) {
-        this.termRegistrationId = termRegistrationId;
+    public void setTermRegistration(StudentTermRegistration termRegistration) {
+        this.termRegistration = termRegistration;
     }
 
-    public Users getAuthorId() {
-        return authorId;
+    public Users getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(Users authorId) {
-        this.authorId = authorId;
+    public void setAuthor(Users author) {
+        this.author = author;
     }
 
     @Override
