@@ -15,6 +15,7 @@ import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
 import java.util.Collection;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Path;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 
@@ -22,6 +23,7 @@ import javax.ws.rs.core.Context;
  *
  * @author mover 12/30/2017
  */
+@Path("/")
 public class StudentAdmissionEndpoint extends AbstractEndpoint<_StudentAdmission, StudentAdmissionResponse> {
 
     private static final Logger LOG = Logger.getLogger(StudentAdmissionEndpoint.class.getName());
