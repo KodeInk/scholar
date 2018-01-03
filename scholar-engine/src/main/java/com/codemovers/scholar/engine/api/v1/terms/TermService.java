@@ -29,17 +29,12 @@ import java.util.logging.Logger;
  *
  * @author mover 12/20/2017
  */
-public class TermService extends AbstractService<_Term, TermResponse> {
+public class TermService extends AbstractService<_Term, TermResponse> implements TermServiceInterface {
 
     private static final Logger LOG = Logger.getLogger(TermService.class.getName());
 
     private final TermsJpaController controller;
     private static TermService service = null;
-
-    final String[] CREATE_TERM_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_TERM"};
-    final String[] UPDATE_TERM_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_TERM"};
-    final String[] ARCHIVE_TERM_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_TERM"};
-    final String[] LIST_TERM_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_TERM"};
 
 
     public TermService() {
@@ -163,6 +158,7 @@ public class TermService extends AbstractService<_Term, TermResponse> {
 
     }
 
+    @Override
     public TermResponse populateResponse(Terms entity) {
         TermResponse response = new TermResponse();
         response.setName(entity.getName());

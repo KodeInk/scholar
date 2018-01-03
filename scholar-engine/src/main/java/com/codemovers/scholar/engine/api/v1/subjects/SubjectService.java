@@ -6,10 +6,13 @@
 package com.codemovers.scholar.engine.api.v1.subjects;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
+import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.subjects.entities.SubjectResponse;
 import com.codemovers.scholar.engine.api.v1.subjects.entities._Subject;
 import com.codemovers.scholar.engine.db.controllers.SubjectsJpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import static com.codemovers.scholar.engine.helper.Utilities.check_access;
+import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -22,8 +25,10 @@ public class SubjectService extends AbstractService<_Subject, SubjectResponse> {
     private static final Logger LOG = Logger.getLogger(SubjectService.class.getName());
 
     private final SubjectsJpaController controller;
-
     private static SubjectService service = null;
+
+    final String[] CREATE_SUBJECT_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_SUBJECT"};
+
 
     public SubjectService() {
         controller = SubjectsJpaController.getInstance();
@@ -37,8 +42,16 @@ public class SubjectService extends AbstractService<_Subject, SubjectResponse> {
     }
 
     @Override
-    public SubjectResponse create(SchoolData data, _Subject entity) throws Exception {
-        return super.create(data, entity); //To change body of generated methods, choose Tools | Templates.
+    public SubjectResponse create(SchoolData data, _Subject entity, AuthenticationResponse authentication) throws Exception {
+        check_access(CREATE_SUBJECT_PERMISSION);
+        entity.validate();
+
+        entity.setAuthor_id(authentication.getId());
+        entity.setStatus(StatusEnum.ACTIVE);
+
+
+        return super.create(data, entity);
+        //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
