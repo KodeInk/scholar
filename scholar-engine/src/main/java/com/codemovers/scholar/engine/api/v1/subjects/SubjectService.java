@@ -9,11 +9,9 @@ import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.subjects.entities.SubjectResponse;
 import com.codemovers.scholar.engine.api.v1.subjects.entities._Subject;
-import com.codemovers.scholar.engine.api.v1.terms.entities.TermResponse;
 import com.codemovers.scholar.engine.db.controllers.SubjectsJpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Subjects;
-import com.codemovers.scholar.engine.db.entities.Terms;
 import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.check_access;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
@@ -26,18 +24,12 @@ import java.util.logging.Logger;
  *
  * @author mover 12/20/2017
  */
-public class SubjectService extends AbstractService<_Subject, SubjectResponse> {
+public class SubjectService extends AbstractService<_Subject, SubjectResponse> implements SubjectServiceInterface {
 
     private static final Logger LOG = Logger.getLogger(SubjectService.class.getName());
 
     private final SubjectsJpaController controller;
     private static SubjectService service = null;
-
-    final String[] CREATE_SUBJECT_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_SUBJECT"};
-    final String[] UPDATE_SUBJECT_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_SUBJECT"};
-
-    final String[] ARCHIVE_SUBJECT_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_SUBJECT"};
-    final String[] LIST_SUBJECT_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_SUBJECT"};
 
     public SubjectService() {
         controller = SubjectsJpaController.getInstance();
@@ -137,6 +129,7 @@ public class SubjectService extends AbstractService<_Subject, SubjectResponse> {
         return populateResponse(subject);
     }
 
+    @Override
     public SubjectResponse populateResponse(Subjects entity) {
         SubjectResponse response = new SubjectResponse();
 
