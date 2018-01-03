@@ -7,7 +7,6 @@ package com.codemovers.scholar.engine.api.v1.students.examregistration.entities;
 
 import com.codemovers.scholar.engine.api.v1.exams.entities.ExamResponse;
 import com.codemovers.scholar.engine.api.v1.students.termregistration.entities.StudentTermRegistrationResponse;
-import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import java.util.Date;
 import java.util.Objects;
 
@@ -20,7 +19,7 @@ public class StudentExamRegistrationResponse {
     private Integer id;
     private StudentTermRegistrationResponse term_registration;
     private ExamResponse exam;
-    private StatusEnum status;
+    private String status;
     private Date date_created;
     private String author;
 
@@ -55,11 +54,11 @@ public class StudentExamRegistrationResponse {
         this.exam = exam;
     }
 
-    public StatusEnum getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(StatusEnum status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -115,7 +114,7 @@ public class StudentExamRegistrationResponse {
         if (!Objects.equals(this.exam, other.exam)) {
             return false;
         }
-        if (this.status != other.status) {
+        if (this.status == null ? other.status != null : !this.status.equals(other.status)) {
             return false;
         }
         return Objects.equals(this.date_created, other.date_created);

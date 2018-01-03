@@ -8,6 +8,7 @@ package com.codemovers.scholar.engine.api.v1.students.termregistration.entities;
 import com.codemovers.scholar.engine.api.v1.admissions.entities.AdmissionResponse;
 import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 import com.codemovers.scholar.engine.api.v1.streams.entities.StreamResponse;
+import com.codemovers.scholar.engine.api.v1.students.admission.entities.StudentAdmissionResponse;
 import com.codemovers.scholar.engine.api.v1.terms.entities.TermResponse;
 import java.util.Objects;
 
@@ -18,7 +19,7 @@ import java.util.Objects;
 public class StudentTermRegistrationResponse {
 
     private Integer id;
-    private AdmissionResponse studentAdmission;
+    private StudentAdmissionResponse studentAdmission;
     private TermResponse registration_term;
     private ClassResponse registration_class;
     private StreamResponse registration_stream;
@@ -40,11 +41,11 @@ public class StudentTermRegistrationResponse {
         this.id = id;
     }
 
-    public AdmissionResponse getStudentAdmission() {
+    public StudentAdmissionResponse getStudentAdmission() {
         return studentAdmission;
     }
 
-    public void setStudentAdmission(AdmissionResponse studentAdmission) {
+    public void setStudentAdmission(StudentAdmissionResponse studentAdmission) {
         this.studentAdmission = studentAdmission;
     }
 
