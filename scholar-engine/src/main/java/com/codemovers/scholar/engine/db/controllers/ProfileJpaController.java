@@ -86,7 +86,7 @@ public class ProfileJpaController extends EngineJpaController {
         EntityManager em = getEntityManager(data.getExternalId());
 
         try {
-            return em.find(Profile.class, id);
+            return em.find(Profile.class, id.longValue());
         } finally {
             em.close();
         }

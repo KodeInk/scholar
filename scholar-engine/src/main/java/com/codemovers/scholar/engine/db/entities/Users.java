@@ -113,7 +113,7 @@ public class Users implements Serializable {
     private Collection<StudentSubjectRegistration> studentSubjectRegistrationCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
     private Collection<Terms> termsCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "authorId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
     private Collection<StudentAdmission> studentAdmissionCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "authorId")
     private Collection<SubjectCurriculum> subjectCurriculumCollection;
@@ -157,13 +157,13 @@ public class Users implements Serializable {
     private Collection<SubjectTeachers> subjectTeachersCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "authorId")
     private Collection<SubjectTeachers> subjectTeachersCollection1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "authorId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
     private Collection<StudentExamRegistration> studentExamRegistrationCollection;
     @OneToMany(mappedBy = "author")
     private Collection<Contacts> contactsCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "authorId")
     private Collection<LibraryStockInventory> libraryStockInventoryCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "authorId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
     private Collection<StudentTermRegistration> studentTermRegistrationCollection;
 
     public Users() {

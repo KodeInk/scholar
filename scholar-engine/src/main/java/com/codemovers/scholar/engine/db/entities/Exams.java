@@ -71,7 +71,7 @@ public class Exams implements Serializable {
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne
     private Users author;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "examId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "exam")
     private Collection<StudentExamRegistration> studentExamRegistrationCollection;
 
     public Exams() {

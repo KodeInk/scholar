@@ -39,8 +39,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "StudentTermRegistration.findAll", query = "SELECT s FROM StudentTermRegistration s")
     , @NamedQuery(name = "StudentTermRegistration.findById", query = "SELECT s FROM StudentTermRegistration s WHERE s.id = :id")
     , @NamedQuery(name = "StudentTermRegistration.findByDateCreated", query = "SELECT s FROM StudentTermRegistration s WHERE s.dateCreated = :dateCreated")
-    , @NamedQuery(name = "StudentTermRegistration.findByStatus", query = "SELECT s FROM StudentTermRegistration s WHERE s.status = :status")})
+    , @NamedQuery(name = "StudentTermRegistration.findByStatus", query = "SELECT s FROM StudentTermRegistration s WHERE s.status = :status")
+    , @NamedQuery(name = "StudentTermRegistration.findByAdmissionIdAndTermId", query = "SELECT s FROM StudentTermRegistration s WHERE s.Registration_term.id = :registration_term_id AND s.Student_Admission.studentId = :student_id")
+
+})
 public class StudentTermRegistration implements Serializable {
+
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -60,20 +64,25 @@ public class StudentTermRegistration implements Serializable {
     private String status;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentTermRegistrationId")
     private Collection<StudentSubjectRegistration> studentSubjectRegistrationCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "termRegistrationId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "termRegistration")
     private Collection<StudentExamRegistration> studentExamRegistrationCollection;
     @JoinColumn(name = "stream_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Streams streamId;
+    private Streams Registration_Stream;
     @JoinColumn(name = "admission_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private StudentAdmission admissionId;
+    private StudentAdmission Student_Admission;
     @JoinColumn(name = "term_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Terms termId;
+    private Terms Registration_term;
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Users authorId;
+    private Users author;
+
+    @JoinColumn(name = "class_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Classes Registration_Class;
+
 
     public StudentTermRegistration() {
     }
@@ -130,37 +139,46 @@ public class StudentTermRegistration implements Serializable {
         this.studentExamRegistrationCollection = studentExamRegistrationCollection;
     }
 
-    public Streams getStreamId() {
-        return streamId;
+    public Streams getRegistration_Stream() {
+        return Registration_Stream;
     }
 
-    public void setStreamId(Streams streamId) {
-        this.streamId = streamId;
+    public void setRegistration_Stream(Streams Registration_Stream) {
+        this.Registration_Stream = Registration_Stream;
     }
 
-    public StudentAdmission getAdmissionId() {
-        return admissionId;
+    public StudentAdmission getStudent_Admission() {
+        return Student_Admission;
     }
 
-    public void setAdmissionId(StudentAdmission admissionId) {
-        this.admissionId = admissionId;
+    public void setStudent_Admission(StudentAdmission Student_Admission) {
+        this.Student_Admission = Student_Admission;
     }
 
-    public Terms getTermId() {
-        return termId;
+    public Terms getRegistration_term() {
+        return Registration_term;
     }
 
-    public void setTermId(Terms termId) {
-        this.termId = termId;
+    public void setRegistration_term(Terms Registration_term) {
+        this.Registration_term = Registration_term;
     }
 
-    public Users getAuthorId() {
-        return authorId;
+    public Users getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(Users authorId) {
-        this.authorId = authorId;
+    public void setAuthor(Users author) {
+        this.author = author;
     }
+
+    public Classes getRegistration_Class() {
+        return Registration_Class;
+    }
+
+    public void setRegistration_Class(Classes Registration_Class) {
+        this.Registration_Class = Registration_Class;
+    }
+
 
     @Override
     public int hashCode() {

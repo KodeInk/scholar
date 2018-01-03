@@ -7,9 +7,13 @@ package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
+import static com.codemovers.scholar.engine.db.controllers.UsersJpaController.LOG;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.StudentSubjectRegistration;
 import com.codemovers.scholar.engine.db.entities.StudentTermRegistration;
+import com.codemovers.scholar.engine.db.entities.Users;
+import com.codemovers.scholar.engine.helper.Utilities;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,7 +63,7 @@ public class StudentTermRegistrationJpaController extends EngineJpaController {
 
     }
 
-    public void edit(StudentTermRegistration studentTermRegistration, SchoolData data) throws Exception {
+    public StudentTermRegistration edit(StudentTermRegistration studentTermRegistration, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
             em = getEntityManager(data.getExternalId());
@@ -80,16 +84,46 @@ public class StudentTermRegistrationJpaController extends EngineJpaController {
                 em.close();
             }
         }
+
+        return studentTermRegistration;
     }
 
     public StudentTermRegistration findStudentTermRegistration(Integer id, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
 
         try {
-            return em.find(StudentTermRegistration.class, id);
+            return em.find(StudentTermRegistration.class, id.longValue());
+        } catch (Exception er) {
+            return null;
         } finally {
             em.close();
         }
+    }
+
+    //todo: find term registration by student_id and term_id
+    public StudentTermRegistration findStudentTermRegistration(Integer student_id, Integer term_id, SchoolData data) {
+        List<StudentTermRegistration> studentTermRegistrationList = new ArrayList<>();
+        EntityManager em = getEntityManager(data.getExternalId());
+        Query query = em.createNamedQuery("StudentTermRegistration.findByAdmissionIdAndTermId");
+        query.setParameter("registration_term_id", term_id);
+        query.setParameter("student_id", student_id);
+
+        try {
+            studentTermRegistrationList = query.getResultList();
+            if (studentTermRegistrationList.size() > 0) {
+                return studentTermRegistrationList.get(0);
+            }
+            return null;
+
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "unexpected exception {0}\n{1}", new Object[]{ex.getMessage(), Utilities.getStackTrace(ex)});
+            return null;
+            // don't throw WebApplicationException, force caller to handle this
+        } finally {
+            LOG.log(Level.FINER, "closing entity manager {0}", em);
+            em.close();
+        }
+
     }
 
     private List<StudentTermRegistration> findStudentTermRegistrations(boolean all, int maxResults, int firstResult, SchoolData data) {

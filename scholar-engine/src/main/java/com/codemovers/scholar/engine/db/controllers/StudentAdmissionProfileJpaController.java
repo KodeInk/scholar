@@ -6,16 +6,13 @@
 package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.EngineJpaController;
-import com.codemovers.scholar.engine.db.JpaController;
-import com.codemovers.scholar.engine.db.entities.Classes;
-import com.codemovers.scholar.engine.db.entities.Roles;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
-import com.codemovers.scholar.engine.db.entities.Streams;
+import com.codemovers.scholar.engine.db.entities.StudentAdmission;
+import com.codemovers.scholar.engine.db.entities.StudentAdmissionProfile;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -23,26 +20,26 @@ import javax.ws.rs.BadRequestException;
 
 /**
  *
- * @author Manny
+ * @author mover 12/31/2017
  */
-public class StreamsJpaController extends EngineJpaController {
+public class StudentAdmissionProfileJpaController extends EngineJpaController {
 
-    protected static final Logger LOG = Logger.getLogger(StreamsJpaController.class.getName());
+    protected static final Logger LOG = Logger.getLogger(StudentAdmissionProfileJpaController.class.getName());
 
-    private static StreamsJpaController controller = null;
+    private static StudentAdmissionProfileJpaController controller = null;
 
-    public static StreamsJpaController getInstance() {
+    public static StudentAdmissionProfileJpaController getInstance() {
         if (controller == null) {
-            controller = new StreamsJpaController();
+            controller = new StudentAdmissionProfileJpaController();
         }
         return controller;
     }
 
-    public StreamsJpaController() {
-        super(Streams.class);
+    public StudentAdmissionProfileJpaController() {
+        super(StudentAdmissionProfile.class);
     }
 
-    public Streams create(Streams entity, SchoolData data) {
+    public StudentAdmissionProfile create(StudentAdmissionProfile entity, SchoolData data) {
         EntityManager em = null;
         try {
             em = getEntityManager(data.getExternalId());
@@ -61,21 +58,19 @@ public class StreamsJpaController extends EngineJpaController {
 
     }
 
-    public Streams edit(Streams stream, SchoolData data) throws Exception {
+    public StudentAdmissionProfile edit(StudentAdmissionProfile studentAdmissionProfile, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
             em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
-            stream = em.merge(stream);
+            studentAdmissionProfile = em.merge(studentAdmissionProfile);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = stream.getId().intValue();
-
-                if (findStream(id, data) == null) {
-                    throw new BadRequestException("The Stream with id " + id + " no longer exists.");
-
+                Integer id = studentAdmissionProfile.getId().intValue();
+                if (findStudentAdmission(id, data) == null) {
+                    throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -84,27 +79,25 @@ public class StreamsJpaController extends EngineJpaController {
                 em.close();
             }
         }
-        return stream;
+
+        return studentAdmissionProfile;
     }
 
-    public Streams findStream(Integer id, SchoolData data) {
+    public StudentAdmissionProfile findStudentAdmission(Integer id, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
 
         try {
-            return em.find(Streams.class, id.longValue());
-        } catch (Exception er) {
-
-            return null;
+            return em.find(StudentAdmissionProfile.class, id);
         } finally {
             em.close();
         }
     }
 
-    private List<Streams> findStreams(boolean all, int maxResults, int firstResult, SchoolData data) {
+    private List<StudentAdmissionProfile> findStudentAdmissionProfiles(boolean all, int maxResults, int firstResult, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Streams.class));
+            cq.select(cq.from(StudentAdmissionProfile.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -116,19 +109,19 @@ public class StreamsJpaController extends EngineJpaController {
         }
     }
 
-    public List<Streams> findStreams(SchoolData data) {
-        return findStreams(true, -1, -1, data);
+    public List<StudentAdmissionProfile> findStudentAdmissionProfiles(SchoolData data) {
+        return findStudentAdmissionProfiles(true, -1, -1, data);
     }
 
-    public List<Streams> findStreams(int maxResults, int firstResult, SchoolData data) {
-        return findStreams(false, maxResults, firstResult, data);
+    public List<StudentAdmissionProfile> findStudentAdmissionProfiles(int maxResults, int firstResult, SchoolData data) {
+        return findStudentAdmissionProfiles(false, maxResults, firstResult, data);
     }
 
     public int getCount(SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Streams> rt = cq.from(Streams.class);
+            Root<StudentAdmission> rt = cq.from(StudentAdmissionProfile.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return (Integer) q.getSingleResult();
@@ -137,25 +130,5 @@ public class StreamsJpaController extends EngineJpaController {
         }
     }
 
-    public void destroy(Integer id, SchoolData data) throws Exception {
-        EntityManager em = null;
-        try {
-            em = getEntityManager(data.getExternalId());
-            em.getTransaction().begin();
-            Streams _stream;
-            try {
-                _stream = em.getReference(Streams.class, id.longValue());
-                _stream.getId();
-            } catch (EntityNotFoundException enfe) {
-                throw enfe;
-            }
-            em.remove(_stream);
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-    }
 
 }
