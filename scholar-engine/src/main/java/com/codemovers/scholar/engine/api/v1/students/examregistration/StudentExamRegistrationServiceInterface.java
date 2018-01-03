@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  *
- * @author mover 1/3/018
+ * @author mover 1/3/2018
  */
 public interface StudentExamRegistrationServiceInterface {
 
