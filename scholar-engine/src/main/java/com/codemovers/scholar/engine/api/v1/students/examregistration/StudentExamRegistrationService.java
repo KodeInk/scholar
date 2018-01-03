@@ -7,12 +7,9 @@ package com.codemovers.scholar.engine.api.v1.students.examregistration;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import com.codemovers.scholar.engine.api.v1.admissions.entities.AdmissionResponse;
-import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 import com.codemovers.scholar.engine.api.v1.exams.ExamsService;
 import com.codemovers.scholar.engine.api.v1.exams.entities.ExamResponse;
 import com.codemovers.scholar.engine.api.v1.students.admission.StudentAdmissionService;
-import static com.codemovers.scholar.engine.api.v1.students.admission.StudentAdmissionServiceInterface.ADMIT_STUDENT_PERMISSION;
 import com.codemovers.scholar.engine.api.v1.students.admission.entities.StudentAdmissionResponse;
 import com.codemovers.scholar.engine.api.v1.students.examregistration.entities.StudentExamRegistrationResponse;
 import com.codemovers.scholar.engine.api.v1.students.examregistration.entities._StudentExamRegistration;
@@ -21,7 +18,6 @@ import com.codemovers.scholar.engine.db.controllers.ExamsJpaController;
 import com.codemovers.scholar.engine.db.controllers.StudentExamRegistrationJpaController;
 import com.codemovers.scholar.engine.db.controllers.StudentTermRegistrationJpaController;
 import com.codemovers.scholar.engine.db.controllers.TermsJpaController;
-import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.Exams;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.StudentAdmission;
@@ -88,7 +84,6 @@ public class StudentExamRegistrationService extends AbstractService<_StudentExam
         examRegistration.setAuthor(new Users(entity.getAuthor_id().longValue()));
 
         examRegistration = controller.create(examRegistration, data);
-
         return populateResponse(examRegistration);
     }
 
@@ -133,11 +128,8 @@ public class StudentExamRegistrationService extends AbstractService<_StudentExam
             throw new BadRequestException("Record does not Exist");
         }
         examRegistration.setStatus(StatusEnum.ARCHIVED.toString());
-
         examRegistration = controller.edit(examRegistration, data);
-
         return populateResponse(examRegistration);
-
     }
 
     @Override
@@ -185,8 +177,6 @@ public class StudentExamRegistrationService extends AbstractService<_StudentExam
             }
 
             response.setTerm_registration(registrationResponse);
-
-
         }
 
         Exams exams = entity.getExam();
@@ -199,9 +189,6 @@ public class StudentExamRegistrationService extends AbstractService<_StudentExam
         if (author != null) {
             response.setAuthor(author.getUsername());
         }
-
-
-
         return response;
     }
 
