@@ -14,6 +14,7 @@ import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.Collection;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Path;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 
@@ -21,6 +22,7 @@ import javax.ws.rs.core.Context;
  *
  * @author mover 1/3/2018
  */
+@Path("/")
 public class SubjectPapersEndpoint extends AbstractEndpoint<_SubjectPapers, SubjectPapersResponse> {
 
     private static final Logger LOG = Logger.getLogger(SubjectPapersEndpoint.class.getName());

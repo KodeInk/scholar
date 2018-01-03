@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -24,6 +25,7 @@ import javax.ws.rs.core.Response;
  * @param <T>
  * @param <Z>
  */
+@Path("/")
 public abstract class AbstractEndpoint<T, Z> {
 
     UserService service = null;
