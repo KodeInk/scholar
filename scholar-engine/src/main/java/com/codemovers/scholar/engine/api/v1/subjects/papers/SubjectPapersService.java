@@ -6,7 +6,6 @@
 package com.codemovers.scholar.engine.api.v1.subjects.papers;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
-import com.codemovers.scholar.engine.api.v1.subjects.SubjectService;
 import com.codemovers.scholar.engine.api.v1.subjects.entities.SubjectPaperResponse;
 import com.codemovers.scholar.engine.api.v1.subjects.papers.entities._SubjectPapers;
 import com.codemovers.scholar.engine.db.controllers.SubjectPapersJpaController;
