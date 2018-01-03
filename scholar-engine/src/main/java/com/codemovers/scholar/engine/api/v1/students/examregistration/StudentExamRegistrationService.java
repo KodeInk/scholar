@@ -36,16 +36,11 @@ import java.util.logging.Logger;
  *
  * @author mover 1/2/2018
  */
-public class StudentExamRegistrationService extends AbstractService<_StudentExamRegistration, StudentExamRegistrationResponse> {
+public class StudentExamRegistrationService extends AbstractService<_StudentExamRegistration, StudentExamRegistrationResponse> implements StudentExamRegistrationServiceInterface {
 
     private static final Logger LOG = Logger.getLogger(StudentExamRegistrationService.class.getName());
     private final StudentExamRegistrationJpaController controller;
     private static StudentExamRegistrationService service = null;
-
-    final String[] CREATE_EXAMREGISTRATION_PERMISSION = new String[]{"ALL_FUNCTIONS", "CREATE_EXAMREGISTRATION"};
-    final String[] UPDATE_EXAMREGISTRATION_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_EXAMREGISTRATION"};
-    final String[] LIST_EXAMREGISTRATION_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_EXAMREGISTRATION"};
-    final String[] ARCHIVE_EXAMREGISTRATION_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_EXAMREGISTRATION"};
 
 
     public StudentExamRegistrationService() {
@@ -161,6 +156,7 @@ public class StudentExamRegistrationService extends AbstractService<_StudentExam
         return populateResponse(examRegistration);
     }
 
+    @Override
     public StudentExamRegistrationResponse populateResponse(StudentExamRegistration entity) {
 
         StudentExamRegistrationResponse response = new StudentExamRegistrationResponse();
