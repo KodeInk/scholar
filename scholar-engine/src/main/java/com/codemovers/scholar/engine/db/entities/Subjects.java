@@ -77,7 +77,7 @@ public class Subjects implements Serializable {
     private Collection<Marksheet> marksheetCollection;
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne
-    private Users authorId;
+    private Users author;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
     private Collection<ExamTimetable> examTimetableCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
@@ -193,12 +193,12 @@ public class Subjects implements Serializable {
         this.marksheetCollection = marksheetCollection;
     }
 
-    public Users getAuthorId() {
-        return authorId;
+    public Users getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(Users authorId) {
-        this.authorId = authorId;
+    public void setAuthor(Users author) {
+        this.author = author;
     }
 
     @XmlTransient

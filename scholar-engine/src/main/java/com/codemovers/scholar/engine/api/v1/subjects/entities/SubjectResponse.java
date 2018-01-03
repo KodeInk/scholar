@@ -19,7 +19,7 @@ public class SubjectResponse {
     private Integer id;
     private String name;
     private String code;
-    private StatusEnum status;
+    private String status;
     private Date date_created;
     private String author;
 
@@ -54,11 +54,11 @@ public class SubjectResponse {
         this.code = code;
     }
 
-    public StatusEnum getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(StatusEnum status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

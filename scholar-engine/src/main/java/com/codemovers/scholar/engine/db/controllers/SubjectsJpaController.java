@@ -59,7 +59,7 @@ public class SubjectsJpaController extends EngineJpaController {
 
     }
 
-    public void edit(Subjects subjects, SchoolData data) throws Exception {
+    public Subjects edit(Subjects subjects, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
             em = getEntityManager(data.getExternalId());
@@ -80,13 +80,15 @@ public class SubjectsJpaController extends EngineJpaController {
                 em.close();
             }
         }
+
+        return subjects;
     }
 
     public Subjects findSubjects(Integer id, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
 
         try {
-            return em.find(Subjects.class, id);
+            return em.find(Subjects.class, id.longValue());
         } finally {
             em.close();
         }
