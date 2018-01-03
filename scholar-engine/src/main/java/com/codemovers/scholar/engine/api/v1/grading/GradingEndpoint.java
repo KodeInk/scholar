@@ -6,8 +6,10 @@
 package com.codemovers.scholar.engine.api.v1.grading;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEndpoint;
+import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.grading.entities.GradingResponse;
 import com.codemovers.scholar.engine.api.v1.grading.entities._Grading;
+import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.Collection;
 import java.util.logging.Logger;
@@ -25,8 +27,8 @@ public class GradingEndpoint extends AbstractEndpoint<_Grading, GradingResponse>
     private static final Logger LOG = Logger.getLogger(GradingEndpoint.class.getName());
     @Context
     private ContainerRequestContext context;
-
     private GradingService service = null;
+    private AuthenticationResponse authentication = null;
 
     /**
      *
@@ -36,8 +38,8 @@ public class GradingEndpoint extends AbstractEndpoint<_Grading, GradingResponse>
     }
 
     @Override
-    public void validateAuthentication(SchoolData schoolData, String authentication) {
-        super.validateAuthentication(schoolData, authentication); //To change body of generated methods, choose Tools | Templates.
+    public void validate(SchoolData schoolData, String authentication) throws Exception {
+        this.authentication = UserService.getInstance().validateAuthentication(schoolData, authentication);
     }
 
     @Override
