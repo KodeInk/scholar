@@ -45,10 +45,43 @@ public class TimeZoneManager {
 
     }
 
+    //todo: convert time to local simple date format
+    public String convertUTCTimeToSDFLocal(long time, String zone) {
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+        sdf.setTimeZone(getLocalTimeZone(zone));
+        return sdf.format(new Date(time));
+    }
+
+    //todo: convert local Date to Time in UTC
+    public long convertUTCtDateToTimeLocal(String dateString, String zone) throws ParseException {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
+            format.setTimeZone(getLocalTimeZone(zone));
+
+            Date date = format.parse(dateString);
+            long millis = date.getTime();
+
+            return millis;
+        } catch (ParseException ex) {
+            Logger.getLogger(TimeZoneManager.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        }
+
+    }
+
+
+    //todo: convert time to local simple date format 
     public TimeZone getUtCTimeZone() {
         TimeZone timeZone = TimeZone.getTimeZone("UTC");
         return timeZone;
     }
+
+    //todo: convert time to local simple date format
+    public TimeZone getLocalTimeZone(String zone) {
+        TimeZone timeZone = TimeZone.getTimeZone(zone);
+        return timeZone;
+    }
+
 
 
     public String convertDateToDateUTC(Date date) {
