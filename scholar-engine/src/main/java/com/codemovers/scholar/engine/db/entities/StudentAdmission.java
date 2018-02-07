@@ -52,9 +52,7 @@ public class StudentAdmission implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "student_id")
+//todo: removed from  Table
     private long studentId;
     @Basic(optional = false)
     @NotNull
