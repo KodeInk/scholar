@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -48,6 +49,7 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
         service.validateAuthentication(schoolData, authentication);
     }
 
+    //todo: create user 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -61,7 +63,13 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
 
     }
 
-    public UserResponse update(String school_name, String authentication, Integer id, _User entity) {
+    //todo: Update User 
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public UserResponse update(
+            @HeaderParam("authentication") String authentication,
+            _User entity) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -102,7 +110,7 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
      * @throws Exception
      */
     @POST
-    @Path("/deactivate")
+    @Path("/deactivate/{user_id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response deactivateAccount(
