@@ -266,9 +266,6 @@ public class UserService extends AbstractService<_User, UserResponse> implements
             }
 
         } catch (BadRequestException er) {
-            throw new BadRequestException(" USERNAME AND OR PASSWORD IS MANDATORY  ");
-        } catch (Exception er) {
-            er.printStackTrace();
             throw er;
         }
 

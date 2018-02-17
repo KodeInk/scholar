@@ -5,6 +5,7 @@
  */
 package com.codemovers.scholar.engine;
 
+import com.codemovers.scholar.engine.helper.CORSResponseFilter;
 import com.codemovers.scholar.engine.helper.logfilters.LogInputRequestFilter;
 import com.codemovers.scholar.engine.helper.logfilters.LogOutputResponseFilter;
 import java.util.logging.Level;
@@ -67,11 +68,11 @@ public class Application {
         context.setMaxFormContentSize(50000000);
 
         context.addServlet(
-                getServlet(com.codemovers.scholar.engine.api.v1.accounts.AccountsEndpoint.class
+                getServlet(com.codemovers.scholar.engine.api.v1.accounts.AccountsEndpoint.class, CORSResponseFilter.class
                 ), "/account/v1/*");
 
         context.addServlet(
-                getServlet(com.codemovers.scholar.engine.api.v1.users.UsersEndpoint.class
+                getServlet(com.codemovers.scholar.engine.api.v1.users.UsersEndpoint.class, CORSResponseFilter.class
                 ), "/user/v1/*");
 
         int port = 9876;

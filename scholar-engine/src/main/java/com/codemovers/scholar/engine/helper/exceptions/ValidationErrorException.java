@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.codemovers.scholar.engine.helper.exceptions;
 
 import com.codemovers.scholar.engine.helper.Utilities;
@@ -11,27 +16,27 @@ import javax.ws.rs.core.Response;
  *
  * @author mover
  */
-public class InternalErrorException extends WebApplicationException {
+public class ValidationErrorException extends WebApplicationException {
 
     private static final Logger LOG = Logger.getLogger(InternalErrorException.class.getName());
 
-    public InternalErrorException() {
-        super(Response.Status.INTERNAL_SERVER_ERROR);
+    public ValidationErrorException() {
+        super(Response.Status.BAD_REQUEST);
     }
 
-    public InternalErrorException(String message) {
+    public ValidationErrorException(String message) {
         this(message, null);
     }
 
-    public InternalErrorException(String message, Throwable ex) {
+    public ValidationErrorException(String message, Throwable ex) {
         super(
                 Response
-                        .status(Response.Status.INTERNAL_SERVER_ERROR)
+                        .status(Response.Status.BAD_REQUEST)
                         .entity(new Message(message))
                         .type(MediaType.APPLICATION_JSON_TYPE)
                         .build()
         );
-        LOG.log(Level.SEVERE, message, Response.Status.INTERNAL_SERVER_ERROR);
+        LOG.log(Level.SEVERE, message, Response.Status.BAD_REQUEST);
 
         if (ex != null) {
             LOG.log(Level.SEVERE, Utilities.getStackTrace(ex));

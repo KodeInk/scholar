@@ -22,6 +22,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -49,7 +50,7 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
         service.validateAuthentication(schoolData, authentication);
     }
 
-    //todo: create user 
+    //todo: create user
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -63,7 +64,7 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
 
     }
 
-    //todo: Update User 
+    //todo: Update User
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -93,6 +94,8 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
             String logId = context.getProperty("logId").toString();
             LOG.log(Level.INFO, " IF THIS WORKS {0} CELEBERATION ", tenantdata.getExternalId());
             return service.login(tenantdata, login, logId);
+        } catch (WebApplicationException exception) {
+            throw exception;
         } catch (Exception ex) {
             Logger.getLogger(UsersEndpoint.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();

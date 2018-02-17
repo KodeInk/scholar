@@ -2,17 +2,20 @@ package com.codemovers.scholar.engine.helper.exceptions;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
  * @author mover
  */
-public class NotFoundException extends RuntimeException {
+public class NotFoundException extends WebApplicationException {
 
     private static final Logger LOG = Logger.getLogger(NotFoundException.class.getName());
 
     public NotFoundException() {
-        super(" STATUS NOT FOUND ");
+        super(Response.Status.NOT_FOUND);
     }
 
     public NotFoundException(String message) {
@@ -20,8 +23,14 @@ public class NotFoundException extends RuntimeException {
     }
 
     public NotFoundException(String message, String logMessage) {
-        super(message);
-        LOG.log(Level.WARNING, logMessage, "STATUS NOT FOUND ");
+        super(
+                Response
+                        .status(Response.Status.NOT_FOUND)
+                        .entity(new Message(message))
+                        .type(MediaType.APPLICATION_JSON_TYPE)
+                        .build()
+        );
+        LOG.log(Level.WARNING, logMessage, Response.Status.NOT_FOUND);
     }
 
 }

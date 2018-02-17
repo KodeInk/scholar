@@ -10,6 +10,7 @@ import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Terms;
 import com.codemovers.scholar.engine.db.entities.Users;
 import com.codemovers.scholar.engine.helper.Utilities;
+import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -19,7 +20,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import javax.ws.rs.BadRequestException;
+
 
 /**
  *
@@ -165,8 +166,6 @@ public class UsersJpaController extends EngineJpaController {
             LOG.log(Level.FINE, " User with username {0} found ", new Object[]{username});
             if (list != null) {
                 users = list.get(0);
-            } else {
-                throw new BadRequestException("USERNAME AND OR PASSWORD NOT VALID");
             }
 
         } catch (Exception ex) {

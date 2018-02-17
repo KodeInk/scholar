@@ -7,17 +7,20 @@ package com.codemovers.scholar.engine.helper.exceptions;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
  * @author mover
  */
-public class ForbiddenException extends RuntimeException {
+public class ForbiddenException extends WebApplicationException {
 
     private static final Logger LOG = Logger.getLogger(ForbiddenException.class.getName());
 
     public ForbiddenException() {
-        super("FORBIDDEN");
+        super(Response.Status.FORBIDDEN);
     }
 
     public ForbiddenException(String message) {
@@ -25,8 +28,14 @@ public class ForbiddenException extends RuntimeException {
     }
 
     public ForbiddenException(String message, String logMessage) {
-        super(message);
-        LOG.log(Level.WARNING, logMessage, "FORBIDDEN");
+        super(
+                Response
+                        .status(Response.Status.FORBIDDEN)
+                        .entity(new Message(message))
+                        .type(MediaType.APPLICATION_JSON_TYPE)
+                        .build()
+        );
+        LOG.log(Level.WARNING, logMessage, Response.Status.NOT_FOUND);
     }
 
 }
