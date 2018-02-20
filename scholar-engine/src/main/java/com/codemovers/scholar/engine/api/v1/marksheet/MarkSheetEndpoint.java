@@ -10,6 +10,7 @@ import com.codemovers.scholar.engine.api.v1.marksheet.entities.MarkSheetResponse
 import com.codemovers.scholar.engine.api.v1.marksheet.entities._MarkSheet;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -56,7 +57,7 @@ public class MarkSheetEndpoint extends AbstractEndpoint<_MarkSheet, MarkSheetRes
     }
 
     @Override
-    public Collection<MarkSheetResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public List<MarkSheetResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
         return super.list(start, end, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 

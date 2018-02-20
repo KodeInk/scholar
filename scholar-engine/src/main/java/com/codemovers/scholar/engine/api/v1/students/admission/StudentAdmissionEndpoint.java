@@ -13,6 +13,7 @@ import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
@@ -60,7 +61,7 @@ public class StudentAdmissionEndpoint extends AbstractEndpoint<_StudentAdmission
     }
 
     @Override
-    public Collection<StudentAdmissionResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public List<StudentAdmissionResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.list(tenantdata, start, end, this.authentication);
     }

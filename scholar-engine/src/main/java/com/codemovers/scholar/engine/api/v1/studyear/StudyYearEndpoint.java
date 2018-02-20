@@ -13,6 +13,7 @@ import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -81,7 +82,7 @@ public class StudyYearEndpoint extends AbstractEndpoint<_StudyYear, StudyYearRes
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public Collection<StudyYearResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public List<StudyYearResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.list(tenantdata, start, end, this.authentication);
     }

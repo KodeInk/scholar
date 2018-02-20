@@ -8,7 +8,7 @@ package com.codemovers.scholar.engine.api.v1.abstracts;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
-import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -98,7 +98,7 @@ public abstract class AbstractEndpoint<T, Z> {
      * @param end
      * @return
      */
-    public Collection<Z> list(
+    public List<Z> list(
             @QueryParam("start") int start,
             @QueryParam("end") int end,
             @HeaderParam("authentication") String authentication,

@@ -13,6 +13,7 @@ import com.codemovers.scholar.engine.api.v1.students.examregistration.entities._
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
@@ -57,7 +58,7 @@ public class StudentExamRegistrationEndpoint extends AbstractEndpoint<_StudentEx
     }
 
     @Override
-    public Collection<StudentExamRegistrationResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public List<StudentExamRegistrationResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
         return super.list(start, end, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 

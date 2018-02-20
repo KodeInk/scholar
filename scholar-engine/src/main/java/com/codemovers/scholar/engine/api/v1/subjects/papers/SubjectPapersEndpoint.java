@@ -12,6 +12,7 @@ import com.codemovers.scholar.engine.api.v1.subjects.papers.entities.SubjectPape
 import com.codemovers.scholar.engine.api.v1.subjects.papers.entities._SubjectPapers;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
@@ -56,7 +57,7 @@ public class SubjectPapersEndpoint extends AbstractEndpoint<_SubjectPapers, Subj
     }
 
     @Override
-    public Collection<SubjectPapersResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public List<SubjectPapersResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
         return super.list(start, end, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 

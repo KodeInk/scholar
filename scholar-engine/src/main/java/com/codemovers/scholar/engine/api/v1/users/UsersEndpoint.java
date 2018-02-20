@@ -13,7 +13,7 @@ import com.codemovers.scholar.engine.api.v1.users.entities._User;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
-import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +24,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -67,10 +66,10 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
     }
 
     @Override
-    public Collection<UserResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public List<UserResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
-        return super.list(start, end, authentication, httpRequest);
-//To change body of generated methods, choose Tools | Templates.
+        String logId = context.getProperty("logId").toString();
+        return service.list(tenantdata, start, start, authentication);
     }
 
     //todo: Update User
