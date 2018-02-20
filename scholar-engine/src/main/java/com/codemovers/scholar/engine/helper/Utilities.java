@@ -439,7 +439,7 @@ Using SHA-256 :
 
         if (tenantdata == null) {
             LOG.log(Level.INFO, "INVALID SCHOOL ACCOUNT ");
-            throw new UnauthorizedException();
+            throw new UnauthorizedException("INVALID SCHOOL ACCOUNT");
         }
 
         return tenantdata;

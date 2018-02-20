@@ -12,6 +12,8 @@ import com.codemovers.scholar.engine.api.v1.users.entities.UserResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities._User;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
+import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -64,6 +66,13 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
 
     }
 
+    @Override
+    public Collection<UserResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
+        validate(tenantdata, authentication);
+        return super.list(start, end, authentication, httpRequest);
+//To change body of generated methods, choose Tools | Templates.
+    }
+
     //todo: Update User
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
@@ -94,7 +103,7 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
             String logId = context.getProperty("logId").toString();
             LOG.log(Level.INFO, " IF THIS WORKS {0} CELEBERATION ", tenantdata.getExternalId());
             return service.login(tenantdata, login, logId);
-        } catch (WebApplicationException exception) {
+        } catch (BadRequestException exception) {
             throw exception;
         } catch (Exception ex) {
             Logger.getLogger(UsersEndpoint.class.getName()).log(Level.SEVERE, null, ex);

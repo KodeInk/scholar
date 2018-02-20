@@ -272,6 +272,21 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         return response;
     }
 
+    @Override
+    public List<UserResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
+
+        List<Users> _users = controller.findUsers(ofset, limit, data);
+        List<UserResponse> userResponses = null;
+        if (_users != null) {
+            for (Users users : _users) {
+                UserResponse userResponse = populateResponse(users, false);
+                userResponses.add(userResponse);
+            }
+        }
+
+        return userResponses;
+    }
+
     /**
      *
      * @param tenantData
@@ -340,5 +355,6 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         }
         return response;
     }
+
 
 }
