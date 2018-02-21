@@ -15,41 +15,41 @@ import java.util.Objects;
  */
 public class ProfileResponse {
 
-    private String first_name;
-    private String middle_name;
-    private String last_name;
+    private String firstName;
+    private String middleName;
+    private String lastName;
     private String prefix;
-    private Date date_of_birth;
+    private Date dateOfBirth;
     private Image image;
     private String status;
-    private Date date_created;
+    private Date dateCreated;
     private String author;
 
     public ProfileResponse() {
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getMiddle_name() {
-        return middle_name;
+    public String getMiddleName() {
+        return middleName;
     }
 
-    public void setMiddle_name(String middle_name) {
-        this.middle_name = middle_name;
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPrefix() {
@@ -60,12 +60,12 @@ public class ProfileResponse {
         this.prefix = prefix;
     }
 
-    public Date getDate_of_birth() {
-        return date_of_birth;
+    public Date getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setDate_of_birth(Date date_of_birth) {
-        this.date_of_birth = date_of_birth;
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     public Image getImage() {
@@ -84,12 +84,12 @@ public class ProfileResponse {
         this.status = status;
     }
 
-    public Date getDate_created() {
-        return date_created;
+    public Date getDateCreated() {
+        return dateCreated;
     }
 
-    public void setDate_created(Date date_created) {
-        this.date_created = date_created;
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     public String getAuthor() {
@@ -103,14 +103,14 @@ public class ProfileResponse {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 41 * hash + Objects.hashCode(this.first_name);
-        hash = 41 * hash + Objects.hashCode(this.middle_name);
-        hash = 41 * hash + Objects.hashCode(this.last_name);
+        hash = 41 * hash + Objects.hashCode(this.firstName);
+        hash = 41 * hash + Objects.hashCode(this.middleName);
+        hash = 41 * hash + Objects.hashCode(this.lastName);
         hash = 41 * hash + Objects.hashCode(this.prefix);
-        hash = 41 * hash + Objects.hashCode(this.date_of_birth);
+        hash = 41 * hash + Objects.hashCode(this.dateOfBirth);
         hash = 41 * hash + Objects.hashCode(this.image);
         hash = 41 * hash + Objects.hashCode(this.status);
-        hash = 41 * hash + Objects.hashCode(this.date_created);
+        hash = 41 * hash + Objects.hashCode(this.dateCreated);
         hash = 41 * hash + Objects.hashCode(this.author);
         return hash;
     }
@@ -127,13 +127,13 @@ public class ProfileResponse {
             return false;
         }
         final ProfileResponse other = (ProfileResponse) obj;
-        if (!Objects.equals(this.first_name, other.first_name)) {
+        if (!Objects.equals(this.firstName, other.firstName)) {
             return false;
         }
-        if (!Objects.equals(this.middle_name, other.middle_name)) {
+        if (!Objects.equals(this.middleName, other.middleName)) {
             return false;
         }
-        if (!Objects.equals(this.last_name, other.last_name)) {
+        if (!Objects.equals(this.lastName, other.lastName)) {
             return false;
         }
         if (!Objects.equals(this.prefix, other.prefix)) {
@@ -145,26 +145,26 @@ public class ProfileResponse {
         if (!Objects.equals(this.author, other.author)) {
             return false;
         }
-        if (!Objects.equals(this.date_of_birth, other.date_of_birth)) {
+        if (!Objects.equals(this.dateOfBirth, other.dateOfBirth)) {
             return false;
         }
         if (!Objects.equals(this.image, other.image)) {
             return false;
         }
-        return Objects.equals(this.date_created, other.date_created);
+        return Objects.equals(this.dateCreated, other.dateCreated);
     }
 
     @Override
     public String toString() {
         return "PersonResponse{"
-                + "first_name=" + first_name
-                + ", middle_name=" + middle_name
-                + ", last_name=" + last_name
+                + "first_name=" + firstName
+                + ", middle_name=" + middleName
+                + ", last_name=" + lastName
                 + ", prefix=" + prefix
-                + ", date_of_birth=" + date_of_birth
+                + ", date_of_birth=" + dateOfBirth
                 + ", image=" + image
                 + ", status=" + status
-                + ", date_created=" + date_created
+                + ", date_created=" + dateCreated
                 + ", author=" + author
                 + '}';
     }

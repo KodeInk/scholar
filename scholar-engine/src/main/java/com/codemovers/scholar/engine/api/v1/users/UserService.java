@@ -328,8 +328,17 @@ public class UserService extends AbstractService<_User, UserResponse> implements
             for (UserProfile profile : userProfiles) {
                 Profile _profile = profile.getProfile();
                 ProfileResponse personResponse = new ProfileResponse();
-                personResponse.setFirst_name(_profile.getFirstName());
-                response.setProfileResponse(personResponse);
+                personResponse.setFirstName(_profile.getFirstName());
+                personResponse.setMiddleName(_profile.getMiddleName());
+                personResponse.setLastName(_profile.getLastName());
+                personResponse.setPrefix(_profile.getPrefix());
+                personResponse.setDateOfBirth(_profile.getDateOfBirth());
+                personResponse.setStatus(_profile.getStatus());
+                personResponse.setDateCreated(_profile.getDateCreated());
+                if (_profile.getAuthor() != null) {
+                    personResponse.setAuthor(_profile.getAuthor().getUsername());
+                }
+                response.setProfile(personResponse);
                 break;
             }
 

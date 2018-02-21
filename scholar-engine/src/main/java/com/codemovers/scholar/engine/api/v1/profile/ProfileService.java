@@ -75,7 +75,7 @@ public class ProfileService extends AbstractService<_Profile, ProfileResponse> {
             profile.setParentType(entity.getProfileType().toString());
             profile.setParentId(entity.getParentId());
 
-            profile.setAuthorId(new Users(entity.getAuthorId().longValue()));
+            profile.setAuthor(new Users(entity.getAuthorId().longValue()));
             profile.setStatus(entity.getStatus().toString());
             profile.setDateCreated(entity.getDateCreated());
             profile = controller.create(profile, data);
