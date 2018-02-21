@@ -587,6 +587,24 @@ public class Users implements Serializable {
         this.UserRoles = UserRoles;
     }
 
+    @XmlTransient
+    public Collection<UserRole> getUserRoleCollection() {
+        return userRoleCollection;
+    }
+
+    public void setUserRoleCollection(Collection<UserRole> userRoleCollection) {
+        this.userRoleCollection = userRoleCollection;
+    }
+
+    public Set<UserProfile> getUserProfileCollection() {
+        return userProfileCollection;
+    }
+
+    public void setUserProfileCollection(Set<UserProfile> userProfileCollection) {
+        this.userProfileCollection = userProfileCollection;
+    }
+
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -607,23 +625,6 @@ public class Users implements Serializable {
     @Override
     public String toString() {
         return "Users[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public Collection<UserRole> getUserRoleCollection() {
-        return userRoleCollection;
-    }
-
-    public void setUserRoleCollection(Collection<UserRole> userRoleCollection) {
-        this.userRoleCollection = userRoleCollection;
-    }
-
-    public Set<UserProfile> getUserProfileCollection() {
-        return userProfileCollection;
-    }
-
-    public void setUserProfileCollection(Set<UserProfile> userProfileCollection) {
-        this.userProfileCollection = userProfileCollection;
     }
 
 

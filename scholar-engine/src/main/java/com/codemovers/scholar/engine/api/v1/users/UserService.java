@@ -18,6 +18,7 @@ import com.codemovers.scholar.engine.db.controllers.UsersJpaController;
 import com.codemovers.scholar.engine.db.entities.Permissions;
 import com.codemovers.scholar.engine.db.entities.Roles;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import com.codemovers.scholar.engine.db.entities.UserProfile;
 import com.codemovers.scholar.engine.db.entities.UserRole;
 import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.encryptPassword_md5;
@@ -318,7 +319,22 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         response.setId(entity.getId().intValue());
         response.setUsername(entity.getUsername());
         Set<Roles> roleSet = entity.getUserRoles();
+        Set<UserProfile> userProfiles = entity.getUserProfileCollection();
 
+        if (userProfiles != null) {
+
+        }
+
+        RoleResponse[] roleResponses = getRolesResponse(roleSet, extended);
+        response.setRoles(roleResponses);
+
+
+        return response;
+    }
+
+    public static RoleResponse[] getRolesResponse(Set<Roles> roleSet, boolean extended) {
+        //PersonResponse
+        RoleResponse[] roleResponses = null;
         if (roleSet != null) {
             String[] rsArray = new String[roleSet.size()];
 
@@ -349,12 +365,12 @@ public class UserService extends AbstractService<_User, UserResponse> implements
                 rsList.add(roleResponse);
             });
 
-            RoleResponse[] roleResponses = new RoleResponse[rsList.size()];
+            roleResponses = new RoleResponse[rsList.size()];
             response.setRoles(rsList.toArray(roleResponses));
 
         }
-        return response;
-    }
 
+        return roleResponses;
+    }
 
 }
