@@ -13,7 +13,7 @@ import java.util.Objects;
  *
  * @author Mover 11/22/2017
  */
-public class PersonResponse {
+public class ProfileResponse {
 
     private String first_name;
     private String middle_name;
@@ -25,7 +25,7 @@ public class PersonResponse {
     private Date date_created;
     private String author;
 
-    public PersonResponse() {
+    public ProfileResponse() {
     }
 
     public String getFirst_name() {
@@ -126,7 +126,7 @@ public class PersonResponse {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final PersonResponse other = (PersonResponse) obj;
+        final ProfileResponse other = (ProfileResponse) obj;
         if (!Objects.equals(this.first_name, other.first_name)) {
             return false;
         }

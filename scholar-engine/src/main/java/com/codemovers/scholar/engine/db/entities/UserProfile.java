@@ -39,10 +39,10 @@ public class UserProfile implements Serializable {
     private Long id;
     @JoinColumn(name = "profile_id", referencedColumnName = "id")
     @ManyToOne
-    private Profile profileId;
+    private Profile profile;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne
-    private Users userId;
+    private Users user;
 
     public UserProfile() {
     }
@@ -59,20 +59,20 @@ public class UserProfile implements Serializable {
         this.id = id;
     }
 
-    public Profile getProfileId() {
-        return profileId;
+    public Profile getProfile() {
+        return profile;
     }
 
-    public void setProfileId(Profile profileId) {
-        this.profileId = profileId;
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
-    public Users getUserId() {
-        return userId;
+    public Users getUser() {
+        return user;
     }
 
-    public void setUserId(Users userId) {
-        this.userId = userId;
+    public void setUser(Users user) {
+        this.user = user;
     }
 
     @Override

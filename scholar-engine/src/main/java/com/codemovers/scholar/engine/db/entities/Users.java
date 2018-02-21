@@ -86,7 +86,7 @@ public class Users implements Serializable {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Roles> UserRoles;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_profile", joinColumns = {
         @JoinColumn(name = "user_id")}, inverseJoinColumns = {
         @JoinColumn(name = "profile_id")})

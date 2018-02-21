@@ -11,11 +11,13 @@ import com.codemovers.scholar.engine.api.v1.users.entities._login;
 import com.codemovers.scholar.engine.api.v1.roles.RolesService;
 import com.codemovers.scholar.engine.api.v1.roles.entities.PermissionsResponse;
 import com.codemovers.scholar.engine.api.v1.roles.entities.RoleResponse;
+import com.codemovers.scholar.engine.api.v1.users.entities.ProfileResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities.UserResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities._User;
 import com.codemovers.scholar.engine.db.controllers.UserRoleJpaController;
 import com.codemovers.scholar.engine.db.controllers.UsersJpaController;
 import com.codemovers.scholar.engine.db.entities.Permissions;
+import com.codemovers.scholar.engine.db.entities.Profile;
 import com.codemovers.scholar.engine.db.entities.Roles;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.UserProfile;
@@ -323,6 +325,16 @@ public class UserService extends AbstractService<_User, UserResponse> implements
 
         if (userProfiles != null) {
 
+            for (UserProfile profile : userProfiles) {
+                Profile _profile = profile.getProfile();
+                ProfileResponse personResponse = new ProfileResponse();
+                personResponse.setFirst_name(_profile.getFirstName());
+                response.setProfileResponse(personResponse);
+                break;
+            }
+
+
+
         }
 
         RoleResponse[] roleResponses = getRolesResponse(roleSet, extended);
@@ -332,7 +344,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         return response;
     }
 
-    public static RoleResponse[] getRolesResponse(Set<Roles> roleSet, boolean extended) {
+    public RoleResponse[] getRolesResponse(Set<Roles> roleSet, boolean extended) {
         //PersonResponse
         RoleResponse[] roleResponses = null;
         if (roleSet != null) {
@@ -366,7 +378,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
             });
 
             roleResponses = new RoleResponse[rsList.size()];
-            response.setRoles(rsList.toArray(roleResponses));
+
 
         }
 

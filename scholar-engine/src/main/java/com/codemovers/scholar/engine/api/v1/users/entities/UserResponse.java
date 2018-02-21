@@ -24,7 +24,7 @@ public class UserResponse {
     private String emailaddress;
     private String authentication;
     private Date dateCreated;
-    private PersonResponse personResponse;
+    private ProfileResponse profileResponse;
 
     public UserResponse() {
     }
@@ -97,12 +97,12 @@ public class UserResponse {
         this.dateCreated = dateCreated;
     }
 
-    public PersonResponse getPersonResponse() {
-        return personResponse;
+    public ProfileResponse getProfileResponse() {
+        return profileResponse;
     }
 
-    public void setPersonResponse(PersonResponse personResponse) {
-        this.personResponse = personResponse;
+    public void setProfileResponse(ProfileResponse profileResponse) {
+        this.profileResponse = profileResponse;
     }
 
 
