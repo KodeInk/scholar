@@ -86,6 +86,13 @@ public class Users implements Serializable {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Roles> UserRoles;
 
+    @OneToMany
+    @JoinTable(name = "user_profile", joinColumns = {
+        @JoinColumn(name = "user_id")}, inverseJoinColumns = {
+        @JoinColumn(name = "profile_id")})
+    private Set<UserProfile> userProfileCollection;
+
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Collection<UserRole> userRoleCollection;
 
@@ -610,5 +617,14 @@ public class Users implements Serializable {
     public void setUserRoleCollection(Collection<UserRole> userRoleCollection) {
         this.userRoleCollection = userRoleCollection;
     }
+
+    public Set<UserProfile> getUserProfileCollection() {
+        return userProfileCollection;
+    }
+
+    public void setUserProfileCollection(Set<UserProfile> userProfileCollection) {
+        this.userProfileCollection = userProfileCollection;
+    }
+
 
 }

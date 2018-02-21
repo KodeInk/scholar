@@ -24,6 +24,7 @@ public class UserResponse {
     private String emailaddress;
     private String authentication;
     private Date dateCreated;
+    private PersonResponse personResponse;
 
     public UserResponse() {
     }
@@ -95,6 +96,15 @@ public class UserResponse {
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
+
+    public PersonResponse getPersonResponse() {
+        return personResponse;
+    }
+
+    public void setPersonResponse(PersonResponse personResponse) {
+        this.personResponse = personResponse;
+    }
+
 
     @Override
     public int hashCode() {
