@@ -18,12 +18,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -41,6 +44,7 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
     private ContainerRequestContext context;
 
     private UserService service = null;
+    private AuthenticationResponse authentication = null;
 
     public UsersEndpoint() {
         service = new UserService();
@@ -48,7 +52,7 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
 
     @Override
     public void validate(SchoolData schoolData, String authentication) throws Exception {
-        service.validateAuthentication(schoolData, authentication);
+        this.authentication = service.validateAuthentication(schoolData, authentication);
     }
 
     //todo: create user
@@ -63,13 +67,6 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
         String logId = context.getProperty("logId").toString();
         return service.create(tenantdata, entity);
 
-    }
-
-    @Override
-    public List<UserResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
-        validate(tenantdata, authentication);
-        String logId = context.getProperty("logId").toString();
-        return service.list(tenantdata, start, start, authentication);
     }
 
     //todo: Update User
@@ -159,6 +156,26 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
             return Response.ok().build();
 
         } catch (Exception er) {
+            throw er;
+        }
+
+    }
+
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Override
+    public List<UserResponse> list(
+            @DefaultValue("0") @QueryParam("offset") int offset,
+            @DefaultValue("50") @QueryParam("limit") int limit,
+            @HeaderParam("authentication") String authentication,
+            HttpServletRequest httpRequest) throws Exception {
+        try {
+            validate(tenantdata, authentication);
+            String logId = context.getProperty("logId").toString();
+            return service.list(tenantdata, offset, limit, this.authentication);
+        } catch (Exception er) {
+            er.printStackTrace();
             throw er;
         }
 

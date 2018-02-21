@@ -21,7 +21,6 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-
 /**
  *
  * @author Mover
@@ -99,11 +98,11 @@ public class UsersJpaController extends EngineJpaController {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Terms.class));
+            cq.select(cq.from(Users.class));
             Query q = em.createQuery(cq);
             if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
+                q.setMaxResults(firstResult);
+                q.setFirstResult(maxResults);
             }
             return q.getResultList();
         } finally {

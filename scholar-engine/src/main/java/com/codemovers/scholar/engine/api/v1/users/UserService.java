@@ -276,7 +276,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
     public List<UserResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
 
         List<Users> _users = controller.findUsers(ofset, limit, data);
-        List<UserResponse> userResponses = null;
+        List<UserResponse> userResponses = new ArrayList<>();
         if (_users != null) {
             for (Users users : _users) {
                 UserResponse userResponse = populateResponse(users, false);
