@@ -44,6 +44,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Roles.findById", query = "SELECT r FROM Roles r WHERE r.id = :id")
     , @NamedQuery(name = "Roles.findByName", query = "SELECT r FROM Roles r WHERE r.name = :name")
     , @NamedQuery(name = "Roles.findByCode", query = "SELECT r FROM Roles r WHERE r.code = :code")
+    , @NamedQuery(name = "Roles.findByNameOrCode", query = "SELECT r FROM Roles r WHERE r.code = :code OR r.name = :name")
     , @NamedQuery(name = "Roles.findByDescription", query = "SELECT r FROM Roles r WHERE r.description = :description")
     , @NamedQuery(name = "Roles.findByIsSystem", query = "SELECT r FROM Roles r WHERE r.isSystem = :isSystem")
     , @NamedQuery(name = "Roles.findByDateCreated", query = "SELECT r FROM Roles r WHERE r.dateCreated = :dateCreated")})

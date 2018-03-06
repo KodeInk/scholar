@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Manny
+ * @author mover 3/6/2018
  */
 public class RolesService extends AbstractService<_Role, RoleResponse> {
 
@@ -42,6 +42,12 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
 
     @Override
     public RoleResponse create(SchoolData data, _Role entity, AuthenticationResponse authentication) throws Exception {
+
+        entity.validate();
+
+        //todo: check if there is no Role by name or code in the system
+        //todo: create Role 
+
         return super.create(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
     }
 

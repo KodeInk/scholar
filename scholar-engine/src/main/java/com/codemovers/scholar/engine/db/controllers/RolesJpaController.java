@@ -151,4 +151,27 @@ public class RolesJpaController extends EngineJpaController {
 
     }
 
+    public List<Roles> findByNameOrCode(String name, String code, SchoolData data) {
+        List<Roles> RoleList = new ArrayList<>();
+        EntityManager em = getEntityManager(data.getExternalId());
+        Query query = em.createNamedQuery("Roles.findByNameOrCode");
+        query.setParameter("name", name);
+        query.setParameter("code", code);
+        try {
+            RoleList = query.getResultList();
+
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "unexpected exception {0}\n{1}", new Object[]{ex.getMessage(), Utilities.getStackTrace(ex)});
+            return null;
+            // don't throw WebApplicationException, force caller to handle this
+        } finally {
+            LOG.log(Level.FINER, "closing entity manager {0}", em);
+            em.close();
+        }
+
+        return RoleList;
+
+    }
+
+
 }

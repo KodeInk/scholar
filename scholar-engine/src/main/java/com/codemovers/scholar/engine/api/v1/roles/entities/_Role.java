@@ -5,6 +5,7 @@
  */
 package com.codemovers.scholar.engine.api.v1.roles.entities;
 
+import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
 import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -18,9 +19,12 @@ import java.util.Objects;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class _Role extends AbstractEntity {
 
-    private String name;
-    private String code;
-    private String description;
+    private @Mandatory
+    String name;
+    private @Mandatory
+    String code;
+    private @Mandatory
+    String description;
     private boolean isSystem;
     private Date date_created;
     private Integer author_id;
