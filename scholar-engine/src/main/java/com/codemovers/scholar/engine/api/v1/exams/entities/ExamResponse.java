@@ -105,6 +105,4 @@ public class ExamResponse {
         return this.status == other.status;
     }
 
-
-
 }

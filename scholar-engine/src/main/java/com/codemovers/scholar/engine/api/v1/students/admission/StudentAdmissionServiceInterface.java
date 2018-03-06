@@ -23,7 +23,6 @@ public interface StudentAdmissionServiceInterface {
     final String[] ARCHIVE_STUDENT_ADMISSION_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_STUDENT_ADMISSION"};
     final String[] LIST_STUDENT_ADMISSION_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_STUDENT_ADMISSION_PERMISSION"};
 
-
     StudentAdmissionResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception;
 
     StudentAdmissionResponse create(SchoolData data, _StudentAdmission entity, AuthenticationResponse authentication) throws Exception;

@@ -23,7 +23,6 @@ public interface ExamsServiceInterface {
     final String[] ARCHIVE_EXAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_EXAM"};
     final String[] LIST_EXAM_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_EXAM"};
 
-
     ExamResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception;
 
     ExamResponse create(SchoolData data, _Exam entity, AuthenticationResponse authentication) throws Exception;

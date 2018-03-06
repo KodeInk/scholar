@@ -139,7 +139,6 @@ public class CurriculumDetailService extends AbstractService<_CurriculumDetail, 
 
         return populateResponse(_detail);
 
-
     }
 
     @Override

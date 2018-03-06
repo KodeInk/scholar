@@ -105,7 +105,6 @@ public class UserResponse {
         this.profile = profile;
     }
 
-
     @Override
     public int hashCode() {
         int hash = 3;

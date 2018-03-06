@@ -23,7 +23,6 @@ public interface StudyYearServiceInterface {
     final String[] ARCHIVE_STUDYEAR_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_STUDYEAR"};
     final String[] LIST_STUDYEAR_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_STUDYEAR"};
 
-
     StudyYearResponse archive(SchoolData data, Integer id) throws Exception;
 
     StudyYearResponse create(SchoolData data, _StudyYear entity, AuthenticationResponse authentication) throws Exception;

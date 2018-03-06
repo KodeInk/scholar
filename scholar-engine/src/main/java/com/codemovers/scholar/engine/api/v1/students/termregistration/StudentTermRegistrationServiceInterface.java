@@ -23,7 +23,6 @@ public interface StudentTermRegistrationServiceInterface {
     final String[] ARCHIVE_STUDENT_TERM_REGISTRATION_PERMISSION = new String[]{"ALL_FUNCTIONS", "UPDATE_STUDENT_TERM_REGISTRATION"};
     final String[] LIST_STUDENT_TERM_REGISTRATION_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_STUDENT_TERM_REGISTRATION"};
 
-
     StudentTermRegistrationResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception;
 
     StudentTermRegistrationResponse create(SchoolData data, _StudentTermRegistration entity, AuthenticationResponse authentication) throws Exception;

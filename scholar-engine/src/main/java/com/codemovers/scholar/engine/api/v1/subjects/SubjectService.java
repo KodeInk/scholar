@@ -74,7 +74,6 @@ public class SubjectService extends AbstractService<_Subject, SubjectResponse> i
             throw new BadRequestException("SUBJECT  RECORD DOES NOT EXIST");
         }
 
-
         if (entity.getName() != null && !entity.getName().equalsIgnoreCase(subject.getName())) {
             subject.setName(entity.getName());
         }

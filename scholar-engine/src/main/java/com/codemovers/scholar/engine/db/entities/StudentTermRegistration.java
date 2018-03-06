@@ -45,7 +45,6 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class StudentTermRegistration implements Serializable {
 
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -82,7 +81,6 @@ public class StudentTermRegistration implements Serializable {
     @JoinColumn(name = "class_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Classes Registration_Class;
-
 
     public StudentTermRegistration() {
     }
@@ -178,7 +176,6 @@ public class StudentTermRegistration implements Serializable {
     public void setRegistration_Class(Classes Registration_Class) {
         this.Registration_Class = Registration_Class;
     }
-
 
     @Override
     public int hashCode() {

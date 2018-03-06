@@ -89,7 +89,6 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
             studyYear.setEndDate(entity.getEnd_date());
         }
 
-
         studyYear = controller.edit(studyYear, data);
         return populateResponse(studyYear);
     }

@@ -28,7 +28,6 @@ public class ExamsService extends AbstractService<_Exam, ExamResponse> implement
     private final ExamsJpaController controller;
     private static ExamsService service = null;
 
-
     public ExamsService() {
         controller = ExamsJpaController.getInstance();
     }
@@ -136,7 +135,6 @@ public class ExamsService extends AbstractService<_Exam, ExamResponse> implement
         if (entity.getAuthor() != null) {
             response.setAuthor(entity.getAuthor().getUsername());
         }
-
 
         return response;
 

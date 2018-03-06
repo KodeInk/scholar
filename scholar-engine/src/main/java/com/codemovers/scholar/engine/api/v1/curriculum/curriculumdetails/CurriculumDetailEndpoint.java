@@ -86,6 +86,7 @@ public class CurriculumDetailEndpoint extends AbstractEndpoint<_CurriculumDetail
     public CurriculumDetailResponse archive(Integer id, String authentication, HttpServletRequest httpRequest) throws Exception {
         return super.archive(id, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -94,7 +95,5 @@ public class CurriculumDetailEndpoint extends AbstractEndpoint<_CurriculumDetail
         validate(tenantdata, authentication);
         return service.list(tenantdata, start, end, this.authentication);
     }
-
-
 
 }

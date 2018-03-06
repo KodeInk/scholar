@@ -38,5 +38,4 @@ public class UnauthorizedException extends WebApplicationException {
         LOG.log(Level.WARNING, logMessage, Response.Status.BAD_REQUEST);
     }
 
-
 }

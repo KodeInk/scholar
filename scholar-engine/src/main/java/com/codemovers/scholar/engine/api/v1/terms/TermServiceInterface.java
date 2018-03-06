@@ -23,7 +23,6 @@ public interface TermServiceInterface {
     final String[] ARCHIVE_TERM_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_TERM"};
     final String[] LIST_TERM_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_TERM"};
 
-
     TermResponse archive(SchoolData data, Integer id) throws Exception;
 
     TermResponse create(SchoolData data, _Term entity, AuthenticationResponse authentication) throws Exception;

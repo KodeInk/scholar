@@ -42,7 +42,6 @@ public class StudentExamRegistrationService extends AbstractService<_StudentExam
     private final StudentExamRegistrationJpaController controller;
     private static StudentExamRegistrationService service = null;
 
-
     public StudentExamRegistrationService() {
         controller = StudentExamRegistrationJpaController.getInstance();
     }

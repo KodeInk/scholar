@@ -92,7 +92,6 @@ public class Users implements Serializable {
         @JoinColumn(name = "profile_id")})
     private Set<UserProfile> userProfileCollection;
 
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Collection<UserRole> userRoleCollection;
 
@@ -604,7 +603,6 @@ public class Users implements Serializable {
         this.userProfileCollection = userProfileCollection;
     }
 
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -626,6 +624,5 @@ public class Users implements Serializable {
     public String toString() {
         return "Users[ id=" + id + " ]";
     }
-
 
 }

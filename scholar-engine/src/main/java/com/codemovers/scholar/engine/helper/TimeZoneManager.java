@@ -69,7 +69,6 @@ public class TimeZoneManager {
 
     }
 
-
     //todo: convert time to local simple date format 
     public TimeZone getUtCTimeZone() {
         TimeZone timeZone = TimeZone.getTimeZone("UTC");
@@ -82,14 +81,11 @@ public class TimeZoneManager {
         return timeZone;
     }
 
-
-
     public String convertDateToDateUTC(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat();
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         return sdf.format(date);
     }
-
 
 //    public Date convert() {
 //        long time = 1427723278405L;
@@ -97,5 +93,4 @@ public class TimeZoneManager {
 //        sdf.setTimeZone(getTimeZone("UTC"));
 //        // System.out.println(sdf.format(new Date(time)));
 //    }
-
 }

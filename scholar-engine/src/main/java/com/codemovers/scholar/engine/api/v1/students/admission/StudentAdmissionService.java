@@ -44,7 +44,6 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
     private final StudentAdmissionJpaController controller;
     private static StudentAdmissionService service = null;
 
-
     public StudentAdmissionService() {
         controller = StudentAdmissionJpaController.getInstance();
     }
@@ -64,7 +63,6 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
         entity.setStatus(StatusEnum.ACTIVE);
 
         //todo: checkt to see if there is no account with this admision number :: 
-
         //todo: create a profile_by id
         ProfileResponse pr = ProfileService.getInstance().create(data, entity.getProfile());
         //todo: generate external Id 
@@ -99,7 +97,6 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
             studentAdmission.setAdmissionStream(AdmissionStream);
         }
 
-
         studentAdmission = controller.create(studentAdmission, data);
         return populateResponse(studentAdmission);
 
@@ -126,7 +123,6 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
         if (entity.getDate_of_admission() != null && entity.getDate_of_admission() != (studentAdmission.getDateOfAdmission())) {
             studentAdmission.setDateOfAdmission(entity.getDate_of_admission());
         }
-
 
         Classes AdmissionClass = ClassJpaController.getInstance().findClass(entity.getClass_id(), data);
         //todo: get stream by id
@@ -190,7 +186,6 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
 
     }
 
-
     @Override
     public StudentAdmissionResponse populateResponse(StudentAdmission entity) {
         StudentAdmissionResponse response = new StudentAdmissionResponse();
@@ -225,7 +220,6 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
         response.setDate_of_admission(entity.getDateOfAdmission());
         response.setAdmission_number(entity.getAdmissionNo());
         response.setExternal_id(entity.getExternalId());
-
 
         return response;
     }

@@ -86,6 +86,4 @@ public class ExamsEndpoint extends AbstractEndpoint<_Exam, ExamResponse> {
         return service.list(tenantdata, start, end, this.authentication);
     }
 
-
-
 }

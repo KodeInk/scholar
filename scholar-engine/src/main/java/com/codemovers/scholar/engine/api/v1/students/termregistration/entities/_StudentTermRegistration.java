@@ -16,6 +16,7 @@ import java.util.Objects;
  * @author mover 1/1/2028
  */
 public class _StudentTermRegistration extends AbstractEntity {
+
     private Integer id;
     private @Mandatory
     Integer admission_id;
@@ -90,7 +91,6 @@ public class _StudentTermRegistration extends AbstractEntity {
         this.class_id = class_id;
     }
 
-
     @Override
     public int hashCode() {
         int hash = 7;
@@ -145,7 +145,6 @@ public class _StudentTermRegistration extends AbstractEntity {
         validateMandatoryFields(this.getClass(), this);
     }
 
-
     @Override
     public String toString() {
         return "_StudentTermRegistration{"
@@ -160,4 +159,3 @@ public class _StudentTermRegistration extends AbstractEntity {
     }
 
 }
-

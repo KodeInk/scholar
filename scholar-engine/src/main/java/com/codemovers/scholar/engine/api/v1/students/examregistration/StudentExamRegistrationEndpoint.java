@@ -62,6 +62,4 @@ public class StudentExamRegistrationEndpoint extends AbstractEndpoint<_StudentEx
         return super.list(start, end, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
-
-
 }

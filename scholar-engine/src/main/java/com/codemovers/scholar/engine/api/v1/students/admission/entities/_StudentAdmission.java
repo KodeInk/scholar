@@ -209,7 +209,6 @@ public class _StudentAdmission extends AbstractEntity {
         return true;
     }
 
-
     @Override
     public void validate() {
         validateMandatoryFields(this.getClass(), this);
@@ -232,8 +231,5 @@ public class _StudentAdmission extends AbstractEntity {
                 + ", profile=" + profile
                 + "}";
     }
-
-
-
 
 }

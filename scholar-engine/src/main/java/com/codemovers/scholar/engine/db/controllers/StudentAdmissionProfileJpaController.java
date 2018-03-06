@@ -130,5 +130,4 @@ public class StudentAdmissionProfileJpaController extends EngineJpaController {
         }
     }
 
-
 }

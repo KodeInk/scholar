@@ -170,6 +170,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
      */
     @Override
     public AuthenticationResponse validateAuthentication(SchoolData schoolData, String authentication) throws Exception {
+        LOG.log(Level.INFO, "AUTHENTICATION STRING " + authentication);
         authentication = authentication.replace("Basic:", "");
         String usernamePassword = new String(Base64.getDecoder().decode(authentication));
         String[] parts = usernamePassword.split(":");
@@ -342,13 +343,10 @@ public class UserService extends AbstractService<_User, UserResponse> implements
                 break;
             }
 
-
-
         }
 
         RoleResponse[] roleResponses = getRolesResponse(roleSet, extended);
         response.setRoles(roleResponses);
-
 
         return response;
     }
@@ -387,7 +385,6 @@ public class UserService extends AbstractService<_User, UserResponse> implements
             });
 
             roleResponses = new RoleResponse[rsList.size()];
-
 
         }
 

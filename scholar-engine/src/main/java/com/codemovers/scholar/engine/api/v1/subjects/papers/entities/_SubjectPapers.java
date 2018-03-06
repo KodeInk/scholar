@@ -156,6 +156,4 @@ public class _SubjectPapers extends AbstractEntity {
                 + "}";
     }
 
-
-
 }

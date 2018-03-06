@@ -32,7 +32,4 @@ public class SubjectPapersService extends AbstractService<_SubjectPapers, Subjec
         return service;
     }
 
-
-
-
 }

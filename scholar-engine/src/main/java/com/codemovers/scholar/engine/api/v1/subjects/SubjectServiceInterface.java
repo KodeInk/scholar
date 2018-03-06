@@ -24,7 +24,6 @@ public interface SubjectServiceInterface {
     final String[] ARCHIVE_SUBJECT_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_SUBJECT"};
     final String[] LIST_SUBJECT_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_SUBJECT"};
 
-
     SubjectResponse archive(SchoolData data, Integer id) throws Exception;
 
     SubjectResponse create(SchoolData data, _Subject entity, AuthenticationResponse authentication) throws Exception;

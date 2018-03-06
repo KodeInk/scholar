@@ -61,5 +61,4 @@ public class StudentTermRegistrationEndpoint extends AbstractEndpoint<_StudentTe
         return super.list(start, end, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
-
 }

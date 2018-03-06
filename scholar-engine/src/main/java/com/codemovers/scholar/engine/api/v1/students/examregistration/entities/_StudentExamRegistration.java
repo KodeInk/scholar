@@ -146,7 +146,4 @@ public class _StudentExamRegistration extends AbstractEntity {
                 + "}";
     }
 
-
-
 }
-

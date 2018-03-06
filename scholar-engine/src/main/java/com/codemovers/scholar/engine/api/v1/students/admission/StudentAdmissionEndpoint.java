@@ -66,7 +66,4 @@ public class StudentAdmissionEndpoint extends AbstractEndpoint<_StudentAdmission
         return service.list(tenantdata, start, end, this.authentication);
     }
 
-
-
-
 }

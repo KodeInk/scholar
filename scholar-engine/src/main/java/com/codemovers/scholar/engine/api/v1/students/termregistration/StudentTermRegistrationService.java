@@ -49,7 +49,6 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
     private final StudentTermRegistrationJpaController controller;
     private static StudentTermRegistrationService service = null;
 
-
     public StudentTermRegistrationService() {
         controller = StudentTermRegistrationJpaController.getInstance();
     }
@@ -70,7 +69,7 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
         entity.setStatus(StatusEnum.ACTIVE);
 
         //todo: get the admission by id;
-          StudentAdmission admission = StudentAdmissionJpaController.getInstance().findStudentAdmission(entity.getAdmission_id(), data);
+        StudentAdmission admission = StudentAdmissionJpaController.getInstance().findStudentAdmission(entity.getAdmission_id(), data);
         //TODO: get term by id
         Terms registration_term = TermsJpaController.getInstance().findTerm(entity.getTerm_id(), data);
         //TODO: get term by id
@@ -78,7 +77,6 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
 
         //Todo: get Stream by Id
         Streams RegistrationStream = StreamsJpaController.getInstance().findStream(entity.getStream_id(), data);
-
 
         StudentTermRegistration registration = new StudentTermRegistration();
 

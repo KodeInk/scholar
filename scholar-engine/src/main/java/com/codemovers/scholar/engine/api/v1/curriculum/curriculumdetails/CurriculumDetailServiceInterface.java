@@ -23,7 +23,6 @@ public interface CurriculumDetailServiceInterface {
     final String[] ARCHIVE_CURRICULUMDETAIL_PERMISSION = new String[]{"ALL_FUNCTIONS", "ARCHIVE_CURRICULUMDETAIL"};
     final String[] LIST_CURRICULUMDETAIL_PERMISSION = new String[]{"ALL_FUNCTIONS", "LIST_CURRICULUMDETAIL"};
 
-
     CurriculumDetailResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception;
 
     CurriculumDetailResponse create(SchoolData data, _CurriculumDetail entity, AuthenticationResponse authentication) throws Exception;

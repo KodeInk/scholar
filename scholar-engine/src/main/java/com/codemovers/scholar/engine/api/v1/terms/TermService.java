@@ -36,7 +36,6 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
     private final TermsJpaController controller;
     private static TermService service = null;
 
-
     public TermService() {
         controller = TermsJpaController.getInstance();
     }
@@ -64,7 +63,6 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
         }
 
         //todo: validate period: it should not be between the ranges of the study period:
-
         Terms term = new Terms();
         term.setStudyYear(studyYear);
         term.setName(entity.getName());
