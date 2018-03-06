@@ -6,6 +6,7 @@
 package com.codemovers.scholar.engine.api.v1.roles;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
+import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.roles.entities.RoleResponse;
 import com.codemovers.scholar.engine.api.v1.roles.entities._Role;
 import com.codemovers.scholar.engine.db.controllers.RolesJpaController;
@@ -40,9 +41,10 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
     }
 
     @Override
-    public RoleResponse create(_Role entity) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public RoleResponse create(SchoolData data, _Role entity, AuthenticationResponse authentication) throws Exception {
+        return super.create(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
     }
+
 
     @Override
     public RoleResponse getById(Integer Id) throws Exception {
