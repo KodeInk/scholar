@@ -5,6 +5,7 @@
  */
 package com.codemovers.scholar.engine.api.v1.roles.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -12,6 +13,7 @@ import java.util.Objects;
  *
  * @author Mover 11/22/2017
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RoleResponse {
 
     private Integer id;

@@ -75,6 +75,11 @@ public class Application {
                 getServlet(com.codemovers.scholar.engine.api.v1.users.UsersEndpoint.class, CORSResponseFilter.class
                 ), "/user/v1/*");
 
+        context.addServlet(
+                getServlet(com.codemovers.scholar.engine.api.v1.roles.RolesEndpoint.class, CORSResponseFilter.class
+                ), "/roles/v1/*");
+
+
         int port = 9876;
         jettyServer = new Server(port);
 

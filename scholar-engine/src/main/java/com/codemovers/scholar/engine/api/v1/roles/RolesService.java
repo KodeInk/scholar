@@ -7,11 +7,14 @@ package com.codemovers.scholar.engine.api.v1.roles;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
+import com.codemovers.scholar.engine.api.v1.roles.entities.PermissionsResponse;
 import com.codemovers.scholar.engine.api.v1.roles.entities.RoleResponse;
 import com.codemovers.scholar.engine.api.v1.roles.entities._Role;
 import com.codemovers.scholar.engine.db.controllers.RolesJpaController;
+import com.codemovers.scholar.engine.db.entities.Permissions;
 import com.codemovers.scholar.engine.db.entities.Roles;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import java.util.ArrayList;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -74,6 +77,42 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
 
         return r;
 
+    }
+
+    @Override
+    public List<RoleResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
+        List<Roles> list = controller.findRoles(ofset, limit, data);
+        return null;
+    }
+
+    /**
+     *
+     * @param _role
+     * @param extended
+     * @return
+     */
+    public static RoleResponse populateResponse(Roles _role, Boolean extended) {
+        RoleResponse roleResponse = new RoleResponse();
+        roleResponse.setDescription(_role.getDescription());
+        roleResponse.setIsSystem(_role.getIsSystem() == 1);
+        roleResponse.setName(_role.getName());
+
+        if (extended == true) {
+
+            if (_role.getPermissions() != null) {
+                List<PermissionsResponse> permissionsResponses = new ArrayList<>();
+                for (Permissions p : _role.getPermissions()) {
+                    PermissionsResponse permissionsResponse = new PermissionsResponse();
+                    permissionsResponse.setCode(p.getCode());
+                    permissionsResponse.setName(p.getName());
+                    permissionsResponses.add(permissionsResponse);
+                }
+                PermissionsResponse[] prs = new PermissionsResponse[permissionsResponses.size()];
+                roleResponse.setPermissions(permissionsResponses.toArray(prs));
+            }
+        }
+
+        return roleResponse;
     }
 
 }

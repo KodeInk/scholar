@@ -57,7 +57,7 @@ public class RolesEndpoint extends AbstractEndpoint<_Role, RoleResponse> {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public RoleResponse create(_Role entity, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public RoleResponse create(_Role entity, @HeaderParam("authentication") String authentication, @Context HttpServletRequest httpRequest) throws Exception {
         try {
             validate(tenantdata, authentication);
             return service.create(tenantdata, entity, this.authentication);
@@ -70,10 +70,6 @@ public class RolesEndpoint extends AbstractEndpoint<_Role, RoleResponse> {
         }
     }
 
-    @Override
-    public RoleResponse update(_Role entity, String authentication, HttpServletRequest httpRequest) throws Exception {
-        return super.update(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
@@ -83,7 +79,7 @@ public class RolesEndpoint extends AbstractEndpoint<_Role, RoleResponse> {
             @DefaultValue("0") @QueryParam("offset") int offset,
             @DefaultValue("50") @QueryParam("limit") int limit,
             @HeaderParam("authentication") String authentication,
-            HttpServletRequest httpRequest
+            @Context HttpServletRequest httpRequest
     ) throws Exception {
         try {
             validate(tenantdata, authentication);
@@ -97,9 +93,5 @@ public class RolesEndpoint extends AbstractEndpoint<_Role, RoleResponse> {
         }
     }
 
-    @Override
-    public RoleResponse archive(Integer id, String authentication, HttpServletRequest httpRequest) throws Exception {
-        return super.archive(id, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
-    }
 
 }

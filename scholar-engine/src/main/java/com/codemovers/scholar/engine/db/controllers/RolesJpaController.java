@@ -22,7 +22,7 @@ import javax.ws.rs.BadRequestException;
 
 /**
  *
- * @author Manny
+ * @author mover 3/7/2018
  */
 public class RolesJpaController extends EngineJpaController {
 

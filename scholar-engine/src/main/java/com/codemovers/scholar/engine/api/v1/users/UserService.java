@@ -360,28 +360,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
             List<RoleResponse> rrs = new ArrayList<>();
             List<RoleResponse> rsList = new ArrayList<>();
             roleSet.forEach((_role) -> {
-
-                RoleResponse roleResponse = new RoleResponse();
-                roleResponse.setDescription(_role.getDescription());
-                roleResponse.setIsSystem(_role.getIsSystem() == 1);
-                roleResponse.setName(_role.getName());
-
-                if (extended == true) {
-
-                    if (_role.getPermissions() != null) {
-                        List<PermissionsResponse> permissionsResponses = new ArrayList<>();
-                        for (Permissions p : _role.getPermissions()) {
-                            PermissionsResponse permissionsResponse = new PermissionsResponse();
-                            permissionsResponse.setCode(p.getCode());
-                            permissionsResponse.setName(p.getName());
-                            permissionsResponses.add(permissionsResponse);
-                        }
-                        PermissionsResponse[] prs = new PermissionsResponse[permissionsResponses.size()];
-                        roleResponse.setPermissions(permissionsResponses.toArray(prs));
-                    }
-                }
-
-                rsList.add(roleResponse);
+                rsList.add(RolesService.populateResponse(_role, extended));
             });
 
             roleResponses = new RoleResponse[rsList.size()];
