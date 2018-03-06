@@ -19,9 +19,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -70,9 +75,26 @@ public class RolesEndpoint extends AbstractEndpoint<_Role, RoleResponse> {
         return super.update(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @Override
-    public List<RoleResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
-        return super.list(start, end, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+    public List<RoleResponse> list(
+            @DefaultValue("0") @QueryParam("offset") int offset,
+            @DefaultValue("50") @QueryParam("limit") int limit,
+            @HeaderParam("authentication") String authentication,
+            HttpServletRequest httpRequest
+    ) throws Exception {
+        try {
+            validate(tenantdata, authentication);
+            String logId = context.getProperty("logId").toString();
+            return service.list(tenantdata, offset, limit, this.authentication);
+        } catch (WebApplicationException er) {
+            throw er;
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        }
     }
 
     @Override
