@@ -47,7 +47,7 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
     public RoleResponse create(SchoolData data, _Role entity, AuthenticationResponse authentication) throws Exception {
 
         entity.validate();
-
+        Roles role = populateBasicRole(entity);
         //todo: check if there is no Role by name or code in the system
         //todo: create Role 
         return super.create(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
@@ -145,6 +145,25 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
         }
 
         return roleResponse;
+    }
+
+    /**
+     *
+     * @param entity
+     * @return
+     */
+    public static Roles populateBasicRole(_Role entity) {
+
+        Roles role = new Roles();
+        if (entity != null) {
+            role.setName(entity.getName());
+            role.setCode(entity.getCode());
+            role.setDescription(entity.getDescription());
+            role.setIsSystem(Short.valueOf((entity.isIsSystem() == true ? "1" : "0")));
+
+        }
+
+        return role;
     }
 
 }

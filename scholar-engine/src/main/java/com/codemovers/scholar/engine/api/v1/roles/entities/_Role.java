@@ -26,7 +26,8 @@ public class _Role extends AbstractEntity {
     String code;
     private @Mandatory
     String description;
-    private boolean isSystem;
+    private @Mandatory
+    boolean isSystem;
     private @Mandatory
     _Permission[] permissions;
     private Date date_created;
