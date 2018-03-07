@@ -53,6 +53,13 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
         return super.create(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param schoolData
+     * @param name
+     * @return
+     * @throws Exception
+     */
     public Roles getRoleByName(SchoolData schoolData, String name) throws Exception {
 
         Roles r = null;
@@ -80,7 +87,7 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
      */
     @Override
     public RoleResponse getById(SchoolData data, Integer Id, AuthenticationResponse authentication) throws Exception {
-        //todo: look up permissions to access this resource 
+        //todo:  make sure the user has permissions to make this function 
         Roles role = controller.findRole(Id, data);
         return populateResponse(role, false);
     }
@@ -96,6 +103,7 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
      */
     @Override
     public List<RoleResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
+        //todo:  make sure the user has permissions to make this function 
         List<Roles> list = controller.findRoles(ofset, limit, data);
         List<RoleResponse> roleResponses = new ArrayList();
         if (list != null) {
