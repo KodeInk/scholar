@@ -102,8 +102,7 @@ public class RolesEndpoint extends AbstractEndpoint<_Role, RoleResponse> {
         try {
             validate(tenantdata, authentication);
             String logId = context.getProperty("logId").toString();
-
-            return null;
+            return service.getById(tenantdata, id, this.authentication);
         } catch (WebApplicationException er) {
             throw er;
         } catch (Exception er) {
