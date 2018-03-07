@@ -37,6 +37,7 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("/")
 public class RolesEndpoint extends AbstractEndpoint<_Role, RoleResponse> {
+
     private static final Logger LOG = Logger.getLogger(RolesEndpoint.class.getName());
     @Context
     private ContainerRequestContext context;
@@ -70,7 +71,6 @@ public class RolesEndpoint extends AbstractEndpoint<_Role, RoleResponse> {
         }
     }
 
-
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -92,6 +92,5 @@ public class RolesEndpoint extends AbstractEndpoint<_Role, RoleResponse> {
             throw er;
         }
     }
-
 
 }

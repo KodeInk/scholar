@@ -26,10 +26,11 @@ import javax.ws.rs.core.Response;
  * @param <Z>
  */
 @Path("/")
-public abstract class AbstractEndpoint<T, Z> {
+public abstract class AbstractEndpoint<T, Z> implements AbstractEndpointInterface<T, Z> {
 
     UserService service = null;
 
+    @Override
     public void validateAuthentication(SchoolData schoolData, String authentication) {
         try {
             //todo: validate login functionality
@@ -48,6 +49,7 @@ public abstract class AbstractEndpoint<T, Z> {
      * @return
      * @throws Exception
      */
+    @Override
     public Z create(T entity,
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest
@@ -62,6 +64,7 @@ public abstract class AbstractEndpoint<T, Z> {
      * @param httpRequest
      * @return
      */
+    @Override
     public Z update(
             T entity,
             @HeaderParam("authentication") String authentication,
@@ -74,6 +77,7 @@ public abstract class AbstractEndpoint<T, Z> {
      * @param id
      * @return
      */
+    @Override
     public Z archive(@PathParam("id") Integer id,
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest) throws Exception {
@@ -85,6 +89,7 @@ public abstract class AbstractEndpoint<T, Z> {
      * @param id
      * @return
      */
+    @Override
     public Response delete(@PathParam("id") Integer id,
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest
@@ -98,10 +103,26 @@ public abstract class AbstractEndpoint<T, Z> {
      * @param end
      * @return
      */
+    @Override
     public List<Z> list(
             @QueryParam("start") int start,
             @QueryParam("end") int end,
             @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest
+    ) throws Exception {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     *
+     * @param id
+     * @param httpRequest
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<Z> get(
+            @QueryParam("id") int id,
             @Context HttpServletRequest httpRequest
     ) throws Exception {
         throw new UnsupportedOperationException();
