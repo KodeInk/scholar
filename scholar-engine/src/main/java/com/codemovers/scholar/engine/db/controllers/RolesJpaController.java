@@ -99,6 +99,10 @@ public class RolesJpaController extends EngineJpaController {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Roles.class));
             Query q = em.createQuery(cq);
+
+            System.out.println("Max Results" + maxResults);
+            System.out.println("First Results" + firstResult);
+
             if (!all) {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
