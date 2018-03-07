@@ -50,16 +50,7 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
 
         //todo: check if there is no Role by name or code in the system
         //todo: create Role 
-
         return super.create(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
-    }
-
-
-    @Override
-    public RoleResponse getById(Integer Id) throws Exception {
-        // controller.find(Id);
-
-        return null;
     }
 
     public Roles getRoleByName(SchoolData schoolData, String name) throws Exception {
@@ -79,6 +70,30 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
 
     }
 
+    /**
+     *
+     * @param data
+     * @param Id
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public RoleResponse getById(SchoolData data, Integer Id, AuthenticationResponse authentication) throws Exception {
+        //todo: look up permissions to access this resource 
+        Roles role = controller.findRole(Id, data);
+        return populateResponse(role, false);
+    }
+
+    /**
+     *
+     * @param data
+     * @param ofset
+     * @param limit
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<RoleResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
         List<Roles> list = controller.findRoles(ofset, limit, data);
@@ -93,28 +108,31 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
 
     /**
      *
-     * @param _role
+     * @param role
      * @param extended
      * @return
      */
-    public static RoleResponse populateResponse(Roles _role, Boolean extended) {
+    public static RoleResponse populateResponse(Roles role, Boolean extended) {
         RoleResponse roleResponse = new RoleResponse();
-        roleResponse.setDescription(_role.getDescription());
-        roleResponse.setIsSystem(_role.getIsSystem() == 1);
-        roleResponse.setName(_role.getName());
 
-        if (extended == true) {
+        if (role != null) {
+            roleResponse.setDescription(role.getDescription());
+            roleResponse.setIsSystem(role.getIsSystem() == 1);
+            roleResponse.setName(role.getName());
 
-            if (_role.getPermissions() != null) {
-                List<PermissionsResponse> permissionsResponses = new ArrayList<>();
-                for (Permissions p : _role.getPermissions()) {
-                    PermissionsResponse permissionsResponse = new PermissionsResponse();
-                    permissionsResponse.setCode(p.getCode());
-                    permissionsResponse.setName(p.getName());
-                    permissionsResponses.add(permissionsResponse);
+            if (extended == true) {
+
+                if (role.getPermissions() != null) {
+                    List<PermissionsResponse> permissionsResponses = new ArrayList<>();
+                    for (Permissions p : role.getPermissions()) {
+                        PermissionsResponse permissionsResponse = new PermissionsResponse();
+                        permissionsResponse.setCode(p.getCode());
+                        permissionsResponse.setName(p.getName());
+                        permissionsResponses.add(permissionsResponse);
+                    }
+                    PermissionsResponse[] prs = new PermissionsResponse[permissionsResponses.size()];
+                    roleResponse.setPermissions(permissionsResponses.toArray(prs));
                 }
-                PermissionsResponse[] prs = new PermissionsResponse[permissionsResponses.size()];
-                roleResponse.setPermissions(permissionsResponses.toArray(prs));
             }
         }
 

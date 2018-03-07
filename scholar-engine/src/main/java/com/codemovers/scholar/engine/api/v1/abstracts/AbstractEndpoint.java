@@ -87,6 +87,7 @@ public abstract class AbstractEndpoint<T, Z> implements AbstractEndpointInterfac
     /**
      *
      * @param id
+     * @param authentication
      * @return
      */
     @Override
@@ -121,8 +122,9 @@ public abstract class AbstractEndpoint<T, Z> implements AbstractEndpointInterfac
      * @throws Exception
      */
     @Override
-    public List<Z> get(
+    public Z get(
             @QueryParam("id") int id,
+            @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest
     ) throws Exception {
         throw new UnsupportedOperationException();

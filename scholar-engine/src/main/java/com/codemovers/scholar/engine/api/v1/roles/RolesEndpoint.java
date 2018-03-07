@@ -93,4 +93,23 @@ public class RolesEndpoint extends AbstractEndpoint<_Role, RoleResponse> {
         }
     }
 
+    @Path("{id}")
+    @Override
+    public RoleResponse get(
+            @QueryParam("id") int id,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest) throws Exception {
+        try {
+            validate(tenantdata, authentication);
+            String logId = context.getProperty("logId").toString();
+
+            return null;
+        } catch (WebApplicationException er) {
+            throw er;
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        }
+    }
+
 }
