@@ -37,6 +37,7 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("/")
 public class RolesEndpoint extends AbstractEndpoint<_Role, RoleResponse> {
+
     private static final Logger LOG = Logger.getLogger(RolesEndpoint.class.getName());
     @Context
     private ContainerRequestContext context;
@@ -70,7 +71,6 @@ public class RolesEndpoint extends AbstractEndpoint<_Role, RoleResponse> {
         }
     }
 
-
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -93,5 +93,45 @@ public class RolesEndpoint extends AbstractEndpoint<_Role, RoleResponse> {
         }
     }
 
+    @Path("{id}")
+    @Override
+    public RoleResponse get(
+            @QueryParam("id") int id,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest) throws Exception {
+        try {
+            validate(tenantdata, authentication);
+            String logId = context.getProperty("logId").toString();
+            return service.getById(tenantdata, id, this.authentication);
+        } catch (WebApplicationException er) {
+            throw er;
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        }
+    }
+
+    @Override
+    public RoleResponse update(_Role entity,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest) throws Exception {
+        try {
+            validate(tenantdata, authentication);
+            String logId = context.getProperty("logId").toString();
+
+            return null;
+        } catch (WebApplicationException er) {
+            throw er;
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        }
+
+    }
+
+    @Override
+    public RoleResponse archive(Integer id, String authentication, HttpServletRequest httpRequest) throws Exception {
+        return super.archive(id, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }

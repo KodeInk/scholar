@@ -9,6 +9,7 @@ import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
 import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
@@ -26,6 +27,7 @@ public class _Role extends AbstractEntity {
     private @Mandatory
     String description;
     private boolean isSystem;
+    private _Permission[] permissions;
     private Date date_created;
     private Integer author_id;
     private Integer id;
@@ -69,6 +71,14 @@ public class _Role extends AbstractEntity {
         this.isSystem = isSystem;
     }
 
+    public _Permission[] getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(_Permission[] permissions) {
+        this.permissions = permissions;
+    }
+
     public Date getDate_created() {
         return date_created;
     }
@@ -95,14 +105,15 @@ public class _Role extends AbstractEntity {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 29 * hash + Objects.hashCode(this.name);
-        hash = 29 * hash + Objects.hashCode(this.code);
-        hash = 29 * hash + Objects.hashCode(this.description);
-        hash = 29 * hash + (this.isSystem ? 1 : 0);
-        hash = 29 * hash + Objects.hashCode(this.date_created);
-        hash = 29 * hash + Objects.hashCode(this.author_id);
-        hash = 29 * hash + Objects.hashCode(this.id);
+        int hash = 7;
+        hash = 73 * hash + Objects.hashCode(this.name);
+        hash = 73 * hash + Objects.hashCode(this.code);
+        hash = 73 * hash + Objects.hashCode(this.description);
+        hash = 73 * hash + (this.isSystem ? 1 : 0);
+        hash = 73 * hash + Arrays.deepHashCode(this.permissions);
+        hash = 73 * hash + Objects.hashCode(this.date_created);
+        hash = 73 * hash + Objects.hashCode(this.author_id);
+        hash = 73 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -130,6 +141,9 @@ public class _Role extends AbstractEntity {
         if (!Objects.equals(this.description, other.description)) {
             return false;
         }
+        if (!Arrays.deepEquals(this.permissions, other.permissions)) {
+            return false;
+        }
         if (!Objects.equals(this.date_created, other.date_created)) {
             return false;
         }
@@ -147,15 +161,16 @@ public class _Role extends AbstractEntity {
 
     @Override
     public String toString() {
-        return this.getClass().getCanonicalName()
-                + "{"
+        return "_Role{"
                 + "name=" + name
                 + ", code=" + code
                 + ", description=" + description
                 + ", isSystem=" + isSystem
+                + ", permissions=" + Arrays.toString(permissions)
                 + ", date_created=" + date_created
                 + ", author_id=" + author_id
-                + "}";
+                + ", id=" + id
+                + '}';
     }
 
 }

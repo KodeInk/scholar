@@ -57,6 +57,10 @@ public abstract class AbstractService<T, Z> {
         throw new UnsupportedOperationException("Not Supported ");
     }
 
+    public Z getById(SchoolData data, Integer Id, AuthenticationResponse authentication) throws Exception {
+        throw new UnsupportedOperationException("Not Supported ");
+    }
+
     /**
      *
      * @param schoolData
