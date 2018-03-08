@@ -7,9 +7,11 @@ package com.codemovers.scholar.engine.api.v1.classes.entities;
 
 import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
+import com.codemovers.scholar.engine.api.v1.streams.entities._Stream;
 import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
@@ -30,6 +32,7 @@ public class _Class extends AbstractEntity {
     private StatusEnum status;
     private Date date_created;
     private Integer author_id;
+    private _Stream[] streams;
 
     public _Class() {
     }
@@ -94,16 +97,25 @@ public class _Class extends AbstractEntity {
         this.author_id = author_id;
     }
 
+    public _Stream[] getStreams() {
+        return streams;
+    }
+
+    public void setStreams(_Stream[] streams) {
+        this.streams = streams;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 43 * hash + Objects.hashCode(this.id);
-        hash = 43 * hash + Objects.hashCode(this.name);
-        hash = 43 * hash + Objects.hashCode(this.code);
-        hash = 43 * hash + Objects.hashCode(this.ranking);
-        hash = 43 * hash + Objects.hashCode(this.status);
-        hash = 43 * hash + Objects.hashCode(this.date_created);
-        hash = 43 * hash + Objects.hashCode(this.author_id);
+        int hash = 3;
+        hash = 79 * hash + Objects.hashCode(this.id);
+        hash = 79 * hash + Objects.hashCode(this.name);
+        hash = 79 * hash + Objects.hashCode(this.code);
+        hash = 79 * hash + Objects.hashCode(this.ranking);
+        hash = 79 * hash + Objects.hashCode(this.status);
+        hash = 79 * hash + Objects.hashCode(this.date_created);
+        hash = 79 * hash + Objects.hashCode(this.author_id);
+        hash = 79 * hash + Arrays.deepHashCode(this.streams);
         return hash;
     }
 
@@ -137,7 +149,13 @@ public class _Class extends AbstractEntity {
         if (!Objects.equals(this.date_created, other.date_created)) {
             return false;
         }
-        return Objects.equals(this.author_id, other.author_id);
+        if (!Objects.equals(this.author_id, other.author_id)) {
+            return false;
+        }
+        if (!Arrays.deepEquals(this.streams, other.streams)) {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -152,6 +170,7 @@ public class _Class extends AbstractEntity {
                 + ", name=" + name
                 + ", code=" + code
                 + ", ranking=" + ranking
+                + ", streams=" + streams
                 + ", status=" + status
                 + ", date_created=" + date_created
                 + ", author_id=" + author_id
