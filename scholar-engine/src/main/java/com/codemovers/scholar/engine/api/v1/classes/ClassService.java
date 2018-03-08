@@ -215,7 +215,10 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
         response.setId(entity.getId().intValue());
         response.setName(entity.getName());
         response.setCode(entity.getCode());
-        if (entity.getRanking() > 0) {
+        if (entity.getStatus() != null) {
+            response.setStatus(StatusEnum.fromString(entity.getStatus()));
+        }
+        if (entity.getRanking() != 0) {
             Long ranking = entity.getRanking();
             response.setRanking(ranking.intValue());
         }
