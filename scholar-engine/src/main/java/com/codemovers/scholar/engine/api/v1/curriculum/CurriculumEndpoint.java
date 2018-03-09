@@ -32,6 +32,7 @@ import javax.ws.rs.core.MediaType;
  *
  * @author mover
  */
+@Path("/")
 public class CurriculumEndpoint extends AbstractEndpoint<_Curriculum, CurriculumResponse> {
 
     private static final Logger LOG = Logger.getLogger(CurriculumEndpoint.class.getName());
@@ -62,7 +63,9 @@ public class CurriculumEndpoint extends AbstractEndpoint<_Curriculum, Curriculum
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public CurriculumResponse create(_Curriculum entity, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public CurriculumResponse create(_Curriculum entity,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.create(tenantdata, entity, this.authentication);
     }
@@ -71,7 +74,9 @@ public class CurriculumEndpoint extends AbstractEndpoint<_Curriculum, Curriculum
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public CurriculumResponse update(_Curriculum entity, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public CurriculumResponse update(_Curriculum entity,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.update(tenantdata, entity, this.authentication);
     }
@@ -95,7 +100,9 @@ public class CurriculumEndpoint extends AbstractEndpoint<_Curriculum, Curriculum
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public CurriculumResponse archive(Integer id, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public CurriculumResponse archive(Integer id,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.archive(tenantdata, id, this.authentication);
     }
