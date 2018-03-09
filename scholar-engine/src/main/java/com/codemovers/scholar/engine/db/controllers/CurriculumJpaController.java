@@ -98,7 +98,7 @@ public class CurriculumJpaController extends EngineJpaController {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(BookType.class));
+            cq.select(cq.from(Curriculum.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
