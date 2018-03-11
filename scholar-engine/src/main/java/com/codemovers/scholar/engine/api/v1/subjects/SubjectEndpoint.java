@@ -12,16 +12,18 @@ import com.codemovers.scholar.engine.api.v1.subjects.entities._Subject;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -52,7 +54,9 @@ public class SubjectEndpoint extends AbstractEndpoint<_Subject, SubjectResponse>
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public SubjectResponse create(_Subject entity, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public SubjectResponse create(_Subject entity,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.create(tenantdata, entity, this.authentication);
     }
@@ -61,7 +65,9 @@ public class SubjectEndpoint extends AbstractEndpoint<_Subject, SubjectResponse>
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public SubjectResponse update(_Subject entity, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public SubjectResponse update(_Subject entity,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.update(tenantdata, entity, this.authentication);
     }
@@ -71,7 +77,9 @@ public class SubjectEndpoint extends AbstractEndpoint<_Subject, SubjectResponse>
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public SubjectResponse archive(Integer id, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public SubjectResponse archive(Integer id,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.archive(tenantdata, id, this.authentication);
     }
@@ -80,9 +88,14 @@ public class SubjectEndpoint extends AbstractEndpoint<_Subject, SubjectResponse>
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public List<SubjectResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public List<SubjectResponse> list(
+            @DefaultValue("0") @QueryParam("offset") int offset,
+            @DefaultValue("50") @QueryParam("limit") int limit,
+            @HeaderParam("authentication") String authentication, @Context HttpServletRequest httpRequest
+    ) throws Exception {
         validate(tenantdata, authentication);
-        return service.list(tenantdata, start, end, this.authentication);
+        return service.list(tenantdata, offset, limit, this.authentication);
     }
+
 
 }
