@@ -87,7 +87,9 @@ public class Application {
                 getServlet(com.codemovers.scholar.engine.api.v1.curriculum.CurriculumEndpoint.class, CORSResponseFilter.class
                 ), "/curriculum/v1/*");
 
-
+        context.addServlet(
+                getServlet(com.codemovers.scholar.engine.api.v1.subjects.SubjectEndpoint.class, CORSResponseFilter.class
+                ), "/subjects/v1/*");
 
 
         int port = 9876;

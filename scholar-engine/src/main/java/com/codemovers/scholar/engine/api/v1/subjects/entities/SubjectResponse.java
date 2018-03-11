@@ -20,7 +20,7 @@ public class SubjectResponse {
     private String name;
     private String code;
     private String status;
-    private Date date_created;
+    private Long date_created;
     private String author;
 
     public SubjectResponse() {
@@ -62,11 +62,11 @@ public class SubjectResponse {
         this.status = status;
     }
 
-    public Date getDate_created() {
+    public Long getDate_created() {
         return date_created;
     }
 
-    public void setDate_created(Date date_created) {
+    public void setDate_created(Long date_created) {
         this.date_created = date_created;
     }
 

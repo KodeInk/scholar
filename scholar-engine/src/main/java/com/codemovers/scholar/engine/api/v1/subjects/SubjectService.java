@@ -101,10 +101,10 @@ public class SubjectService extends AbstractService<_Subject, SubjectResponse> i
     }
 
     @Override
-    public List<SubjectResponse> list(SchoolData data, Integer ofset, Integer limit) throws Exception {
-        check_access(LIST_SUBJECT_PERMISSION);
+    public List<SubjectResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authenticationResponse) throws Exception {
+        // check_access(LIST_SUBJECT_PERMISSION);
 
-        List<Subjects> list = controller.findSubjects(ofset, limit, data);
+        List<Subjects> list = controller.findSubjects(limit, ofset, data);
         List<SubjectResponse> responses = new ArrayList<>();
         if (list != null) {
             list.forEach((_subject) -> {
@@ -132,6 +132,7 @@ public class SubjectService extends AbstractService<_Subject, SubjectResponse> i
     public SubjectResponse populateResponse(Subjects entity) {
         SubjectResponse response = new SubjectResponse();
 
+        response.setId(entity.getId().intValue());
         response.setCode(entity.getCode());
         response.setName(entity.getName());
         response.setStatus(entity.getStatus());
@@ -139,6 +140,7 @@ public class SubjectService extends AbstractService<_Subject, SubjectResponse> i
             response.setAuthor(entity.getAuthor().getUsername());
         }
 
+        response.setDate_created(entity.getDateCreated().getTime());
         return response;
     }
 
