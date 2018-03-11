@@ -155,7 +155,7 @@ public class CurriculumService extends AbstractService<_Curriculum, CurriculumRe
         if (entity.getAuthor() != null) {
             response.setAuthor(entity.getAuthor().getUsername());
         }
-
+        response.setDate_created(entity.getDateCreated().getTime());
         return response;
     }
 }
