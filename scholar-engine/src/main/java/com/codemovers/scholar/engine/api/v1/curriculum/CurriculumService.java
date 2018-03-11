@@ -119,10 +119,10 @@ public class CurriculumService extends AbstractService<_Curriculum, CurriculumRe
     }
 
     @Override
-    public List<CurriculumResponse> list(SchoolData data, Integer ofset, Integer limit) throws Exception {
-        check_access(LIST_CURRICULUM_PERMISSION);
+    public List<CurriculumResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authenticationResponse) throws Exception {
+        // check_access(LIST_CURRICULUM_PERMISSION);
 
-        List<Curriculum> list = controller.findCurriculumEntities(ofset, limit, data);
+        List<Curriculum> list = controller.findCurriculumEntities(limit, ofset, data);
         List<CurriculumResponse> responses = new ArrayList<>();
         if (list != null) {
             list.forEach((_class) -> {
