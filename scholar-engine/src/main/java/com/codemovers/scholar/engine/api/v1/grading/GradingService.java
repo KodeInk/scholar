@@ -62,7 +62,7 @@ public class GradingService extends AbstractService<_Grading, GradingResponse> {
     @Override
     public List<GradingResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authenticationResponse) throws Exception {
 
-        List<Grading> list = controller.findGradingEntities(ofset, limit, data);
+        List<Grading> list = controller.findGradingEntities(limit, ofset, data);
         List<GradingResponse> responses = new ArrayList<>();
         if (list != null) {
             list.forEach((_class) -> {
