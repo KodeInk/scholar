@@ -97,5 +97,4 @@ public class SubjectEndpoint extends AbstractEndpoint<_Subject, SubjectResponse>
         return service.list(tenantdata, offset, limit, this.authentication);
     }
 
-
 }

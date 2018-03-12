@@ -149,7 +149,6 @@ public class ClassResponse {
         return Arrays.deepEquals(this.streamResponses, other.streamResponses);
     }
 
-
     @Override
     public String toString() {
         return "ClassResponse{"
