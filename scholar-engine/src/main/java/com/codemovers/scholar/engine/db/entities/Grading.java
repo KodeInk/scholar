@@ -80,7 +80,7 @@ public class Grading implements Serializable {
     private Collection<SubjectGrading> subjectGradingCollection;
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Users authorId;
+    private Users author;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "gradingId")
     private Collection<GradingDetails> gradingDetailsCollection;
 
@@ -157,12 +157,12 @@ public class Grading implements Serializable {
         this.subjectGradingCollection = subjectGradingCollection;
     }
 
-    public Users getAuthorId() {
-        return authorId;
+    public Users getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(Users authorId) {
-        this.authorId = authorId;
+    public void setAuthor(Users author) {
+        this.author = author;
     }
 
     @XmlTransient

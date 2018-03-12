@@ -129,7 +129,7 @@ public class Users implements Serializable {
     private Collection<BookType> bookTypeCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "authorId")
     private Collection<LibrarySection> librarySectionCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "authorId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
     private Collection<Grading> gradingCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "authorId")
     private Collection<Marksheet> marksheetCollection;
