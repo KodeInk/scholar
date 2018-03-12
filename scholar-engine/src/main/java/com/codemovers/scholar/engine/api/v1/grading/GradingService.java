@@ -70,7 +70,7 @@ public class GradingService extends AbstractService<_Grading, GradingResponse> {
             });
         }
 
-        return super.list(data, ofset, limit); //To change body of generated methods, choose Tools | Templates.
+        return responses;
     }
 
     @Override
