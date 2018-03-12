@@ -6,7 +6,6 @@
 package com.codemovers.scholar.engine.api.v1.grading.entities;
 
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
-import java.util.Date;
 import java.util.Objects;
 
 /**
