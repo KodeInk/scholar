@@ -6,7 +6,6 @@
 package com.codemovers.scholar.engine.api.v1.grading.entities;
 
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
-import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -20,8 +19,8 @@ public class GradingResponse {
     private String code;
     private String description;
     private StatusEnum status;
-    private Date date_created;
-    private Integer author_id;
+    private Long dateCreated;
+    private String author;
 
     public GradingResponse() {
     }
@@ -70,21 +69,22 @@ public class GradingResponse {
         this.status = status;
     }
 
-    public Date getDate_created() {
-        return date_created;
+    public Long getDateCreated() {
+        return dateCreated;
     }
 
-    public void setDate_created(Date date_created) {
-        this.date_created = date_created;
+    public void setDateCreated(Long dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
-    public Integer getAuthor_id() {
-        return author_id;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setAuthor_id(Integer author_id) {
-        this.author_id = author_id;
+    public void setAuthor(String author) {
+        this.author = author;
     }
+
 
     @Override
     public int hashCode() {
@@ -94,8 +94,8 @@ public class GradingResponse {
         hash = 71 * hash + Objects.hashCode(this.code);
         hash = 71 * hash + Objects.hashCode(this.description);
         hash = 71 * hash + Objects.hashCode(this.status);
-        hash = 71 * hash + Objects.hashCode(this.date_created);
-        hash = 71 * hash + Objects.hashCode(this.author_id);
+        hash = 71 * hash + Objects.hashCode(this.dateCreated);
+        hash = 71 * hash + Objects.hashCode(this.author);
         return hash;
     }
 
@@ -126,10 +126,10 @@ public class GradingResponse {
         if (this.status != other.status) {
             return false;
         }
-        if (!Objects.equals(this.date_created, other.date_created)) {
+        if (!Objects.equals(this.dateCreated, other.dateCreated)) {
             return false;
         }
-        return Objects.equals(this.author_id, other.author_id);
+        return Objects.equals(this.author, other.author);
     }
 
 }

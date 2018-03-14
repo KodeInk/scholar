@@ -19,7 +19,7 @@ public class StudyYearResponse {
     private Date end_date;
     private String status;
     private String author;
-    private Date date_created;
+    private Long date_created;
 
     public StudyYearResponse() {
     }
@@ -76,11 +76,11 @@ public class StudyYearResponse {
         this.author = author;
     }
 
-    public Date getDate_created() {
+    public Long getDate_created() {
         return date_created;
     }
 
-    public void setDate_created(Date date_created) {
+    public void setDate_created(Long date_created) {
         this.date_created = date_created;
     }
 

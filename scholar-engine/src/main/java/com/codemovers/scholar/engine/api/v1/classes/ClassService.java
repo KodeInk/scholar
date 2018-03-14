@@ -93,8 +93,7 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
     public List<ClassResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
         //todo: check list classes permissions
         check_access(LIST_CLASSES_PERMISSION);
-        //todo: you will need logging of  every operation of a logged in user
-        //todo, get list  a range from the  jpa controller
+
         List<Classes> list = controller.findClassEntities(ofset, limit, data);
         List<ClassResponse> responses = new ArrayList<>();
         if (list != null) {
@@ -216,7 +215,10 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
         response.setId(entity.getId().intValue());
         response.setName(entity.getName());
         response.setCode(entity.getCode());
-        if (entity.getRanking() > 0) {
+        if (entity.getStatus() != null) {
+            response.setStatus(StatusEnum.fromString(entity.getStatus()));
+        }
+        if (entity.getRanking() != 0) {
             Long ranking = entity.getRanking();
             response.setRanking(ranking.intValue());
         }

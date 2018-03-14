@@ -123,10 +123,10 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
     }
 
     @Override
-    public List<StudyYearResponse> list(SchoolData data, Integer ofset, Integer limit) throws Exception {
+    public List<StudyYearResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
         check_access(LIST_STUDYEAR_PERMISSION);
 
-        List<StudyYear> list = controller.findStudyYears(ofset, limit, data);
+        List<StudyYear> list = controller.findStudyYears(limit, ofset, data);
         List<StudyYearResponse> responses = new ArrayList<>();
         if (list != null) {
             list.forEach((studyYear) -> {
@@ -148,7 +148,7 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
         if (entity.getAuthor() != null) {
             response.setAuthor(entity.getAuthor().getUsername());
         }
-
+        response.setDate_created(entity.getDateCreated().getTime());
         return response;
     }
 

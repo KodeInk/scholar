@@ -160,7 +160,7 @@ public class ClassJpaController extends EngineJpaController {
      * @return
      */
     public List<Classes> findClassEntities(int maxResults, int firstResult, SchoolData data) {
-        return findClassEntities(false, maxResults, firstResult, data);
+        return findClassEntities(false, firstResult, maxResults, data);
     }
 
     /**

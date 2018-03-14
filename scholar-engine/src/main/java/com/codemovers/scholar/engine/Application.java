@@ -79,6 +79,27 @@ public class Application {
                 getServlet(com.codemovers.scholar.engine.api.v1.roles.RolesEndpoint.class, CORSResponseFilter.class
                 ), "/roles/v1/*");
 
+        context.addServlet(
+                getServlet(com.codemovers.scholar.engine.api.v1.classes.ClassEndpoint.class, CORSResponseFilter.class
+                ), "/classes/v1/*");
+
+        context.addServlet(
+                getServlet(com.codemovers.scholar.engine.api.v1.curriculum.CurriculumEndpoint.class, CORSResponseFilter.class
+                ), "/curriculum/v1/*");
+
+        context.addServlet(
+                getServlet(com.codemovers.scholar.engine.api.v1.subjects.SubjectEndpoint.class, CORSResponseFilter.class
+                ), "/subjects/v1/*");
+
+        context.addServlet(
+                getServlet(com.codemovers.scholar.engine.api.v1.grading.GradingEndpoint.class, CORSResponseFilter.class
+                ), "/grading/v1/*");
+
+        context.addServlet(
+                getServlet(com.codemovers.scholar.engine.api.v1.studyear.StudyYearEndpoint.class, CORSResponseFilter.class
+                ), "/studyyear/v1/*");
+
+
 
         int port = 9876;
         jettyServer = new Server(port);

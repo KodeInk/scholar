@@ -6,7 +6,6 @@
 package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.EngineJpaController;
-import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.Roles;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.helper.Utilities;
@@ -99,6 +98,7 @@ public class RolesJpaController extends EngineJpaController {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Roles.class));
             Query q = em.createQuery(cq);
+
             if (!all) {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
@@ -172,6 +172,5 @@ public class RolesJpaController extends EngineJpaController {
         return RoleList;
 
     }
-
 
 }
