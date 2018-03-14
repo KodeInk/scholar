@@ -99,8 +99,6 @@ public class Application {
                 getServlet(com.codemovers.scholar.engine.api.v1.studyear.StudyYearEndpoint.class, CORSResponseFilter.class
                 ), "/studyyear/v1/*");
 
-
-
         int port = 9876;
         jettyServer = new Server(port);
 

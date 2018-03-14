@@ -85,7 +85,6 @@ public class GradingResponse {
         this.author = author;
     }
 
-
     @Override
     public int hashCode() {
         int hash = 3;

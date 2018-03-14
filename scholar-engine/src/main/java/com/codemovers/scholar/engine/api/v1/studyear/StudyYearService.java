@@ -142,8 +142,8 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
         StudyYearResponse response = new StudyYearResponse();
 
         response.setTheme(entity.getTheme());
-        response.setStart_date(entity.getStartDate());
-        response.setEnd_date(entity.getEndDate());
+        response.setStart_date(entity.getStartDate().getTime());
+        response.setEnd_date(entity.getEndDate().getTime());
         response.setStatus(entity.getStatus());
         if (entity.getAuthor() != null) {
             response.setAuthor(entity.getAuthor().getUsername());
