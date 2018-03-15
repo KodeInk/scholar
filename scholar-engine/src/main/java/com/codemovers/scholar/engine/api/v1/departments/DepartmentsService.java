@@ -14,6 +14,7 @@ import com.codemovers.scholar.engine.db.controllers.DepartmentsJpaController;
 import com.codemovers.scholar.engine.db.entities.Departments;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Users;
+import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -55,8 +56,20 @@ public class DepartmentsService extends AbstractService<_Department, DepartmentR
 
     @Override
     public DepartmentResponse update(SchoolData data, _Department entity, AuthenticationResponse authentication) throws Exception {
+
+        entity.validate();
+
+        if (entity.getId() == null) {
+            throw new BadRequestException("Missing Mandatory Field Id ");
+        }
+
+        Departments department = controller.findDepartment(entity.getId(), data);
+        department = populateEntity(department, entity);
+
+        controller.edit(department, data);
         return super.update(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
     }
+
 
     @Override
     public DepartmentResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
@@ -95,5 +108,31 @@ public class DepartmentsService extends AbstractService<_Department, DepartmentR
         department.setAuthor(new Users(entity.getAuthor_id().longValue()));
         return department;
     }
+
+    public static Departments populateEntity(Departments department, _Department entity) throws BadRequestException {
+
+        if (department == null) {
+            throw new BadRequestException(" Department Does not Exist ");
+        }
+
+        if (entity.getName() != null) {
+            department.setName(entity.getName());
+        }
+        if (entity.getDescription() != null) {
+            department.setDescription(entity.getDescription());
+        }
+        if (entity.getIsSystem() != null) {
+            department.setIsSystem(entity.getIsSystem());
+        }
+        if (entity.getDate_created() != null) {
+            department.setDateCreated(entity.getDate_created());
+        }
+        if (entity.getAuthor_id() != null) {
+            department.setAuthor(new Users(entity.getAuthor_id().longValue()));
+        }
+
+        return department;
+    }
+
 
 }
