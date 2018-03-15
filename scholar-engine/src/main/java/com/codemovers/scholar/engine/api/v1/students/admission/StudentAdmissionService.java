@@ -14,6 +14,7 @@ import com.codemovers.scholar.engine.api.v1.streams.StreamsService;
 import com.codemovers.scholar.engine.api.v1.streams.entities.StreamResponse;
 import com.codemovers.scholar.engine.api.v1.students.admission.entities.StudentAdmissionResponse;
 import com.codemovers.scholar.engine.api.v1.students.admission.entities._StudentAdmission;
+import com.codemovers.scholar.engine.api.v1.terms.TermService;
 import com.codemovers.scholar.engine.api.v1.terms.entities.TermResponse;
 import com.codemovers.scholar.engine.db.controllers.ClassJpaController;
 import com.codemovers.scholar.engine.db.controllers.ProfileJpaController;
@@ -209,13 +210,7 @@ public class StudentAdmissionService extends AbstractService<_StudentAdmission, 
 
         if (entity.getAdmissionTerm() != null) {
             Terms _term = entity.getAdmissionTerm();
-            TermResponse termResponse = new TermResponse();
-            //termResponse.setStudy_year(_term.getStudyYear());
-            termResponse.setName(_term.getName());
-            termResponse.setStart_date(_term.getStartDate());
-            termResponse.setEnd_date(_term.getEndDate());
-            response.setTerm_response(termResponse);
-
+            TermResponse termResponse = TermService.getInstance().populateResponse(_term);
         }
         response.setDate_of_admission(entity.getDateOfAdmission());
         response.setAdmission_number(entity.getAdmissionNo());
