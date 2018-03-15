@@ -162,8 +162,8 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
         TermResponse response = new TermResponse();
         response.setId(entity.getId().intValue());
         response.setName(entity.getName());
-        response.setStart_date(entity.getStartDate());
-        response.setEnd_date(entity.getEndDate());
+        response.setStart_date(entity.getStartDate().getTime());
+        response.setEnd_date(entity.getEndDate().getTime());
 
         if (entity.getStudyYear() != null) {
             StudyYearResponse syr = StudyYearService.getInstance().populateResponse(entity.getStudyYear());
@@ -177,7 +177,7 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
         if (entity.getAuthor() != null) {
             response.setAuthor(entity.getAuthor().getUsername());
         }
-        response.setDate_created(entity.getDateCreated());
+        response.setDate_created(entity.getDateCreated().getTime());
 
         return response;
     }

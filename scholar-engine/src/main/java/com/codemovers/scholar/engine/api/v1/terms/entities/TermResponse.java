@@ -19,12 +19,12 @@ public class TermResponse {
     private Integer id;
     private String study_year;
     private String name;
-    private Date start_date;
-    private Date end_date;
+    private Long start_date;
+    private Long end_date;
     private Integer ranking;
     private StatusEnum status;
     private String author;
-    private Date date_created;
+    private Long date_created;
 
     public TermResponse() {
     }
@@ -57,19 +57,19 @@ public class TermResponse {
         this.name = name;
     }
 
-    public Date getStart_date() {
+    public Long getStart_date() {
         return start_date;
     }
 
-    public void setStart_date(Date start_date) {
+    public void setStart_date(Long start_date) {
         this.start_date = start_date;
     }
 
-    public Date getEnd_date() {
+    public Long getEnd_date() {
         return end_date;
     }
 
-    public void setEnd_date(Date end_date) {
+    public void setEnd_date(Long end_date) {
         this.end_date = end_date;
     }
 
@@ -97,11 +97,11 @@ public class TermResponse {
         this.author = author;
     }
 
-    public Date getDate_created() {
+    public Long getDate_created() {
         return date_created;
     }
 
-    public void setDate_created(Date date_created) {
+    public void setDate_created(Long date_created) {
         this.date_created = date_created;
     }
 
