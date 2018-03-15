@@ -54,7 +54,7 @@ public class DepartmentsEdnpoint extends AbstractEndpoint<_Department, Departmen
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public DepartmentResponse create(_Curriculum entity,
+    public DepartmentResponse create(_Department entity,
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
