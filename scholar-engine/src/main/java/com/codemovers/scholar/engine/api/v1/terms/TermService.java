@@ -140,7 +140,7 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
     }
 
     @Override
-    public List<TermResponse> list(SchoolData data, Integer ofset, Integer limit) throws Exception {
+    public List<TermResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authenticationResponse) throws Exception {
 
         check_access(LIST_STUDYEAR_PERMISSION);
 
