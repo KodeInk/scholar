@@ -7,10 +7,13 @@ package com.codemovers.scholar.engine.api.v1.departments;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
+import com.codemovers.scholar.engine.api.v1.curriculum.CurriculumService;
 import com.codemovers.scholar.engine.api.v1.departments.entities.DepartmentResponse;
 import com.codemovers.scholar.engine.api.v1.departments.entities._Department;
 import com.codemovers.scholar.engine.db.controllers.DepartmentsJpaController;
+import com.codemovers.scholar.engine.db.entities.Departments;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import com.codemovers.scholar.engine.db.entities.Users;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -27,10 +30,26 @@ public class DepartmentsService extends AbstractService<_Department, DepartmentR
         controller = DepartmentsJpaController.getInstance();
     }
 
+    public static DepartmentsService getInstance() {
+        if (service == null) {
+            service = new DepartmentsService();
+        }
+        return service;
+    }
+
+
     @Override
     public DepartmentResponse create(SchoolData data, _Department entity, AuthenticationResponse authentication) throws Exception {
+
+        entity.validate();
+        Departments department = populateEntity(entity);
+        controller.create(department, data);
+
+
+
         return super.create(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
     }
+
 
     @Override
     public DepartmentResponse getById(SchoolData data, Integer Id, AuthenticationResponse authentication) throws Exception {
@@ -50,6 +69,16 @@ public class DepartmentsService extends AbstractService<_Department, DepartmentR
     @Override
     public List<DepartmentResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
         return super.list(data, ofset, limit, authentication); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Departments populateEntity(_Department entity) {
+        Departments department = new Departments();
+        department.setName(entity.getName());
+        department.setDescription(entity.getDescription());
+        department.setIsSystem(entity.getIsSystem());
+        department.setDateCreated(entity.getDate_created());
+        department.setAuthor(new Users(entity.getAuthor_id().longValue()));
+        return department;
     }
 
 

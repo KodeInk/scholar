@@ -58,23 +58,13 @@ public class CurriculumService extends AbstractService<_Curriculum, CurriculumRe
         check_access(CREATE_CURRICULUM_PERMISSION);
         //todo: validate
         entity.validate();
-        //todo: populate entity
-        entity.setAuthor_id(authentication.getId());
-        entity.setDate_created(new Date());
-        entity.setStatus(StatusEnum.ACTIVE);
-        //todo: create
-        Curriculum curriculum = new Curriculum();
-        curriculum.setCode(entity.getCode());
-        curriculum.setName(entity.getName());
-        curriculum.setDescription(entity.getDescription());
-        curriculum.setStatus(entity.getStatus().toString());
-        curriculum.setDateCreated(entity.getDate_created());
-        curriculum.setAuthor(new Users(entity.getAuthor_id().longValue()));
+        Curriculum curriculum = populateEntity(entity, authentication);
 
         curriculum = controller.create(curriculum, data);
 
         return populateResponse(curriculum);
     }
+
 
     @Override
     public CurriculumResponse update(SchoolData data, _Curriculum entity) throws Exception {
@@ -158,4 +148,21 @@ public class CurriculumService extends AbstractService<_Curriculum, CurriculumRe
         response.setDate_created(entity.getDateCreated().getTime());
         return response;
     }
+
+    public Curriculum populateEntity(_Curriculum entity, AuthenticationResponse authentication) {
+        //todo: populate entity
+        entity.setAuthor_id(authentication.getId());
+        entity.setDate_created(new Date());
+        entity.setStatus(StatusEnum.ACTIVE);
+        //todo: create
+        Curriculum curriculum = new Curriculum();
+        curriculum.setCode(entity.getCode());
+        curriculum.setName(entity.getName());
+        curriculum.setDescription(entity.getDescription());
+        curriculum.setStatus(entity.getStatus().toString());
+        curriculum.setDateCreated(entity.getDate_created());
+        curriculum.setAuthor(new Users(entity.getAuthor_id().longValue()));
+        return curriculum;
+    }
+
 }
