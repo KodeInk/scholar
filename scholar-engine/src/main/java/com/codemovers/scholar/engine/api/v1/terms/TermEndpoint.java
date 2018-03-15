@@ -55,7 +55,9 @@ public class TermEndpoint extends AbstractEndpoint<_Term, TermResponse> {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public TermResponse create(_Term entity, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public TermResponse create(_Term entity,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.create(tenantdata, entity, this.authentication);
     }

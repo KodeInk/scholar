@@ -137,10 +137,10 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
         return responses;
     }
 
-    @Override
     public StudyYearResponse populateResponse(StudyYear entity) {
         StudyYearResponse response = new StudyYearResponse();
 
+        response.setId(entity.getId().intValue());
         response.setTheme(entity.getTheme());
         response.setStart_date(entity.getStartDate().getTime());
         response.setEnd_date(entity.getEndDate().getTime());

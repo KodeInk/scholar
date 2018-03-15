@@ -7,6 +7,7 @@ package com.codemovers.scholar.engine.api.v1.terms;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
+import com.codemovers.scholar.engine.api.v1.studyear.StudyYearService;
 import static com.codemovers.scholar.engine.api.v1.studyear.StudyYearServiceInterface.LIST_STUDYEAR_PERMISSION;
 import com.codemovers.scholar.engine.api.v1.studyear.entities.StudyYearResponse;
 import com.codemovers.scholar.engine.api.v1.terms.entities.TermResponse;
@@ -144,7 +145,7 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
 
         check_access(LIST_STUDYEAR_PERMISSION);
 
-        List<Terms> list = controller.findTerms(ofset, limit, data);
+        List<Terms> list = controller.findTerms(limit, ofset, data);
         List<TermResponse> responses = new ArrayList<>();
         if (list != null) {
             list.forEach((term) -> {
@@ -159,9 +160,20 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
     @Override
     public TermResponse populateResponse(Terms entity) {
         TermResponse response = new TermResponse();
+        response.setId(entity.getId().intValue());
         response.setName(entity.getName());
         response.setStart_date(entity.getStartDate());
         response.setEnd_date(entity.getEndDate());
+
+        if (entity.getStudyYear() != null) {
+            StudyYearResponse syr = StudyYearService.getInstance().populateResponse(entity.getStudyYear());
+            response.setStudy_year(syr.getTheme());
+        }
+
+        Long ranking = entity.getRanking();
+        response.setRanking(ranking.intValue());
+        response.setStatus(StatusEnum.fromString(entity.getStatus()));
+
         if (entity.getAuthor() != null) {
             response.setAuthor(entity.getAuthor().getUsername());
         }

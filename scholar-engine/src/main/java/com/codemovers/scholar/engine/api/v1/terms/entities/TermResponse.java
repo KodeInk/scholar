@@ -5,6 +5,7 @@
  */
 package com.codemovers.scholar.engine.api.v1.terms.entities;
 
+import com.codemovers.scholar.engine.api.v1.studyear.entities.StudyYearResponse;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import java.util.Date;
 import java.util.Objects;
@@ -16,7 +17,7 @@ import java.util.Objects;
 public class TermResponse {
 
     private Integer id;
-    private Integer study_year;
+    private String study_year;
     private String name;
     private Date start_date;
     private Date end_date;
@@ -40,11 +41,11 @@ public class TermResponse {
         this.id = id;
     }
 
-    public Integer getStudy_year() {
+    public String getStudy_year() {
         return study_year;
     }
 
-    public void setStudy_year(Integer study_year) {
+    public void setStudy_year(String study_year) {
         this.study_year = study_year;
     }
 
