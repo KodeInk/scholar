@@ -82,7 +82,7 @@ public class DepartmentsJpaController extends EngineJpaController {
     public Departments findDepartment(Integer id, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
-            return em.find(Departments.class, id);
+            return em.find(Departments.class, id.longValue());
         } finally {
             em.close();
         }

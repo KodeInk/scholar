@@ -48,7 +48,9 @@ public class DepartmentsService extends AbstractService<_Department, DepartmentR
 
     @Override
     public DepartmentResponse getById(SchoolData data, Integer Id, AuthenticationResponse authentication) throws Exception {
-        return super.getById(data, Id, authentication); //To change body of generated methods, choose Tools | Templates.
+
+        Departments departments = controller.findDepartment(Id, data);
+        return populateResponse(departments);
     }
 
     @Override
