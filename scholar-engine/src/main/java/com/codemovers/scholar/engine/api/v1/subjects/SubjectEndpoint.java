@@ -27,6 +27,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import static org.bouncycastle.asn1.x509.X509ObjectIdentifiers.id;
 
 /**
  *
@@ -77,7 +78,8 @@ public class SubjectEndpoint extends AbstractEndpoint<_Subject, SubjectResponse>
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public SubjectResponse archive(Integer id,
+    public SubjectResponse archive(
+            @QueryParam("id") Integer id,
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);

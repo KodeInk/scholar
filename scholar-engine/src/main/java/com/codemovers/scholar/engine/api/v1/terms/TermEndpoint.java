@@ -64,7 +64,10 @@ public class TermEndpoint extends AbstractEndpoint<_Term, TermResponse> {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public TermResponse update(_Term entity, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public TermResponse update(
+            _Term entity,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.update(tenantdata, entity, this.authentication);
     }
@@ -74,7 +77,10 @@ public class TermEndpoint extends AbstractEndpoint<_Term, TermResponse> {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public TermResponse archive(Integer id, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public TermResponse archive(
+            @QueryParam("id") Integer id,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.archive(tenantdata, id, this.authentication);
     }
