@@ -79,7 +79,9 @@ public class DepartmentsService extends AbstractService<_Department, DepartmentR
 
     @Override
     public List<DepartmentResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
-        List<Departments> departments = controller.findDepartmentsEntities(ofset, limit, data);
+        List<Departments> departments = controller.findDepartmentsEntities(limit, ofset, data);
+
+        System.out.println(" Departments Size : " + departments.size());
         List<DepartmentResponse> departmentResponses = new ArrayList<>();
         if (departments != null) {
             for (Departments department : departments) {

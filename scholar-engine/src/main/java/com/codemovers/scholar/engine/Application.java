@@ -103,6 +103,11 @@ public class Application {
                 getServlet(com.codemovers.scholar.engine.api.v1.terms.TermEndpoint.class, CORSResponseFilter.class
                 ), "/terms/v1/*");
 
+        context.addServlet(
+                getServlet(com.codemovers.scholar.engine.api.v1.departments.DepartmentsEdnpoint.class, CORSResponseFilter.class
+                ), "/departments/v1/*");
+
+
         int port = 9876;
         jettyServer = new Server(port);
 
