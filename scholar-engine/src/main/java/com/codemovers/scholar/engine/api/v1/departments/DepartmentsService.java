@@ -14,6 +14,7 @@ import com.codemovers.scholar.engine.db.controllers.DepartmentsJpaController;
 import com.codemovers.scholar.engine.db.entities.Departments;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Users;
+import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.List;
 import java.util.logging.Logger;
@@ -58,11 +59,9 @@ public class DepartmentsService extends AbstractService<_Department, DepartmentR
     public DepartmentResponse update(SchoolData data, _Department entity, AuthenticationResponse authentication) throws Exception {
 
         entity.validate();
-
         if (entity.getId() == null) {
             throw new BadRequestException("Missing Mandatory Field Id ");
         }
-
         Departments department = controller.findDepartment(entity.getId(), data);
         department = populateEntity(department, entity);
 
@@ -73,7 +72,10 @@ public class DepartmentsService extends AbstractService<_Department, DepartmentR
 
     @Override
     public DepartmentResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
-        return super.archive(data, id, authentication); //To change body of generated methods, choose Tools | Templates.
+        Departments department = controller.findDepartment(id, data);
+        department.setStatus(StatusEnum.ARCHIVED.toString());
+        controller.edit(department, data);
+        return populateResponse(department);
     }
 
     @Override
