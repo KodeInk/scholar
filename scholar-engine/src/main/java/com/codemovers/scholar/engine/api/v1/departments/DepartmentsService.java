@@ -44,7 +44,11 @@ public class DepartmentsService extends AbstractService<_Department, DepartmentR
     @Override
     public DepartmentResponse create(SchoolData data, _Department entity, AuthenticationResponse authentication) throws Exception {
         entity.validate();
-        Departments department = populateEntity(entity);
+        Departments parentDepartment = null;
+        if (entity.getParent_id() != null) {
+            parentDepartment = controller.findDepartment(entity.getParent_id(), data);
+        }
+        Departments department = populateEntity(entity, parentDepartment);
         department = controller.create(department, data);
         return populateResponse(department);
     }
