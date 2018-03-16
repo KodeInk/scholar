@@ -9,7 +9,7 @@ import java.util.Objects;
 
 /**
  *
- * @author Manny
+ * @author mover 3/16/2018
  */
 public class StaffResponse {
 
