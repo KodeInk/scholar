@@ -7,7 +7,6 @@ package com.codemovers.scholar.engine.api.v1.departments;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import com.codemovers.scholar.engine.api.v1.curriculum.CurriculumService;
 import com.codemovers.scholar.engine.api.v1.departments.entities.DepartmentResponse;
 import com.codemovers.scholar.engine.api.v1.departments.entities._Department;
 import com.codemovers.scholar.engine.db.controllers.DepartmentsJpaController;
@@ -65,7 +64,6 @@ public class DepartmentsService extends AbstractService<_Department, DepartmentR
         }
         Departments department = controller.findDepartment(entity.getId(), data);
         department = populateEntity(department, entity);
-
         controller.edit(department, data);
         return super.update(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
     }
@@ -81,16 +79,13 @@ public class DepartmentsService extends AbstractService<_Department, DepartmentR
 
     @Override
     public List<DepartmentResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
-
         List<Departments> departments = controller.findDepartmentsEntities(ofset, limit, data);
-
         List<DepartmentResponse> departmentResponses = new ArrayList<>();
         if (departments != null) {
             for (Departments department : departments) {
                 departmentResponses.add(populateResponse(department));
             }
         }
-
         return departmentResponses;
     }
 
