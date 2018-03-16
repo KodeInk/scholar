@@ -46,6 +46,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Departments.findByDateCreated", query = "SELECT d FROM Departments d WHERE d.dateCreated = :dateCreated")})
 public class Departments implements Serializable {
 
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,8 +62,11 @@ public class Departments implements Serializable {
     @Size(max = 255)
     @Column(name = "code")
     private String code;
-    @Column(name = "parent_id")
-    private BigInteger parentId;
+    @OneToMany(mappedBy = "parent")
+    private Collection<Departments> departmentsCollection;
+    @JoinColumn(name = "parent_id", referencedColumnName = "id")
+    @ManyToOne
+    private Departments parent;
 
     @Column(name = "isSystem")
     private Boolean isSystem;
@@ -165,13 +169,23 @@ public class Departments implements Serializable {
         this.code = code;
     }
 
-    public BigInteger getParentId() {
-        return parentId;
+    @XmlTransient
+    public Collection<Departments> getDepartmentsCollection() {
+        return departmentsCollection;
     }
 
-    public void setParentId(BigInteger parentId) {
-        this.parentId = parentId;
+    public void setDepartmentsCollection(Collection<Departments> departmentsCollection) {
+        this.departmentsCollection = departmentsCollection;
     }
+
+    public Departments getParent() {
+        return parent;
+    }
+
+    public void setParent(Departments parent) {
+        this.parent = parent;
+    }
+
 
     @Override
     public int hashCode() {
@@ -197,5 +211,6 @@ public class Departments implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.Departments[ id=" + id + " ]";
     }
+
 
 }

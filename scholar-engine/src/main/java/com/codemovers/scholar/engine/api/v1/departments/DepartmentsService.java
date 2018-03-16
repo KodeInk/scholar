@@ -15,6 +15,7 @@ import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Users;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -62,8 +63,15 @@ public class DepartmentsService extends AbstractService<_Department, DepartmentR
         if (entity.getId() == null) {
             throw new BadRequestException("Missing Mandatory Field Id ");
         }
+        Departments parentDepartment = null;
+        if (entity.getParent_id() != null) {
+            parentDepartment = controller.findDepartment(entity.getParent_id(), data);
+            if (parentDepartment == null) {
+                throw new BadRequestException(" Parent Department Does not exist");
+            }
+        }
         Departments department = controller.findDepartment(entity.getId(), data);
-        department = populateEntity(department, entity);
+        department = populateEntity(department, entity, parentDepartment);
         controller.edit(department, data);
         return super.update(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
     }
@@ -109,17 +117,21 @@ public class DepartmentsService extends AbstractService<_Department, DepartmentR
 
     }
 
-    public static Departments populateEntity(_Department entity) {
+    public static Departments populateEntity(_Department entity, Departments parentDepartment) {
         Departments department = new Departments();
         department.setName(entity.getName());
+        department.setCode(entity.getCode());
         department.setDescription(entity.getDescription());
         department.setIsSystem(entity.getIsSystem());
         department.setDateCreated(entity.getDate_created());
         department.setAuthor(new Users(entity.getAuthor_id().longValue()));
+        if (parentDepartment != null) {
+            department.setParent(parentDepartment);
+        }
         return department;
     }
 
-    public static Departments populateEntity(Departments department, _Department entity) throws BadRequestException {
+    public static Departments populateEntity(Departments department, _Department entity, Departments parentDepartment) throws BadRequestException {
 
         if (department == null) {
             throw new BadRequestException(" Department Does not Exist ");
@@ -127,6 +139,9 @@ public class DepartmentsService extends AbstractService<_Department, DepartmentR
 
         if (entity.getName() != null) {
             department.setName(entity.getName());
+        }
+        if (entity.getCode() != null) {
+            department.setCode(entity.getCode());
         }
         if (entity.getDescription() != null) {
             department.setDescription(entity.getDescription());
@@ -139,6 +154,10 @@ public class DepartmentsService extends AbstractService<_Department, DepartmentR
         }
         if (entity.getAuthor_id() != null) {
             department.setAuthor(new Users(entity.getAuthor_id().longValue()));
+        }
+        
+        if (entity.getParent_id() != null) {
+            department.setParent(parentDepartment);
         }
 
         return department;
