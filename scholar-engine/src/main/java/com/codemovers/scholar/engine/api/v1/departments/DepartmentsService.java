@@ -80,7 +80,6 @@ public class DepartmentsService extends AbstractService<_Department, DepartmentR
         return super.update(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
     }
 
-
     @Override
     public DepartmentResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
         Departments department = controller.findDepartment(id, data);
@@ -109,12 +108,17 @@ public class DepartmentsService extends AbstractService<_Department, DepartmentR
 
         response.setId(entity.getId().intValue());
         response.setName(entity.getName());
+        response.setCode(entity.getCode());
         response.setDescription(entity.getDescription());
         response.setIsSystem(entity.getIsSystem());
         response.setStatus(entity.getStatus());
         response.setDate_created(entity.getDateCreated().getTime());
         if (entity.getAuthor() != null) {
             response.setAuthor(entity.getAuthor().getUsername());
+        }
+
+        if (entity.getParent() != null) {
+            response.setParent(entity.getParent().getName());
         }
 
         return response;
@@ -159,13 +163,12 @@ public class DepartmentsService extends AbstractService<_Department, DepartmentR
         if (entity.getAuthor_id() != null) {
             department.setAuthor(new Users(entity.getAuthor_id().longValue()));
         }
-        
+
         if (entity.getParent_id() != null) {
             department.setParent(parentDepartment);
         }
 
         return department;
     }
-
 
 }
