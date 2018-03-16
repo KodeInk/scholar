@@ -15,11 +15,14 @@ public class DepartmentResponse {
 
     private Integer id;
     private String name;
+    private String code;
     private String description;
     private Boolean isSystem;
     private String status;
+    private String parent;
     private Long date_created;
     private String author;
+
 
     public DepartmentResponse() {
     }
@@ -80,15 +83,34 @@ public class DepartmentResponse {
         this.author = author;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getParent() {
+        return parent;
+    }
+
+    public void setParent(String parent) {
+        this.parent = parent;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 97 * hash + Objects.hashCode(this.id);
-        hash = 97 * hash + Objects.hashCode(this.name);
-        hash = 97 * hash + Objects.hashCode(this.isSystem);
-        hash = 97 * hash + Objects.hashCode(this.status);
-        hash = 97 * hash + Objects.hashCode(this.date_created);
-        hash = 97 * hash + Objects.hashCode(this.author);
+        int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.id);
+        hash = 67 * hash + Objects.hashCode(this.name);
+        hash = 67 * hash + Objects.hashCode(this.code);
+        hash = 67 * hash + Objects.hashCode(this.description);
+        hash = 67 * hash + Objects.hashCode(this.isSystem);
+        hash = 67 * hash + Objects.hashCode(this.status);
+        hash = 67 * hash + Objects.hashCode(this.parent);
+        hash = 67 * hash + Objects.hashCode(this.date_created);
+        hash = 67 * hash + Objects.hashCode(this.author);
         return hash;
     }
 
@@ -107,7 +129,16 @@ public class DepartmentResponse {
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }
+        if (!Objects.equals(this.code, other.code)) {
+            return false;
+        }
+        if (!Objects.equals(this.description, other.description)) {
+            return false;
+        }
         if (!Objects.equals(this.status, other.status)) {
+            return false;
+        }
+        if (!Objects.equals(this.parent, other.parent)) {
             return false;
         }
         if (!Objects.equals(this.author, other.author)) {
@@ -127,11 +158,15 @@ public class DepartmentResponse {
         return "DepartmentResponse{"
                 + "id=" + id
                 + ", name=" + name
+                + ", code=" + code
+                + ", description=" + description
                 + ", isSystem=" + isSystem
                 + ", status=" + status
+                + ", parent=" + parent
                 + ", date_created=" + date_created
                 + ", author=" + author
                 + '}';
     }
+
 
 }

@@ -24,11 +24,14 @@ public class _Department extends AbstractEntity {
     private @Mandatory
     String name;
     private @Mandatory
+    String code;
+    private @Mandatory
     String description;
     private @Mandatory
     Boolean isSystem;
     private @Mandatory
     StatusEnum status;
+    private Integer parent_id;
     private Date date_created;
     private Integer author_id;
 
@@ -91,15 +94,34 @@ public class _Department extends AbstractEntity {
         this.author_id = author_id;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Integer getParent_id() {
+        return parent_id;
+    }
+
+    public void setParent_id(Integer parent_id) {
+        this.parent_id = parent_id;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 41 * hash + Objects.hashCode(this.id);
-        hash = 41 * hash + Objects.hashCode(this.name);
-        hash = 41 * hash + Objects.hashCode(this.isSystem);
-        hash = 41 * hash + Objects.hashCode(this.status);
-        hash = 41 * hash + Objects.hashCode(this.date_created);
-        hash = 41 * hash + Objects.hashCode(this.author_id);
+        hash = 53 * hash + Objects.hashCode(this.id);
+        hash = 53 * hash + Objects.hashCode(this.name);
+        hash = 53 * hash + Objects.hashCode(this.code);
+        hash = 53 * hash + Objects.hashCode(this.description);
+        hash = 53 * hash + Objects.hashCode(this.isSystem);
+        hash = 53 * hash + Objects.hashCode(this.status);
+        hash = 53 * hash + Objects.hashCode(this.parent_id);
+        hash = 53 * hash + Objects.hashCode(this.date_created);
+        hash = 53 * hash + Objects.hashCode(this.author_id);
         return hash;
     }
 
@@ -118,6 +140,12 @@ public class _Department extends AbstractEntity {
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }
+        if (!Objects.equals(this.code, other.code)) {
+            return false;
+        }
+        if (!Objects.equals(this.description, other.description)) {
+            return false;
+        }
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
@@ -127,11 +155,15 @@ public class _Department extends AbstractEntity {
         if (this.status != other.status) {
             return false;
         }
+        if (!Objects.equals(this.parent_id, other.parent_id)) {
+            return false;
+        }
         if (!Objects.equals(this.date_created, other.date_created)) {
             return false;
         }
         return Objects.equals(this.author_id, other.author_id);
     }
+
 
     @Override
     public void validate() {
@@ -143,11 +175,15 @@ public class _Department extends AbstractEntity {
         return "_Department{"
                 + "id=" + id
                 + ", name=" + name
+                + ", code=" + code
+                + ", description=" + description
                 + ", isSystem=" + isSystem
                 + ", status=" + status
+                + ", parent_id=" + parent_id
                 + ", date_created=" + date_created
                 + ", author_id=" + author_id
                 + '}';
     }
+
 
 }
