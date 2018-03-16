@@ -101,6 +101,8 @@ public class DepartmentsJpaController extends EngineJpaController {
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();
+        } catch (Exception er) {
+            return null;
         } finally {
             em.close();
         }
