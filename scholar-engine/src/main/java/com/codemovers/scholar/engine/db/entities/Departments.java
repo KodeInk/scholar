@@ -6,6 +6,7 @@
 package com.codemovers.scholar.engine.db.entities;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -57,6 +58,12 @@ public class Departments implements Serializable {
     @Size(max = 500)
     @Column(name = "description")
     private String description;
+    @Size(max = 255)
+    @Column(name = "code")
+    private String code;
+    @Column(name = "parent_id")
+    private BigInteger parentId;
+
     @Column(name = "isSystem")
     private Boolean isSystem;
     @Size(max = 8)
@@ -148,6 +155,22 @@ public class Departments implements Serializable {
 
     public void setAuthor(Users author) {
         this.author = author;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public BigInteger getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(BigInteger parentId) {
+        this.parentId = parentId;
     }
 
     @Override
