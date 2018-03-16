@@ -53,8 +53,9 @@ public class Staff implements Serializable {
     private Long id;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "profile_id")
-    private long profileId;
+    @JoinColumn(name = "profile_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Profile profile;
     @Basic(optional = false)
     @NotNull
     @Column(name = "isTeacher")
@@ -87,9 +88,9 @@ public class Staff implements Serializable {
         this.id = id;
     }
 
-    public Staff(Long id, long profileId, boolean isTeacher, Date joinDate, String status, Date dateCreated) {
+    public Staff(Long id, Profile profileId, boolean isTeacher, Date joinDate, String status, Date dateCreated) {
         this.id = id;
-        this.profileId = profileId;
+        this.profile = profileId;
         this.isTeacher = isTeacher;
         this.joinDate = joinDate;
         this.status = status;
@@ -104,12 +105,12 @@ public class Staff implements Serializable {
         this.id = id;
     }
 
-    public long getProfileId() {
-        return profileId;
+    public Profile getProfile() {
+        return profile;
     }
 
-    public void setProfileId(long profileId) {
-        this.profileId = profileId;
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     public boolean getIsTeacher() {
@@ -185,5 +186,6 @@ public class Staff implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.Staff[ id=" + id + " ]";
     }
+
 
 }

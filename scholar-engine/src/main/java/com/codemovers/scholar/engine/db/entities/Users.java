@@ -50,6 +50,9 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class Users implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "authorId")
+    private Collection<Staff> staffCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -623,6 +626,15 @@ public class Users implements Serializable {
     @Override
     public String toString() {
         return "Users[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Staff> getStaffCollection() {
+        return staffCollection;
+    }
+
+    public void setStaffCollection(Collection<Staff> staffCollection) {
+        this.staffCollection = staffCollection;
     }
 
 }
