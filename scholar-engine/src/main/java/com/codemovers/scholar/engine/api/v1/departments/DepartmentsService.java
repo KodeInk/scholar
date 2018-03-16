@@ -16,6 +16,7 @@ import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Users;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -80,7 +81,17 @@ public class DepartmentsService extends AbstractService<_Department, DepartmentR
 
     @Override
     public List<DepartmentResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
-        return super.list(data, ofset, limit, authentication); //To change body of generated methods, choose Tools | Templates.
+
+        List<Departments> departments = controller.findDepartmentsEntities(ofset, limit, data);
+
+        List<DepartmentResponse> departmentResponses = new ArrayList<>();
+        if (departments != null) {
+            for (Departments department : departments) {
+                departmentResponses.add(populateResponse(department));
+            }
+        }
+
+        return departmentResponses;
     }
 
     public static DepartmentResponse populateResponse(Departments entity) {
