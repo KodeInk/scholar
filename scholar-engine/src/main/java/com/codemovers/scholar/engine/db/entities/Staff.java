@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Staff.findAll", query = "SELECT s FROM Staff s")
     , @NamedQuery(name = "Staff.findById", query = "SELECT s FROM Staff s WHERE s.id = :id")
-    , @NamedQuery(name = "Staff.findByProfileId", query = "SELECT s FROM Staff s WHERE s.profileId = :profileId")
+    , @NamedQuery(name = "Staff.findByProfile", query = "SELECT s FROM Staff s WHERE s.profile.id = :profileId")
     , @NamedQuery(name = "Staff.findByIsTeacher", query = "SELECT s FROM Staff s WHERE s.isTeacher = :isTeacher")
     , @NamedQuery(name = "Staff.findByJoinDate", query = "SELECT s FROM Staff s WHERE s.joinDate = :joinDate")
     , @NamedQuery(name = "Staff.findByStatus", query = "SELECT s FROM Staff s WHERE s.status = :status")
@@ -88,9 +88,9 @@ public class Staff implements Serializable {
         this.id = id;
     }
 
-    public Staff(Long id, Profile profileId, boolean isTeacher, Date joinDate, String status, Date dateCreated) {
+    public Staff(Long id, Profile profile, boolean isTeacher, Date joinDate, String status, Date dateCreated) {
         this.id = id;
-        this.profile = profileId;
+        this.profile = profile;
         this.isTeacher = isTeacher;
         this.joinDate = joinDate;
         this.status = status;
