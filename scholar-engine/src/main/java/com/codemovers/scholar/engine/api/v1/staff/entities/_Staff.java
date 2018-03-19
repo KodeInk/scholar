@@ -32,6 +32,7 @@ public class _Staff extends AbstractEntity {
     private StatusEnum status;
     private Long date_created;
     private Integer author_id;
+    private Date joinDate;
 
     public _Staff() {
     }
@@ -115,6 +116,15 @@ public class _Staff extends AbstractEntity {
     public void setAuthor_id(Integer author_id) {
         this.author_id = author_id;
     }
+
+    public Date getJoinDate() {
+        return joinDate;
+    }
+
+    public void setJoinDate(Date joinDate) {
+        this.joinDate = joinDate;
+    }
+
 
     @Override
     public int hashCode() {

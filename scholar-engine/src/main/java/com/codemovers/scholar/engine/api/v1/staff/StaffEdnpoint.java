@@ -35,6 +35,7 @@ import javax.ws.rs.core.MediaType;
  *
  * @author mover 3/16/2018
  */
+@Path("/")
 public class StaffEdnpoint extends AbstractEndpoint<_Staff, StaffResponse> {
 
     private static final Logger LOG = Logger.getLogger(StaffEdnpoint.class.getName());
@@ -128,8 +129,14 @@ public class StaffEdnpoint extends AbstractEndpoint<_Staff, StaffResponse> {
 
     }
 
+    @POST
+    @Path("/archive/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public StaffResponse archive(Integer id, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public StaffResponse archive(@QueryParam("id") Integer id,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest) throws Exception {
         return super.archive(id, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 }

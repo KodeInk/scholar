@@ -6,11 +6,10 @@
 package com.codemovers.scholar.engine.api.v1.profile;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
+import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.profile.entities.ProfileResponse;
 import com.codemovers.scholar.engine.api.v1.profile.entities._Profile;
-import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.controllers.ProfileJpaController;
-import com.codemovers.scholar.engine.db.controllers.UsersJpaController;
 import com.codemovers.scholar.engine.db.entities.Profile;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Users;
@@ -42,7 +41,7 @@ public class ProfileService extends AbstractService<_Profile, ProfileResponse> {
     }
 
     @Override
-    public ProfileResponse create(SchoolData data, _Profile entity) throws Exception {
+    public ProfileResponse create(SchoolData data, _Profile entity, AuthenticationResponse authenticationResponse) throws Exception {
 
         try {
             entity.validate();
@@ -89,7 +88,14 @@ public class ProfileService extends AbstractService<_Profile, ProfileResponse> {
     }
 
     public ProfileResponse populateResponse(Profile entity) {
-        return null;
+        ProfileResponse pr = new ProfileResponse();
+        pr.setId(entity.getId().intValue());
+        pr.setFirstName(entity.getFirstName());
+        pr.setLastName(entity.getLastName());
+        pr.setMiddleName(entity.getMiddleName());
+        pr.setDateOfBirth(entity.getDateOfBirth().toString());
+
+        return pr;
     }
 
 }
