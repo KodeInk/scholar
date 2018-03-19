@@ -32,7 +32,7 @@ import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author mover 12/20/2017
+ * @author mover 12/20/2017 tst
  */
 @Path("/")
 public class StudyYearEndpoint extends AbstractEndpoint<_StudyYear, StudyYearResponse> {
