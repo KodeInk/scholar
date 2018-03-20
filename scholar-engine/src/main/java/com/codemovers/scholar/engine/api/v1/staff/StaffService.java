@@ -74,6 +74,9 @@ public class StaffService extends AbstractService<_Staff, StaffResponse> {
     @Override
     public StaffResponse getById(SchoolData data, Integer Id, AuthenticationResponse authentication) throws Exception {
         Staff staff = controller.findStaff(Id, data);
+        if (staff == null) {
+            throw new BadRequestException("Staff does not exist");
+        }
         return populateResponse(staff);
     }
 
