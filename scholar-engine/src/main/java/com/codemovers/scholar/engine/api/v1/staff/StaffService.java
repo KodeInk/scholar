@@ -46,16 +46,10 @@ public class StaffService extends AbstractService<_Staff, StaffResponse> {
     @Override
     public StaffResponse create(SchoolData data, _Staff entity, AuthenticationResponse authentication) throws Exception {
         entity.validate();
-
         ProfileResponse profileResponse = ProfileService.getInstance().create(data, entity.getProfile(), authentication);
-        Profile p = new Profile();
-        p.setId(profileResponse.getId().longValue());
-        //todo: create Staff
-
-        Staff staff = getStaff(p, entity, authentication);
-
+        Profile profile = ProfileService.getInstance().populateResponse(profileResponse);
+        Staff staff = getStaff(profile, entity, authentication);
         staff = controller.create(staff, data);
-
         return populateResponse(staff);
     }
 
@@ -95,9 +89,9 @@ public class StaffService extends AbstractService<_Staff, StaffResponse> {
         return staffResponse;
     }
 
-    public Staff getStaff(Profile p, _Staff entity, AuthenticationResponse authentication) {
+    public Staff getStaff(Profile profile, _Staff entity, AuthenticationResponse authentication) {
         Staff staff = new Staff();
-        staff.setProfile(p);
+        staff.setProfile(profile);
         staff.setJoinDate(entity.getJoinDate());
         staff.setStatus(entity.getStatus().toString());
         staff.setDateCreated(new Date(entity.getDate_created()));
