@@ -16,6 +16,9 @@ import com.codemovers.scholar.engine.db.entities.Profile;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Staff;
 import com.codemovers.scholar.engine.db.entities.Users;
+import com.codemovers.scholar.engine.helper.enums.StatusEnum;
+import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -58,17 +61,35 @@ public class StaffService extends AbstractService<_Staff, StaffResponse> {
 
     @Override
     public StaffResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
-        return super.archive(data, id, authentication); //To change body of generated methods, choose Tools | Templates.
+        Staff staff = controller.findStaff(id, data);
+        if (staff == null) {
+            throw new BadRequestException("Staff does not exist");
+        }
+        staff.setStatus(StatusEnum.ARCHIVED.toString());
+        staff = controller.edit(staff, data);
+
+        return populateResponse(staff);
     }
 
     @Override
     public StaffResponse getById(SchoolData data, Integer Id, AuthenticationResponse authentication) throws Exception {
-        return super.getById(data, Id, authentication); //To change body of generated methods, choose Tools | Templates.
+        Staff staff = controller.findStaff(Id, data);
+        return populateResponse(staff);
     }
 
     @Override
     public List<StaffResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
-        return super.list(data, ofset, limit, authentication); //To change body of generated methods, choose Tools | Templates.
+
+        List<Staff> staff = controller.findStaffEntities(ofset, limit, data);
+
+        List<StaffResponse> staffResponses = new ArrayList<>();
+        if (staff != null) {
+            for (Staff staff1 : staff) {
+                StaffResponse staffResponse = populateResponse(staff1);
+                staffResponses.add(staffResponse);
+            }
+        }
+        return staffResponses;
     }
 
     public StaffResponse populateResponse(Staff entity) {

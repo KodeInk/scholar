@@ -57,7 +57,7 @@ public class StaffJpaController extends EngineJpaController {
 
     }
 
-    public void edit(Staff staff, SchoolData data) throws Exception {
+    public Staff edit(Staff staff, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
             em = getEntityManager(data.getExternalId());
@@ -78,6 +78,7 @@ public class StaffJpaController extends EngineJpaController {
                 em.close();
             }
         }
+        return staff;
     }
 
     public Staff findStaff(Integer id, SchoolData data) {
