@@ -7,6 +7,7 @@ package com.codemovers.scholar.engine.api.v1.staff.entities;
 
 import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
+import com.codemovers.scholar.engine.api.v1.profile.entities._Profile;
 import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -22,17 +23,12 @@ public class _Staff extends AbstractEntity {
 
     private Integer id;
     private @Mandatory
-    String firstname;
-    private String middlename;
+    _Profile profile;
     private @Mandatory
-    String lastname;
-    private String prefix;
-    private Date dateofbirth;
-    private String image;
+    Date joinDate;
     private StatusEnum status;
     private Long date_created;
     private Integer author_id;
-    private Date joinDate;
 
     public _Staff() {
     }
@@ -45,52 +41,20 @@ public class _Staff extends AbstractEntity {
         this.id = id;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public _Profile getProfile() {
+        return profile;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setProfile(_Profile profile) {
+        this.profile = profile;
     }
 
-    public String getMiddlename() {
-        return middlename;
+    public Date getJoinDate() {
+        return joinDate;
     }
 
-    public void setMiddlename(String middlename) {
-        this.middlename = middlename;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
-    }
-
-    public Date getDateofbirth() {
-        return dateofbirth;
-    }
-
-    public void setDateofbirth(Date dateofbirth) {
-        this.dateofbirth = dateofbirth;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
+    public void setJoinDate(Date joinDate) {
+        this.joinDate = joinDate;
     }
 
     public StatusEnum getStatus() {
@@ -117,28 +81,15 @@ public class _Staff extends AbstractEntity {
         this.author_id = author_id;
     }
 
-    public Date getJoinDate() {
-        return joinDate;
-    }
-
-    public void setJoinDate(Date joinDate) {
-        this.joinDate = joinDate;
-    }
-
-
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 71 * hash + Objects.hashCode(this.id);
-        hash = 71 * hash + Objects.hashCode(this.firstname);
-        hash = 71 * hash + Objects.hashCode(this.middlename);
-        hash = 71 * hash + Objects.hashCode(this.lastname);
-        hash = 71 * hash + Objects.hashCode(this.prefix);
-        hash = 71 * hash + Objects.hashCode(this.dateofbirth);
-        hash = 71 * hash + Objects.hashCode(this.image);
-        hash = 71 * hash + Objects.hashCode(this.status);
-        hash = 71 * hash + Objects.hashCode(this.date_created);
-        hash = 71 * hash + Objects.hashCode(this.author_id);
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.id);
+        hash = 79 * hash + Objects.hashCode(this.profile);
+        hash = 79 * hash + Objects.hashCode(this.joinDate);
+        hash = 79 * hash + Objects.hashCode(this.status);
+        hash = 79 * hash + Objects.hashCode(this.date_created);
+        hash = 79 * hash + Objects.hashCode(this.author_id);
         return hash;
     }
 
@@ -154,25 +105,13 @@ public class _Staff extends AbstractEntity {
             return false;
         }
         final _Staff other = (_Staff) obj;
-        if (!Objects.equals(this.firstname, other.firstname)) {
-            return false;
-        }
-        if (!Objects.equals(this.middlename, other.middlename)) {
-            return false;
-        }
-        if (!Objects.equals(this.lastname, other.lastname)) {
-            return false;
-        }
-        if (!Objects.equals(this.prefix, other.prefix)) {
-            return false;
-        }
-        if (!Objects.equals(this.image, other.image)) {
-            return false;
-        }
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.dateofbirth, other.dateofbirth)) {
+        if (!Objects.equals(this.profile, other.profile)) {
+            return false;
+        }
+        if (!Objects.equals(this.joinDate, other.joinDate)) {
             return false;
         }
         if (this.status != other.status) {
@@ -187,24 +126,18 @@ public class _Staff extends AbstractEntity {
     @Override
     public void validate() {
         validateMandatoryFields(this.getClass(), this);
-
     }
 
     @Override
     public String toString() {
         return "_Staff{"
                 + "id=" + id
-                + ", firstname=" + firstname
-                + ", middlename=" + middlename
-                + ", lastname=" + lastname
-                + ", prefix=" + prefix
-                + ", dateofbirth=" + dateofbirth
-                + ", image=" + image
+                + ", profile=" + profile
+                + ", joinDate=" + joinDate
                 + ", status=" + status
                 + ", date_created=" + date_created
                 + ", author_id=" + author_id
                 + '}';
     }
-
 
 }

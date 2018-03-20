@@ -5,6 +5,8 @@
  */
 package com.codemovers.scholar.engine.api.v1.staff.entities;
 
+import com.codemovers.scholar.engine.api.v1.profile.entities.ProfileResponse;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -14,12 +16,8 @@ import java.util.Objects;
 public class StaffResponse {
 
     private Integer id;
-    private String firstname;
-    private String middlename;
-    private String lastname;
-    private String prefix;
-    private Long dateofbirth;
-    private String image;
+    private ProfileResponse profile;
+    private Date joinDate;
     private String status;
     private Long date_created;
     private String author;
@@ -35,52 +33,20 @@ public class StaffResponse {
         this.id = id;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public ProfileResponse getProfile() {
+        return profile;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setProfile(ProfileResponse profile) {
+        this.profile = profile;
     }
 
-    public String getMiddlename() {
-        return middlename;
+    public Date getJoinDate() {
+        return joinDate;
     }
 
-    public void setMiddlename(String middlename) {
-        this.middlename = middlename;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
-    }
-
-    public Long getDateofbirth() {
-        return dateofbirth;
-    }
-
-    public void setDateofbirth(Long dateofbirth) {
-        this.dateofbirth = dateofbirth;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
+    public void setJoinDate(Date joinDate) {
+        this.joinDate = joinDate;
     }
 
     public String getStatus() {
@@ -110,16 +76,12 @@ public class StaffResponse {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.id);
-        hash = 97 * hash + Objects.hashCode(this.firstname);
-        hash = 97 * hash + Objects.hashCode(this.middlename);
-        hash = 97 * hash + Objects.hashCode(this.lastname);
-        hash = 97 * hash + Objects.hashCode(this.prefix);
-        hash = 97 * hash + Objects.hashCode(this.dateofbirth);
-        hash = 97 * hash + Objects.hashCode(this.image);
-        hash = 97 * hash + Objects.hashCode(this.status);
-        hash = 97 * hash + Objects.hashCode(this.date_created);
-        hash = 97 * hash + Objects.hashCode(this.author);
+        hash = 89 * hash + Objects.hashCode(this.id);
+        hash = 89 * hash + Objects.hashCode(this.profile);
+        hash = 89 * hash + Objects.hashCode(this.joinDate);
+        hash = 89 * hash + Objects.hashCode(this.status);
+        hash = 89 * hash + Objects.hashCode(this.date_created);
+        hash = 89 * hash + Objects.hashCode(this.author);
         return hash;
     }
 
@@ -135,21 +97,6 @@ public class StaffResponse {
             return false;
         }
         final StaffResponse other = (StaffResponse) obj;
-        if (!Objects.equals(this.firstname, other.firstname)) {
-            return false;
-        }
-        if (!Objects.equals(this.middlename, other.middlename)) {
-            return false;
-        }
-        if (!Objects.equals(this.lastname, other.lastname)) {
-            return false;
-        }
-        if (!Objects.equals(this.prefix, other.prefix)) {
-            return false;
-        }
-        if (!Objects.equals(this.image, other.image)) {
-            return false;
-        }
         if (!Objects.equals(this.status, other.status)) {
             return false;
         }
@@ -159,7 +106,10 @@ public class StaffResponse {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.dateofbirth, other.dateofbirth)) {
+        if (!Objects.equals(this.profile, other.profile)) {
+            return false;
+        }
+        if (!Objects.equals(this.joinDate, other.joinDate)) {
             return false;
         }
         return Objects.equals(this.date_created, other.date_created);
@@ -169,17 +119,12 @@ public class StaffResponse {
     public String toString() {
         return "StaffResponse{"
                 + "id=" + id
-                + ", firstname=" + firstname
-                + ", middlename=" + middlename
-                + ", lastname=" + lastname
-                + ", prefix=" + prefix
-                + ", dateofbirth=" + dateofbirth
-                + ", image=" + image
+                + ", profile=" + profile
+                + ", joinDate=" + joinDate
                 + ", status=" + status
                 + ", date_created=" + date_created
                 + ", author=" + author
                 + '}';
     }
-
 
 }
