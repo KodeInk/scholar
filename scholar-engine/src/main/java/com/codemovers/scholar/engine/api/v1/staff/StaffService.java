@@ -47,8 +47,7 @@ public class StaffService extends AbstractService<_Staff, StaffResponse> {
     public StaffResponse create(SchoolData data, _Staff entity, AuthenticationResponse authentication) throws Exception {
         entity.validate();
 
-        _Profile profile = getProfile(entity);
-        ProfileResponse profileResponse = ProfileService.getInstance().create(data, profile, authentication);
+        ProfileResponse profileResponse = ProfileService.getInstance().create(data, entity.getProfile(), authentication);
         Profile p = new Profile();
         p.setId(profileResponse.getId().longValue());
         //todo: create Staff
@@ -56,8 +55,9 @@ public class StaffService extends AbstractService<_Staff, StaffResponse> {
         Staff staff = getStaff(p, entity, authentication);
 
         staff = controller.create(staff, data);
-    }
 
+        return populateResponse(staff);
+    }
 
     @Override
     public StaffResponse update(SchoolData data, _Staff entity, AuthenticationResponse authentication) throws Exception {
@@ -82,24 +82,17 @@ public class StaffService extends AbstractService<_Staff, StaffResponse> {
     public StaffResponse populateResponse(Staff entity) {
         StaffResponse staffResponse = new StaffResponse();
         if (entity.getProfile() != null) {
-            staffResponse.setFirstname(entity.getProfile().getFirstName());
+            staffResponse.setProfile(ProfileService.getInstance().populateResponse(entity.getProfile()));
         }
 
+        staffResponse.setJoinDate(entity.getJoinDate().getTime());
+        staffResponse.setStatus(entity.getStatus());
+        staffResponse.setDate_created(entity.getDateCreated().getTime());
+        if (entity.getAuthor() != null) {
+            staffResponse.setAuthor(entity.getAuthor().getUsername());
+        }
 
         return staffResponse;
-    }
-
-    public static _Profile getProfile(_Staff entity) {
-        //todo : create new profile
-        _Profile profile = new _Profile();
-        profile.setFirstName(entity.getFirstname());
-        profile.setLastName(entity.getLastname());
-        profile.setMiddleName(entity.getMiddlename());
-        profile.setPrefix(entity.getPrefix());
-        profile.setDateOfBirth(entity.getDateofbirth());
-        profile.setImage(entity.getImage());
-        profile.setStatus(StatusEnum.ACTIVE);
-        return profile;
     }
 
     public Staff getStaff(Profile p, _Staff entity, AuthenticationResponse authentication) {
@@ -108,7 +101,7 @@ public class StaffService extends AbstractService<_Staff, StaffResponse> {
         staff.setJoinDate(entity.getJoinDate());
         staff.setStatus(entity.getStatus().toString());
         staff.setDateCreated(new Date(entity.getDate_created()));
-        staff.setAuthorId(new Users(authentication.getId().longValue()));
+        staff.setAuthor(new Users(authentication.getId().longValue()));
         return staff;
     }
 

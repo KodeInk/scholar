@@ -13,6 +13,7 @@ import com.codemovers.scholar.engine.db.controllers.ProfileJpaController;
 import com.codemovers.scholar.engine.db.entities.Profile;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Users;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -85,6 +86,17 @@ public class ProfileService extends AbstractService<_Profile, ProfileResponse> {
             LOG.log(Level.INFO, "Error Saving the profile information {0} ", er.getMessage());
             return null;
         }
+    }
+
+    public Profile populateResponse(ProfileResponse entity) {
+        Profile profile = new Profile();
+        profile.setId(entity.getId().longValue());
+        profile.setFirstName(entity.getFirstName());
+        profile.setLastName(entity.getLastName());
+        profile.setMiddleName(entity.getMiddleName());
+        profile.setDateCreated(new Date(entity.getDateCreated()));
+        profile.setDateOfBirth(new Date(entity.getDateOfBirth()));
+        return profile;
     }
 
     public ProfileResponse populateResponse(Profile entity) {

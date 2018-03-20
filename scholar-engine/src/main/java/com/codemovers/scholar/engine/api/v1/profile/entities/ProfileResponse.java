@@ -25,7 +25,7 @@ public class ProfileResponse {
     private ProfileTypesEnum profileType;
     private Integer parentId;
     private StatusEnum status;
-    private Date dateCreated;
+    private Long dateCreated;
     private Integer authorId;
 
     public ProfileResponse() {
@@ -111,11 +111,11 @@ public class ProfileResponse {
         this.status = status;
     }
 
-    public Date getDateCreated() {
+    public Long getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(Long dateCreated) {
         this.dateCreated = dateCreated;
     }
 

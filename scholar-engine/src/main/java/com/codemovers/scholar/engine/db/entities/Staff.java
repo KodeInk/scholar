@@ -79,7 +79,7 @@ public class Staff implements Serializable {
     private Collection<StaffDepartment> staffDepartmentCollection;
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Users authorId;
+    private Users author;
 
     public Staff() {
     }
@@ -154,12 +154,12 @@ public class Staff implements Serializable {
         this.staffDepartmentCollection = staffDepartmentCollection;
     }
 
-    public Users getAuthorId() {
-        return authorId;
+    public Users getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(Users authorId) {
-        this.authorId = authorId;
+    public void setAuthor(Users author) {
+        this.author = author;
     }
 
     @Override

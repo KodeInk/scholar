@@ -50,7 +50,7 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class Users implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "authorId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
     private Collection<Staff> staffCollection;
 
     private static final long serialVersionUID = 1L;
