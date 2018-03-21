@@ -83,7 +83,7 @@ public class StaffService extends AbstractService<_Staff, StaffResponse> {
     @Override
     public List<StaffResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
 
-        List<Staff> staff = controller.findStaffEntities(ofset, limit, data);
+        List<Staff> staff = controller.findStaffEntities(limit, ofset, data);
 
         List<StaffResponse> staffResponses = new ArrayList<>();
         if (staff != null) {
@@ -97,6 +97,7 @@ public class StaffService extends AbstractService<_Staff, StaffResponse> {
 
     public StaffResponse populateResponse(Staff entity) {
         StaffResponse staffResponse = new StaffResponse();
+        staffResponse.setId(entity.getId().intValue());
         if (entity.getProfile() != null) {
             staffResponse.setProfile(ProfileService.getInstance().populateResponse(entity.getProfile()));
         }
