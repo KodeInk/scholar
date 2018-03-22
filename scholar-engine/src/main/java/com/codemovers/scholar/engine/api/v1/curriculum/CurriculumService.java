@@ -65,7 +65,6 @@ public class CurriculumService extends AbstractService<_Curriculum, CurriculumRe
         return populateResponse(curriculum);
     }
 
-
     @Override
     public CurriculumResponse update(SchoolData data, _Curriculum entity) throws Exception {
         check_access(UPDATE_CURRICULUM_PERMISSION);

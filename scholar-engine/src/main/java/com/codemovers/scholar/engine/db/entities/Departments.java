@@ -46,7 +46,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Departments.findByDateCreated", query = "SELECT d FROM Departments d WHERE d.dateCreated = :dateCreated")})
 public class Departments implements Serializable {
 
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -186,7 +185,6 @@ public class Departments implements Serializable {
         this.parent = parent;
     }
 
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -211,6 +209,5 @@ public class Departments implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.Departments[ id=" + id + " ]";
     }
-
 
 }

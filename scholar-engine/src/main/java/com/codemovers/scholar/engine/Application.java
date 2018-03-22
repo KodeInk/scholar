@@ -111,8 +111,6 @@ public class Application {
                 getServlet(com.codemovers.scholar.engine.api.v1.staff.StaffEdnpoint.class, CORSResponseFilter.class
                 ), "/staff/v1/*");
 
-
-
         int port = 9876;
         jettyServer = new Server(port);
 

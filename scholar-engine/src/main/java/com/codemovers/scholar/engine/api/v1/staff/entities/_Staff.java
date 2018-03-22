@@ -29,6 +29,8 @@ public class _Staff extends AbstractEntity {
     private StatusEnum status;
     private Long date_created;
     private Integer author_id;
+    private @Mandatory
+    Boolean isTeacher;
 
     public _Staff() {
     }
@@ -81,15 +83,24 @@ public class _Staff extends AbstractEntity {
         this.author_id = author_id;
     }
 
+    public Boolean getIsTeacher() {
+        return isTeacher;
+    }
+
+    public void setIsTeacher(Boolean isTeacher) {
+        this.isTeacher = isTeacher;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 79 * hash + Objects.hashCode(this.id);
-        hash = 79 * hash + Objects.hashCode(this.profile);
-        hash = 79 * hash + Objects.hashCode(this.joinDate);
-        hash = 79 * hash + Objects.hashCode(this.status);
-        hash = 79 * hash + Objects.hashCode(this.date_created);
-        hash = 79 * hash + Objects.hashCode(this.author_id);
+        hash = 23 * hash + Objects.hashCode(this.id);
+        hash = 23 * hash + Objects.hashCode(this.profile);
+        hash = 23 * hash + Objects.hashCode(this.joinDate);
+        hash = 23 * hash + Objects.hashCode(this.status);
+        hash = 23 * hash + Objects.hashCode(this.date_created);
+        hash = 23 * hash + Objects.hashCode(this.author_id);
+        hash = 23 * hash + Objects.hashCode(this.isTeacher);
         return hash;
     }
 
@@ -120,8 +131,13 @@ public class _Staff extends AbstractEntity {
         if (!Objects.equals(this.date_created, other.date_created)) {
             return false;
         }
-        return Objects.equals(this.author_id, other.author_id);
+        if (!Objects.equals(this.author_id, other.author_id)) {
+            return false;
+        }
+        return Objects.equals(this.isTeacher, other.isTeacher);
     }
+
+
 
     @Override
     public void validate() {
@@ -134,6 +150,7 @@ public class _Staff extends AbstractEntity {
                 + "id=" + id
                 + ", profile=" + profile
                 + ", joinDate=" + joinDate
+                + ", isTeacher=" + isTeacher
                 + ", status=" + status
                 + ", date_created=" + date_created
                 + ", author_id=" + author_id

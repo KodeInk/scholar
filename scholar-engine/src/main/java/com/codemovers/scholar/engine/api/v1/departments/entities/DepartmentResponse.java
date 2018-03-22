@@ -23,7 +23,6 @@ public class DepartmentResponse {
     private Long date_created;
     private String author;
 
-
     public DepartmentResponse() {
     }
 
@@ -167,6 +166,5 @@ public class DepartmentResponse {
                 + ", author=" + author
                 + '}';
     }
-
 
 }

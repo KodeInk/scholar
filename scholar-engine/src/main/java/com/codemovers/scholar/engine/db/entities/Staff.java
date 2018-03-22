@@ -187,5 +187,4 @@ public class Staff implements Serializable {
         return "com.codemovers.scholar.engine.db.entities.Staff[ id=" + id + " ]";
     }
 
-
 }

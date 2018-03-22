@@ -88,8 +88,6 @@ public class DepartmentsJpaController extends EngineJpaController {
         }
     }
 
-
-
     private List<Departments> findDepartmentsEntities(boolean all, int maxResults, int firstResult, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {

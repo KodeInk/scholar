@@ -46,6 +46,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "StudentAdmission.findByDateCreated", query = "SELECT s FROM StudentAdmission s WHERE s.dateCreated = :dateCreated")})
 public class StudentAdmission implements Serializable {
 
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -93,6 +94,10 @@ public class StudentAdmission implements Serializable {
     private Users author;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "Student_Admission")
     private Collection<StudentTermRegistration> studentTermRegistrationCollection;
+
+    @JoinColumn(name = "profile_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Profile profile;
 
     public StudentAdmission() {
     }
@@ -208,6 +213,15 @@ public class StudentAdmission implements Serializable {
         this.studentTermRegistrationCollection = studentTermRegistrationCollection;
     }
 
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
+
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -232,5 +246,6 @@ public class StudentAdmission implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.StudentAdmission[ id=" + id + " ]";
     }
+
 
 }
