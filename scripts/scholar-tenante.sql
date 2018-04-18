@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `classes` (
   CONSTRAINT `FK_classes_users` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Classes';
 
--- Dumping data for table 123456789.classes: ~0 rows (approximately)
+-- Dumping data for table 123456789.classes: ~1 rows (approximately)
 DELETE FROM `classes`;
 /*!40000 ALTER TABLE `classes` DISABLE KEYS */;
 INSERT INTO `classes` (`id`, `name`, `code`, `ranking`, `status`, `date_created`, `author_id`) VALUES
@@ -167,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `curriculum` (
   CONSTRAINT `FK_curriculum_users` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Curriculum';
 
--- Dumping data for table 123456789.curriculum: ~0 rows (approximately)
+-- Dumping data for table 123456789.curriculum: ~1 rows (approximately)
 DELETE FROM `curriculum`;
 /*!40000 ALTER TABLE `curriculum` DISABLE KEYS */;
 INSERT INTO `curriculum` (`id`, `name`, `code`, `description`, `status`, `date_created`, `author_id`) VALUES
@@ -215,7 +215,7 @@ CREATE TABLE IF NOT EXISTS `departments` (
   CONSTRAINT `FK_departments_users` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Manage Department';
 
--- Dumping data for table 123456789.departments: ~0 rows (approximately)
+-- Dumping data for table 123456789.departments: ~1 rows (approximately)
 DELETE FROM `departments`;
 /*!40000 ALTER TABLE `departments` DISABLE KEYS */;
 INSERT INTO `departments` (`id`, `name`, `code`, `description`, `isSystem`, `status`, `parent_id`, `date_created`, `author_id`) VALUES
@@ -326,7 +326,7 @@ CREATE TABLE IF NOT EXISTS `grading` (
   CONSTRAINT `FK_grading_users` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Grading';
 
--- Dumping data for table 123456789.grading: ~0 rows (approximately)
+-- Dumping data for table 123456789.grading: ~1 rows (approximately)
 DELETE FROM `grading`;
 /*!40000 ALTER TABLE `grading` DISABLE KEYS */;
 INSERT INTO `grading` (`id`, `name`, `code`, `description`, `status`, `date_created`, `author_id`) VALUES
@@ -485,7 +485,7 @@ CREATE TABLE IF NOT EXISTS `permissions` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table 123456789.permissions: ~0 rows (approximately)
+-- Dumping data for table 123456789.permissions: ~1 rows (approximately)
 DELETE FROM `permissions`;
 /*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
 INSERT INTO `permissions` (`id`, `name`, `code`) VALUES
@@ -511,7 +511,7 @@ CREATE TABLE IF NOT EXISTS `profile` (
   CONSTRAINT `FK_profile_users` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Person Details';
 
--- Dumping data for table 123456789.profile: ~0 rows (approximately)
+-- Dumping data for table 123456789.profile: ~1 rows (approximately)
 DELETE FROM `profile`;
 /*!40000 ALTER TABLE `profile` DISABLE KEYS */;
 INSERT INTO `profile` (`id`, `first_name`, `middle_name`, `last_name`, `prefix`, `date_of_birth`, `image`, `parent_type`, `parent_id`, `status`, `date_created`, `author_id`) VALUES
@@ -532,7 +532,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
   CONSTRAINT `FK_roles_users` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Manage Roles';
 
--- Dumping data for table 123456789.roles: ~0 rows (approximately)
+-- Dumping data for table 123456789.roles: ~1 rows (approximately)
 DELETE FROM `roles`;
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
 INSERT INTO `roles` (`id`, `name`, `code`, `description`, `isSystem`, `date_created`, `author_id`) VALUES
@@ -549,7 +549,7 @@ CREATE TABLE IF NOT EXISTS `role_permission` (
   CONSTRAINT `FK_role_permission_roles` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table 123456789.role_permission: ~0 rows (approximately)
+-- Dumping data for table 123456789.role_permission: ~1 rows (approximately)
 DELETE FROM `role_permission`;
 /*!40000 ALTER TABLE `role_permission` DISABLE KEYS */;
 INSERT INTO `role_permission` (`role_id`, `permission_id`) VALUES
@@ -572,7 +572,7 @@ CREATE TABLE IF NOT EXISTS `staff` (
   CONSTRAINT `FK_staff_users` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Staff';
 
--- Dumping data for table 123456789.staff: ~0 rows (approximately)
+-- Dumping data for table 123456789.staff: ~1 rows (approximately)
 DELETE FROM `staff`;
 /*!40000 ALTER TABLE `staff` DISABLE KEYS */;
 INSERT INTO `staff` (`id`, `profile_id`, `isTeacher`, `join_date`, `status`, `date_created`, `author_id`) VALUES
@@ -938,7 +938,7 @@ CREATE TABLE IF NOT EXISTS `terms` (
   CONSTRAINT `FK_terms_users` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table 123456789.terms: ~0 rows (approximately)
+-- Dumping data for table 123456789.terms: ~1 rows (approximately)
 DELETE FROM `terms`;
 /*!40000 ALTER TABLE `terms` DISABLE KEYS */;
 INSERT INTO `terms` (`id`, `study_year_id`, `name`, `start_date`, `end_date`, `ranking`, `status`, `author_id`, `date_created`) VALUES
@@ -981,7 +981,7 @@ CREATE TABLE IF NOT EXISTS `user_profile` (
   CONSTRAINT `FK_user_profile_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Merges User to a Given Profile';
 
--- Dumping data for table 123456789.user_profile: ~0 rows (approximately)
+-- Dumping data for table 123456789.user_profile: ~1 rows (approximately)
 DELETE FROM `user_profile`;
 /*!40000 ALTER TABLE `user_profile` DISABLE KEYS */;
 INSERT INTO `user_profile` (`id`, `user_id`, `profile_id`) VALUES
