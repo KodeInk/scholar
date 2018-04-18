@@ -28,7 +28,7 @@ public class User extends AbstractEntity {
     private String emailaddress;
     private StatusEnum status;
     private String externalid;
-    private String date_created;
+    private Long date_created;
     private @Mandatory
     String[] roles;
 
@@ -87,11 +87,11 @@ public class User extends AbstractEntity {
         this.externalid = externalid;
     }
 
-    public String getDate_created() {
+    public Long getDate_created() {
         return date_created;
     }
 
-    public void setDate_created(String date_created) {
+    public void setDate_created(Long date_created) {
         this.date_created = date_created;
     }
 
