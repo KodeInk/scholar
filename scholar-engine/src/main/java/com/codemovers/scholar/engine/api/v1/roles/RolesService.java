@@ -104,8 +104,8 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
     @Override
     public List<RoleResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
 
-        //todo:  make sure the user has permissions to make this function 
-        List<Roles> list = controller.findRoles(limit, ofset, data);
+        //todo:  make sure the user has permissions to make this function
+        List<Roles> list = (limit == 0 && ofset == 0) ? controller.findRoles(data) : controller.findRoles(limit, ofset, data);
         List<RoleResponse> roleResponses = new ArrayList();
         if (list != null) {
             for (Roles r : list) {

@@ -16,14 +16,14 @@ import java.util.Objects;
  * @author mover
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class _login extends AbstractEntity {
+public class Login extends AbstractEntity {
 
     private @Mandatory
     String username;
     private @Mandatory
     String password;
 
-    public _login() {
+    public Login() {
     }
 
     public String getUsername() {
@@ -61,7 +61,7 @@ public class _login extends AbstractEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final _login other = (_login) obj;
+        final Login other = (Login) obj;
         if (!Objects.equals(this.username, other.username)) {
             return false;
         }

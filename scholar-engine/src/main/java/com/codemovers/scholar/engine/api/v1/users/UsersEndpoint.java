@@ -7,9 +7,9 @@ package com.codemovers.scholar.engine.api.v1.users;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEndpoint;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import com.codemovers.scholar.engine.api.v1.users.entities._login;
+import com.codemovers.scholar.engine.api.v1.users.entities.Login;
 import com.codemovers.scholar.engine.api.v1.users.entities.UserResponse;
-import com.codemovers.scholar.engine.api.v1.users.entities._User;
+import com.codemovers.scholar.engine.api.v1.users.entities.User;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
@@ -37,7 +37,7 @@ import javax.ws.rs.core.Response;
  * @author mover 12/6/2017
  */
 @Path("/")
-public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
+public class UsersEndpoint extends AbstractEndpoint<User, UserResponse> {
 
     private static final Logger LOG = Logger.getLogger(UsersEndpoint.class.getName());
     @Context
@@ -60,7 +60,7 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public UserResponse create(_User entity,
+    public UserResponse create(User entity,
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
@@ -75,7 +75,7 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
     @Consumes(MediaType.APPLICATION_JSON)
     public UserResponse update(
             @HeaderParam("authentication") String authentication,
-            _User entity) {
+            User entity) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -91,7 +91,7 @@ public class UsersEndpoint extends AbstractEndpoint<_User, UserResponse> {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public AuthenticationResponse login(
-            _login login,
+            Login login,
             @Context HttpServletRequest httpRequest
     ) throws Exception {
 

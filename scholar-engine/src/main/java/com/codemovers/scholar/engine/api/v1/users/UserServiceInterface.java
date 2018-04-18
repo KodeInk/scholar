@@ -6,9 +6,9 @@
 package com.codemovers.scholar.engine.api.v1.users;
 
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import com.codemovers.scholar.engine.api.v1.users.entities._login;
+import com.codemovers.scholar.engine.api.v1.users.entities.Login;
 import com.codemovers.scholar.engine.api.v1.users.entities.UserResponse;
-import com.codemovers.scholar.engine.api.v1.users.entities._User;
+import com.codemovers.scholar.engine.api.v1.users.entities.User;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Users;
 
@@ -33,7 +33,7 @@ public interface UserServiceInterface {
      * @return
      * @throws Exception
      */
-    UserResponse create(SchoolData data, _User entity) throws Exception;
+    UserResponse create(SchoolData data, User entity) throws Exception;
 
     /**
      *
@@ -54,7 +54,7 @@ public interface UserServiceInterface {
      * @return
      * @throws Exception
      */
-    AuthenticationResponse login(SchoolData schoolData, _login login, String logid) throws Exception;
+    AuthenticationResponse login(SchoolData schoolData, Login login, String logid) throws Exception;
 
     //todo: validate authenticaton
     /**

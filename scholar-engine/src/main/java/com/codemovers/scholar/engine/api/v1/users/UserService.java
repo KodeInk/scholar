@@ -7,13 +7,13 @@ package com.codemovers.scholar.engine.api.v1.users;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import com.codemovers.scholar.engine.api.v1.users.entities._login;
+import com.codemovers.scholar.engine.api.v1.users.entities.Login;
 import com.codemovers.scholar.engine.api.v1.roles.RolesService;
 import com.codemovers.scholar.engine.api.v1.roles.entities.PermissionsResponse;
 import com.codemovers.scholar.engine.api.v1.roles.entities.RoleResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities.ProfileResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities.UserResponse;
-import com.codemovers.scholar.engine.api.v1.users.entities._User;
+import com.codemovers.scholar.engine.api.v1.users.entities.User;
 import com.codemovers.scholar.engine.db.controllers.UserRoleJpaController;
 import com.codemovers.scholar.engine.db.controllers.UsersJpaController;
 import com.codemovers.scholar.engine.db.entities.Permissions;
@@ -42,7 +42,7 @@ import javax.ws.rs.core.Response;
  *
  * @author MOver 11/19/2017
  */
-public class UserService extends AbstractService<_User, UserResponse> implements UserServiceInterface {
+public class UserService extends AbstractService<User, UserResponse> implements UserServiceInterface {
 
     private static final Logger LOG = Logger.getLogger(UserService.class.getName());
 
@@ -62,7 +62,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
     }
 
     @Override
-    public UserResponse create(SchoolData data, _User entity) throws Exception {
+    public UserResponse create(SchoolData data, User entity) throws Exception {
         Users USER = new Users();
 
         try {
@@ -183,7 +183,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         String username = parts[0];
         String password = parts[1];
 
-        _login login = new _login();
+        Login login = new Login();
         login.setUsername(username);
         login.setPassword(password);
 
@@ -200,7 +200,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
      * @throws Exception
      */
     @Override
-    public AuthenticationResponse login(SchoolData tenantData, _login login, String logId) throws Exception {
+    public AuthenticationResponse login(SchoolData tenantData, Login login, String logId) throws Exception {
 
         AuthenticationResponse response = new AuthenticationResponse();
 
