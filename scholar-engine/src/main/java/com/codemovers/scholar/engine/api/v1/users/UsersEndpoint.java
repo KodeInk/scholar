@@ -27,6 +27,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -63,9 +64,19 @@ public class UsersEndpoint extends AbstractEndpoint<User, UserResponse> {
     public UserResponse create(User entity,
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest) throws Exception {
+        try {
         validate(tenantdata, authentication);
         String logId = context.getProperty("logId").toString();
-        return service.create(tenantdata, entity);
+            return service.create(tenantdata, entity);
+        } catch (WebApplicationException er) {
+            er.printStackTrace();
+            System.out.println("MESSAGE : " + er.getMessage());
+            throw er;
+        } catch (Exception er) {
+            er.printStackTrace();
+            System.out.println("MESSAGE 2 : " + er.getMessage());
+            throw er;
+        }
 
     }
 

@@ -65,6 +65,7 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
         Roles r = null;
         try {
             List<Roles> list = controller.findByName(name, schoolData);
+
             if (list != null) {
                 r = list.get(0);
             }

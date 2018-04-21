@@ -62,70 +62,15 @@ public class UserService extends AbstractService<User, UserResponse> implements 
     }
 
     @Override
-    public UserResponse create(SchoolData data, User entity) throws Exception {
-        Users USER = new Users();
-
-        try {
-            //todo: validate mandatories
-            entity.validate();
-
-            USER.setUsername(entity.getUsername());
-            String encryptedPassword = encryptPassword_md5(entity.getPassword());
-            USER.setPassword(encryptedPassword);
-            USER.setStatus("ACTIVE");
-
-            //get the role in the Database ::
-            String[] rs = entity.getRoles();
-            //   Set<Roles> roles = new HashMap<>();
-
-            List<Roles> roleses = new ArrayList<>();
-
-            if (rs != null) {
-
-                for (String rolename : rs) {
-                    Roles _role = RolesService.getInstance().getRoleByName(data, rolename);
-
-                    if (_role != null) {
-                        roleses.add(_role);
-                    }
-
-                }
-            }
-
-            if (roleses.isEmpty()) {
-                throw new BadRequestException(" Roles do not exist");
-            }
-
-            Roles[] _roles = new Roles[roleses.size()];
-            Set<Roles> roles = new HashSet<>(Arrays.asList(roleses.toArray(_roles)));
-            //    USER.setUserRoles(roles);
-            USER.setDateCreated(new Date());
-
-            USER = controller.create(USER, data);
-
-            //   UserRoleJ
-            UserRole userRole = new UserRole();
-            userRole.setUser(USER);
-            if (roleses != null) {
-                for (Roles r : roleses) {
-                    userRole.setRole(r);
-                    UserRoleJpaController.getInstance().create(userRole, data);
-                }
-            }
-
-            // assign roles to user :: 
-            return populateResponse(USER, true);
-        } catch (Exception er) {
-
-            if (USER != null && USER.getId() > 0L) {
-                //   controller.destroy(USER.getId().intValue(), data);
-            }
-            LOG.log(Level.SEVERE, "USER-SERVICE CREATE USER FAILED");
-            er.printStackTrace();
-
-            throw er;
-        }
+    public UserResponse create(SchoolData data, User entity) throws BadRequestException, Exception {
+        entity.validate();
+        Users USER = getUser(entity, data);
+        USER = controller.create(USER, data);
+        UserRole userRole = new UserRole();
+        AttachRoles(entity, data, userRole, USER);
+        return populateResponse(USER, true);
     }
+
 
     //todo: retrieve authentication 
     /**
@@ -169,7 +114,7 @@ public class UserService extends AbstractService<User, UserResponse> implements 
      * @throws Exception
      */
     @Override
-    public AuthenticationResponse validateAuthentication(SchoolData schoolData, String authentication) throws Exception {
+    public AuthenticationResponse validateAuthentication(SchoolData schoolData, String authentication) throws BadRequestException, Exception {
         LOG.log(Level.INFO, "AUTHENTICATION STRING " + authentication);
         authentication = authentication.replace("Basic:", "");
         String usernamePassword = new String(Base64.getDecoder().decode(authentication));
@@ -177,19 +122,15 @@ public class UserService extends AbstractService<User, UserResponse> implements 
 
         if (parts.length != 2) {
             LOG.log(Level.WARNING, "{0} :: invalid security credentials");
-            throw new WebApplicationException("invalid security credentials", Response.Status.UNAUTHORIZED);
+            throw new BadRequestException("invalid security credentials");
         }
 
-        String username = parts[0];
-        String password = parts[1];
-
-        Login login = new Login();
-        login.setUsername(username);
-        login.setPassword(password);
+        Login login = getLogin(parts);
 
         return login(schoolData, login, "LOGID");
 
     }
+
 
     /**
      *
@@ -200,7 +141,7 @@ public class UserService extends AbstractService<User, UserResponse> implements 
      * @throws Exception
      */
     @Override
-    public AuthenticationResponse login(SchoolData tenantData, Login login, String logId) throws Exception {
+    public AuthenticationResponse login(SchoolData tenantData, Login login, String logId) throws BadRequestException, Exception {
 
         AuthenticationResponse response = new AuthenticationResponse();
 
@@ -314,6 +255,60 @@ public class UserService extends AbstractService<User, UserResponse> implements 
         }
         _user.setStatus("ACTIVE");
 
+    }
+
+    public void AttachRoles(User entity, SchoolData data, UserRole userRole, Users USER) throws Exception {
+        String[] rs = entity.getRoles();
+        List<Roles> roleses = getRoles(rs, data);
+        Roles[] _roles = new Roles[roleses.size()];
+
+        userRole.setUser(USER);
+        if (roleses != null) {
+            for (Roles r : roleses) {
+                userRole.setRole(r);
+                UserRoleJpaController.getInstance().create(userRole, data);
+            }
+        }
+    }
+
+
+    public Users getUser(User entity, SchoolData data) throws Exception {
+        Users USER = new Users();
+        USER.setUsername(entity.getUsername());
+        String encryptedPassword = encryptPassword_md5(entity.getPassword());
+        USER.setPassword(encryptedPassword);
+        USER.setStatus("ACTIVE");
+
+
+        //    USER.setUserRoles(roles);
+        USER.setDateCreated(new Date());
+
+        return USER;
+    }
+
+    public List<Roles> getRoles(String[] rs, SchoolData data) throws BadRequestException, Exception {
+        List<Roles> roleses = new ArrayList<>();
+        if (rs != null) {
+            for (String rolename : rs) {
+                Roles _role = RolesService.getInstance().getRoleByName(data, rolename);
+                if (_role != null) {
+                    roleses.add(_role);
+                }
+            }
+        }
+        if (roleses.isEmpty()) {
+            throw new BadRequestException(" Roles do not exist");
+        }
+        return roleses;
+    }
+
+    public Login getLogin(String[] parts) {
+        String username = parts[0];
+        String password = parts[1];
+        Login login = new Login();
+        login.setUsername(username);
+        login.setPassword(password);
+        return login;
     }
 
     private UserResponse populateResponse(Users entity, boolean extended) throws Exception {
