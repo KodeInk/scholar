@@ -11,6 +11,7 @@
         <jettyVersion>9.2.3.v20140905</jettyVersion>
         <jerseyVersion>2.22.1</jerseyVersion>
         <slf4jVersion>1.6.1</slf4jVersion>
+        <powerMockVersion>1.7.3</powerMockVersion>
         <mainApplication>com.codemovers.scholar.engine.Application</mainApplication>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -164,6 +165,29 @@
             <version>2.0.1</version>
             <type>jar</type>
         </dependency>
+
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>${powerMockVersion}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>${powerMockVersion}</version>
+            <scope>test</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+        
+            
     </dependencies>
 
     <build>
