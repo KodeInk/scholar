@@ -65,12 +65,17 @@ public class UserService extends AbstractService<User, UserResponse> implements 
     public UserResponse create(SchoolData data, User entity) throws BadRequestException, Exception {
         entity.validate();
         Users USER = getUser(entity, data);
+        //todo: check to see if there is a user with this this username
+        List<Users> list = controller.findByUserName(USER.getUsername(), data);
+        if (!list.isEmpty()) {
+            throw new BadRequestException("User with username " + USER.getUsername() + " exists in the system");
+        }
+
         USER = controller.create(USER, data);
         UserRole userRole = new UserRole();
         AttachRoles(entity, data, userRole, USER);
         return populateResponse(USER, true);
     }
-
 
     //todo: retrieve authentication 
     /**
@@ -130,7 +135,6 @@ public class UserService extends AbstractService<User, UserResponse> implements 
         return login(schoolData, login, "LOGID");
 
     }
-
 
     /**
      *
@@ -271,14 +275,12 @@ public class UserService extends AbstractService<User, UserResponse> implements 
         }
     }
 
-
     public Users getUser(User entity, SchoolData data) throws Exception {
         Users USER = new Users();
         USER.setUsername(entity.getUsername());
         String encryptedPassword = encryptPassword_md5(entity.getPassword());
         USER.setPassword(encryptedPassword);
         USER.setStatus("ACTIVE");
-
 
         //    USER.setUserRoles(roles);
         USER.setDateCreated(new Date());
