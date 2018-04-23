@@ -7,7 +7,6 @@ package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
-import com.codemovers.scholar.engine.db.entities.Terms;
 import com.codemovers.scholar.engine.db.entities.Users;
 import com.codemovers.scholar.engine.helper.Utilities;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
@@ -18,7 +17,9 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
 /**
@@ -97,7 +98,10 @@ public class UsersJpaController extends EngineJpaController {
     private List<Users> findUsers(boolean all, int maxResults, int firstResult, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery cq = cb.createQuery();
+            Root<Users> from = cq.from(Users.class);
+            cq.orderBy(cb.desc(from.get("dateCreated")));
             cq.select(cq.from(Users.class));
             Query q = em.createQuery(cq);
             if (!all) {
@@ -122,8 +126,10 @@ public class UsersJpaController extends EngineJpaController {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+
             Root<Users> rt = cq.from(Users.class);
             cq.select(em.getCriteriaBuilder().count(rt));
+
             Query q = em.createQuery(cq);
             return (Integer) q.getSingleResult();
         } finally {
