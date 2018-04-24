@@ -13,6 +13,7 @@ import com.codemovers.scholar.engine.api.v1.users.entities.Login;
 import com.codemovers.scholar.engine.api.v1.roles.RolesService;
 import com.codemovers.scholar.engine.api.v1.roles.entities.PermissionsResponse;
 import com.codemovers.scholar.engine.api.v1.roles.entities.RoleResponse;
+import com.codemovers.scholar.engine.api.v1.staff.StaffService;
 import com.codemovers.scholar.engine.api.v1.users.entities.ProfileResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities.UserResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities._User;
@@ -71,7 +72,12 @@ public class UserService extends AbstractService<_User, UserResponse> implements
 
         Profile profile = null;
         if (entity.getProfile() != null) {
-            profile = ProfileService.getInstance().createJpa(data, entity.getProfile(), authentication);
+            profile = ProfileService.getInstance().getProfile(entity.getProfile());
+            profile = ProfileService.getInstance().create(data, profile, authentication);
+        }
+
+        if (entity.getStaff() != null) {
+            StaffService.getInstance().create(data, entity.getStaff(), authentication);
         }
 
         System.out.println("USERS" + entity.toString());

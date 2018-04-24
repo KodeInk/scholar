@@ -43,10 +43,8 @@ public class ProfileService extends AbstractService<_Profile, ProfileResponse> {
 
     @Override
     public ProfileResponse create(SchoolData data, _Profile entity, AuthenticationResponse authenticationResponse) throws Exception {
-
         try {
             entity.validate();
-
             Profile profile = getProfile(entity);
             profile = controller.create(profile, data);
 
@@ -58,22 +56,16 @@ public class ProfileService extends AbstractService<_Profile, ProfileResponse> {
         }
     }
 
-    public Profile createJpa(SchoolData data, _Profile entity, AuthenticationResponse authenticationResponse) throws Exception {
-
+    public Profile create(SchoolData data, Profile profile, AuthenticationResponse authenticationResponse) throws Exception {
         try {
-            entity.validate();
-
-            Profile profile = getProfile(entity);
             profile = controller.create(profile, data);
-
             return profile;
         } catch (Exception er) {
 
             LOG.log(Level.INFO, "Error Saving the profile information {0} ", er.getMessage());
-            return null;
+            throw er;
         }
     }
-
 
     public Profile getProfile(_Profile entity) {
         Profile profile = new Profile();

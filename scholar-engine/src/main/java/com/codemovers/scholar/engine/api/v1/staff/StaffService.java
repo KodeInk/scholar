@@ -54,6 +54,7 @@ public class StaffService extends AbstractService<_Staff, StaffResponse> {
         return populateResponse(staff);
     }
 
+
     @Override
     public StaffResponse update(SchoolData data, _Staff entity, AuthenticationResponse authentication) throws Exception {
         return super.update(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
