@@ -17,6 +17,7 @@ import java.io.*;
 import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -334,12 +335,12 @@ public class Utilities {
 Using SHA-256 :
      */
 //TODO: add salt to the pasword to increase the security
-    public static String encryptPassword_md5(String password) {
+    public static String encryptPassword_md5(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 
         StringBuilder sb = new StringBuilder();
-        try {
+
             if (password.length() <= 4) {
-                return null;
+                throw new BadRequestException("Password Length is too short");
             }
 
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -352,9 +353,6 @@ Using SHA-256 :
             }
 
             //    return sb.toString();
-        } catch (Exception em) {
-            LOG.log(Level.WARNING, "Could not generate a message Digest : 0001");
-        }
 
         return sb.toString();
     }
