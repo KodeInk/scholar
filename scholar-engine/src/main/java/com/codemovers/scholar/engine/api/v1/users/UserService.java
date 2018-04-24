@@ -7,13 +7,15 @@ package com.codemovers.scholar.engine.api.v1.users;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
+import com.codemovers.scholar.engine.api.v1.profile.ProfileService;
+import com.codemovers.scholar.engine.api.v1.profile.entities._Profile;
 import com.codemovers.scholar.engine.api.v1.users.entities.Login;
 import com.codemovers.scholar.engine.api.v1.roles.RolesService;
 import com.codemovers.scholar.engine.api.v1.roles.entities.PermissionsResponse;
 import com.codemovers.scholar.engine.api.v1.roles.entities.RoleResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities.ProfileResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities.UserResponse;
-import com.codemovers.scholar.engine.api.v1.users.entities.User;
+import com.codemovers.scholar.engine.api.v1.users.entities._User;
 import com.codemovers.scholar.engine.db.controllers.UserRoleJpaController;
 import com.codemovers.scholar.engine.db.controllers.UsersJpaController;
 import com.codemovers.scholar.engine.db.entities.Permissions;
@@ -26,23 +28,19 @@ import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.encryptPassword_md5;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Base64;
 import java.util.Collection;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
 
 /**
  *
  * @author MOver 11/19/2017
  */
-public class UserService extends AbstractService<User, UserResponse> implements UserServiceInterface {
+public class UserService extends AbstractService<_User, UserResponse> implements UserServiceInterface {
 
     private static final Logger LOG = Logger.getLogger(UserService.class.getName());
 
@@ -62,13 +60,18 @@ public class UserService extends AbstractService<User, UserResponse> implements 
     }
 
     @Override
-    public UserResponse create(SchoolData data, User entity) throws BadRequestException, Exception {
+    public UserResponse create(SchoolData data, _User entity, AuthenticationResponse authentication) throws BadRequestException, Exception {
         entity.validate();
         Users USER = getUser(entity);
         //todo: check to see if there is a user with this this username
         List<Users> list = controller.findByUserName(USER.getUsername(), data);
         if (!list.isEmpty()) {
             throw new BadRequestException("User with username " + USER.getUsername() + " exists in the system");
+        }
+
+        Profile profile = null;
+        if (entity.getProfile() != null) {
+            profile = ProfileService.getInstance().createJpa(data, entity.getProfile(), authentication);
         }
 
         System.out.println("USERS" + entity.toString());
@@ -263,7 +266,7 @@ public class UserService extends AbstractService<User, UserResponse> implements 
 
     }
 
-    public void AttachRoles(User entity, SchoolData data, UserRole userRole, Users USER) throws Exception {
+    public void AttachRoles(_User entity, SchoolData data, UserRole userRole, Users USER) throws Exception {
         String[] rs = entity.getRoles();
         List<Roles> roleses = getRoles(rs, data);
         Roles[] _roles = new Roles[roleses.size()];
@@ -277,7 +280,7 @@ public class UserService extends AbstractService<User, UserResponse> implements 
         }
     }
 
-    public Users getUser(User entity) throws Exception {
+    public Users getUser(_User entity) throws Exception {
         Users USER = new Users();
         USER.setUsername(entity.getUsername());
         String encryptedPassword = encryptPassword_md5(entity.getPassword());

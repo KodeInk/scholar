@@ -7,8 +7,8 @@ package com.codemovers.scholar.engine.api.v1.users.entities;
 
 import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
+import com.codemovers.scholar.engine.api.v1.profile.entities._Profile;
 import com.codemovers.scholar.engine.api.v1.staff.entities._Staff;
-import com.codemovers.scholar.engine.db.entities.Staff;
 import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -20,7 +20,7 @@ import java.util.Objects;
  * @author MOver 11/19/2017
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class User extends AbstractEntity {
+public class _User extends AbstractEntity {
 
     private Integer id;
     private @Mandatory
@@ -33,13 +33,13 @@ public class User extends AbstractEntity {
     private Long date_created;
     private @Mandatory
     String[] roles;
-    Profile profile;
+    _Profile profile;
     _Staff staff;
 
-    public User() {
+    public _User() {
     }
 
-    public User(Integer id) {
+    public _User(Integer id) {
         this.id = id;
     }
 
@@ -107,11 +107,11 @@ public class User extends AbstractEntity {
         this.roles = roles;
     }
 
-    public Profile getProfile() {
+    public _Profile getProfile() {
         return profile;
     }
 
-    public void setProfile(Profile profile) {
+    public void setProfile(_Profile profile) {
         this.profile = profile;
     }
 
@@ -150,7 +150,7 @@ public class User extends AbstractEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final User other = (User) obj;
+        final _User other = (_User) obj;
         if (!Objects.equals(this.username, other.username)) {
             return false;
         }

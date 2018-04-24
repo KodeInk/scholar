@@ -47,37 +47,7 @@ public class ProfileService extends AbstractService<_Profile, ProfileResponse> {
         try {
             entity.validate();
 
-            Profile profile = new Profile();
-            if (!entity.getFirstName().isEmpty()) {
-                profile.setFirstName(entity.getFirstName());
-            }
-
-            if (!entity.getMiddleName().isEmpty()) {
-                profile.setMiddleName(entity.getMiddleName());
-            }
-
-            if (!entity.getLastName().isEmpty()) {
-                profile.setLastName(entity.getLastName());
-            }
-
-            if (!entity.getPrefix().isEmpty()) {
-                profile.setPrefix(entity.getPrefix());
-            }
-
-            if (entity.getDateOfBirth() != null) {
-                profile.setDateOfBirth(entity.getDateOfBirth());
-            }
-
-            if (!entity.getImage().isEmpty()) {
-                profile.setImage(entity.getImage());
-            }
-
-            profile.setParentType(entity.getProfileType().toString());
-            profile.setParentId(entity.getParentId());
-
-            profile.setAuthor(new Users(entity.getAuthorId().longValue()));
-            profile.setStatus(entity.getStatus().toString());
-            profile.setDateCreated(entity.getDateCreated());
+            Profile profile = getProfile(entity);
             profile = controller.create(profile, data);
 
             return populateResponse(profile);
@@ -86,6 +56,51 @@ public class ProfileService extends AbstractService<_Profile, ProfileResponse> {
             LOG.log(Level.INFO, "Error Saving the profile information {0} ", er.getMessage());
             return null;
         }
+    }
+
+    public Profile createJpa(SchoolData data, _Profile entity, AuthenticationResponse authenticationResponse) throws Exception {
+
+        try {
+            entity.validate();
+
+            Profile profile = getProfile(entity);
+            profile = controller.create(profile, data);
+
+            return profile;
+        } catch (Exception er) {
+
+            LOG.log(Level.INFO, "Error Saving the profile information {0} ", er.getMessage());
+            return null;
+        }
+    }
+
+
+    public Profile getProfile(_Profile entity) {
+        Profile profile = new Profile();
+        if (!entity.getFirstName().isEmpty()) {
+            profile.setFirstName(entity.getFirstName());
+        }
+        if (!entity.getMiddleName().isEmpty()) {
+            profile.setMiddleName(entity.getMiddleName());
+        }
+        if (!entity.getLastName().isEmpty()) {
+            profile.setLastName(entity.getLastName());
+        }
+        if (!entity.getPrefix().isEmpty()) {
+            profile.setPrefix(entity.getPrefix());
+        }
+        if (entity.getDateOfBirth() != null) {
+            profile.setDateOfBirth(entity.getDateOfBirth());
+        }
+        if (!entity.getImage().isEmpty()) {
+            profile.setImage(entity.getImage());
+        }
+        profile.setParentType(entity.getProfileType().toString());
+        profile.setParentId(entity.getParentId());
+        profile.setAuthor(new Users(entity.getAuthorId().longValue()));
+        profile.setStatus(entity.getStatus().toString());
+        profile.setDateCreated(entity.getDateCreated());
+        return profile;
     }
 
     public Profile populateResponse(ProfileResponse entity) {
