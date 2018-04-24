@@ -21,6 +21,7 @@ import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -53,6 +54,18 @@ public class StaffService extends AbstractService<_Staff, StaffResponse> {
         staff = controller.create(staff, data);
         return populateResponse(staff);
     }
+
+    public Staff create(SchoolData data, Staff staff, AuthenticationResponse authentication) throws Exception {
+        try {
+            staff = controller.create(staff, data);
+            return staff;
+        } catch (Exception er) {
+
+            LOG.log(Level.INFO, "Error Saving the profile information {0} ", er.getMessage());
+            throw er;
+        }
+    }
+
 
 
     @Override

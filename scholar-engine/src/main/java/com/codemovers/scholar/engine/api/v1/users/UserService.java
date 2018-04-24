@@ -73,6 +73,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         Profile profile = null;
         if (entity.getProfile() != null) {
             profile = ProfileService.getInstance().getProfile(entity.getProfile());
+
             profile = ProfileService.getInstance().create(data, profile, authentication);
         }
 
