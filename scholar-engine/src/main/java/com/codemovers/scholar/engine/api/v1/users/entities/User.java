@@ -7,6 +7,8 @@ package com.codemovers.scholar.engine.api.v1.users.entities;
 
 import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
+import com.codemovers.scholar.engine.api.v1.staff.entities._Staff;
+import com.codemovers.scholar.engine.db.entities.Staff;
 import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -31,6 +33,8 @@ public class User extends AbstractEntity {
     private Long date_created;
     private @Mandatory
     String[] roles;
+    Profile profile;
+    _Staff staff;
 
     public User() {
     }
@@ -103,17 +107,35 @@ public class User extends AbstractEntity {
         this.roles = roles;
     }
 
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
+
+    public _Staff getStaff() {
+        return staff;
+    }
+
+    public void setStaff(_Staff staff) {
+        this.staff = staff;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 59 * hash + Objects.hashCode(this.id);
-        hash = 59 * hash + Objects.hashCode(this.username);
-        hash = 59 * hash + Objects.hashCode(this.password);
-        hash = 59 * hash + Objects.hashCode(this.emailaddress);
-        hash = 59 * hash + Objects.hashCode(this.status);
-        hash = 59 * hash + Objects.hashCode(this.externalid);
-        hash = 59 * hash + Objects.hashCode(this.date_created);
-        hash = 59 * hash + Arrays.deepHashCode(this.roles);
+        int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.id);
+        hash = 67 * hash + Objects.hashCode(this.username);
+        hash = 67 * hash + Objects.hashCode(this.password);
+        hash = 67 * hash + Objects.hashCode(this.emailaddress);
+        hash = 67 * hash + Objects.hashCode(this.status);
+        hash = 67 * hash + Objects.hashCode(this.externalid);
+        hash = 67 * hash + Objects.hashCode(this.date_created);
+        hash = 67 * hash + Arrays.deepHashCode(this.roles);
+        hash = 67 * hash + Objects.hashCode(this.profile);
+        hash = 67 * hash + Objects.hashCode(this.staff);
         return hash;
     }
 
@@ -141,16 +163,25 @@ public class User extends AbstractEntity {
         if (!Objects.equals(this.externalid, other.externalid)) {
             return false;
         }
-        if (!Objects.equals(this.date_created, other.date_created)) {
-            return false;
-        }
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         if (this.status != other.status) {
             return false;
         }
-        return Arrays.deepEquals(this.roles, other.roles);
+        if (!Objects.equals(this.date_created, other.date_created)) {
+            return false;
+        }
+        if (!Arrays.deepEquals(this.roles, other.roles)) {
+            return false;
+        }
+        if (!Objects.equals(this.profile, other.profile)) {
+            return false;
+        }
+        if (!Objects.equals(this.staff, other.staff)) {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -170,6 +201,8 @@ public class User extends AbstractEntity {
                 + ", externalid=" + externalid
                 + ", date_created=" + date_created
                 + ", roles=" + Arrays.asList(roles)
+                + ", staff=" + staff
+                + ", profile=" + profile
                 + "}";
     }
 
