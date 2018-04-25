@@ -138,6 +138,11 @@ public class StaffService extends AbstractService<_Staff, StaffResponse> {
         if (entity.getDate_created() != null) {
             staff.setDateCreated(new Date(entity.getDate_created()));
         }
+
+        if (entity.getIsTeacher() != null) {
+            staff.setIsTeacher(entity.getIsTeacher());
+        }
+
         if (authentication.getId() != null) {
             staff.setAuthor(new Users(authentication.getId().longValue()));
         }

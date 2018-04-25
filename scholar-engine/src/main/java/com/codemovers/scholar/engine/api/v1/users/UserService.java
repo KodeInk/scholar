@@ -90,7 +90,6 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         USER = controller.create(USER, data);
 
         AttachUserProfile(USER, profile, data);
-
         AttachRoles(entity, data, USER);
         return populateResponse(USER, true);
     }
