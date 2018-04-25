@@ -17,6 +17,7 @@ import com.codemovers.scholar.engine.api.v1.staff.StaffService;
 import com.codemovers.scholar.engine.api.v1.users.entities.ProfileResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities.UserResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities._User;
+import com.codemovers.scholar.engine.db.controllers.UserProfileJpaController;
 import com.codemovers.scholar.engine.db.controllers.UserRoleJpaController;
 import com.codemovers.scholar.engine.db.controllers.UsersJpaController;
 import com.codemovers.scholar.engine.db.entities.Permissions;
@@ -88,14 +89,12 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         
         USER = controller.create(USER, data);
 
-        UserProfile userProfile = new UserProfile();
-        userProfile.setUser(USER);
-        userProfile.setProfile(profile);
-
+        AttachUserProfile(USER, profile, data);
 
         AttachRoles(entity, data, USER);
         return populateResponse(USER, true);
     }
+
 
     //todo: retrieve authentication 
     /**
@@ -297,7 +296,15 @@ public class UserService extends AbstractService<_User, UserResponse> implements
             }
         }
     }
-    
+
+    public void AttachUserProfile(Users USER, Profile profile, SchoolData data) {
+        UserProfile userProfile = new UserProfile();
+        userProfile.setUser(USER);
+        userProfile.setProfile(profile);
+
+        userProfile = UserProfileJpaController.getInstance().create(userProfile, data);
+    }
+
     public Users getUser(_User entity) throws Exception {
         Users USER = new Users();
         USER.setUsername(entity.getUsername());
