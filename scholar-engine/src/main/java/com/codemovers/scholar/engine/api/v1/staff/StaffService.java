@@ -57,6 +57,7 @@ public class StaffService extends AbstractService<_Staff, StaffResponse> {
 
     public Staff create(SchoolData data, Staff staff, AuthenticationResponse authentication) throws Exception {
         try {
+            staff.setAuthor(new Users(authentication.getId().longValue()));
             staff = controller.create(staff, data);
             return staff;
         } catch (Exception er) {
@@ -64,8 +65,6 @@ public class StaffService extends AbstractService<_Staff, StaffResponse> {
             throw er;
         }
     }
-
-
 
     @Override
     public StaffResponse update(SchoolData data, _Staff entity, AuthenticationResponse authentication) throws Exception {
@@ -128,10 +127,18 @@ public class StaffService extends AbstractService<_Staff, StaffResponse> {
     public Staff getStaff(Profile profile, _Staff entity, AuthenticationResponse authentication) {
         Staff staff = new Staff();
         staff.setProfile(profile);
-        staff.setJoinDate(entity.getJoinDate());
-        staff.setStatus(entity.getStatus().toString());
-        staff.setDateCreated(new Date(entity.getDate_created()));
-        staff.setAuthor(new Users(authentication.getId().longValue()));
+        if (entity.getJoinDate() != null) {
+            staff.setJoinDate(entity.getJoinDate());
+        }
+        if (entity.getStatus() != null) {
+            staff.setStatus(entity.getStatus().toString());
+        }
+        if (entity.getDate_created() != null) {
+            staff.setDateCreated(new Date(entity.getDate_created()));
+        }
+        if (authentication.getId() != null) {
+            staff.setAuthor(new Users(authentication.getId().longValue()));
+        }
         return staff;
     }
 

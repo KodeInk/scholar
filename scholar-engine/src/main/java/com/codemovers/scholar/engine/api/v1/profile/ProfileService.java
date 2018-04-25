@@ -58,6 +58,7 @@ public class ProfileService extends AbstractService<_Profile, ProfileResponse> {
 
     public Profile create(SchoolData data, Profile profile, AuthenticationResponse authenticationResponse) throws Exception {
         try {
+            profile.setAuthor(new Users(authenticationResponse.getId().longValue()));
             profile = controller.create(profile, data);
             return profile;
         } catch (Exception er) {
@@ -69,29 +70,40 @@ public class ProfileService extends AbstractService<_Profile, ProfileResponse> {
 
     public Profile getProfile(_Profile entity) {
         Profile profile = new Profile();
-        if (!entity.getFirstName().isEmpty()) {
+        if (entity.getFirstName() != null) {
             profile.setFirstName(entity.getFirstName());
         }
-        if (!entity.getMiddleName().isEmpty()) {
+        if (entity.getMiddleName() != null) {
             profile.setMiddleName(entity.getMiddleName());
         }
-        if (!entity.getLastName().isEmpty()) {
+        if (entity.getLastName() != null) {
             profile.setLastName(entity.getLastName());
         }
-        if (!entity.getPrefix().isEmpty()) {
+        if (entity.getPrefix() != null) {
             profile.setPrefix(entity.getPrefix());
         }
         if (entity.getDateOfBirth() != null) {
             profile.setDateOfBirth(entity.getDateOfBirth());
         }
-        if (!entity.getImage().isEmpty()) {
+        if (entity.getImage() != null) {
             profile.setImage(entity.getImage());
         }
-        profile.setParentType(entity.getProfileType().toString());
-        profile.setParentId(entity.getParentId());
-        profile.setAuthor(new Users(entity.getAuthorId().longValue()));
-        profile.setStatus(entity.getStatus().toString());
-        profile.setDateCreated(entity.getDateCreated());
+        if (entity.getProfileType() != null) {
+            profile.setParentType(entity.getProfileType().toString());
+        }
+        if (entity.getParentId() != null) {
+            profile.setParentId(entity.getParentId());
+        }
+        if (entity.getStatus() != null) {
+            profile.setStatus(entity.getStatus().toString());
+        }
+        if (entity.getDateCreated() != null) {
+            profile.setDateCreated(entity.getDateCreated());
+        }
+        if (entity.getAuthorId() != null) {
+            profile.setAuthor(new Users(entity.getAuthorId().longValue()));
+        }
+
         return profile;
     }
 

@@ -43,47 +43,48 @@ import java.util.Collection;
  * @author MOver 11/19/2017
  */
 public class UserService extends AbstractService<_User, UserResponse> implements UserServiceInterface {
-
+    
     private static final Logger LOG = Logger.getLogger(UserService.class.getName());
-
+    
     private final UsersJpaController controller;
-
+    
     private static UserService service = null;
-
+    
     public UserService() {
         controller = UsersJpaController.getInstance();
     }
-
+    
     public static UserService getInstance() {
         if (service == null) {
             service = new UserService();
         }
         return service;
     }
-
+    
     @Override
     public UserResponse create(SchoolData data, _User entity, AuthenticationResponse authentication) throws BadRequestException, Exception {
         entity.validate();
         Users USER = getUser(entity);
+
         //todo: check to see if there is a user with this this username
         List<Users> list = controller.findByUserName(USER.getUsername(), data);
         if (!list.isEmpty()) {
             throw new BadRequestException("User with username " + USER.getUsername() + " exists in the system");
         }
-
+        
         Profile profile = null;
         if (entity.getProfile() != null) {
             profile = ProfileService.getInstance().getProfile(entity.getProfile());
             profile = ProfileService.getInstance().create(data, profile, authentication);
         }
-
+        
         if (entity.getStaff() != null) {
             Staff staff = StaffService.getInstance().getStaff(profile, entity.getStaff(), authentication);
             StaffService.getInstance().create(data, staff, authentication);
         }
-
+        
         System.out.println("USERS" + entity.toString());
-
+        
         USER = controller.create(USER, data);
         UserRole userRole = new UserRole();
         AttachRoles(entity, data, userRole, USER);
@@ -100,13 +101,13 @@ public class UserService extends AbstractService<_User, UserResponse> implements
      */
     @Override
     public UserResponse getById(SchoolData schoolData, Integer Id) throws Exception {
-
+        
         Users _user = controller.findUser(Id, schoolData);
         if (_user == null) {
             throw new BadRequestException("USER DOES NOT EXIST");
         }
         return populateResponse(_user, true);
-
+        
     }
 
     /**
@@ -137,16 +138,16 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         authentication = authentication.replace("Basic:", "");
         String usernamePassword = new String(Base64.getDecoder().decode(authentication));
         String[] parts = usernamePassword.split(":");
-
+        
         if (parts.length != 2) {
             LOG.log(Level.WARNING, "{0} :: invalid security credentials");
             throw new BadRequestException("invalid security credentials");
         }
-
+        
         Login login = getLogin(parts);
-
+        
         return login(schoolData, login, "LOGID");
-
+        
     }
 
     /**
@@ -159,44 +160,44 @@ public class UserService extends AbstractService<_User, UserResponse> implements
      */
     @Override
     public AuthenticationResponse login(SchoolData tenantData, Login login, String logId) throws BadRequestException, Exception {
-
+        
         AuthenticationResponse response = new AuthenticationResponse();
-
+        
         LOG.log(Level.INFO, "School Name {0} ", tenantData.getName());
         login.validate();
         try {
             LOG.log(Level.INFO, " School User Login ");
             String authentication = null;
-
+            
             {
                 if (login.getPassword() != null && login.getUsername() != null) {
                     // todo : encrypt password
 
                     String username = login.getUsername();
                     String password = login.getPassword();
-
+                    
                     password = encryptPassword_md5(password);
-
+                    
                     Users users = controller.login(username, password, tenantData);
-
+                    
                     if (users == null) {
                         throw new BadRequestException("INVALID USERNAME AND OR PASSWORD ");
                     } else {
                         // create response ::
                         authentication = convertToBasicAuth(login.getUsername(), login.getPassword());
-                        response.setAuthentication(authentication);
+                        
                         Set<Roles> roleslist = users.getUserRoles();
-
+                        
                         List<PermissionsResponse> permissionsResponses = new ArrayList<>();
-
+                        
                         Collection<UserRole> arolesList = users.getUserRoleCollection();
-
+                        
                         if (arolesList.isEmpty()) {
                             LOG.log(Level.INFO, " RESPONSE S  EMPTY ");
                         }
-
+                        
                         for (Roles r : roleslist) {
-
+                            
                             Set<Permissions> _permissionset = r.getPermissions();
                             PermissionsResponse permissionsResponse = new PermissionsResponse();
                             permissionsResponse.setName(r.getName());
@@ -216,27 +217,29 @@ public class UserService extends AbstractService<_User, UserResponse> implements
 //                                permissionsResponses.add(permissionsResponse);
 //                            });
 //                        });
+                        response.setId(users.getId().intValue());
+                        response.setAuthentication(authentication);
                         response.setPermissions(permissionsResponses);
                         response.setIsLoggedIn(true);
-
+                        
                     }
                     //todo : check username and password
                 } else {
                     throw new BadRequestException(" USERNAME AND OR PASSWORD IS MANDATORY  ");
                 }
-
+                
             }
-
+            
         } catch (BadRequestException er) {
             throw er;
         }
-
+        
         return response;
     }
-
+    
     @Override
     public List<UserResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
-
+        
         List<Users> _users = controller.findUsers(ofset, limit, data);
         List<UserResponse> userResponses = new ArrayList<>();
         if (_users != null) {
@@ -245,7 +248,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
                 userResponses.add(userResponse);
             }
         }
-
+        
         return userResponses;
     }
 
@@ -258,27 +261,27 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         Users _user = controller.findUser(account_id, schoolData);
         if (_user == null) {
             throw new BadRequestException("USER DOES NOT EXIST");
-
+            
         }
         _user.setStatus("DISABLED");
-
+        
     }
-
+    
     public void activate(SchoolData schoolData, Integer account_id) throws Exception {
         Users _user = controller.findUser(account_id, schoolData);
         if (_user == null) {
             throw new BadRequestException("USER DOES NOT EXIST");
-
+            
         }
         _user.setStatus("ACTIVE");
-
+        
     }
-
+    
     public void AttachRoles(_User entity, SchoolData data, UserRole userRole, Users USER) throws Exception {
         String[] rs = entity.getRoles();
         List<Roles> roleses = getRoles(rs, data);
         Roles[] _roles = new Roles[roleses.size()];
-
+        
         userRole.setUser(USER);
         if (roleses != null) {
             for (Roles r : roleses) {
@@ -287,7 +290,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
             }
         }
     }
-
+    
     public Users getUser(_User entity) throws Exception {
         Users USER = new Users();
         USER.setUsername(entity.getUsername());
@@ -298,10 +301,10 @@ public class UserService extends AbstractService<_User, UserResponse> implements
 
         //    USER.setUserRoles(roles);
         USER.setDateCreated(new Date());
-
+        
         return USER;
     }
-
+    
     public List<Roles> getRoles(String[] rs, SchoolData data) throws BadRequestException, Exception {
         List<Roles> roleses = new ArrayList<>();
         if (rs != null) {
@@ -317,7 +320,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         }
         return roleses;
     }
-
+    
     public Login getLogin(String[] parts) {
         String username = parts[0];
         String password = parts[1];
@@ -326,17 +329,17 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         login.setPassword(password);
         return login;
     }
-
+    
     private UserResponse populateResponse(Users entity, boolean extended) throws Exception {
-
+        
         UserResponse response = new UserResponse();
         response.setId(entity.getId().intValue());
         response.setUsername(entity.getUsername());
         Set<Roles> roleSet = entity.getUserRoles();
         Set<UserProfile> userProfiles = entity.getUserProfileCollection();
-
+        
         if (userProfiles != null) {
-
+            
             for (UserProfile profile : userProfiles) {
                 Profile _profile = profile.getProfile();
                 ProfileResponse personResponse = new ProfileResponse();
@@ -353,32 +356,32 @@ public class UserService extends AbstractService<_User, UserResponse> implements
                 response.setProfile(personResponse);
                 break;
             }
-
+            
         }
-
+        
         RoleResponse[] roleResponses = getRolesResponse(roleSet, extended);
         response.setRoles(roleResponses);
-
+        
         return response;
     }
-
+    
     public RoleResponse[] getRolesResponse(Set<Roles> roleSet, boolean extended) {
         //PersonResponse
         RoleResponse[] roleResponses = null;
         if (roleSet != null) {
             String[] rsArray = new String[roleSet.size()];
-
+            
             List<RoleResponse> rrs = new ArrayList<>();
             List<RoleResponse> rsList = new ArrayList<>();
             roleSet.forEach((_role) -> {
                 rsList.add(RolesService.populateResponse(_role, extended));
             });
-
+            
             roleResponses = new RoleResponse[rsList.size()];
-
+            
         }
-
+        
         return roleResponses;
     }
-
+    
 }
