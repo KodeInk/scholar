@@ -23,6 +23,7 @@ import com.codemovers.scholar.engine.db.entities.Permissions;
 import com.codemovers.scholar.engine.db.entities.Profile;
 import com.codemovers.scholar.engine.db.entities.Roles;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import com.codemovers.scholar.engine.db.entities.Staff;
 import com.codemovers.scholar.engine.db.entities.UserProfile;
 import com.codemovers.scholar.engine.db.entities.UserRole;
 import com.codemovers.scholar.engine.db.entities.Users;
@@ -73,12 +74,12 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         Profile profile = null;
         if (entity.getProfile() != null) {
             profile = ProfileService.getInstance().getProfile(entity.getProfile());
-
             profile = ProfileService.getInstance().create(data, profile, authentication);
         }
 
         if (entity.getStaff() != null) {
-            StaffService.getInstance().create(data, entity.getStaff(), authentication);
+            Staff staff = StaffService.getInstance().getStaff(profile, entity.getStaff(), authentication);
+            StaffService.getInstance().create(data, staff, authentication);
         }
 
         System.out.println("USERS" + entity.toString());

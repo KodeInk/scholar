@@ -60,7 +60,6 @@ public class StaffService extends AbstractService<_Staff, StaffResponse> {
             staff = controller.create(staff, data);
             return staff;
         } catch (Exception er) {
-
             LOG.log(Level.INFO, "Error Saving the profile information {0} ", er.getMessage());
             throw er;
         }
