@@ -13,6 +13,7 @@ import com.codemovers.scholar.engine.db.controllers.ProfileJpaController;
 import com.codemovers.scholar.engine.db.entities.Profile;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Users;
+import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -94,9 +95,11 @@ public class ProfileService extends AbstractService<_Profile, ProfileResponse> {
         if (entity.getParentId() != null) {
             profile.setParentId(entity.getParentId());
         }
+        profile.setStatus(StatusEnum.ACTIVE.toString());
         if (entity.getStatus() != null) {
             profile.setStatus(entity.getStatus().toString());
         }
+        profile.setDateCreated(new Date());
         if (entity.getDateCreated() != null) {
             profile.setDateCreated(entity.getDateCreated());
         }

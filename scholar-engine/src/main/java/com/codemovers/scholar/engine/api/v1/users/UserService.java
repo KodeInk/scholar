@@ -28,6 +28,7 @@ import com.codemovers.scholar.engine.db.entities.UserProfile;
 import com.codemovers.scholar.engine.db.entities.UserRole;
 import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.encryptPassword_md5;
+import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -297,7 +298,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         String encryptedPassword = encryptPassword_md5(entity.getPassword());
         USER.setPassword(encryptedPassword);
         System.out.println("USER : " + USER.getPassword());
-        USER.setStatus("ACTIVE");
+        USER.setStatus(StatusEnum.ACTIVE.toString());
 
         //    USER.setUserRoles(roles);
         USER.setDateCreated(new Date());
