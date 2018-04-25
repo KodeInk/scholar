@@ -87,8 +87,13 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         System.out.println("USERS" + entity.toString());
         
         USER = controller.create(USER, data);
-        UserRole userRole = new UserRole();
-        AttachRoles(entity, data, userRole, USER);
+
+        UserProfile userProfile = new UserProfile();
+        userProfile.setUser(USER);
+        userProfile.setProfile(profile);
+
+
+        AttachRoles(entity, data, USER);
         return populateResponse(USER, true);
     }
 
@@ -278,7 +283,8 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         
     }
     
-    public void AttachRoles(_User entity, SchoolData data, UserRole userRole, Users USER) throws Exception {
+    public void AttachRoles(_User entity, SchoolData data, Users USER) throws Exception {
+        UserRole userRole = new UserRole();
         String[] rs = entity.getRoles();
         List<Roles> roleses = getRoles(rs, data);
         Roles[] _roles = new Roles[roleses.size()];
