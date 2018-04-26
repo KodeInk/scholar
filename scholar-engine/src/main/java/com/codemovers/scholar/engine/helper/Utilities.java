@@ -465,7 +465,7 @@ Using SHA-256 :
 
     }
 
-    public Date getDateInUTC(Long date) {
+    public static Date getDateInUTC(Long date) {
         Calendar calendar = new GregorianCalendar();
         calendar.setTimeInMillis(date);
 

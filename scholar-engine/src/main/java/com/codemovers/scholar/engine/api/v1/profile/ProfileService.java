@@ -13,13 +13,9 @@ import com.codemovers.scholar.engine.db.controllers.ProfileJpaController;
 import com.codemovers.scholar.engine.db.entities.Profile;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Users;
+import com.codemovers.scholar.engine.helper.Utilities;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -90,7 +86,7 @@ public class ProfileService extends AbstractService<_Profile, ProfileResponse> {
         }
 
         if (entity.getDateOfBirth() != null) {
-            profile.setDateOfBirth(getDateInUTC(entity.getDateOfBirth()));
+            profile.setDateOfBirth(Utilities.getDateInUTC(entity.getDateOfBirth()));
         }
 
         if (entity.getImage() != null) {
@@ -108,7 +104,7 @@ public class ProfileService extends AbstractService<_Profile, ProfileResponse> {
         }
         profile.setDateCreated(new Date());
         if (entity.getDateCreated() != null) {
-            profile.setDateCreated(getDateInUTC(entity.getDateCreated()));
+            profile.setDateCreated(Utilities.getDateInUTC(entity.getDateCreated()));
         }
         if (entity.getAuthorId() != null) {
             profile.setAuthor(new Users(entity.getAuthorId().longValue()));
