@@ -194,7 +194,8 @@ public class UserService extends AbstractService<_User, UserResponse> implements
                         
                         List<PermissionsResponse> permissionsResponses = new ArrayList<>();
                         
-                        Collection<UserRole> arolesList = users.getUserRoleCollection();
+                        Collection<UserRole> arolesList = null;
+                        //users.getUserRoleCollection();
                         
                         if (arolesList.isEmpty()) {
                             LOG.log(Level.INFO, " RESPONSE S  EMPTY ");
@@ -348,6 +349,8 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         UserResponse response = new UserResponse();
         response.setId(entity.getId().intValue());
         response.setUsername(entity.getUsername());
+        response.setDateCreated(entity.getDateCreated().getTime());
+        response.setStatus(entity.getStatus());
         Set<Roles> roleSet = entity.getUserRoles();
         Set<UserProfile> userProfiles = entity.getUserProfileCollection();
         

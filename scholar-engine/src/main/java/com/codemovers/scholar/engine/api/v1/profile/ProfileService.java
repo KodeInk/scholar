@@ -110,8 +110,6 @@ public class ProfileService extends AbstractService<_Profile, ProfileResponse> {
             profile.setAuthor(new Users(entity.getAuthorId().longValue()));
         }
 
-
-
         return profile;
     }
 

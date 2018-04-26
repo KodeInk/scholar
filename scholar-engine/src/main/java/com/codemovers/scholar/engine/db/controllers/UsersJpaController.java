@@ -99,10 +99,11 @@ public class UsersJpaController extends EngineJpaController {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaBuilder cb = em.getCriteriaBuilder();
-            CriteriaQuery cq = cb.createQuery();
-            Root<Users> from = cq.from(Users.class);
-            cq.orderBy(cb.desc(from.get("dateCreated")));
+            CriteriaQuery<Users> cq = cb.createQuery(Users.class);
+            Root<Users> user = cq.from(Users.class);
             cq.select(cq.from(Users.class));
+            cq.orderBy(cb.desc(user.get("dateCreated")));
+
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(firstResult);

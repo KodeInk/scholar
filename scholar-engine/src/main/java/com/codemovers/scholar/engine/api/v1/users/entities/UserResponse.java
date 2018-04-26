@@ -6,14 +6,16 @@
 package com.codemovers.scholar.engine.api.v1.users.entities;
 
 import com.codemovers.scholar.engine.api.v1.roles.entities.RoleResponse;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Objects;
 
 /**
  *
  * @author Mover 11/22/2017
  */
+@JsonInclude(Include.NON_NULL)
 public class UserResponse {
 
     private Integer id;
@@ -23,7 +25,7 @@ public class UserResponse {
     private String accounttype;
     private String emailaddress;
     private String authentication;
-    private Date dateCreated;
+    private Long dateCreated;
     private ProfileResponse profile;
 
     public UserResponse() {
@@ -89,11 +91,11 @@ public class UserResponse {
         this.authentication = authentication;
     }
 
-    public Date getDateCreated() {
+    public Long getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(Long dateCreated) {
         this.dateCreated = dateCreated;
     }
 
