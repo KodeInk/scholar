@@ -25,7 +25,7 @@ public class _Profile extends AbstractEntity {
     private String middleName;
     private String lastName;
     private String prefix;
-    private Date dateOfBirth;
+    private Long dateOfBirth;
     private String image;
     private @Mandatory
     ProfileTypesEnum profileType;
@@ -34,7 +34,7 @@ public class _Profile extends AbstractEntity {
     private @Mandatory
     StatusEnum status;
     private @Mandatory
-    Date dateCreated;
+    Long dateCreated;
     private @Mandatory
     Integer authorId;
 
@@ -82,11 +82,11 @@ public class _Profile extends AbstractEntity {
         this.prefix = prefix;
     }
 
-    public Date getDateOfBirth() {
+    public Long getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(Long dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -122,11 +122,11 @@ public class _Profile extends AbstractEntity {
         this.status = status;
     }
 
-    public Date getDateCreated() {
+    public Long getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(Long dateCreated) {
         this.dateCreated = dateCreated;
     }
 

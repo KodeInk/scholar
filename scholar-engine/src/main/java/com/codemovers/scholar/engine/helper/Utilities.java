@@ -465,4 +465,22 @@ Using SHA-256 :
 
     }
 
+    public Date getDateInUTC(Long date) {
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTimeInMillis(date);
+
+        DateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
+
+        formatter.setCalendar(calendar);
+
+        System.out.println(formatter.format(calendar.getTime()));
+        TimeZone timeZone = TimeZone.getTimeZone("UTC");
+        formatter.setTimeZone(timeZone);
+
+        Date d = new Date(formatter.format(calendar.getTime()));
+
+        return d;
+    }
+
+
 }

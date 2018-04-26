@@ -14,7 +14,12 @@ import com.codemovers.scholar.engine.db.entities.Profile;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Users;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -83,9 +88,11 @@ public class ProfileService extends AbstractService<_Profile, ProfileResponse> {
         if (entity.getPrefix() != null) {
             profile.setPrefix(entity.getPrefix());
         }
+
         if (entity.getDateOfBirth() != null) {
-            profile.setDateOfBirth(entity.getDateOfBirth());
+            profile.setDateOfBirth(getDateInUTC(entity.getDateOfBirth()));
         }
+
         if (entity.getImage() != null) {
             profile.setImage(entity.getImage());
         }
@@ -101,14 +108,17 @@ public class ProfileService extends AbstractService<_Profile, ProfileResponse> {
         }
         profile.setDateCreated(new Date());
         if (entity.getDateCreated() != null) {
-            profile.setDateCreated(entity.getDateCreated());
+            profile.setDateCreated(getDateInUTC(entity.getDateCreated()));
         }
         if (entity.getAuthorId() != null) {
             profile.setAuthor(new Users(entity.getAuthorId().longValue()));
         }
 
+
+
         return profile;
     }
+
 
     public Profile populateResponse(ProfileResponse entity) {
         Profile profile = new Profile();
