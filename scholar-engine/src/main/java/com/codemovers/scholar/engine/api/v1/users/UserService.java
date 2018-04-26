@@ -8,13 +8,12 @@ package com.codemovers.scholar.engine.api.v1.users;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.profile.ProfileService;
-import com.codemovers.scholar.engine.api.v1.profile.entities._Profile;
+import com.codemovers.scholar.engine.api.v1.profile.entities.ProfileResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities.Login;
 import com.codemovers.scholar.engine.api.v1.roles.RolesService;
 import com.codemovers.scholar.engine.api.v1.roles.entities.PermissionsResponse;
 import com.codemovers.scholar.engine.api.v1.roles.entities.RoleResponse;
 import com.codemovers.scholar.engine.api.v1.staff.StaffService;
-import com.codemovers.scholar.engine.api.v1.users.entities.ProfileResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities.UserResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities._User;
 import com.codemovers.scholar.engine.db.controllers.UserProfileJpaController;
@@ -358,17 +357,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
             
             for (UserProfile profile : userProfiles) {
                 Profile _profile = profile.getProfile();
-                ProfileResponse personResponse = new ProfileResponse();
-                personResponse.setFirstName(_profile.getFirstName());
-                personResponse.setMiddleName(_profile.getMiddleName());
-                personResponse.setLastName(_profile.getLastName());
-                personResponse.setPrefix(_profile.getPrefix());
-                personResponse.setDateOfBirth(_profile.getDateOfBirth());
-                personResponse.setStatus(_profile.getStatus());
-                personResponse.setDateCreated(_profile.getDateCreated());
-                if (_profile.getAuthor() != null) {
-                    personResponse.setAuthor(_profile.getAuthor().getUsername());
-                }
+                ProfileResponse personResponse = ProfileService.getInstance().populateResponse(_profile);
                 response.setProfile(personResponse);
                 break;
             }
@@ -390,7 +379,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
             List<RoleResponse> rrs = new ArrayList<>();
             List<RoleResponse> rsList = new ArrayList<>();
             roleSet.forEach((_role) -> {
-                rsList.add(RolesService.populateResponse(_role, extended));
+                rsList.add(RolesService.getInstance().populateResponse(_role, extended));
             });
             
             roleResponses = new RoleResponse[rsList.size()];

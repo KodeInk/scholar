@@ -5,6 +5,7 @@
  */
 package com.codemovers.scholar.engine.api.v1.users.entities;
 
+import com.codemovers.scholar.engine.api.v1.profile.entities.ProfileResponse;
 import com.codemovers.scholar.engine.api.v1.roles.entities.RoleResponse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;

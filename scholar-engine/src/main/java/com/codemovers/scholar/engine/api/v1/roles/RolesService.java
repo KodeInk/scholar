@@ -122,7 +122,7 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
      * @param extended
      * @return
      */
-    public static RoleResponse populateResponse(Roles role, Boolean extended) {
+    public RoleResponse populateResponse(Roles role, Boolean extended) {
         RoleResponse roleResponse = new RoleResponse();
 
         if (role != null) {
