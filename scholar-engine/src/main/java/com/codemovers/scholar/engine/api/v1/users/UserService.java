@@ -202,25 +202,13 @@ public class UserService extends AbstractService<_User, UserResponse> implements
                         
                         for (Roles r : roleslist) {
                             
-                            Set<Permissions> _permissionset = r.getPermissions();
-                            PermissionsResponse permissionsResponse = new PermissionsResponse();
-                            permissionsResponse.setName(r.getName());
-                            permissionsResponses.add(permissionsResponse);
+//                            Set<Permissions> _permissionset = r.getPermissions();
+//                            PermissionsResponse permissionsResponse = new PermissionsResponse();
+//                            permissionsResponse.setName(r.getName());
+//                            permissionsResponses.add(permissionsResponse);
 
-//                            for (Permissions p : _permissionset) {
-//                                permissions.add(p);
-//                            }
                         }
 
-//                        roleslist.stream().map((r) -> r.getPermissions()).forEachOrdered((_permissionset) -> {
-//                            _permissionset.forEach((p) -> {
-//                                PermissionsResponse permissionsResponse = new PermissionsResponse();
-//                                permissionsResponse.setCode(p.getCode());
-//                                permissionsResponse.setName(p.getName());
-//                                permissionsResponse.setId(p.getId().intValue());
-//                                permissionsResponses.add(permissionsResponse);
-//                            });
-//                        });
                         response.setId(users.getId().intValue());
                         response.setAuthentication(authentication);
                         response.setPermissions(permissionsResponses);

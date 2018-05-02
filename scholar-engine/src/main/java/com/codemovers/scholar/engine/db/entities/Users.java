@@ -74,17 +74,17 @@ public class Users implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = {
         @JoinColumn(name = "user_id")}, inverseJoinColumns = {
         @JoinColumn(name = "role_id")})
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Roles> UserRoles;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_profile", joinColumns = {
         @JoinColumn(name = "user_id")}, inverseJoinColumns = {
         @JoinColumn(name = "profile_id")})
-    private Set<Profile> userProfile;
+    private Set<Profile> UserProfiles;
 
     public Users() {
     }
@@ -151,11 +151,11 @@ public class Users implements Serializable {
     }
 
     public Set<Profile> getUserProfileCollection() {
-        return userProfile;
+        return UserProfiles;
     }
 
     public void setUserProfileCollection(Set<Profile> userProfile) {
-        this.userProfile = userProfile;
+        this.UserProfiles = userProfile;
     }
 
     @Override
