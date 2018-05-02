@@ -18,6 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -74,16 +75,16 @@ public class Users implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = {
-        @JoinColumn(name = "user_id")}, inverseJoinColumns = {
-        @JoinColumn(name = "role_id")})
+        @JoinColumn(name = "role_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "user_id", referencedColumnName = "id")})
     private Set<Roles> UserRoles;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_profile", joinColumns = {
-        @JoinColumn(name = "user_id")}, inverseJoinColumns = {
-        @JoinColumn(name = "profile_id")})
+        @JoinColumn(name = "user_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "profile_id", referencedColumnName = "id")})
     private Set<Profile> UserProfiles;
 
     public Users() {
