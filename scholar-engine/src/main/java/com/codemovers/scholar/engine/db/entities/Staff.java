@@ -81,6 +81,9 @@ public class Staff implements Serializable {
     @ManyToOne(optional = false)
     private Users author;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "staffId")
+    private Collection<UserStaff> userStaffCollection;
+
     public Staff() {
     }
 
@@ -162,6 +165,16 @@ public class Staff implements Serializable {
         this.author = author;
     }
 
+    @XmlTransient
+    public Collection<UserStaff> getUserStaffCollection() {
+        return userStaffCollection;
+    }
+
+    public void setUserStaffCollection(Collection<UserStaff> userStaffCollection) {
+        this.userStaffCollection = userStaffCollection;
+    }
+
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -186,5 +199,6 @@ public class Staff implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.Staff[ id=" + id + " ]";
     }
+
 
 }
