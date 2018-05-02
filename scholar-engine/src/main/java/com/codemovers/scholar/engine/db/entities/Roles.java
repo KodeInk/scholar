@@ -80,22 +80,14 @@ public class Roles implements Serializable {
     @Column(name = "date_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
-    @JoinTable(name = "user_role", joinColumns = {
-        @JoinColumn(name = "role_id", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "user_id", referencedColumnName = "id")})
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Collection<Users> usersCollection;
 
-//    @ManyToMany(mappedBy = "rolesCollection")
-//    private Collection<Permissions> permissionsCollection;
-//    
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users authorId;
 
     @JoinTable(name = "role_permission", joinColumns = {
-        @JoinColumn(name = "permission_id", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "role_id", referencedColumnName = "id")})
+        @JoinColumn(name = "role_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "permission_id", referencedColumnName = "id")})
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Permissions> permissions;
 
@@ -163,23 +155,6 @@ public class Roles implements Serializable {
         this.dateCreated = dateCreated;
     }
 
-    @XmlTransient
-    public Collection<Users> getUsersCollection() {
-        return usersCollection;
-    }
-
-    public void setUsersCollection(Collection<Users> usersCollection) {
-        this.usersCollection = usersCollection;
-    }
-
-//    @XmlTransient
-//    public Collection<Permissions> getPermissionsCollection() {
-//        return permissionsCollection;
-//    }
-//
-//    public void setPermissionsCollection(Collection<Permissions> permissionsCollection) {
-//        this.permissionsCollection = permissionsCollection;
-//    }
     public Users getAuthorId() {
         return authorId;
     }

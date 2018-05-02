@@ -196,7 +196,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
                         Collection<UserRole> arolesList = null;
                         //users.getUserRoleCollection();
                         
-                        if (arolesList.isEmpty()) {
+                        if (arolesList == null) {
                             LOG.log(Level.INFO, " RESPONSE S  EMPTY ");
                         }
                         
@@ -351,12 +351,12 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         response.setDateCreated(entity.getDateCreated().getTime());
         response.setStatus(entity.getStatus());
         Set<Roles> roleSet = entity.getUserRoles();
-        Set<UserProfile> userProfiles = entity.getUserProfileCollection();
+        Set<Profile> userProfiles = entity.getUserProfileCollection();
         
         if (userProfiles != null) {
             
-            for (UserProfile profile : userProfiles) {
-                Profile _profile = profile.getProfile();
+            for (Profile profile : userProfiles) {
+                Profile _profile = profile;
                 ProfileResponse personResponse = ProfileService.getInstance().populateResponse(_profile);
                 response.setProfile(personResponse);
                 break;

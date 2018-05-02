@@ -6,7 +6,6 @@
 package com.codemovers.scholar.engine.db.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -19,7 +18,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -29,7 +27,6 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -76,21 +73,18 @@ public class Users implements Serializable {
     @Column(name = "date_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
-    @ManyToMany(mappedBy = "usersCollection", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Roles> rolesCollection;
-    //rolesCollection;
 
     @JoinTable(name = "user_role", joinColumns = {
         @JoinColumn(name = "user_id")}, inverseJoinColumns = {
         @JoinColumn(name = "role_id")})
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Roles> UserRoles;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_profile", joinColumns = {
         @JoinColumn(name = "user_id")}, inverseJoinColumns = {
         @JoinColumn(name = "profile_id")})
-    private Set<UserProfile> userProfileCollection;
+    private Set<Profile> userProfile;
 
     public Users() {
     }
@@ -156,12 +150,12 @@ public class Users implements Serializable {
         this.UserRoles = UserRoles;
     }
 
-    public Set<UserProfile> getUserProfileCollection() {
-        return userProfileCollection;
+    public Set<Profile> getUserProfileCollection() {
+        return userProfile;
     }
 
-    public void setUserProfileCollection(Set<UserProfile> userProfileCollection) {
-        this.userProfileCollection = userProfileCollection;
+    public void setUserProfileCollection(Set<Profile> userProfile) {
+        this.userProfile = userProfile;
     }
 
     @Override
