@@ -339,7 +339,7 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         }
         response.setStatus(entity.getStatus());
         Set<Roles> roleSet = entity.getUserRoles();
-        Set<Profile> userProfiles = entity.getUserProfileCollection();
+        Set<Profile> userProfiles = entity.getUserProfiles();
 
         if (userProfiles != null) {
 

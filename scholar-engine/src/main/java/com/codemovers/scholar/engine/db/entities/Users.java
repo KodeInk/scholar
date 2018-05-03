@@ -22,6 +22,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -87,6 +88,13 @@ public class Users implements Serializable {
         @JoinColumn(name = "profile_id", referencedColumnName = "id")})
     private Set<Profile> UserProfiles;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_staff", joinColumns = {
+        @JoinColumn(name = "user_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "staff_id", referencedColumnName = "id")})
+    private Staff staff;
+
+
     public Users() {
     }
 
@@ -151,12 +159,20 @@ public class Users implements Serializable {
         this.UserRoles = UserRoles;
     }
 
-    public Set<Profile> getUserProfileCollection() {
+    public Set<Profile> getUserProfiles() {
         return UserProfiles;
     }
 
-    public void setUserProfileCollection(Set<Profile> userProfile) {
+    public void setUserProfiles(Set<Profile> userProfile) {
         this.UserProfiles = userProfile;
+    }
+
+    public Staff getStaff() {
+        return staff;
+    }
+
+    public void setStaff(Staff staff) {
+        this.staff = staff;
     }
 
     @Override
