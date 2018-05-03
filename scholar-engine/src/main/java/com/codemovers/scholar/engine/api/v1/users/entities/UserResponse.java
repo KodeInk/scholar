@@ -7,9 +7,11 @@ package com.codemovers.scholar.engine.api.v1.users.entities;
 
 import com.codemovers.scholar.engine.api.v1.profile.entities.ProfileResponse;
 import com.codemovers.scholar.engine.api.v1.roles.entities.RoleResponse;
+import com.codemovers.scholar.engine.api.v1.staff.entities.StaffResponse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -22,12 +24,13 @@ public class UserResponse {
     private Integer id;
     private String username;
     private String status;
-    private RoleResponse[] Roles;
+    private List<RoleResponse> Roles;
     private String accounttype;
     private String emailaddress;
     private String authentication;
     private Long dateCreated;
     private ProfileResponse profile;
+    private StaffResponse staff;
 
     public UserResponse() {
     }
@@ -60,11 +63,11 @@ public class UserResponse {
         this.status = status;
     }
 
-    public RoleResponse[] getRoles() {
+    public List<RoleResponse> getRoles() {
         return Roles;
     }
 
-    public void setRoles(RoleResponse[] Roles) {
+    public void setRoles(List<RoleResponse> Roles) {
         this.Roles = Roles;
     }
 
@@ -108,17 +111,27 @@ public class UserResponse {
         this.profile = profile;
     }
 
+    public StaffResponse getStaff() {
+        return staff;
+    }
+
+    public void setStaff(StaffResponse staff) {
+        this.staff = staff;
+    }
+
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 53 * hash + Objects.hashCode(this.id);
-        hash = 53 * hash + Objects.hashCode(this.username);
-        hash = 53 * hash + Objects.hashCode(this.status);
-        hash = 53 * hash + Arrays.deepHashCode(this.Roles);
-        hash = 53 * hash + Objects.hashCode(this.accounttype);
-        hash = 53 * hash + Objects.hashCode(this.emailaddress);
-        hash = 53 * hash + Objects.hashCode(this.authentication);
-        hash = 53 * hash + Objects.hashCode(this.dateCreated);
+        hash = 61 * hash + Objects.hashCode(this.id);
+        hash = 61 * hash + Objects.hashCode(this.username);
+        hash = 61 * hash + Objects.hashCode(this.status);
+        hash = 61 * hash + Objects.hashCode(this.Roles);
+        hash = 61 * hash + Objects.hashCode(this.accounttype);
+        hash = 61 * hash + Objects.hashCode(this.emailaddress);
+        hash = 61 * hash + Objects.hashCode(this.authentication);
+        hash = 61 * hash + Objects.hashCode(this.dateCreated);
+        hash = 61 * hash + Objects.hashCode(this.profile);
+        hash = 61 * hash + Objects.hashCode(this.staff);
         return hash;
     }
 
@@ -152,10 +165,19 @@ public class UserResponse {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Arrays.deepEquals(this.Roles, other.Roles)) {
+        if (!Objects.equals(this.Roles, other.Roles)) {
             return false;
         }
-        return Objects.equals(this.dateCreated, other.dateCreated);
+        if (!Objects.equals(this.dateCreated, other.dateCreated)) {
+            return false;
+        }
+        if (!Objects.equals(this.profile, other.profile)) {
+            return false;
+        }
+        if (!Objects.equals(this.staff, other.staff)) {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -164,12 +186,14 @@ public class UserResponse {
                 + "id=" + id
                 + ", username=" + username
                 + ", status=" + status
-                + ", Roles=" + Arrays.asList(Roles)
+                + ", Roles=" + Roles
                 + ", accounttype=" + accounttype
                 + ", emailaddress=" + emailaddress
                 + ", authentication=" + authentication
                 + ", dateCreated=" + dateCreated
-                + "}";
+                + ", profile=" + profile
+                + ", staff=" + staff
+                + '}';
     }
 
 }

@@ -339,6 +339,16 @@ public class UserService extends AbstractService<_User, UserResponse> implements
         }
         response.setStatus(entity.getStatus());
         Set<Roles> roleSet = entity.getUserRoles();
+        List<RoleResponse> roleResponses = new ArrayList<>();
+        response.setRoles(roleResponses);
+
+        if (roleSet != null) {
+            for (Roles role : roleSet) {
+                roleResponses.add(RolesService.getInstance().populateResponse(role, false));
+            }
+        }
+        response.setRoles(roleResponses);
+
         Set<Profile> userProfiles = entity.getUserProfiles();
 
         if (userProfiles != null) {
@@ -352,8 +362,9 @@ public class UserService extends AbstractService<_User, UserResponse> implements
 
         }
 
-        RoleResponse[] roleResponses = getRolesResponse(roleSet, extended);
-        response.setRoles(roleResponses);
+        if (entity.getStaff() != null) {
+            response.setStaff(StaffService.getInstance().populateResponse(entity.getStaff()));
+        }
 
         return response;
     }
