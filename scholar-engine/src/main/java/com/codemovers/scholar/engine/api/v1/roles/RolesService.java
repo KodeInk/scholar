@@ -109,8 +109,8 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
         List<Roles> list = (limit == 0 && ofset == 0) ? controller.findRoles(data) : controller.findRoles(limit, ofset, data);
         List<RoleResponse> roleResponses = new ArrayList();
         if (list != null) {
-            for (Roles r : list) {
-                roleResponses.add(populateResponse(r, false));
+            for (Roles role : list) {
+                roleResponses.add(populateResponse(role, true));
             }
         }
         return roleResponses;
