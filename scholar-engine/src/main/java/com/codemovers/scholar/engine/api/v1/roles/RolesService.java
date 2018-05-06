@@ -63,8 +63,15 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
         //todo: create role via controller
         role = controller.create(role, data);
 
+        AttachPermissions(entity, role, data);
+
+        return populateResponse(role, true);
+    }
+
+    public void AttachPermissions(_Role entity, Roles role, SchoolData data) {
         //todo: attach the permissions to the Roles
         if (entity.getPermissions() != null) {
+//            RolePermissionJpaController.getInstance().deleteRolePermission(role.getId(), data);
             for (_Permission permission : entity.getPermissions()) {
 
                 Permissions permissions = new Permissions();
@@ -78,10 +85,7 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
 
             }
 
-
         }
-
-        return populateResponse(role, true);
     }
 
     public void CheckIfRoleExistsInTheSystem(String name, String code, SchoolData data) throws BadRequestException {

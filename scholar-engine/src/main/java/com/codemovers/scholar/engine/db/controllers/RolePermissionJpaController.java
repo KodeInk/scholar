@@ -37,13 +37,13 @@ public class RolePermissionJpaController extends EngineJpaController {
         super(RolePermission.class);
     }
 
-    public void deleteRolePermission(Integer roleId, SchoolData data) {
+    public void deleteRolePermission(Long roleId, SchoolData data) {
         EntityManager em = null;
         try {
             em = getEntityManager(data.getExternalId());
 
-            Query query = em.createNamedQuery("RolePermission.deleteByRoleid");
-            query.setParameter("id", roleId.longValue());
+            Query query = em.createQuery("DELETE FROM RolePermission WHERE role_id = " + roleId + " ");
+
             query.executeUpdate();
 
         } catch (Exception eml) {
