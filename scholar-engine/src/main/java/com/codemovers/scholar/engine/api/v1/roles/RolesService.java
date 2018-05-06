@@ -11,6 +11,7 @@ import com.codemovers.scholar.engine.api.v1.roles.entities.PermissionsResponse;
 import com.codemovers.scholar.engine.api.v1.roles.entities.RoleResponse;
 import com.codemovers.scholar.engine.api.v1.roles.entities._Permission;
 import com.codemovers.scholar.engine.api.v1.roles.entities._Role;
+import com.codemovers.scholar.engine.db.controllers.RolePermissionJpaController;
 import com.codemovers.scholar.engine.db.controllers.RolesJpaController;
 import com.codemovers.scholar.engine.db.entities.Permissions;
 import com.codemovers.scholar.engine.db.entities.RolePermission;
@@ -72,6 +73,8 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
                 RolePermission rolePermission = new RolePermission();
                 rolePermission.setPermission(permissions);
                 rolePermission.setRole(role);
+
+                RolePermissionJpaController.getInstance().create(rolePermission, data);
 
             }
 

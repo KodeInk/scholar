@@ -28,7 +28,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "RolePermission.findAll", query = "SELECT r FROM RolePermission r")
-    , @NamedQuery(name = "RolePermission.findById", query = "SELECT r FROM RolePermission r WHERE r.id = :id")})
+    , @NamedQuery(name = "RolePermission.findById", query = "SELECT r FROM RolePermission r WHERE r.id = :id")
+    , @NamedQuery(name = "RolePermission.deleteByRoleid", query = "DELETE  FROM RolePermission r WHERE r.role.id = :id")
+})
 public class RolePermission implements Serializable {
 
     private static final long serialVersionUID = 1L;

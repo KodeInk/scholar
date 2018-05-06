@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
 import javax.ws.rs.BadRequestException;
 
 /**
@@ -34,6 +35,26 @@ public class RolePermissionJpaController extends EngineJpaController {
 
     public RolePermissionJpaController() {
         super(RolePermission.class);
+    }
+
+    public void deleteRolePermission(Integer roleId, SchoolData data) {
+        EntityManager em = null;
+        try {
+            em = getEntityManager(data.getExternalId());
+
+            Query query = em.createNamedQuery("RolePermission.deleteByRoleid");
+            query.setParameter("id", roleId.longValue());
+            query.executeUpdate();
+
+        } catch (Exception eml) {
+            LOG.log(Level.INFO, eml.toString());
+            throw eml;
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+
     }
 
     public RolePermission create(RolePermission entity, SchoolData data) {
