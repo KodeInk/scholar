@@ -171,7 +171,7 @@ public class UsersJpaController extends EngineJpaController {
             LOG.log(Level.INFO, " TEST 1234    ");
             List<Users> list = query.getResultList();
             LOG.log(Level.FINE, " User with username {0} found ", new Object[]{username});
-            if (list != null) {
+            if (list != null && list.size() > 0) {
                 users = list.get(0);
             }
 

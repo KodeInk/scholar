@@ -17,9 +17,14 @@ import com.codemovers.scholar.engine.db.entities.Users;
 import java.util.List;
 import java.util.Set;
 import org.junit.AfterClass;
+import org.junit.Assert;
+import static org.junit.Assert.assertArrayEquals;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.fail;
+
 
 /**
  *
@@ -44,11 +49,10 @@ public class UserServiceTest {
     @Test
     public void testGetInstance() {
         System.out.println("getInstance");
-        UserService expResult = null;
+        UserService expResult = new UserService();
         UserService result = UserService.getInstance();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Assert.assertNotNull(result);
+
     }
 
     /**

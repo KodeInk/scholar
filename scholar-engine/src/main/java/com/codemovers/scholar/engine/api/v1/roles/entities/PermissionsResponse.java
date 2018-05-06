@@ -5,12 +5,15 @@
  */
 package com.codemovers.scholar.engine.api.v1.roles.entities;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.util.Objects;
 
 /**
  *
  * @author mover 12/19/2017
  */
+@JsonInclude(Include.NON_NULL)
 public class PermissionsResponse {
 
     private Integer id;

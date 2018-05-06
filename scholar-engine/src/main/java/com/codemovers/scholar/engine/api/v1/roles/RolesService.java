@@ -9,14 +9,20 @@ import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.roles.entities.PermissionsResponse;
 import com.codemovers.scholar.engine.api.v1.roles.entities.RoleResponse;
+import com.codemovers.scholar.engine.api.v1.roles.entities._Permission;
 import com.codemovers.scholar.engine.api.v1.roles.entities._Role;
 import com.codemovers.scholar.engine.db.controllers.RolesJpaController;
 import com.codemovers.scholar.engine.db.entities.Permissions;
 import com.codemovers.scholar.engine.db.entities.Roles;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import com.codemovers.scholar.engine.db.entities.Users;
+import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,9 +54,29 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
 
         entity.validate();
         Roles role = populateBasicRole(entity);
-        //todo: check if there is no Role by name or code in the system
-        //todo: create Role 
-        return super.create(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
+        role.setDateCreated(new Date());
+        role.setAuthor(new Users(authentication.getId().longValue()));
+        CheckIfRoleExistsInTheSystem(entity.getName(), entity.getCode(), data);
+
+        //todo: create role via controller
+        role = controller.create(role, data);
+
+        //todo: attach the permissions to the Roles
+        if (entity.getPermissions() != null) {
+            for (_Permission permission : entity.getPermissions()) {
+
+            }
+        }
+
+        return populateResponse(role, true);
+    }
+
+    public void CheckIfRoleExistsInTheSystem(String name, String code, SchoolData data) throws BadRequestException {
+        //todo: check to see that the role does not exist by name and or code;
+        List<Roles> roles = controller.findByNameOrCode(name, code, data);
+        if (roles != null && roles.size() > 0) {
+            throw new BadRequestException("Role name or Code exists in the system");
+        }
     }
 
     /**
@@ -129,16 +155,23 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
             roleResponse.setDescription(role.getDescription());
             roleResponse.setIsSystem(role.getIsSystem() == 1);
             roleResponse.setName(role.getName());
+            roleResponse.setId(role.getId().intValue());
+            if (role.getAuthor() != null) {
+                roleResponse.setAuthor(role.getAuthor().getUsername());
+            }
 
+            if (role.getDateCreated() != null) {
+                roleResponse.setDateCreated(role.getDateCreated().getTime());
+            }
+            if (role.getAuthor() != null) {
+                roleResponse.setAuthor(role.getAuthor().getUsername());
+            }
             if (extended == true) {
 
                 if (role.getPermissions() != null) {
                     List<PermissionsResponse> permissionsResponses = new ArrayList<>();
-                    for (Permissions p : role.getPermissions()) {
-                        PermissionsResponse permissionsResponse = new PermissionsResponse();
-                        permissionsResponse.setCode(p.getCode());
-                        permissionsResponse.setName(p.getName());
-                        permissionsResponses.add(permissionsResponse);
+                    for (Permissions permission : role.getPermissions()) {
+                        getPermissionResponse(permission, permissionsResponses);
                     }
                     PermissionsResponse[] prs = new PermissionsResponse[permissionsResponses.size()];
                     roleResponse.setPermissions(permissionsResponses.toArray(prs));
@@ -147,6 +180,15 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
         }
 
         return roleResponse;
+    }
+
+    public void getPermissionResponse(Permissions p, List<PermissionsResponse> permissionsResponses) {
+        PermissionsResponse permissionsResponse = new PermissionsResponse();
+        permissionsResponse.setCode(p.getCode());
+        permissionsResponse.setName(p.getName());
+
+        permissionsResponses.add(permissionsResponse);
+
     }
 
     /**
@@ -163,9 +205,27 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
             role.setDescription(entity.getDescription());
             role.setIsSystem(Short.valueOf((entity.isIsSystem() == true ? "1" : "0")));
 
+
         }
 
+
+
         return role;
+    }
+
+    public static Set<Permissions> getPermissions(_Role entity, Roles role) {
+        Set<Permissions> permisions = new HashSet<>();
+        if (entity.getPermissions() != null && entity.getPermissions().length > 0) {
+
+            for (_Permission permission : entity.getPermissions()) {
+                Permissions permision = new Permissions();
+                permision.setId(permission.getId().longValue());
+                permisions.add(permision);
+            }
+            role.setPermissions(permisions);
+        }
+
+        return permisions;
     }
 
 }

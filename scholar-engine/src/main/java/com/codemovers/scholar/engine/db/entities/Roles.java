@@ -83,7 +83,7 @@ public class Roles implements Serializable {
 
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Users authorId;
+    private Users author;
 
     @JoinTable(name = "role_permission", joinColumns = {
         @JoinColumn(name = "role_id", referencedColumnName = "id")}, inverseJoinColumns = {
@@ -155,12 +155,12 @@ public class Roles implements Serializable {
         this.dateCreated = dateCreated;
     }
 
-    public Users getAuthorId() {
-        return authorId;
+    public Users getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(Users authorId) {
-        this.authorId = authorId;
+    public void setAuthor(Users author) {
+        this.author = author;
     }
 
     public Set<Permissions> getPermissions() {
