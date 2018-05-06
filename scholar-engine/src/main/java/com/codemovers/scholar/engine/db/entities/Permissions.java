@@ -47,7 +47,7 @@ public class Permissions implements Serializable {
     @Size(max = 255)
     @Column(name = "code")
     private String code;
-    @OneToMany(mappedBy = "permissionId")
+    @OneToMany(mappedBy = "permission")
     private Collection<RolePermission> rolePermissionCollection;
 
 
