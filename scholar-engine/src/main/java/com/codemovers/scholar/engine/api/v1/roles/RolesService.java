@@ -173,6 +173,7 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
             roleResponse.setIsSystem(role.getIsSystem() == 1);
             roleResponse.setName(role.getName());
             roleResponse.setId(role.getId().intValue());
+            roleResponse.setCode(role.getCode());
             if (role.getAuthor() != null) {
                 roleResponse.setAuthor(role.getAuthor().getUsername());
             }

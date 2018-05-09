@@ -18,6 +18,7 @@ public class RoleResponse {
 
     private Integer id;
     private String name;
+    private String code;
     private String description;
     private boolean isSystem;
     private PermissionsResponse[] permissions;
@@ -87,6 +88,14 @@ public class RoleResponse {
         this.author = author;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;
@@ -130,6 +139,7 @@ public class RoleResponse {
         return "RoleResponse{"
                 + "id=" + id
                 + ", name=" + name
+                + ", code=" + code
                 + ", description=" + description
                 + ", isSystem=" + isSystem
                 + ", permissions=" + Arrays.asList(permissions)
