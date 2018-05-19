@@ -149,7 +149,7 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
     public List<RoleResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
 
         //todo:  make sure the user has permissions to make this function
-        List<Roles> list =  controller.findRoles(limit, ofset, data);
+        List<Roles> list = controller.findRoles(limit, ofset, data);
         List<RoleResponse> roleResponses = new ArrayList();
         if (list != null) {
             for (Roles role : list) {
@@ -188,9 +188,9 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
 
                 if (role.getPermissions() != null) {
                     List<PermissionsResponse> permissionsResponses = new ArrayList<>();
-                    for (Permissions permission : role.getPermissions()) {
-                        getPermissionResponse(permission, permissionsResponses);
-                    }
+                    role.getPermissions().forEach((permission) -> {
+                        permissionsResponses.add(getPermissionResponse(permission));
+                    });
                     PermissionsResponse[] prs = new PermissionsResponse[permissionsResponses.size()];
                     roleResponse.setPermissions(permissionsResponses.toArray(prs));
                 }
@@ -200,12 +200,11 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
         return roleResponse;
     }
 
-    public void getPermissionResponse(Permissions p, List<PermissionsResponse> permissionsResponses) {
+    public PermissionsResponse getPermissionResponse(Permissions p) {
         PermissionsResponse permissionsResponse = new PermissionsResponse();
         permissionsResponse.setCode(p.getCode());
         permissionsResponse.setName(p.getName());
-
-        permissionsResponses.add(permissionsResponse);
+        return permissionsResponse;
 
     }
 
@@ -223,10 +222,7 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
             role.setDescription(entity.getDescription());
             role.setIsSystem(Short.valueOf((entity.isIsSystem() == true ? "1" : "0")));
 
-
         }
-
-
 
         return role;
     }

@@ -10,6 +10,7 @@ import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -50,7 +51,7 @@ public class Permissions implements Serializable {
     @Size(max = 255)
     @Column(name = "category")
     private String category;
-    @OneToMany(mappedBy = "permission")
+    @OneToMany(mappedBy = "permission", fetch = FetchType.LAZY)
     private Collection<RolePermission> rolePermissionCollection;
 
     public Permissions() {
