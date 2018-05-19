@@ -7,6 +7,7 @@ package com.codemovers.scholar.engine.api.v1.roles;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
+import com.codemovers.scholar.engine.api.v1.permissions.PermissionsService;
 import com.codemovers.scholar.engine.api.v1.permissions.entities.PermissionsResponse;
 import com.codemovers.scholar.engine.api.v1.roles.entities.RoleResponse;
 import com.codemovers.scholar.engine.api.v1.permissions.entities._Permission;
@@ -189,7 +190,7 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
                 if (role.getPermissions() != null) {
                     List<PermissionsResponse> permissionsResponses = new ArrayList<>();
                     role.getPermissions().forEach((permission) -> {
-                        permissionsResponses.add(getPermissionResponse(permission));
+                        permissionsResponses.add(PermissionsService.getInstance().getResponse(permission));
                     });
                     PermissionsResponse[] prs = new PermissionsResponse[permissionsResponses.size()];
                     roleResponse.setPermissions(permissionsResponses.toArray(prs));
@@ -200,14 +201,6 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
         return roleResponse;
     }
 
-    public PermissionsResponse getPermissionResponse(Permissions p) {
-        PermissionsResponse permissionsResponse = new PermissionsResponse();
-        permissionsResponse.setCode(p.getCode());
-        permissionsResponse.setName(p.getName());
-        permissionsResponse.setCategory(p.getCategory());
-        return permissionsResponse;
-
-    }
 
     /**
      *
