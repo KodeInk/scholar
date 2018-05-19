@@ -7,9 +7,9 @@ package com.codemovers.scholar.engine.api.v1.roles;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import com.codemovers.scholar.engine.api.v1.roles.entities.PermissionsResponse;
+import com.codemovers.scholar.engine.api.v1.permissions.entities.PermissionsResponse;
 import com.codemovers.scholar.engine.api.v1.roles.entities.RoleResponse;
-import com.codemovers.scholar.engine.api.v1.roles.entities._Permission;
+import com.codemovers.scholar.engine.api.v1.permissions.entities._Permission;
 import com.codemovers.scholar.engine.api.v1.roles.entities._Role;
 import com.codemovers.scholar.engine.db.controllers.RolePermissionJpaController;
 import com.codemovers.scholar.engine.db.controllers.RolesJpaController;

@@ -11,7 +11,7 @@ import com.codemovers.scholar.engine.api.v1.profile.ProfileService;
 import com.codemovers.scholar.engine.api.v1.profile.entities.ProfileResponse;
 import com.codemovers.scholar.engine.api.v1.users.entities.Login;
 import com.codemovers.scholar.engine.api.v1.roles.RolesService;
-import com.codemovers.scholar.engine.api.v1.roles.entities.PermissionsResponse;
+import com.codemovers.scholar.engine.api.v1.permissions.entities.PermissionsResponse;
 import com.codemovers.scholar.engine.api.v1.roles.entities.RoleResponse;
 import com.codemovers.scholar.engine.api.v1.staff.StaffService;
 import com.codemovers.scholar.engine.api.v1.users.entities.UserResponse;

@@ -5,7 +5,7 @@
  */
 package com.codemovers.scholar.engine.api.v1.accounts.entities;
 
-import com.codemovers.scholar.engine.api.v1.roles.entities.PermissionsResponse;
+import com.codemovers.scholar.engine.api.v1.permissions.entities.PermissionsResponse;
 import java.util.List;
 
 /**

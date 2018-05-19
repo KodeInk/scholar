@@ -5,6 +5,7 @@
  */
 package com.codemovers.scholar.engine.api.v1.roles.entities;
 
+import com.codemovers.scholar.engine.api.v1.permissions.entities.PermissionsResponse;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Arrays;
 import java.util.Objects;
