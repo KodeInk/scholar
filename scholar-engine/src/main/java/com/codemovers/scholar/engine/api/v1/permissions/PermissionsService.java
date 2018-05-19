@@ -21,37 +21,40 @@ import java.util.List;
  *
  * @author mover 5/19/2018
  */
-public class PermissionsService  extends AbstractService<_Permission, PermissionsResponse> {
-    
-     private final PermissionsJpaController controller;
+public class PermissionsService extends AbstractService<_Permission, PermissionsResponse> {
+
+    private final PermissionsJpaController controller;
 
     private static PermissionsService service = null;
-    
-       public PermissionsService() {
+
+    public PermissionsService() {
         controller = PermissionsJpaController.getInstance();
     }
-       
-      
+
     public static PermissionsService getInstance() {
         if (service == null) {
             service = new PermissionsService();
         }
         return service;
-    } 
+    }
 
     @Override
     public List<PermissionsResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
-      
-        List<Permissions> permissionsList = controller.findPermissions(ofset, limit, data);
-        List<PermissionsResponse> permissionsResponses = new ArrayList<>();
-        permissionsList.forEach((permission) -> {
-            permissionsResponses.add( getResponse(permission));
-         });        
-        return permissionsResponses;
+        //todo: check for permisions to view this list 
+        try {
+            List<Permissions> permissionsList = controller.findPermissions(limit,ofset,  data);
+            List<PermissionsResponse> permissionsResponses = new ArrayList<>();
+            permissionsList.forEach((permission) -> {
+                permissionsResponses.add(getResponse(permission));
+            });
+            return permissionsResponses;
+        } catch (Exception er) {
+
+            er.printStackTrace();
+            throw er;
+        }
     }
-    
-    
-  
+
     public PermissionsResponse getResponse(Permissions p) {
         PermissionsResponse permissionsResponse = new PermissionsResponse();
         permissionsResponse.setCode(p.getCode());
