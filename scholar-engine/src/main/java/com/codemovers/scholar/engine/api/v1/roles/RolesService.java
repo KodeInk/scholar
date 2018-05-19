@@ -204,6 +204,7 @@ public class RolesService extends AbstractService<_Role, RoleResponse> {
         PermissionsResponse permissionsResponse = new PermissionsResponse();
         permissionsResponse.setCode(p.getCode());
         permissionsResponse.setName(p.getName());
+        permissionsResponse.setCategory(p.getCategory());
         return permissionsResponse;
 
     }

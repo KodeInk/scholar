@@ -19,6 +19,7 @@ public class PermissionsResponse {
     private Integer id;
     private String name;
     private String code;
+    private String category;
     private String status;
 
     public PermissionsResponse() {
@@ -60,13 +61,22 @@ public class PermissionsResponse {
         this.status = status;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 29 * hash + Objects.hashCode(this.id);
-        hash = 29 * hash + Objects.hashCode(this.name);
-        hash = 29 * hash + Objects.hashCode(this.code);
-        hash = 29 * hash + Objects.hashCode(this.status);
+        int hash = 5;
+        hash = 13 * hash + Objects.hashCode(this.id);
+        hash = 13 * hash + Objects.hashCode(this.name);
+        hash = 13 * hash + Objects.hashCode(this.code);
+        hash = 13 * hash + Objects.hashCode(this.category);
+        hash = 13 * hash + Objects.hashCode(this.status);
         return hash;
     }
 
@@ -88,6 +98,9 @@ public class PermissionsResponse {
         if (!Objects.equals(this.code, other.code)) {
             return false;
         }
+        if (!Objects.equals(this.category, other.category)) {
+            return false;
+        }
         if (!Objects.equals(this.status, other.status)) {
             return false;
         }
@@ -96,7 +109,13 @@ public class PermissionsResponse {
 
     @Override
     public String toString() {
-        return "PermissionsResponse{" + "id=" + id + ", name=" + name + ", code=" + code + ", status=" + status + '}';
+        return "PermissionsResponse{"
+                + "id=" + id
+                + ", name=" + name
+                + ", code=" + code
+                + ", category=" + category
+                + ", status=" + status
+                + '}';
     }
 
 }
