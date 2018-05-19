@@ -47,9 +47,11 @@ public class Permissions implements Serializable {
     @Size(max = 255)
     @Column(name = "code")
     private String code;
+    @Size(max = 255)
+    @Column(name = "category")
+    private String category;
     @OneToMany(mappedBy = "permission")
     private Collection<RolePermission> rolePermissionCollection;
-
 
     public Permissions() {
     }
@@ -82,6 +84,15 @@ public class Permissions implements Serializable {
         this.code = code;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+    
+
     @XmlTransient
     public Collection<RolePermission> getRolePermissionCollection() {
         return rolePermissionCollection;
@@ -90,7 +101,6 @@ public class Permissions implements Serializable {
     public void setRolePermissionCollection(Collection<RolePermission> rolePermissionCollection) {
         this.rolePermissionCollection = rolePermissionCollection;
     }
-
 
     @Override
     public int hashCode() {
@@ -113,6 +123,5 @@ public class Permissions implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.Permissions[ id=" + id + " ]";
     }
-
 
 }
