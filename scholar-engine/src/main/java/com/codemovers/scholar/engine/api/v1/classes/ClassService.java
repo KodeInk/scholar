@@ -64,10 +64,13 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
         check_access(CREATE_CLASS_PERMISSION);
         //todo: validate the class creation
         entity.validate();
-        
+
         //todo: check if a class exists with the same name or code or ranking
-        
-        
+        List<Classes> list = controller.findClasses(entity.getName(), entity.getCode(), entity.getRanking().longValue(), data);
+
+        if (list != null && list.size() > 0 ) {
+            throw new BadRequestException("Class exists with same name code or ranking ");
+        }
         //todo: add author_id,  add status enum
         entity.setAuthor_id(authentication.getId());
         entity.setStatus(StatusEnum.ACTIVE);
@@ -77,9 +80,6 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
         return populateResponse(classes);
 
     }
-
- 
-  
 
     /**
      *
@@ -246,6 +246,5 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
         classes.setStatus(entity.getStatus().name());
         return classes;
     }
-      
-      
+
 }

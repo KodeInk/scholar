@@ -129,7 +129,7 @@ public class ClassJpaController extends EngineJpaController {
         }
     }
 
-    public List<Classes> findClasses(String name, String code, String ranking, SchoolData data) {
+    public List<Classes> findClasses(String name, String code, Long ranking, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         List<Classes> list = new ArrayList<>();
         try {
@@ -140,7 +140,8 @@ public class ClassJpaController extends EngineJpaController {
 
             list = query.getResultList();
         } catch (Exception er) {
-            return null;
+            er.printStackTrace();
+            throw er;            
         } finally {
             em.close();
         }
