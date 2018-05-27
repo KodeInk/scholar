@@ -42,7 +42,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Classes.findByCode", query = "SELECT c FROM Classes c WHERE c.code = :code")
     , @NamedQuery(name = "Classes.findByRanking", query = "SELECT c FROM Classes c WHERE c.ranking = :ranking")
     , @NamedQuery(name = "Classes.findByStatus", query = "SELECT c FROM Classes c WHERE c.status = :status")
-    , @NamedQuery(name = "Classes.findByDateCreated", query = "SELECT c FROM Classes c WHERE c.dateCreated = :dateCreated")})
+    , @NamedQuery(name = "Classes.findByDateCreated", query = "SELECT c FROM Classes c WHERE c.dateCreated = :dateCreated")
+          , @NamedQuery(name = "Classes.findClassByNameRankCode", query = "SELECT c FROM Classes c WHERE (c.name = :name OR c.ranking = :rank OR c.code = :code )")
+})
 public class Classes implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "Registration_Class")

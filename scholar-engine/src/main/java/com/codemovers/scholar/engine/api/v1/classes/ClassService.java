@@ -64,6 +64,10 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
         check_access(CREATE_CLASS_PERMISSION);
         //todo: validate the class creation
         entity.validate();
+        
+        //todo: check if a class exists with the same name or code or ranking
+        
+        
         //todo: add author_id,  add status enum
         entity.setAuthor_id(authentication.getId());
         entity.setStatus(StatusEnum.ACTIVE);
@@ -74,6 +78,7 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
 
     }
 
+ 
   
 
     /**

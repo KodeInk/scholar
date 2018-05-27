@@ -12,6 +12,8 @@ import com.codemovers.scholar.engine.db.entities.BookType;
 import com.codemovers.scholar.engine.db.entities.ClassStream;
 import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import com.codemovers.scholar.engine.db.entities.Users;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -125,6 +127,25 @@ public class ClassJpaController extends EngineJpaController {
         } finally {
             em.close();
         }
+    }
+
+    public List<Classes> findClasses(String name, String code, String ranking, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
+        List<Classes> list = new ArrayList<>();
+        try {
+            Query query = em.createNamedQuery("Classes.findClassByNameRankCode");
+            query.setParameter("name", name);
+            query.setParameter("rank", ranking);
+            query.setParameter("code", code);
+
+            list = query.getResultList();
+        } catch (Exception er) {
+            return null;
+        } finally {
+            em.close();
+        }
+
+        return list;
     }
 
     private List<Classes> findClassEntities(boolean all, int maxResults, int firstResult, SchoolData data) {
