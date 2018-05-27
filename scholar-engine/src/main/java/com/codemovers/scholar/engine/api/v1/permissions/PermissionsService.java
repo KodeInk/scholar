@@ -60,6 +60,7 @@ public class PermissionsService extends AbstractService<_Permission, Permissions
         permissionsResponse.setCode(p.getCode());
         permissionsResponse.setName(p.getName());
         permissionsResponse.setCategory(p.getCategory());
+        permissionsResponse.setId(p.getId().intValue());
         return permissionsResponse;
 
     }

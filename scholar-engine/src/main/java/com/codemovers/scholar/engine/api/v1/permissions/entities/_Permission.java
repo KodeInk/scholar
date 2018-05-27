@@ -23,6 +23,8 @@ public class _Permission extends AbstractEntity {
     String name;
     private @Mandatory
     String code;
+    private @Mandatory
+    String category;
 
     public _Permission() {
     }
@@ -51,12 +53,21 @@ public class _Permission extends AbstractEntity {
         this.code = code;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 53 * hash + Objects.hashCode(this.id);
-        hash = 53 * hash + Objects.hashCode(this.name);
-        hash = 53 * hash + Objects.hashCode(this.code);
+        int hash = 3;
+        hash = 13 * hash + Objects.hashCode(this.id);
+        hash = 13 * hash + Objects.hashCode(this.name);
+        hash = 13 * hash + Objects.hashCode(this.code);
+        hash = 13 * hash + Objects.hashCode(this.category);
         return hash;
     }
 
@@ -78,6 +89,9 @@ public class _Permission extends AbstractEntity {
         if (!Objects.equals(this.code, other.code)) {
             return false;
         }
+        if (!Objects.equals(this.category, other.category)) {
+            return false;
+        }
         return Objects.equals(this.id, other.id);
     }
 
@@ -92,6 +106,7 @@ public class _Permission extends AbstractEntity {
                 + "id=" + id
                 + ", name=" + name
                 + ", code=" + code
+                + ", category=" + category
                 + '}';
     }
 

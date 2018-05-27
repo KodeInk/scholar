@@ -67,18 +67,14 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
         //todo: add author_id,  add status enum
         entity.setAuthor_id(authentication.getId());
         entity.setStatus(StatusEnum.ACTIVE);
-        // call the controller and create the class
-        Classes classes = new Classes();
-        classes.setAuthor(new Users(entity.getAuthor_id().longValue()));
-        classes.setName(entity.getName());
-        classes.setCode(entity.getCode());
-        classes.setRanking(entity.getRanking());
-        classes.setDateCreated(new Date());
+        Classes classes = getClasses(entity);
 
         classes = controller.create(classes, data);
         return populateResponse(classes);
 
     }
+
+  
 
     /**
      *
@@ -229,4 +225,22 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
         return response;
     }
 
+    /**
+     *
+     * @param entity
+     * @return
+     */
+    public Classes getClasses(_Class entity) {
+        // call the controller and create the class
+        Classes classes = new Classes();
+        classes.setAuthor(new Users(entity.getAuthor_id().longValue()));
+        classes.setName(entity.getName());
+        classes.setCode(entity.getCode());
+        classes.setRanking(entity.getRanking());
+        classes.setDateCreated(new Date());
+        classes.setStatus(entity.getStatus().name());
+        return classes;
+    }
+      
+      
 }
