@@ -60,6 +60,12 @@ public class CurriculumService extends AbstractService<_Curriculum, CurriculumRe
         entity.validate();
         Curriculum curriculum = populateEntity(entity, authentication);
 
+        //todo: check to see that there is no curriculum with the same name
+        List<Curriculum> curriculums = controller.findCurriculumByName(curriculum.getName(), data);
+        if (curriculums.size() > 0) {
+            throw new BadRequestException("Curriculum with the same exists in the database");
+        }
+
         curriculum = controller.create(curriculum, data);
 
         return populateResponse(curriculum);

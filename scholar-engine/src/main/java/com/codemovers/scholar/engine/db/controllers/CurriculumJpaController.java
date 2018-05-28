@@ -6,11 +6,9 @@
 package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.EngineJpaController;
-import com.codemovers.scholar.engine.db.JpaController;
-import com.codemovers.scholar.engine.db.entities.BookType;
-import com.codemovers.scholar.engine.db.entities.Contacts;
 import com.codemovers.scholar.engine.db.entities.Curriculum;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -116,6 +114,24 @@ public class CurriculumJpaController extends EngineJpaController {
 
     public List<Curriculum> findCurriculumEntities(int maxResults, int firstResult, SchoolData data) {
         return findCurriculumEntities(false, maxResults, firstResult, data);
+    }
+
+       public List<Curriculum> findCurriculumByName(String name,SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
+        List<Curriculum> list = new ArrayList<>();
+        try {
+            Query query = em.createNamedQuery("Curriculum.findByName");
+            query.setParameter("name", name);
+            
+            list = query.getResultList();
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;            
+        } finally {
+            em.close();
+        }
+
+        return list;
     }
 
     public int getCount(SchoolData data) {
