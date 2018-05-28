@@ -28,8 +28,7 @@ public class _Curriculum extends AbstractEntity {
     private String description;
     private StatusEnum status;
     private Date date_created;
-    private @Mandatory
-    Integer author_id;
+    private     Integer author_id;
 
     public _Curriculum() {
     }
