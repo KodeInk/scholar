@@ -47,14 +47,16 @@ public class SubjectService extends AbstractService<_Subject, SubjectResponse> i
         check_access(CREATE_SUBJECT_PERMISSION);
         entity.validate();
 
+        //todo: check to see that the name and code of the subject does not exist
+        List<Subjects> list = controller.findSubjects(entity.getName(), entity.getCode(), data);
+        if (list.size() > 0) {
+            throw new BadRequestException("Subject with the same name or code exists in the database");
+        }
+
         entity.setAuthor_id(authentication.getId());
         entity.setStatus(StatusEnum.ACTIVE);
 
-        Subjects subject = new Subjects();
-        subject.setName(entity.getName());
-        subject.setCode(entity.getCode());
-        subject.setDateCreated(entity.getDate_created());
-        subject.setAuthor(new Users(entity.getAuthor_id().longValue()));
+        Subjects subject = getSubject(entity);
         subject = controller.create(subject, data);
         return populateResponse(subject);
     }
@@ -140,8 +142,20 @@ public class SubjectService extends AbstractService<_Subject, SubjectResponse> i
             response.setAuthor(entity.getAuthor().getUsername());
         }
 
-        response.setDate_created(entity.getDateCreated().getTime());
+        if (entity.getDateCreated() != null) {
+            response.setDate_created(entity.getDateCreated().getTime());
+        }
         return response;
+    }
+
+    public Subjects getSubject(_Subject entity) {
+        Subjects subject = new Subjects();
+        subject.setName(entity.getName());
+        subject.setCode(entity.getCode());
+        subject.setStatus(entity.getStatus().toString());
+        // subject.setDateCreated(entity.getDate_created());
+        subject.setAuthor(new Users(entity.getAuthor_id().longValue()));
+        return subject;
     }
 
 }

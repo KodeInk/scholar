@@ -7,9 +7,11 @@ package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
+import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.SubjectTeachers;
 import com.codemovers.scholar.engine.db.entities.Subjects;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,6 +49,7 @@ public class SubjectsJpaController extends EngineJpaController {
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
+            entity   = findSubjects(entity.getId().intValue(), data);
         } catch (Exception eml) {
             LOG.log(Level.INFO, eml.toString());
             throw eml;
@@ -57,6 +60,25 @@ public class SubjectsJpaController extends EngineJpaController {
         }
         return entity;
 
+    }
+
+    public List<Subjects> findSubjects(String name, String code, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
+        List<Subjects> list = new ArrayList<>();
+        try {
+            Query query = em.createNamedQuery("Subjects.findSubjectByNameAndCode");
+            query.setParameter("name", name);
+            query.setParameter("code", code);
+
+            list = query.getResultList();
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        } finally {
+            em.close();
+        }
+
+        return list;
     }
 
     public Subjects edit(Subjects subjects, SchoolData data) throws Exception {
@@ -70,7 +92,7 @@ public class SubjectsJpaController extends EngineJpaController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = subjects.getId().intValue();
-                if (findSubjects(id, data) == null) {
+                if (SubjectsJpaController.this.findSubjects(id, data) == null) {
                     throw new BadRequestException("The Inventory with id " + id + " no longer exists.");
                 }
             }
@@ -111,11 +133,11 @@ public class SubjectsJpaController extends EngineJpaController {
     }
 
     public List<Subjects> findSubjects(SchoolData data) {
-        return findSubjects(true, -1, -1, data);
+        return SubjectsJpaController.this.findSubjects(true, -1, -1, data);
     }
 
     public List<Subjects> findSubjects(int maxResults, int firstResult, SchoolData data) {
-        return findSubjects(false, maxResults, firstResult, data);
+        return SubjectsJpaController.this.findSubjects(false, maxResults, firstResult, data);
     }
 
     public int getCount(SchoolData data) {
