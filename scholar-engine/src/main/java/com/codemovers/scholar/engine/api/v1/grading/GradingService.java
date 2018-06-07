@@ -14,9 +14,11 @@ import com.codemovers.scholar.engine.db.controllers.GradingJpaController;
 import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.Grading;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import com.codemovers.scholar.engine.db.entities.Users;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -117,8 +119,9 @@ public class GradingService extends AbstractService<_Grading, GradingResponse> {
         grading.setName(entity.getName());
         grading.setCode(entity.getCode());
         grading.setDescription(entity.getDescription());
-        entity.setAuthor_id(authentication.getId());
-        entity.setStatus(StatusEnum.ACTIVE);
+        grading.setAuthor(new Users(authentication.getId().longValue()));
+        grading.setStatus(StatusEnum.ACTIVE.toString());
+        grading.setDateCreated(new Date());
         return grading;
     }
 
