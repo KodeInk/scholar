@@ -42,7 +42,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Grading.findByCode", query = "SELECT g FROM Grading g WHERE g.code = :code")
     , @NamedQuery(name = "Grading.findByDescription", query = "SELECT g FROM Grading g WHERE g.description = :description")
     , @NamedQuery(name = "Grading.findByStatus", query = "SELECT g FROM Grading g WHERE g.status = :status")
-    , @NamedQuery(name = "Grading.findByDateCreated", query = "SELECT g FROM Grading g WHERE g.dateCreated = :dateCreated")})
+    , @NamedQuery(name = "Grading.findByDateCreated", query = "SELECT g FROM Grading g WHERE g.dateCreated = :dateCreated")
+    , @NamedQuery(name = "Grading.findByNameOrCode", query = "SELECT g FROM Grading g WHERE g.name = :name  OR g.code = :code")
+
+})
 public class Grading implements Serializable {
 
     private static final long serialVersionUID = 1L;

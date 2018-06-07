@@ -45,7 +45,15 @@ public class GradingService extends AbstractService<_Grading, GradingResponse> {
     }
 
     @Override
-    public GradingResponse create(SchoolData data, _Grading entity) throws Exception {
+    public GradingResponse create(SchoolData data, _Grading entity, AuthenticationResponse authenticationResponse) throws Exception {
+      entity.validate();
+      //todo: check to see that there is no grading with name or code
+      
+      //todo: populate entity
+      
+      //todo: create
+      
+      //todo: generate response 
         return super.create(data, entity); //To change body of generated methods, choose Tools | Templates.
     }
 

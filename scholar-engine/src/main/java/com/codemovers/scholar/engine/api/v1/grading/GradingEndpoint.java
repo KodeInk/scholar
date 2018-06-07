@@ -61,7 +61,8 @@ public class GradingEndpoint extends AbstractEndpoint<_Grading, GradingResponse>
     public GradingResponse create(_Grading entity,
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest) throws Exception {
-        return super.create(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+         validate(tenantdata, authentication);
+        return  service.create(tenantdata, entity, this.authentication);
     }
 
     @PUT
