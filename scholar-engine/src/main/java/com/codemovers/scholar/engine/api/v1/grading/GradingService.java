@@ -15,6 +15,7 @@ import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.Grading;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
+import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -45,16 +46,16 @@ public class GradingService extends AbstractService<_Grading, GradingResponse> {
     }
 
     @Override
-    public GradingResponse create(SchoolData data, _Grading entity, AuthenticationResponse authenticationResponse) throws Exception {
-      entity.validate();
-      //todo: check to see that there is no grading with name or code
-      
-      //todo: populate entity
-      
-      //todo: create
-      
-      //todo: generate response 
-        return super.create(data, entity); //To change body of generated methods, choose Tools | Templates.
+    public GradingResponse create(SchoolData data, _Grading entity, AuthenticationResponse authentication) throws Exception {
+        entity.validate();
+        List<Grading> gradings = controller.findGrading(entity.getName(), entity.getCode(), data);
+        if (gradings.size() > 0) {
+            throw new BadRequestException("A grading exists with the same name or code");
+        }
+        Grading grading = populateEntity(entity, authentication);
+        grading = controller.create(grading, data);
+        return populateResponse(grading);
+
     }
 
     @Override
@@ -103,4 +104,22 @@ public class GradingService extends AbstractService<_Grading, GradingResponse> {
 
         return response;
     }
+
+    /**
+     *
+     * @param entity
+     * @param authentication
+     * @return
+     */
+    public Grading populateEntity(_Grading entity, AuthenticationResponse authentication) {
+        //todo: populate entity
+        Grading grading = new Grading();
+        grading.setName(entity.getName());
+        grading.setCode(entity.getCode());
+        grading.setDescription(entity.getDescription());
+        entity.setAuthor_id(authentication.getId());
+        entity.setStatus(StatusEnum.ACTIVE);
+        return grading;
+    }
+
 }

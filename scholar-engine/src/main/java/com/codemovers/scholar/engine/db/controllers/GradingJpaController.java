@@ -6,10 +6,10 @@
 package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.EngineJpaController;
-import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.Exams;
 import com.codemovers.scholar.engine.db.entities.Grading;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,6 +38,22 @@ public class GradingJpaController extends EngineJpaController {
 
     public GradingJpaController() {
         super(Grading.class);
+    }
+
+    public List<Grading> findGrading(String name, String code, SchoolData data) {
+        List<Grading> gradingList = new ArrayList<>();
+        EntityManager em = getEntityManager(data.getExternalId());
+        Query query = em.createNamedQuery("Grading.findByNameOrCode");
+        query.setParameter("name", name);
+        query.setParameter("code", code);
+        try {
+            gradingList = query.getResultList();
+
+        } finally {
+            LOG.log(Level.FINER, "closing entity manager {0}", em);
+            em.close();
+        }
+        return gradingList;
     }
 
     public Grading create(Grading entity, SchoolData data) {
