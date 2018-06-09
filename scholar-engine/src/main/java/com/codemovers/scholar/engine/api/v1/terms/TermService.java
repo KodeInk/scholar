@@ -63,16 +63,7 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
             throw new BadRequestException("STUDY YEAR RECORD DOES NOT EXIST");
         }
 
-        //todo: validate period: it should not be between the ranges of the study period:
-        Terms term = new Terms();
-        term.setStudyYear(studyYear);
-        term.setName(entity.getName());
-        term.setStartDate(entity.getStart_date());
-        term.setEndDate(entity.getEnd_date());
-        term.setRanking(entity.getRanking());
-        term.setAuthor(new Users(entity.getAuthor_id().longValue()));
-        term.setStatus(entity.getStatus().toString());
-        term.setDateCreated(new Date());
+        Terms term = populateEntity(studyYear, entity);
 
         term = controller.create(term, data);
         return populateResponse(term);
@@ -96,25 +87,7 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
             throw new BadRequestException("STUDY YEAR RECORD DOES NOT EXIST");
         }
 
-        if (entity.getName() != null && !entity.getName().equalsIgnoreCase(term.getName())) {
-            term.setName(entity.getName());
-        }
-
-        if (term.getStudyYear() != studyYear) {
-            term.setStudyYear(studyYear);
-        }
-
-        if (entity.getRanking() != null && entity.getRanking() != (term.getRanking())) {
-            term.setRanking(entity.getRanking());
-        }
-
-        if (entity.getStart_date() != null && entity.getStart_date() != (term.getStartDate())) {
-            term.setStartDate(entity.getStart_date());
-        }
-
-        if (entity.getEnd_date() != null && entity.getEnd_date() != (term.getEndDate())) {
-            term.setEndDate(entity.getEnd_date());
-        }
+        term = populateEntity(entity, term, studyYear);
         term = controller.edit(term, data);
 
         return populateResponse(term);
@@ -180,6 +153,44 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
         response.setDate_created(entity.getDateCreated().getTime());
 
         return response;
+    }
+
+    public Terms populateEntity(StudyYear studyYear, _Term entity) {
+        //todo: validate period: it should not be between the ranges of the study period:
+        Terms term = new Terms();
+        term.setStudyYear(studyYear);
+        term.setName(entity.getName());
+        term.setStartDate(entity.getStart_date());
+        term.setEndDate(entity.getEnd_date());
+        term.setRanking(entity.getRanking());
+        term.setAuthor(new Users(entity.getAuthor_id().longValue()));
+        term.setStatus(entity.getStatus().toString());
+        term.setDateCreated(new Date());
+        return term;
+    }
+
+    public Terms populateEntity(_Term entity, Terms term, StudyYear studyYear) {
+        Terms t = term;
+        if (entity.getName() != null && !entity.getName().equalsIgnoreCase(term.getName())) {
+            t.setName(entity.getName());
+        }
+
+        if (term.getStudyYear() != studyYear) {
+            t.setStudyYear(studyYear);
+        }
+
+        if (entity.getRanking() != null && entity.getRanking() != (term.getRanking())) {
+            t.setRanking(entity.getRanking());
+        }
+
+        if (entity.getStart_date() != null && entity.getStart_date() != (term.getStartDate())) {
+            t.setStartDate(entity.getStart_date());
+        }
+
+        if (entity.getEnd_date() != null && entity.getEnd_date() != (term.getEndDate())) {
+            t.setEndDate(entity.getEnd_date());
+        }
+        return t;
     }
 
 }
