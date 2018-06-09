@@ -9,7 +9,6 @@ import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
 import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
-import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -27,7 +26,7 @@ public class _StudyYear extends AbstractEntity {
     Long end_date;
     private StatusEnum status;
     private Integer author_id;
-    private Date date_created;
+    private Long date_created;
 
     public _StudyYear() {
     }
@@ -84,11 +83,11 @@ public class _StudyYear extends AbstractEntity {
         this.author_id = author_id;
     }
 
-    public Date getDate_created() {
+    public Long getDate_created() {
         return date_created;
     }
 
-    public void setDate_created(Date date_created) {
+    public void setDate_created(Long date_created) {
         this.date_created = date_created;
     }
 
