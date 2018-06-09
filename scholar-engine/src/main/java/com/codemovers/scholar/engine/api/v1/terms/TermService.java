@@ -62,13 +62,12 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
         if (studyYear == null) {
             throw new BadRequestException("STUDY YEAR RECORD DOES NOT EXIST");
         }
-        
-        //todo: term start date should not be between start and end date of another term in the same study period
-       
-        //todo: term end date should not be between start and end date of another term in the same study period
-        
-
         Terms term = populateEntity(studyYear, entity);
+
+        //todo: term start date should not be between start and end date of another term in the same study period
+        List<Terms> termsWithStartDate = controller.checkTermByStartDate(term.getStartDate(), term.getStudyYear().getId(), data);
+        //todo: term end date should not be between start and end date of another term in the same study period
+        List<Terms> termsWithEndDate = controller.checkTermByEndDate(term.getStartDate(), term.getStudyYear().getId(), data);
 
         term = controller.create(term, data);
         return populateResponse(term);
