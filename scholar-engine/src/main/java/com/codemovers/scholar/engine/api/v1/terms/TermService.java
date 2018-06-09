@@ -66,8 +66,14 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
 
         //todo: term start date should not be between start and end date of another term in the same study period
         List<Terms> termsWithStartDate = controller.checkTermByStartDate(term.getStartDate(), term.getStudyYear().getId(), data);
+        if (termsWithStartDate.size() > 0) {
+            throw new BadRequestException("Term start date should not be inside another term ");
+        }
         //todo: term end date should not be between start and end date of another term in the same study period
         List<Terms> termsWithEndDate = controller.checkTermByEndDate(term.getStartDate(), term.getStudyYear().getId(), data);
+        if (termsWithEndDate.size() > 0) {
+            throw new BadRequestException("Term end date should not be inside another term ");
+        }
 
         term = controller.create(term, data);
         return populateResponse(term);
