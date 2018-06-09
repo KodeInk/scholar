@@ -22,9 +22,9 @@ public class _StudyYear extends AbstractEntity {
     private @Mandatory
     String theme;
     private @Mandatory
-    Date start_date;
+    Long start_date;
     private @Mandatory
-    Date end_date;
+    Long end_date;
     private StatusEnum status;
     private Integer author_id;
     private Date date_created;
@@ -52,19 +52,19 @@ public class _StudyYear extends AbstractEntity {
         this.theme = theme;
     }
 
-    public Date getStart_date() {
+    public Long getStart_date() {
         return start_date;
     }
 
-    public void setStart_date(Date start_date) {
+    public void setStart_date(Long start_date) {
         this.start_date = start_date;
     }
 
-    public Date getEnd_date() {
+    public Long getEnd_date() {
         return end_date;
     }
 
-    public void setEnd_date(Date end_date) {
+    public void setEnd_date(Long end_date) {
         this.end_date = end_date;
     }
 

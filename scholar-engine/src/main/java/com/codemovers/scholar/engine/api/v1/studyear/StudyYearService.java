@@ -44,26 +44,32 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
         return service;
     }
 
+    /**
+     *
+     * @param data
+     * @param entity
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
     public StudyYearResponse create(SchoolData data, _StudyYear entity, AuthenticationResponse authentication) throws Exception {
         check_access(CREATE_STUDYEAR_PERMISSION);
         entity.validate();
-
-        entity.setAuthor_id(authentication.getId());
-        entity.setStatus(StatusEnum.ACTIVE);
-
-        StudyYear studyYear = new StudyYear();
-        studyYear.setTheme(entity.getTheme());
-        studyYear.setStartDate(entity.getStart_date());
-        studyYear.setEndDate(entity.getEnd_date());
-        studyYear.setStatus(entity.getStatus().toString());
-        studyYear.setDateCreated(new Date());
-        studyYear.setAuthor(new Users(entity.getAuthor_id().longValue()));
+        StudyYear studyYear = populateEntity(entity, authentication);
         studyYear = controller.create(studyYear, data);
         return populateResponse(studyYear);
 
     }
 
+    /**
+     *
+     * @param data
+     * @param entity
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
     public StudyYearResponse update(SchoolData data, _StudyYear entity, AuthenticationResponse authentication) throws Exception {
 
@@ -77,22 +83,19 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
 
         StudyYear studyYear = controller.findStudyYear(entity.getId(), data);
 
-        if (entity.getTheme() != null && !entity.getTheme().equalsIgnoreCase(studyYear.getTheme())) {
-            studyYear.setTheme(entity.getTheme());
-        }
-
-        if (entity.getStart_date() != null && entity.getStart_date() != (studyYear.getStartDate())) {
-            studyYear.setStartDate(entity.getStart_date());
-        }
-
-        if (entity.getStart_date() != null && entity.getStart_date() != (studyYear.getEndDate())) {
-            studyYear.setEndDate(entity.getEnd_date());
-        }
+        studyYear = populateEntity(entity, studyYear);
 
         studyYear = controller.edit(studyYear, data);
         return populateResponse(studyYear);
     }
 
+    /**
+     *
+     * @param data
+     * @param id
+     * @return
+     * @throws Exception
+     */
     @Override
     public StudyYearResponse archive(SchoolData data, Integer id) throws Exception {
         check_access(ARCHIVE_STUDYEAR_PERMISSION);
@@ -108,6 +111,13 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
         return populateResponse(studyYear);
     }
 
+    /**
+     *
+     * @param data
+     * @param Id
+     * @return
+     * @throws Exception
+     */
     @Override
     public StudyYearResponse getById(SchoolData data, Integer Id) throws Exception {
 
@@ -122,6 +132,15 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
 
     }
 
+    /**
+     *
+     * @param data
+     * @param ofset
+     * @param limit
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<StudyYearResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
         check_access(LIST_STUDYEAR_PERMISSION);
@@ -137,6 +156,12 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
         return responses;
     }
 
+    /**
+     *
+     * @param entity
+     * @return
+     */
+    @Override
     public StudyYearResponse populateResponse(StudyYear entity) {
         StudyYearResponse response = new StudyYearResponse();
 
@@ -151,5 +176,50 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
         response.setDate_created(entity.getDateCreated().getTime());
         return response;
     }
+
+    /**
+     *
+     * @param entity
+     * @param studyYear
+     * @return
+     */
+    public StudyYear populateEntity(_StudyYear entity, StudyYear studyYear) {
+        StudyYear sy = studyYear;
+        if (entity.getTheme() != null && !entity.getTheme().equalsIgnoreCase(studyYear.getTheme())) {
+            sy.setTheme(entity.getTheme());
+        }
+
+        if (entity.getStart_date() != null && entity.getStart_date() != (studyYear.getStartDate().getTime())) {
+            sy.setStartDate(new Date(entity.getStart_date()));
+        }
+
+        if (entity.getStart_date() != null && entity.getStart_date() != (studyYear.getEndDate().getTime())) {
+            sy.setEndDate(new Date(entity.getEnd_date()));
+        }
+
+        return sy;
+    }
+    
+    /**
+     *
+     * @param entity
+     * @param authentication
+     * @return
+     */
+    public StudyYear populateEntity(_StudyYear entity, AuthenticationResponse authentication) {
+        entity.setAuthor_id(authentication.getId());
+        entity.setStatus(StatusEnum.ACTIVE);
+        StudyYear studyYear = new StudyYear();
+        studyYear.setTheme(entity.getTheme());
+        studyYear.setStartDate(new Date(entity.getStart_date()));
+        studyYear.setEndDate(new Date(entity.getEnd_date()));
+        studyYear.setStatus(entity.getStatus().toString());
+        studyYear.setDateCreated(new Date());
+        studyYear.setAuthor(new Users(entity.getAuthor_id().longValue()));
+        return studyYear;
+    }
+
+    
+    
 
 }
