@@ -6,14 +6,11 @@
 package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.EngineJpaController;
-import com.codemovers.scholar.engine.db.JpaController;
-import static com.codemovers.scholar.engine.db.controllers.AddressJpaController.LOG;
-import com.codemovers.scholar.engine.db.entities.Addresses;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
-import com.codemovers.scholar.engine.db.entities.TeachingTimetable;
 import com.codemovers.scholar.engine.db.entities.Terms;
 import com.codemovers.scholar.engine.helper.Utilities;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -134,14 +131,15 @@ public class TermsJpaController extends EngineJpaController {
         }
     }
     
-    public List<Terms> findAddresses(String parentType, SchoolData data) {
+    public List<Terms> checkTermByStartDate(Date startDate, Long studyYearId,SchoolData data) {
         List<Terms> termsList = new ArrayList<>();
         EntityManager em = getEntityManager(data.getExternalId());
-        Query query = em.createNamedQuery("Addresses.findByParentType");
-        query.setParameter("parentType", parentType);
+        Query query = em.createNamedQuery("Terms.checkByStartDate");
+        query.setParameter("startdate", startDate);
+         query.setParameter("studyYearId", studyYearId);
         try {
             termsList = query.getResultList();
-            LOG.log(Level.FINE, "offices found for username {0}", new Object[]{parentType});
+            LOG.log(Level.FINE, "Term foudn with start date e {0}", new Object[]{startDate});
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, "unexpected exception {0}\n{1}", new Object[]{ex.getMessage(), Utilities.getStackTrace(ex)});
             return null;
@@ -152,6 +150,55 @@ public class TermsJpaController extends EngineJpaController {
         }
         return termsList;
     }
+    
+    
+    public List<Terms> checkTermByEndDate(Date endDate, Long studyYearId, SchoolData data) {
+        List<Terms> termsList = new ArrayList<>();
+        EntityManager em = getEntityManager(data.getExternalId());
+        Query query = em.createNamedQuery("Terms.checkByEndDate");
+        query.setParameter("enddate", endDate);
+        query.setParameter("studyYearId", studyYearId);
+        try {
+            termsList = query.getResultList();
+            LOG.log(Level.FINE, "Term foudn with start date e {0}", new Object[]{endDate});
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "unexpected exception {0}\n{1}", new Object[]{ex.getMessage(), Utilities.getStackTrace(ex)});
+            return null;
+            // don't throw WebApplicationException, force caller to handle this
+        } finally {
+            LOG.log(Level.FINER, "closing entity manager {0}", em);
+            em.close();
+        }
+        return termsList;
+    }
+    
+    
+    
+     public List<Terms> checkTermByStartAndEndDate(Date startDate,Date endDate, Long studyYearId, SchoolData data) {
+        List<Terms> termsList = new ArrayList<>();
+        EntityManager em = getEntityManager(data.getExternalId());
+        Query query = em.createNamedQuery("Terms.checkByStartAndEndDate");
+        query.setParameter("startdate", startDate);
+        query.setParameter("enddate", endDate);
+        query.setParameter("studyYearId", studyYearId);
+        try {
+            termsList = query.getResultList();
+            LOG.log(Level.FINE, "Term foudn with start date e {0}", new Object[]{endDate});
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "unexpected exception {0}\n{1}", new Object[]{ex.getMessage(), Utilities.getStackTrace(ex)});
+            return null;
+            // don't throw WebApplicationException, force caller to handle this
+        } finally {
+            LOG.log(Level.FINER, "closing entity manager {0}", em);
+            em.close();
+        }
+        return termsList;
+    }
+    
+    
+     
+     
+    
     
     
 
