@@ -62,6 +62,11 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
         if (studyYear == null) {
             throw new BadRequestException("STUDY YEAR RECORD DOES NOT EXIST");
         }
+        
+        //todo: term start date should not be between start and end date of another term in the same study period
+       
+        //todo: term end date should not be between start and end date of another term in the same study period
+        
 
         Terms term = populateEntity(studyYear, entity);
 

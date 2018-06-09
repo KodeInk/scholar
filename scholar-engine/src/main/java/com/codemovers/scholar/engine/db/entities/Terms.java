@@ -43,7 +43,12 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Terms.findByEndDate", query = "SELECT t FROM Terms t WHERE t.endDate = :endDate")
     , @NamedQuery(name = "Terms.findByRanking", query = "SELECT t FROM Terms t WHERE t.ranking = :ranking")
     , @NamedQuery(name = "Terms.findByStatus", query = "SELECT t FROM Terms t WHERE t.status = :status")
-    , @NamedQuery(name = "Terms.findByDateCreated", query = "SELECT t FROM Terms t WHERE t.dateCreated = :dateCreated")})
+    , @NamedQuery(name = "Terms.findByDateCreated", query = "SELECT t FROM Terms t WHERE t.dateCreated = :dateCreated")
+    , @NamedQuery(name = "Terms.checkByStartDate", query = "SELECT t FROM Terms t WHERE t.startDate <= :startdate AND t.endDate >= :startdate ")
+    , @NamedQuery(name = "Terms.checkByEndDate", query = "SELECT t FROM Terms t WHERE t.startDate <= :enddate AND t.endDate >= :enddate ")
+    , @NamedQuery(name = "Terms.checkByStartAndEndDate", query = "SELECT t FROM Terms t WHERE t.startDate <= :startdate AND t.endDate >= :enddate ")
+
+})
 public class Terms implements Serializable {
 
     private static final long serialVersionUID = 1L;

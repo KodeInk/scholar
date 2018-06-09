@@ -7,9 +7,13 @@ package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
+import static com.codemovers.scholar.engine.db.controllers.AddressJpaController.LOG;
+import com.codemovers.scholar.engine.db.entities.Addresses;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.TeachingTimetable;
 import com.codemovers.scholar.engine.db.entities.Terms;
+import com.codemovers.scholar.engine.helper.Utilities;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -129,5 +133,26 @@ public class TermsJpaController extends EngineJpaController {
             em.close();
         }
     }
+    
+    public List<Terms> findAddresses(String parentType, SchoolData data) {
+        List<Terms> termsList = new ArrayList<>();
+        EntityManager em = getEntityManager(data.getExternalId());
+        Query query = em.createNamedQuery("Addresses.findByParentType");
+        query.setParameter("parentType", parentType);
+        try {
+            termsList = query.getResultList();
+            LOG.log(Level.FINE, "offices found for username {0}", new Object[]{parentType});
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "unexpected exception {0}\n{1}", new Object[]{ex.getMessage(), Utilities.getStackTrace(ex)});
+            return null;
+            // don't throw WebApplicationException, force caller to handle this
+        } finally {
+            LOG.log(Level.FINER, "closing entity manager {0}", em);
+            em.close();
+        }
+        return termsList;
+    }
+    
+    
 
 }

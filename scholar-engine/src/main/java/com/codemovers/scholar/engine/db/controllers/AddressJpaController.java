@@ -110,6 +110,7 @@ public class AddressJpaController extends EngineJpaController {
         }
         return addressList;
     }
+    
 
     // find contacts by parent type and parent id
     public List<Addresses> findAddresses(String parentType, Integer parentId, SchoolData data) {
