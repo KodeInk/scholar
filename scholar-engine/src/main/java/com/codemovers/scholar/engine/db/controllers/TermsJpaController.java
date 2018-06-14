@@ -41,6 +41,12 @@ public class TermsJpaController extends EngineJpaController {
         super(Terms.class);
     }
 
+    /**
+     *
+     * @param entity
+     * @param data
+     * @return
+     */
     public Terms create(Terms entity, SchoolData data) {
         EntityManager em = null;
         try {
@@ -60,6 +66,13 @@ public class TermsJpaController extends EngineJpaController {
 
     }
 
+    /**
+     *
+     * @param terms
+     * @param data
+     * @return
+     * @throws Exception
+     */
     public Terms edit(Terms terms, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
@@ -84,6 +97,12 @@ public class TermsJpaController extends EngineJpaController {
         return terms;
     }
 
+    /**
+     *
+     * @param id
+     * @param data
+     * @return
+     */
     public Terms findTerm(Integer id, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
 
@@ -110,10 +129,22 @@ public class TermsJpaController extends EngineJpaController {
         }
     }
 
+    /**
+     *
+     * @param data
+     * @return
+     */
     public List<Terms> findTerms(SchoolData data) {
         return findTerms(true, -1, -1, data);
     }
 
+    /**
+     *
+     * @param maxResults
+     * @param firstResult
+     * @param data
+     * @return
+     */
     public List<Terms> findTerms(int maxResults, int firstResult, SchoolData data) {
         return findTerms(false, maxResults, firstResult, data);
     }
@@ -130,13 +161,47 @@ public class TermsJpaController extends EngineJpaController {
             em.close();
         }
     }
-    
-    public List<Terms> checkTermByStartDate(Date startDate, Long studyYearId,SchoolData data) {
+
+    /**
+     *
+     * @param ranking
+     * @param data
+     * @return
+     */
+    public List<Terms> findTermByRank(Integer ranking, SchoolData data) {
+        List<Terms> termsList = new ArrayList<>();
+        EntityManager em = getEntityManager(data.getExternalId());
+
+        try {
+            Query query = em.createNamedQuery("Terms.findByRanking");
+            query.setParameter("ranking", ranking);
+            termsList = query.getResultList();
+            LOG.log(Level.FINE, "Term foudn with start date e {0}", new Object[]{ranking});
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "unexpected exception {0}\n{1}", new Object[]{ex.getMessage(), Utilities.getStackTrace(ex)});
+            return null;
+            // don't throw WebApplicationException, force caller to handle this
+        } finally {
+            LOG.log(Level.FINER, "closing entity manager {0}", em);
+            em.close();
+        }
+
+        return termsList;
+    }
+
+    /**
+     *
+     * @param startDate
+     * @param studyYearId
+     * @param data
+     * @return
+     */
+    public List<Terms> checkTermByStartDate(Date startDate, Long studyYearId, SchoolData data) {
         List<Terms> termsList = new ArrayList<>();
         EntityManager em = getEntityManager(data.getExternalId());
         Query query = em.createNamedQuery("Terms.checkByStartDate");
         query.setParameter("startdate", startDate);
-         query.setParameter("studyYearId", studyYearId);
+        query.setParameter("studyYearId", studyYearId);
         try {
             termsList = query.getResultList();
             LOG.log(Level.FINE, "Term foudn with start date e {0}", new Object[]{startDate});
@@ -150,8 +215,14 @@ public class TermsJpaController extends EngineJpaController {
         }
         return termsList;
     }
-    
-    
+
+    /**
+     *
+     * @param endDate
+     * @param studyYearId
+     * @param data
+     * @return
+     */
     public List<Terms> checkTermByEndDate(Date endDate, Long studyYearId, SchoolData data) {
         List<Terms> termsList = new ArrayList<>();
         EntityManager em = getEntityManager(data.getExternalId());
@@ -171,10 +242,16 @@ public class TermsJpaController extends EngineJpaController {
         }
         return termsList;
     }
-    
-    
-    
-     public List<Terms> checkTermByStartAndEndDate(Date startDate,Date endDate, Long studyYearId, SchoolData data) {
+
+    /**
+     *
+     * @param startDate
+     * @param endDate
+     * @param studyYearId
+     * @param data
+     * @return
+     */
+    public List<Terms> checkTermByStartAndEndDate(Date startDate, Date endDate, Long studyYearId, SchoolData data) {
         List<Terms> termsList = new ArrayList<>();
         EntityManager em = getEntityManager(data.getExternalId());
         Query query = em.createNamedQuery("Terms.checkByStartAndEndDate");
@@ -194,12 +271,5 @@ public class TermsJpaController extends EngineJpaController {
         }
         return termsList;
     }
-    
-    
-     
-     
-    
-    
-    
 
 }
