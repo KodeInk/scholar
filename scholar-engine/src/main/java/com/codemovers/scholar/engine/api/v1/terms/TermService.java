@@ -64,6 +64,12 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
         }
         Terms term = populateEntity(studyYear, entity);
 
+        //todo: check to see that there is no term with the same ranking 
+        Long termRank = term.getRanking();
+        List<Terms> termWithSameRank = controller.findTermByRank(termRank.intValue(), term.getStudyYear().getId(), data);
+        if (termWithSameRank.size() > 0) {
+            throw new BadRequestException("A term exists with the same ranking in the same study period ");
+        }
         //todo: term rank should not have been used in a given study period 
         //todo: term start date should not be between start and end date of another term in the same study period
         List<Terms> termsWithStartDate = controller.checkTermByStartDate(term.getStartDate(), term.getStudyYear().getId(), data);
@@ -76,9 +82,8 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
         if (termsWithEndDate.size() > 0) {
             throw new BadRequestException("Term end date should not be inside another term in the same study period  ");
         }
-        
-        //todo: validate term against ranking end date should be in between the start and end of a term :
 
+        //todo: validate term against ranking end date should be in between the start and end of a term :
         term = controller.create(term, data);
         return populateResponse(term);
 

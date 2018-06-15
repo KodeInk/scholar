@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Terms.findByName", query = "SELECT t FROM Terms t WHERE t.name = :name")
     , @NamedQuery(name = "Terms.findByStartDate", query = "SELECT t FROM Terms t WHERE t.startDate = :startDate")
     , @NamedQuery(name = "Terms.findByEndDate", query = "SELECT t FROM Terms t WHERE t.endDate = :endDate")
-    , @NamedQuery(name = "Terms.findByRanking", query = "SELECT t FROM Terms t WHERE t.ranking = :ranking")
+    , @NamedQuery(name = "Terms.findByRanking", query = "SELECT t FROM Terms t WHERE t.ranking = :ranking  AND t.studyYear.id = :studyYearId  ")
     , @NamedQuery(name = "Terms.findByStatus", query = "SELECT t FROM Terms t WHERE t.status = :status")
     , @NamedQuery(name = "Terms.findByDateCreated", query = "SELECT t FROM Terms t WHERE t.dateCreated = :dateCreated")
     , @NamedQuery(name = "Terms.checkByStartDate", query = "SELECT t FROM Terms t WHERE  (DATE(:startdate) BETWEEN t.startDate AND t.endDate)  AND t.studyYear.id = :studyYearId  ")

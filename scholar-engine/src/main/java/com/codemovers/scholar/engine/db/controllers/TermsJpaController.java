@@ -168,13 +168,14 @@ public class TermsJpaController extends EngineJpaController {
      * @param data
      * @return
      */
-    public List<Terms> findTermByRank(Integer ranking, SchoolData data) {
+    public List<Terms> findTermByRank(Integer ranking,  Long studyYearId, SchoolData data) {
         List<Terms> termsList = new ArrayList<>();
         EntityManager em = getEntityManager(data.getExternalId());
 
         try {
             Query query = em.createNamedQuery("Terms.findByRanking");
             query.setParameter("ranking", ranking);
+            query.setParameter("studyYearId", studyYearId);
             termsList = query.getResultList();
             LOG.log(Level.FINE, "Term foudn with start date e {0}", new Object[]{ranking});
         } catch (Exception ex) {
