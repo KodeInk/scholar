@@ -57,18 +57,19 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
         entity.validate();
 
         //todo: check  addmission class
-        Classes aclass = ClassService.getInstance().getClass(entity.getClass_id(), data);
-        if (aclass == null) {
+        Classes admissionClass = ClassService.getInstance().getClass(entity.getClass_id(), data);
+        if (admissionClass == null) {
             throw new BadRequestException("Class does not exist in the system");
         }
         //todo: validate admission term 
-        Terms term = TermService.getInstance().getTerm(entity.getTerm_id(), data);
+        Terms admissionTerm = TermService.getInstance().getTerm(entity.getTerm_id(), data);
 
-        if (term == null) {
+        if (admissionTerm == null) {
             throw new BadRequestException("Term  does not exist in the system");
         }
 
-        List<StudentAdmission> admissions = getByAdmissionNo(entity.getAdmission_no(), data);
+        List<StudentAdmission> admissions = getByAdmissionNo(entity.getAdmission_no(), data);       
+        
         if (admissions != null && admissions.size() > 0) {
             throw new BadRequestException(" Admission exists with admission number : {0} ", entity.getAdmission_no());
         }
@@ -79,7 +80,7 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
         entity.setDate_created(new Date().getTime());
 
         Profile profile = saveStudentProfile(entity, data, authentication);
-        StudentAdmission admission = populateEntity(aclass, term, entity, profile);
+        StudentAdmission admission = populateEntity(admissionClass, admissionTerm, entity, profile);
         //todo: save entity
         admission = controller.create(admission, data);
         //todo: response body 
@@ -136,10 +137,7 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
             throw new BadRequestException("Student Admission Number is Empty");
         }
         List<StudentAdmission> admissions = controller.findStudentAdmission(admissioNo, data);
-        if (admissions == null || admissions.isEmpty()) {
-            throw new BadRequestException("Sudent Admission does not exist with  student number {0} ", admissioNo);
-        }
-
+        
         return admissions;
     }
 

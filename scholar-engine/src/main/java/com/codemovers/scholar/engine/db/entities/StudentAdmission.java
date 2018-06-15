@@ -82,7 +82,7 @@ public class StudentAdmission implements Serializable {
     @ManyToOne(optional = false)
     private Classes admissionClass;
     @JoinColumn(name = "stream_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     private Streams admissionStream;
     @JoinColumn(name = "term_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
