@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "StudentAdmission.findAll", query = "SELECT s FROM StudentAdmission s")
     , @NamedQuery(name = "StudentAdmission.findById", query = "SELECT s FROM StudentAdmission s WHERE s.id = :id")
-    , @NamedQuery(name = "StudentAdmission.findByStudentId", query = "SELECT s FROM StudentAdmission s WHERE s.studentId = :studentId")
+    , @NamedQuery(name = "StudentAdmission.findByStudentId", query = "SELECT s FROM StudentAdmission s WHERE s.student.id = :studentId")
     , @NamedQuery(name = "StudentAdmission.findByAdmissionNo", query = "SELECT s FROM StudentAdmission s WHERE s.admissionNo = :admissionNo")
     , @NamedQuery(name = "StudentAdmission.findByExternalId", query = "SELECT s FROM StudentAdmission s WHERE s.externalId = :externalId")
     , @NamedQuery(name = "StudentAdmission.findByDateOfAdmission", query = "SELECT s FROM StudentAdmission s WHERE s.dateOfAdmission = :dateOfAdmission")
@@ -46,15 +46,13 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "StudentAdmission.findByDateCreated", query = "SELECT s FROM StudentAdmission s WHERE s.dateCreated = :dateCreated")})
 public class StudentAdmission implements Serializable {
 
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-//todo: removed from  Table
-    private long studentId;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -97,7 +95,7 @@ public class StudentAdmission implements Serializable {
 
     @JoinColumn(name = "profile_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Profile profile;
+    private Profile student;
 
     public StudentAdmission() {
     }
@@ -106,9 +104,9 @@ public class StudentAdmission implements Serializable {
         this.id = id;
     }
 
-    public StudentAdmission(Long id, long studentId, String admissionNo, String externalId, Date dateOfAdmission, String status, Date dateCreated) {
+    public StudentAdmission(Long id, String admissionNo, String externalId, Date dateOfAdmission, String status, Date dateCreated) {
         this.id = id;
-        this.studentId = studentId;
+
         this.admissionNo = admissionNo;
         this.externalId = externalId;
         this.dateOfAdmission = dateOfAdmission;
@@ -122,14 +120,6 @@ public class StudentAdmission implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public long getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(long studentId) {
-        this.studentId = studentId;
     }
 
     public String getAdmissionNo() {
@@ -214,13 +204,12 @@ public class StudentAdmission implements Serializable {
     }
 
     public Profile getProfile() {
-        return profile;
+        return student;
     }
 
     public void setProfile(Profile profile) {
-        this.profile = profile;
+        this.student = profile;
     }
-
 
     @Override
     public int hashCode() {
@@ -246,6 +235,5 @@ public class StudentAdmission implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.StudentAdmission[ id=" + id + " ]";
     }
-
 
 }

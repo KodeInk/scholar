@@ -7,8 +7,7 @@ package com.codemovers.scholar.engine.api.v1.classes.entities;
 
 import com.codemovers.scholar.engine.api.v1.streams.entities.StreamResponse;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
@@ -17,6 +16,7 @@ import java.util.Objects;
  *
  * @author mover
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ClassResponse {
 
     private Integer id;

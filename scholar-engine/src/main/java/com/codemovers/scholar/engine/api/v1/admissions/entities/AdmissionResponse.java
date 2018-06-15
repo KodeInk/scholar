@@ -9,12 +9,14 @@ import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 import com.codemovers.scholar.engine.api.v1.profile.entities.ProfileResponse;
 import com.codemovers.scholar.engine.api.v1.streams.entities.StreamResponse;
 import com.codemovers.scholar.engine.api.v1.terms.entities.TermResponse;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Objects;
 
 /**
  *
  * @author mover 12/20/2017
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AdmissionResponse {
 
     private Integer id;

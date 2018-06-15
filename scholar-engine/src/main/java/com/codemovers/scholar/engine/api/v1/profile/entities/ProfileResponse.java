@@ -6,6 +6,7 @@
 package com.codemovers.scholar.engine.api.v1.profile.entities;
 
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.util.Objects;
@@ -15,6 +16,7 @@ import java.util.Objects;
  * @author Mover
  */
 @JsonInclude(Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ProfileResponse {
 
     private Integer id;

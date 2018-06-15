@@ -5,15 +5,14 @@
  */
 package com.codemovers.scholar.engine.api.v1.terms.entities;
 
-import com.codemovers.scholar.engine.api.v1.studyear.entities.StudyYearResponse;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Objects;
 
 /**
  *
  * @author mover 12/20/2017
- */
+ */@JsonIgnoreProperties(ignoreUnknown = true)
 public class TermResponse {
 
     private Integer id;

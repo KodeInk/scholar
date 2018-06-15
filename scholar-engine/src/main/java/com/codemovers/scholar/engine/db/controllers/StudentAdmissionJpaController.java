@@ -167,7 +167,11 @@ public class StudentAdmissionJpaController extends EngineJpaController {
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();
-        } finally {
+        }catch(Exception er){
+            er.printStackTrace();
+            throw er;
+        }
+        finally {
             em.close();
         }
     }

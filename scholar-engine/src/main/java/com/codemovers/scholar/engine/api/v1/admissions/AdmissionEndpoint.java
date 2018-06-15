@@ -60,7 +60,7 @@ public class AdmissionEndpoint extends AbstractEndpoint<_Admission, AdmissionRes
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public AdmissionResponse create(_Admission entity, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public AdmissionResponse create(_Admission entity, @HeaderParam("authentication") String authentication, @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.create(tenantdata, entity, this.authentication);
     }
@@ -69,7 +69,7 @@ public class AdmissionEndpoint extends AbstractEndpoint<_Admission, AdmissionRes
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public AdmissionResponse update(_Admission entity, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public AdmissionResponse update(_Admission entity, @HeaderParam("authentication") String authentication, @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.update(tenantdata, entity, this.authentication);
     }
@@ -82,8 +82,13 @@ public class AdmissionEndpoint extends AbstractEndpoint<_Admission, AdmissionRes
             @DefaultValue("0") @QueryParam("offset") int offset,
             @DefaultValue("50") @QueryParam("limit") int limit,
             @HeaderParam("authentication") String authentication, @Context HttpServletRequest httpRequest) throws Exception {
-        validate(tenantdata, authentication);
-        return service.list(tenantdata, offset, limit, this.authentication);
+        try {
+            validate(tenantdata, authentication);
+            return service.list(tenantdata, offset, limit, this.authentication);
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        }
     }
 
     @POST
@@ -91,7 +96,7 @@ public class AdmissionEndpoint extends AbstractEndpoint<_Admission, AdmissionRes
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public AdmissionResponse archive(Integer id, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public AdmissionResponse archive(Integer id, @HeaderParam("authentication") String authentication, @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.archive(tenantdata, id, this.authentication);
     }

@@ -26,6 +26,7 @@ import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -159,7 +160,7 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
             admissionResponses.add(populateResponse(admission));
         });
         return admissionResponses;
-    }
+        }
 
     /**
      *
