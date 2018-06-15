@@ -66,7 +66,7 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
 
         //todo: check to see that there is no term with the same ranking 
         Long termRank = term.getRanking();
-        List<Terms> termWithSameRank = controller.findTermByRank(termRank.intValue(), term.getStudyYear().getId(), data);
+        List<Terms> termWithSameRank = controller.findTermByRank(termRank, term.getStudyYear().getId(), data);
         if (termWithSameRank.size() > 0) {
             throw new BadRequestException("A term exists with the same ranking in the same study period ");
         }

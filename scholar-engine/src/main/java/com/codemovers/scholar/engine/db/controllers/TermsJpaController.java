@@ -168,7 +168,7 @@ public class TermsJpaController extends EngineJpaController {
      * @param data
      * @return
      */
-    public List<Terms> findTermByRank(Integer ranking,  Long studyYearId, SchoolData data) {
+    public List<Terms> findTermByRank(Long ranking, Long studyYearId, SchoolData data) {
         List<Terms> termsList = new ArrayList<>();
         EntityManager em = getEntityManager(data.getExternalId());
 
