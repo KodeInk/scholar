@@ -5,9 +5,10 @@
  */
 package com.codemovers.scholar.engine.api.v1.admissions.entities;
 
-import com.codemovers.scholar.engine.api.v1.profile.entities._Profile;
-import com.codemovers.scholar.engine.helper.enums.StatusEnum;
-import java.util.Date;
+import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
+import com.codemovers.scholar.engine.api.v1.profile.entities.ProfileResponse;
+import com.codemovers.scholar.engine.api.v1.streams.entities.StreamResponse;
+import com.codemovers.scholar.engine.api.v1.terms.entities.TermResponse;
 import java.util.Objects;
 
 /**
@@ -17,15 +18,15 @@ import java.util.Objects;
 public class AdmissionResponse {
 
     private Integer id;
-    private _Profile student;
+    private ProfileResponse student;
     private String admission_no;
     private String external_id;
-    private Date date_of_admission;
-    private Integer term_id;
-    private Integer class_id;
-    private Integer stream_id;
-    private StatusEnum status;
-    private Date date_created;
+    private Long date_of_admission;
+    private TermResponse admissionTerm;
+    private ClassResponse admissionClass;
+    private StreamResponse admissionStream;
+    private String status;
+    private Long date_created;
     private Integer author_id;
 
     public AdmissionResponse() {
@@ -43,11 +44,11 @@ public class AdmissionResponse {
         this.id = id;
     }
 
-    public _Profile getStudent() {
+    public ProfileResponse getStudent() {
         return student;
     }
 
-    public void setStudent(_Profile student) {
+    public void setStudent(ProfileResponse student) {
         this.student = student;
     }
 
@@ -67,51 +68,51 @@ public class AdmissionResponse {
         this.external_id = external_id;
     }
 
-    public Date getDate_of_admission() {
+    public Long getDate_of_admission() {
         return date_of_admission;
     }
 
-    public void setDate_of_admission(Date date_of_admission) {
+    public void setDate_of_admission(Long date_of_admission) {
         this.date_of_admission = date_of_admission;
     }
 
-    public Integer getTerm_id() {
-        return term_id;
+    public TermResponse getAdmissionTerm() {
+        return admissionTerm;
     }
 
-    public void setTerm_id(Integer term_id) {
-        this.term_id = term_id;
+    public void setAdmissionTerm(TermResponse admissionTerm) {
+        this.admissionTerm = admissionTerm;
     }
 
-    public Integer getClass_id() {
-        return class_id;
+    public ClassResponse getAdmissionClass() {
+        return admissionClass;
     }
 
-    public void setClass_id(Integer class_id) {
-        this.class_id = class_id;
+    public void setAdmissionClass(ClassResponse admissionClass) {
+        this.admissionClass = admissionClass;
     }
 
-    public Integer getStream_id() {
-        return stream_id;
+    public StreamResponse getAdmissionStream() {
+        return admissionStream;
     }
 
-    public void setStream_id(Integer stream_id) {
-        this.stream_id = stream_id;
+    public void setAdmissionStream(StreamResponse admissionStream) {
+        this.admissionStream = admissionStream;
     }
 
-    public StatusEnum getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(StatusEnum status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public Date getDate_created() {
+    public Long getDate_created() {
         return date_created;
     }
 
-    public void setDate_created(Date date_created) {
+    public void setDate_created(Long date_created) {
         this.date_created = date_created;
     }
 
@@ -125,18 +126,18 @@ public class AdmissionResponse {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 41 * hash + Objects.hashCode(this.id);
-        hash = 41 * hash + Objects.hashCode(this.student);
-        hash = 41 * hash + Objects.hashCode(this.admission_no);
-        hash = 41 * hash + Objects.hashCode(this.external_id);
-        hash = 41 * hash + Objects.hashCode(this.date_of_admission);
-        hash = 41 * hash + Objects.hashCode(this.term_id);
-        hash = 41 * hash + Objects.hashCode(this.class_id);
-        hash = 41 * hash + Objects.hashCode(this.stream_id);
-        hash = 41 * hash + Objects.hashCode(this.status);
-        hash = 41 * hash + Objects.hashCode(this.date_created);
-        hash = 41 * hash + Objects.hashCode(this.author_id);
+        int hash = 5;
+        hash = 71 * hash + Objects.hashCode(this.id);
+        hash = 71 * hash + Objects.hashCode(this.student);
+        hash = 71 * hash + Objects.hashCode(this.admission_no);
+        hash = 71 * hash + Objects.hashCode(this.external_id);
+        hash = 71 * hash + Objects.hashCode(this.date_of_admission);
+        hash = 71 * hash + Objects.hashCode(this.admissionTerm);
+        hash = 71 * hash + Objects.hashCode(this.admissionClass);
+        hash = 71 * hash + Objects.hashCode(this.admissionStream);
+        hash = 71 * hash + Objects.hashCode(this.status);
+        hash = 71 * hash + Objects.hashCode(this.date_created);
+        hash = 71 * hash + Objects.hashCode(this.author_id);
         return hash;
     }
 
@@ -158,6 +159,9 @@ public class AdmissionResponse {
         if (!Objects.equals(this.external_id, other.external_id)) {
             return false;
         }
+        if (!Objects.equals(this.status, other.status)) {
+            return false;
+        }
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
@@ -167,16 +171,13 @@ public class AdmissionResponse {
         if (!Objects.equals(this.date_of_admission, other.date_of_admission)) {
             return false;
         }
-        if (!Objects.equals(this.term_id, other.term_id)) {
+        if (!Objects.equals(this.admissionTerm, other.admissionTerm)) {
             return false;
         }
-        if (!Objects.equals(this.class_id, other.class_id)) {
+        if (!Objects.equals(this.admissionClass, other.admissionClass)) {
             return false;
         }
-        if (!Objects.equals(this.stream_id, other.stream_id)) {
-            return false;
-        }
-        if (this.status != other.status) {
+        if (!Objects.equals(this.admissionStream, other.admissionStream)) {
             return false;
         }
         if (!Objects.equals(this.date_created, other.date_created)) {
@@ -188,18 +189,20 @@ public class AdmissionResponse {
     @Override
     public String toString() {
         return "AdmissionResponse{"
-                + "id=" + id
-                + ", student=" + student
+                + "id=" + id 
+                + ", student=" + student 
                 + ", admission_no=" + admission_no
-                + ", external_id=" + external_id
-                + ", date_of_admission=" + date_of_admission
-                + ", term_id=" + term_id
-                + ", class_id=" + class_id
-                + ", stream_id=" + stream_id
-                + ", status=" + status
-                + ", date_created=" + date_created
-                + ", author_id=" + author_id
-                + "}";
+                + ", external_id=" + external_id 
+                + ", date_of_admission=" + date_of_admission 
+                + ", admissionTerm=" + admissionTerm
+                + ", admissionClass=" + admissionClass 
+                + ", admissionStream=" + admissionStream 
+                + ", status=" + status 
+                + ", date_created=" + date_created 
+                + ", author_id=" + author_id 
+                + '}';
     }
+
+    
 
 }

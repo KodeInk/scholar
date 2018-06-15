@@ -78,11 +78,20 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
         entity.setDate_created(new Date().getTime());
 
         Profile profile = saveStudentProfile(entity, data, authentication);
-
         StudentAdmission admission = populateEntity(aclass, term, entity, profile);
         //todo: save entity
        admission =  controller.create(admission, data);
         //todo: response body 
+        
+        AdmissionResponse admissionResponse = new AdmissionResponse();
+        admissionResponse.setId(admission.getId().intValue());
+        admissionResponse.setStudent(ProfileService.getInstance().populateResponse(admission.getProfile()));
+        admissionResponse.setAdmission_no(admission.getAdmissionNo());
+        admissionResponse.setExternal_id(admission.getExternalId());
+        admissionResponse.setDate_of_admission(admission.getDateOfAdmission().getTime());
+        
+        admissionResponse.setStatus(admission.getStatus());
+        
         return super.create(data, entity); //To change body of generated methods, choose Tools | Templates.
     }
 
