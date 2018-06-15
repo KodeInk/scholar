@@ -10,10 +10,12 @@ import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResp
 import com.codemovers.scholar.engine.api.v1.admissions.entities.AdmissionResponse;
 import com.codemovers.scholar.engine.api.v1.admissions.entities._Admission;
 import com.codemovers.scholar.engine.api.v1.classes.ClassService;
+import com.codemovers.scholar.engine.api.v1.terms.TermService;
 import com.codemovers.scholar.engine.db.controllers.StudentAdmissionJpaController;
 import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.StudentAdmission;
+import com.codemovers.scholar.engine.db.entities.Terms;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.List;
@@ -47,23 +49,24 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
         entity.validate();
 
         //todo: check  addmission class
-       Classes aclass =  ClassService.getInstance().getClass( entity.getClass_id(),data);
-       if(aclass == null){
-           throw new BadRequestException("Class does not exist in the system");
-       }
-       //todo: validate admission term 
-       
-        
-        //todo: check admission term
-        
-        //todo: check if there is no admission with the same admission no 
+        Classes aclass = ClassService.getInstance().getClass(entity.getClass_id(), data);
+        if (aclass == null) {
+            throw new BadRequestException("Class does not exist in the system");
+        }
+        //todo: validate admission term 
+        Terms term = TermService.getInstance().getTerm(entity.getTerm_id(), data);
+
+        if (term == null) {
+            throw new BadRequestException("Term  does not exist in the system");
+        }
+
+            //todo: check if there is no admission with the same admission no 
         //todo: populate entity 
         entity.setAuthor_id(authentication.getId());
         entity.setStatus(StatusEnum.ACTIVE);
-        
+
 //        StudentAdmission admission = new StudentAdmission();
 //        admission.setAdmissionClass(enti);
-
         //todo: save entity
         //todo: response body 
         return super.create(data, entity); //To change body of generated methods, choose Tools | Templates.

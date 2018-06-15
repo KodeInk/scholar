@@ -21,7 +21,7 @@ import javax.ws.rs.BadRequestException;
 
 /**
  *
- * @author Manny
+ * @author mover 6/15/2018
  */
 public class StudentAdmissionJpaController extends EngineJpaController {
 
@@ -29,6 +29,14 @@ public class StudentAdmissionJpaController extends EngineJpaController {
 
     private static StudentAdmissionJpaController controller = null;
 
+    public StudentAdmissionJpaController() {
+        super(StudentAdmission.class);
+    }
+
+    /**
+     *
+     * @return
+     */
     public static StudentAdmissionJpaController getInstance() {
         if (controller == null) {
             controller = new StudentAdmissionJpaController();
@@ -36,10 +44,12 @@ public class StudentAdmissionJpaController extends EngineJpaController {
         return controller;
     }
 
-    public StudentAdmissionJpaController() {
-        super(StudentAdmission.class);
-    }
-
+    /**
+     *
+     * @param entity
+     * @param data
+     * @return
+     */
     public StudentAdmission create(StudentAdmission entity, SchoolData data) {
         EntityManager em = null;
         try {
@@ -59,6 +69,13 @@ public class StudentAdmissionJpaController extends EngineJpaController {
 
     }
 
+    /**
+     *
+     * @param studentAdmission
+     * @param data
+     * @return
+     * @throws Exception
+     */
     public StudentAdmission edit(StudentAdmission studentAdmission, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
@@ -84,6 +101,12 @@ public class StudentAdmissionJpaController extends EngineJpaController {
         return studentAdmission;
     }
 
+    /**
+     *
+     * @param id
+     * @param data
+     * @return
+     */
     public StudentAdmission findStudentAdmission(Integer id, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
 
@@ -114,14 +137,31 @@ public class StudentAdmissionJpaController extends EngineJpaController {
         }
     }
 
+    /**
+     *
+     * @param data
+     * @return
+     */
     public List<StudentAdmission> findStudentAdmissions(SchoolData data) {
         return findStudentAdmissions(true, -1, -1, data);
     }
 
+    /**
+     *
+     * @param maxResults
+     * @param firstResult
+     * @param data
+     * @return
+     */
     public List<StudentAdmission> findStudentAdmissions(int maxResults, int firstResult, SchoolData data) {
         return findStudentAdmissions(false, maxResults, firstResult, data);
     }
 
+    /**
+     *
+     * @param data
+     * @return
+     */
     public int getCount(SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
