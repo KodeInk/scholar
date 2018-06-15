@@ -31,21 +31,20 @@ public class _Profile extends AbstractEntity {
     private @Mandatory
     Long dateOfBirth;
     private String image;
-    private @Mandatory
-    ProfileTypesEnum profileType;
-    private @Mandatory
-    Integer parentId;
-    private @Mandatory
-    StatusEnum status;
-    private @Mandatory
-    Long dateCreated;
-    private @Mandatory
-    Integer authorId;
+    private ProfileTypesEnum profileType;
+    private Integer parentId;
+    private StatusEnum status;
+    private Long dateCreated;
+    private Integer authorId;
 
     //todo: add contact information on profile if any
     public _Profile() {
     }
 
+    public _Profile(Integer id) {
+        this.id = id;
+    }
+    
     public Integer getId() {
         return id;
     }
