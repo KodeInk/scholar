@@ -60,7 +60,12 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
             throw new BadRequestException("Term  does not exist in the system");
         }
 
-            //todo: check if there is no admission with the same admission no 
+        //todo: check if there is no admission with the same admission no 
+        List<StudentAdmission> admissions = controller.findStudentAdmission(entity.getAdmission_no(), data);
+        if (admissions != null && admissions.size() > 0) {
+            throw new BadRequestException(" Admission exists with admission number : {0} ", entity.getAdmission_no());
+        }
+
         //todo: populate entity 
         entity.setAuthor_id(authentication.getId());
         entity.setStatus(StatusEnum.ACTIVE);
