@@ -19,9 +19,11 @@ import com.codemovers.scholar.engine.db.entities.Profile;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.StudentAdmission;
 import com.codemovers.scholar.engine.db.entities.Terms;
+import com.codemovers.scholar.engine.db.entities.Users;
 import com.codemovers.scholar.engine.helper.Utilities;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -73,18 +75,21 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
         //todo: populate entity 
         entity.setAuthor_id(authentication.getId());
         entity.setStatus(StatusEnum.ACTIVE);
+        entity.setDate_created(new Date().getTime());
 
-            Profile profile = saveStudentProfile(entity, data, authentication);
-      
-        
+        Profile profile = saveStudentProfile(entity, data, authentication);
+
         StudentAdmission admission = new StudentAdmission();
         admission.setAdmissionClass(aclass);
         admission.setAdmissionTerm(term);
         admission.setAdmissionNo(entity.getAdmission_no());
         admission.setExternalId(Utilities.getNewExternalId());
+        admission.setDateOfAdmission(new Date(entity.getDate_of_admission()));
         admission.setProfile(profile);
-        
-        
+        admission.setDateCreated(new Date(entity.getDate_created()));
+        admission.setStatus(entity.getStatus().name());
+        admission.setAuthor(new Users(entity.getAuthor_id().longValue()));
+
         //todo: save entity
         //todo: response body 
         return super.create(data, entity); //To change body of generated methods, choose Tools | Templates.

@@ -27,14 +27,14 @@ public class _Admission extends AbstractEntity {
     private @Mandatory
     String external_id;
     private @Mandatory
-    Date date_of_admission;
+    Long date_of_admission;
     private @Mandatory
     Integer term_id;
     private @Mandatory
     Integer class_id;
     private Integer stream_id;
     private StatusEnum status;
-    private Date date_created;
+    private Long date_created;
     private Integer author_id;
 
     public _Admission() {
@@ -76,11 +76,11 @@ public class _Admission extends AbstractEntity {
         this.external_id = external_id;
     }
 
-    public Date getDate_of_admission() {
+    public Long getDate_of_admission() {
         return date_of_admission;
     }
 
-    public void setDate_of_admission(Date date_of_admission) {
+    public void setDate_of_admission(Long date_of_admission) {
         this.date_of_admission = date_of_admission;
     }
 
@@ -116,11 +116,11 @@ public class _Admission extends AbstractEntity {
         this.status = status;
     }
 
-    public Date getDate_created() {
+    public Long getDate_created() {
         return date_created;
     }
 
-    public void setDate_created(Date date_created) {
+    public void setDate_created(Long date_created) {
         this.date_created = date_created;
     }
 
