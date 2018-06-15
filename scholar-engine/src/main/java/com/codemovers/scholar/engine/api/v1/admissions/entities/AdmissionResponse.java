@@ -27,7 +27,7 @@ public class AdmissionResponse {
     private StreamResponse admissionStream;
     private String status;
     private Long date_created;
-    private Integer author_id;
+    private String author;
 
     public AdmissionResponse() {
     }
@@ -116,13 +116,15 @@ public class AdmissionResponse {
         this.date_created = date_created;
     }
 
-    public Integer getAuthor_id() {
-        return author_id;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setAuthor_id(Integer author_id) {
-        this.author_id = author_id;
+    public void setAuthor(String author) {
+        this.author = author;
     }
+
+   
 
     @Override
     public int hashCode() {
@@ -137,7 +139,7 @@ public class AdmissionResponse {
         hash = 71 * hash + Objects.hashCode(this.admissionStream);
         hash = 71 * hash + Objects.hashCode(this.status);
         hash = 71 * hash + Objects.hashCode(this.date_created);
-        hash = 71 * hash + Objects.hashCode(this.author_id);
+        hash = 71 * hash + Objects.hashCode(this.author);
         return hash;
     }
 
@@ -183,7 +185,7 @@ public class AdmissionResponse {
         if (!Objects.equals(this.date_created, other.date_created)) {
             return false;
         }
-        return Objects.equals(this.author_id, other.author_id);
+        return Objects.equals(this.author, other.author);
     }
 
     @Override
@@ -199,7 +201,7 @@ public class AdmissionResponse {
                 + ", admissionStream=" + admissionStream 
                 + ", status=" + status 
                 + ", date_created=" + date_created 
-                + ", author_id=" + author_id 
+                + ", author=" + author 
                 + '}';
     }
 

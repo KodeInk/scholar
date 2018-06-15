@@ -89,7 +89,10 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
         admissionResponse.setAdmission_no(admission.getAdmissionNo());
         admissionResponse.setExternal_id(admission.getExternalId());
         admissionResponse.setDate_of_admission(admission.getDateOfAdmission().getTime());
+        admissionResponse.setAdmissionClass(ClassService.getInstance().populateResponse(admission.getAdmissionClass()));
         
+        admissionResponse.setAdmissionStream(null);
+        admissionResponse.setAdmissionTerm(TermService.getInstance().populateResponse(admission.getAdmissionTerm()));
         admissionResponse.setStatus(admission.getStatus());
         
         return super.create(data, entity); //To change body of generated methods, choose Tools | Templates.
