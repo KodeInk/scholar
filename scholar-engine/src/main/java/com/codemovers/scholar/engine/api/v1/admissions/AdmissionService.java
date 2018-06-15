@@ -23,6 +23,7 @@ import com.codemovers.scholar.engine.db.entities.Users;
 import com.codemovers.scholar.engine.helper.Utilities;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -31,7 +32,7 @@ import java.util.logging.Logger;
  *
  * @author mover 12/20/2017
  */
-public class AdmissionService extends AbstractService<_Admission, AdmissionResponse> {
+public class AdmissionService extends AbstractService<_Admission, AdmissionResponse> implements AdmissionServiceInterface {
 
     private static final Logger LOG = Logger.getLogger(AdmissionService.class.getName());
     private final StudentAdmissionJpaController controller;
@@ -66,8 +67,7 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
             throw new BadRequestException("Term  does not exist in the system");
         }
 
-        //todo: check if there is no admission with the same admission no 
-        List<StudentAdmission> admissions = controller.findStudentAdmission(entity.getAdmission_no(), data);
+        List<StudentAdmission> admissions = getByAdmissionNo(entity.getAdmission_no(), data);
         if (admissions != null && admissions.size() > 0) {
             throw new BadRequestException(" Admission exists with admission number : {0} ", entity.getAdmission_no());
         }
@@ -80,45 +80,85 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
         Profile profile = saveStudentProfile(entity, data, authentication);
         StudentAdmission admission = populateEntity(aclass, term, entity, profile);
         //todo: save entity
-       admission =  controller.create(admission, data);
+        admission = controller.create(admission, data);
         //todo: response body 
-        
-        AdmissionResponse admissionResponse = new AdmissionResponse();
-        admissionResponse.setId(admission.getId().intValue());
-        admissionResponse.setStudent(ProfileService.getInstance().populateResponse(admission.getProfile()));
-        admissionResponse.setAdmission_no(admission.getAdmissionNo());
-        admissionResponse.setExternal_id(admission.getExternalId());
-        admissionResponse.setDate_of_admission(admission.getDateOfAdmission().getTime());
-        admissionResponse.setAdmissionClass(ClassService.getInstance().populateResponse(admission.getAdmissionClass()));
-        
-        admissionResponse.setAdmissionStream(null);
-        admissionResponse.setAdmissionTerm(TermService.getInstance().populateResponse(admission.getAdmissionTerm()));
-        admissionResponse.setStatus(admission.getStatus());
-        
-        return super.create(data, entity); //To change body of generated methods, choose Tools | Templates.
+
+        AdmissionResponse admissionResponse = populateResponse(admission);
+
+        return admissionResponse;
     }
 
-
-   
-
     @Override
-    public AdmissionResponse update(SchoolData data, _Admission entity) throws Exception {
+    public AdmissionResponse update(SchoolData data, _Admission entity, AuthenticationResponse authentication) throws Exception {
         return super.update(data, entity); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public AdmissionResponse getById(SchoolData data, Integer Id) throws Exception {
+    public AdmissionResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
+
+        return super.archive(data, id);
+        //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /**
+     *
+     * @param data
+     * @param Id
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public AdmissionResponse getById(SchoolData data, Integer Id, AuthenticationResponse authentication) throws Exception {
+        if (Id == null) {
+            throw new BadRequestException("Student Id is null");
+        }
+
+        StudentAdmission studentAdmission = controller.findStudentAdmission(Id, data);
+        if (studentAdmission == null) {
+            throw new BadRequestException("Sudent Admission does not exist with that ID ");
+        }
+
         return super.getById(data, Id); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param admissioNo
+     * @param data
+     * @return
+     */
     @Override
-    public AdmissionResponse archive(SchoolData data, Integer id) throws Exception {
-        return super.archive(data, id); //To change body of generated methods, choose Tools | Templates.
+    public List<StudentAdmission> getByAdmissionNo(String admissioNo, SchoolData data) {
+        //todo: check if there is no admission with the same admission no
+        if (admissioNo.isEmpty()) {
+            throw new BadRequestException("Student Admission Number is Empty");
+        }
+        List<StudentAdmission> admissions = controller.findStudentAdmission(admissioNo, data);
+        if (admissions == null || admissions.isEmpty()) {
+            throw new BadRequestException("Sudent Admission does not exist with  student number {0} ", admissioNo);
+        }
+
+        return admissions;
     }
 
+    /**
+     *
+     * @param data
+     * @param ofset
+     * @param limit
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
-    public List<AdmissionResponse> list(SchoolData data, Integer ofset, Integer limit) throws Exception {
-        return super.list(data, ofset, limit); //To change body of generated methods, choose Tools | Templates.
+    public List<AdmissionResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
+        List<StudentAdmission> admissions = controller.findStudentAdmissions(limit, ofset, data);
+        List<AdmissionResponse> admissionResponses = new ArrayList<>();
+        admissions.forEach(admission -> {
+            admissionResponses.add(populateResponse(admission));
+        });
+        return admissionResponses;
     }
 
     /**
@@ -129,6 +169,7 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
      * @return
      * @throws Exception
      */
+    @Override
     public Profile saveStudentProfile(_Admission entity, SchoolData data, AuthenticationResponse authentication) throws Exception {
         _Profile studentProfile = entity.getStudent();
         studentProfile.validate();
@@ -136,8 +177,7 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
         profile = ProfileService.getInstance().create(data, profile, authentication);
         return profile;
     }
-     
-     
+
     /**
      *
      * @param aclass
@@ -146,6 +186,7 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
      * @param profile
      * @return
      */
+    @Override
     public StudentAdmission populateEntity(Classes aclass, Terms term, _Admission entity, Profile profile) {
         StudentAdmission admission = new StudentAdmission();
         admission.setAdmissionClass(aclass);
@@ -159,6 +200,27 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
         admission.setAuthor(new Users(entity.getAuthor_id().longValue()));
         return admission;
     }
-    
-    
+
+    /**
+     *
+     * @param admission
+     * @return
+     */
+    @Override
+    public AdmissionResponse populateResponse(StudentAdmission admission) {
+        AdmissionResponse admissionResponse = new AdmissionResponse();
+        admissionResponse.setId(admission.getId().intValue());
+        admissionResponse.setStudent(ProfileService.getInstance().populateResponse(admission.getProfile()));
+        admissionResponse.setAdmission_no(admission.getAdmissionNo());
+        admissionResponse.setExternal_id(admission.getExternalId());
+        admissionResponse.setDate_of_admission(admission.getDateOfAdmission().getTime());
+        admissionResponse.setAdmissionClass(ClassService.getInstance().populateResponse(admission.getAdmissionClass()));
+        admissionResponse.setAdmissionStream(null);
+        admissionResponse.setAdmissionTerm(TermService.getInstance().populateResponse(admission.getAdmissionTerm()));
+        admissionResponse.setStatus(admission.getStatus());
+        admissionResponse.setDate_created(admission.getDateCreated().getTime());
+        admissionResponse.setAuthor(admission.getAuthor().getUsername());
+        return admissionResponse;
+    }
+
 }
