@@ -21,11 +21,15 @@ import java.util.Objects;
 public class _Profile extends AbstractEntity {
 
     private Integer id;
-    private String firstName;
+    private @Mandatory
+    String firstName;
     private String middleName;
-    private String lastName;
-    private String prefix;
-    private Long dateOfBirth;
+    private @Mandatory
+    String lastName;
+    private @Mandatory
+    String prefix;
+    private @Mandatory
+    Long dateOfBirth;
     private String image;
     private @Mandatory
     ProfileTypesEnum profileType;

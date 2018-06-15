@@ -6,10 +6,13 @@
 package com.codemovers.scholar.engine.api.v1.admissions;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
+import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.admissions.entities.AdmissionResponse;
 import com.codemovers.scholar.engine.api.v1.admissions.entities._Admission;
 import com.codemovers.scholar.engine.db.controllers.StudentAdmissionJpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import com.codemovers.scholar.engine.db.entities.StudentAdmission;
+import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -20,9 +23,7 @@ import java.util.logging.Logger;
 public class AdmissionService extends AbstractService<_Admission, AdmissionResponse> {
 
     private static final Logger LOG = Logger.getLogger(AdmissionService.class.getName());
-
     private final StudentAdmissionJpaController controller;
-
     private static AdmissionService service = null;
 
     public AdmissionService() {
@@ -37,7 +38,25 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
     }
 
     @Override
-    public AdmissionResponse create(SchoolData data, _Admission entity) throws Exception {
+    public AdmissionResponse create(SchoolData data, _Admission entity, AuthenticationResponse authentication) throws Exception {
+
+        //todo: validate the entity 
+        entity.validate();
+
+        //todo: check  addmission class
+        
+        //todo: check admission term
+        
+        //todo: check if there is no admission with the same admission no 
+        //todo: populate entity 
+        entity.setAuthor_id(authentication.getId());
+        entity.setStatus(StatusEnum.ACTIVE);
+        
+//        StudentAdmission admission = new StudentAdmission();
+//        admission.setAdmissionClass(enti);
+
+        //todo: save entity
+        //todo: response body 
         return super.create(data, entity); //To change body of generated methods, choose Tools | Templates.
     }
 
