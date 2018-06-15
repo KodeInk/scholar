@@ -117,7 +117,7 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
     public ClassResponse delete(SchoolData data, Integer id) throws Exception {
         check_access(DELETE_CLASS_PERMISSION);
         //todo: get class by id
-        Classes _class = controller.findClass(id, data);
+        Classes _class = getClass(id, data);
         if (_class == null) {
             throw new BadRequestException("Record does not exist");
         }
@@ -137,7 +137,7 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
     public ClassResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
         check_access(ARCHIVE_CLASS_PERMISSION);
         //todo: get class by id
-        Classes _class = controller.findClass(id, data);
+        Classes _class = getClass(id, data);
         if (_class == null) {
             throw new BadRequestException("Record does not exist");
         }
@@ -164,7 +164,7 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
         if (entity.getId() == null) {
             throw new BadRequestException("UNIQUE ID MISSING");
         }
-        Classes classes = controller.findClass(entity.getId(), data);
+        Classes classes = getClass(entity.getId(), data);
 
         if (entity.getName() != null && !entity.getName().equalsIgnoreCase(classes.getName())) {
             classes.setName(entity.getName());
@@ -190,19 +190,25 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
      *
      * @param data
      * @param Id
+     * @param authentication
      * @return
      * @throws Exception
      */
     @Override
-    public ClassResponse getById(SchoolData data, Integer Id) throws Exception {
+    public ClassResponse getById(SchoolData data, Integer Id,AuthenticationResponse authentication) throws Exception {
         check_access(LIST_CLASSES_PERMISSION);
-        //todo: get class by id
-        Classes _class = controller.findClass(Id, data);
+        Classes _class = getClass(Id, data);
         if (_class == null) {
             throw new BadRequestException("Record does not exist");
         }
 
         return populateResponse(_class);
+    }
+
+    public Classes getClass(Integer Id, SchoolData data) {
+        //todo: get class by id
+        Classes _class = controller.findClass(Id, data);
+        return _class;
     }
 
     /**

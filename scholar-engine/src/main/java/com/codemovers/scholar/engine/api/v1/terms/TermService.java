@@ -98,7 +98,10 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
             throw new BadRequestException("UNIQUE ID MISSING");
         }
 
-        Terms term = controller.findTerm(entity.getId(), data);
+        Terms term = getTerm(entity.getId(), data);
+        if (term == null) {
+            throw new BadRequestException("Record does not exist");
+        }
 
         StudyYear studyYear = StudyYearJpaController.getInstance().findStudyYear(entity.getStudy_year(), data);
 
@@ -115,7 +118,7 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
     @Override
     public TermResponse archive(SchoolData data, Integer id) throws Exception {
         check_access(ARCHIVE_TERM_PERMISSION);
-        Terms term = controller.findTerm(id, data);
+        Terms term = getTerm(id, data);
 
         if (term == null) {
             throw new BadRequestException("Record does not exist");
@@ -128,8 +131,17 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
     @Override
     public TermResponse getById(SchoolData data, Integer Id) throws Exception {
         check_access(LIST_TERM_PERMISSION);
-        Terms term = controller.findTerm(Id, data);
+        Terms term = getTerm(Id, data);
+        if (term == null) {
+            throw new BadRequestException("Record does not exist");
+        }
+        
         return populateResponse(term);
+    }
+
+    public Terms getTerm(Integer Id, SchoolData data) {
+        Terms term = controller.findTerm(Id, data);
+        return term;
     }
 
     @Override

@@ -9,10 +9,13 @@ import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.admissions.entities.AdmissionResponse;
 import com.codemovers.scholar.engine.api.v1.admissions.entities._Admission;
+import com.codemovers.scholar.engine.api.v1.classes.ClassService;
 import com.codemovers.scholar.engine.db.controllers.StudentAdmissionJpaController;
+import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.StudentAdmission;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
+import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -44,6 +47,12 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
         entity.validate();
 
         //todo: check  addmission class
+       Classes aclass =  ClassService.getInstance().getClass( entity.getClass_id(),data);
+       if(aclass == null){
+           throw new BadRequestException("Class does not exist in the system");
+       }
+       //todo: validate admission term 
+       
         
         //todo: check admission term
         
