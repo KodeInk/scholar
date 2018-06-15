@@ -175,6 +175,9 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
         _Profile studentProfile = entity.getStudent();
         studentProfile.validate();
         Profile profile = ProfileService.getInstance().getProfile(studentProfile);
+        profile.setParentType("STUDENT");
+        profile.setDateCreated(new Date());
+        profile.setAuthor(new Users(authentication.getId().longValue()));
         profile = ProfileService.getInstance().create(data, profile, authentication);
         return profile;
     }
