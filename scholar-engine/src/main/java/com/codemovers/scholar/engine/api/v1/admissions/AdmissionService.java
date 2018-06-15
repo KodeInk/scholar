@@ -10,12 +10,16 @@ import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResp
 import com.codemovers.scholar.engine.api.v1.admissions.entities.AdmissionResponse;
 import com.codemovers.scholar.engine.api.v1.admissions.entities._Admission;
 import com.codemovers.scholar.engine.api.v1.classes.ClassService;
+import com.codemovers.scholar.engine.api.v1.profile.ProfileService;
+import com.codemovers.scholar.engine.api.v1.profile.entities._Profile;
 import com.codemovers.scholar.engine.api.v1.terms.TermService;
 import com.codemovers.scholar.engine.db.controllers.StudentAdmissionJpaController;
 import com.codemovers.scholar.engine.db.entities.Classes;
+import com.codemovers.scholar.engine.db.entities.Profile;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.StudentAdmission;
 import com.codemovers.scholar.engine.db.entities.Terms;
+import com.codemovers.scholar.engine.helper.Utilities;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.List;
@@ -70,11 +74,30 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
         entity.setAuthor_id(authentication.getId());
         entity.setStatus(StatusEnum.ACTIVE);
 
-//        StudentAdmission admission = new StudentAdmission();
-//        admission.setAdmissionClass(enti);
+            Profile profile = saveStudentProfile(entity, data, authentication);
+      
+        
+        StudentAdmission admission = new StudentAdmission();
+        admission.setAdmissionClass(aclass);
+        admission.setAdmissionTerm(term);
+        admission.setAdmissionNo(entity.getAdmission_no());
+        admission.setExternalId(Utilities.getNewExternalId());
+        admission.setProfile(profile);
+        
+        
         //todo: save entity
         //todo: response body 
         return super.create(data, entity); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Profile saveStudentProfile(_Admission entity, SchoolData data, AuthenticationResponse authentication) throws Exception {
+        //todo: create profile
+        _Profile studentProfile = entity.getStudent();
+        studentProfile.validate();
+        Profile profile = null;
+        profile = ProfileService.getInstance().getProfile(studentProfile);
+        profile = ProfileService.getInstance().create(data, profile, authentication);
+        return profile;
     }
 
     @Override
