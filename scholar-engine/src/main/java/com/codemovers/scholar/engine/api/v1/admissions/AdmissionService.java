@@ -79,31 +79,15 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
 
         Profile profile = saveStudentProfile(entity, data, authentication);
 
-        StudentAdmission admission = new StudentAdmission();
-        admission.setAdmissionClass(aclass);
-        admission.setAdmissionTerm(term);
-        admission.setAdmissionNo(entity.getAdmission_no());
-        admission.setExternalId(Utilities.getNewExternalId());
-        admission.setDateOfAdmission(new Date(entity.getDate_of_admission()));
-        admission.setProfile(profile);
-        admission.setDateCreated(new Date(entity.getDate_created()));
-        admission.setStatus(entity.getStatus().name());
-        admission.setAuthor(new Users(entity.getAuthor_id().longValue()));
-
+        StudentAdmission admission = populateEntity(aclass, term, entity, profile);
         //todo: save entity
+       admission =  controller.create(admission, data);
         //todo: response body 
         return super.create(data, entity); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public Profile saveStudentProfile(_Admission entity, SchoolData data, AuthenticationResponse authentication) throws Exception {
-        //todo: create profile
-        _Profile studentProfile = entity.getStudent();
-        studentProfile.validate();
-        Profile profile = null;
-        profile = ProfileService.getInstance().getProfile(studentProfile);
-        profile = ProfileService.getInstance().create(data, profile, authentication);
-        return profile;
-    }
+
+   
 
     @Override
     public AdmissionResponse update(SchoolData data, _Admission entity) throws Exception {
@@ -125,4 +109,44 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
         return super.list(data, ofset, limit); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param entity
+     * @param data
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
+    public Profile saveStudentProfile(_Admission entity, SchoolData data, AuthenticationResponse authentication) throws Exception {
+        _Profile studentProfile = entity.getStudent();
+        studentProfile.validate();
+        Profile profile = ProfileService.getInstance().getProfile(studentProfile);
+        profile = ProfileService.getInstance().create(data, profile, authentication);
+        return profile;
+    }
+     
+     
+    /**
+     *
+     * @param aclass
+     * @param term
+     * @param entity
+     * @param profile
+     * @return
+     */
+    public StudentAdmission populateEntity(Classes aclass, Terms term, _Admission entity, Profile profile) {
+        StudentAdmission admission = new StudentAdmission();
+        admission.setAdmissionClass(aclass);
+        admission.setAdmissionTerm(term);
+        admission.setAdmissionNo(entity.getAdmission_no());
+        admission.setExternalId(Utilities.getNewExternalId());
+        admission.setDateOfAdmission(new Date(entity.getDate_of_admission()));
+        admission.setProfile(profile);
+        admission.setDateCreated(new Date(entity.getDate_created()));
+        admission.setStatus(entity.getStatus().name());
+        admission.setAuthor(new Users(entity.getAuthor_id().longValue()));
+        return admission;
+    }
+    
+    
 }
