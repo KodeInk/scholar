@@ -14,7 +14,7 @@ import java.util.Objects;
 
 /**
  *
- * @author Manny
+ * @author mover 6/16/2018
  */
 public class StudentTermRegistrationResponse {
 
