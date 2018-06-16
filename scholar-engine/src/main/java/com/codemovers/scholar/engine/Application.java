@@ -116,7 +116,7 @@ public class Application {
                 ), "/permissions/v1/*");
         
           context.addServlet(
-                getServlet(com.codemovers.scholar.engine.api.v1.admissions.AdmissionEndpoint.class, CORSResponseFilter.class
+                getServlet(com.codemovers.scholar.engine.api.v1.students.admissions.AdmissionEndpoint.class, CORSResponseFilter.class
                 ), "/admissions/v1/*");
           
           

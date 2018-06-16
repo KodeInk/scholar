@@ -223,13 +223,13 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
         response.setName(entity.getName());
         response.setCode(entity.getCode());
         if (entity.getStatus() != null) {
-            response.setStatus(StatusEnum.fromString(entity.getStatus()));
+            response.setStatus(entity.getStatus());
         }
         if (entity.getRanking() != 0) {
             Long ranking = entity.getRanking();
             response.setRanking(ranking.intValue());
         }
-        response.setDate_created(entity.getDateCreated());
+        response.setDate_created(entity.getDateCreated().getTime());
         if (entity.getAuthor() != null) {
             response.setAuthor(entity.getAuthor().getUsername());
         }

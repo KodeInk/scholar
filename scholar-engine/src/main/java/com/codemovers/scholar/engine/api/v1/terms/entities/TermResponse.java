@@ -5,7 +5,6 @@
  */
 package com.codemovers.scholar.engine.api.v1.terms.entities;
 
-import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Objects;
 
@@ -21,9 +20,10 @@ public class TermResponse {
     private Long start_date;
     private Long end_date;
     private Integer ranking;
-    private StatusEnum status;
+    private String status;
     private String author;
     private Long date_created;
+    
 
     public TermResponse() {
     }
@@ -80,11 +80,11 @@ public class TermResponse {
         this.ranking = ranking;
     }
 
-    public StatusEnum getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(StatusEnum status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.codemovers.scholar.engine.api.v1.students.subjectregistration;
+package com.codemovers.scholar.engine.api.v1.students.registration;
 
 /**
  *
  * @author Manny
  */
-public class SubjectRegistrationService {
+public class SubjectRegistrationEndpoint {
 
 }

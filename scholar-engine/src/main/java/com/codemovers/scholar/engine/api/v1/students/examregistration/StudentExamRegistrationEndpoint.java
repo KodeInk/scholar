@@ -7,12 +7,11 @@ package com.codemovers.scholar.engine.api.v1.students.examregistration;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEndpoint;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import com.codemovers.scholar.engine.api.v1.students.admission.StudentAdmissionEndpoint;
+
 import com.codemovers.scholar.engine.api.v1.students.examregistration.entities.StudentExamRegistrationResponse;
 import com.codemovers.scholar.engine.api.v1.students.examregistration.entities._StudentExamRegistration;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +26,7 @@ import javax.ws.rs.core.Context;
 @Path("/")
 public class StudentExamRegistrationEndpoint extends AbstractEndpoint<_StudentExamRegistration, StudentExamRegistrationResponse> {
 
-    private static final Logger LOG = Logger.getLogger(StudentAdmissionEndpoint.class.getName());
+    private static final Logger LOG = Logger.getLogger(StudentExamRegistrationEndpoint.class.getName());
     @Context
     private ContainerRequestContext context;
     StudentExamRegistrationService service = null;

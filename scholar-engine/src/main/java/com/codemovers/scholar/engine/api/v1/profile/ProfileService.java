@@ -131,7 +131,7 @@ public class ProfileService extends AbstractService<_Profile, ProfileResponse> {
         pr.setLastName(entity.getLastName());
         pr.setMiddleName(entity.getMiddleName());
         if (entity.getDateOfBirth() != null) {
-            pr.setDateOfBirth(entity.getDateOfBirth().toString());
+            pr.setDateOfBirth(entity.getDateOfBirth().getTime());
         }
         if (entity.getDateCreated() != null) {
             pr.setDateCreated(entity.getDateCreated().getTime());

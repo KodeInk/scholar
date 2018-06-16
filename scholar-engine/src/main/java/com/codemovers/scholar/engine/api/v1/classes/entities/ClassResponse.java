@@ -23,8 +23,8 @@ public class ClassResponse {
     private String name;
     private String code;
     private Integer ranking;
-    private StatusEnum status;
-    private Date date_created;
+    private String status;
+    private Long date_created;
     private String author;
     private StreamResponse[] streamResponses;
 
@@ -67,19 +67,19 @@ public class ClassResponse {
         this.ranking = ranking;
     }
 
-    public StatusEnum getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(StatusEnum status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public Date getDate_created() {
+    public Long getDate_created() {
         return date_created;
     }
 
-    public void setDate_created(Date date_created) {
+    public void setDate_created(Long date_created) {
         this.date_created = date_created;
     }
 

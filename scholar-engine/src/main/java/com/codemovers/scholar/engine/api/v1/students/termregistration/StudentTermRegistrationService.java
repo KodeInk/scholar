@@ -7,15 +7,13 @@ package com.codemovers.scholar.engine.api.v1.students.termregistration;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import com.codemovers.scholar.engine.api.v1.admissions.AdmissionService;
-import com.codemovers.scholar.engine.api.v1.admissions.entities.AdmissionResponse;
 import com.codemovers.scholar.engine.api.v1.classes.ClassService;
 import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
-import com.codemovers.scholar.engine.api.v1.registrations.entities.StudentRegistrationResponse;
 import com.codemovers.scholar.engine.api.v1.streams.StreamsService;
 import com.codemovers.scholar.engine.api.v1.streams.entities.StreamResponse;
-import com.codemovers.scholar.engine.api.v1.students.admission.StudentAdmissionService;
-import com.codemovers.scholar.engine.api.v1.students.admission.entities.StudentAdmissionResponse;
+import com.codemovers.scholar.engine.api.v1.students.admissions.AdmissionService;
+import com.codemovers.scholar.engine.api.v1.students.admissions.entities.AdmissionResponse;
+
 import com.codemovers.scholar.engine.api.v1.students.termregistration.entities.StudentTermRegistrationResponse;
 import com.codemovers.scholar.engine.api.v1.students.termregistration.entities._StudentTermRegistration;
 import com.codemovers.scholar.engine.api.v1.terms.TermService;
@@ -181,7 +179,7 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
         //AdmissionResponse
         if (response.getStudentAdmission() != null) {
             StudentAdmission admission = entity.getStudent_Admission();
-            StudentAdmissionResponse admissionResponse = StudentAdmissionService.getInstance().populateResponse(admission);
+            AdmissionResponse admissionResponse = AdmissionService.getInstance().populateResponse(admission);
         }
 
         if (response.getRegistration_term() != null) {

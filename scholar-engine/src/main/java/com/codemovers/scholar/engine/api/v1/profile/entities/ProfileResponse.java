@@ -24,11 +24,11 @@ public class ProfileResponse {
     private String middleName;
     private String lastName;
     private String prefix;
-    private String dateOfBirth;
+    private Long dateOfBirth;
     private String image;
-    private ProfileTypesEnum profileType;
+    private String profileType;
     private Integer parentId;
-    private StatusEnum status;
+    private String status;
     private Long dateCreated;
     private Integer authorId;
 
@@ -75,11 +75,11 @@ public class ProfileResponse {
         this.prefix = prefix;
     }
 
-    public String getDateOfBirth() {
+    public Long getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(Long dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -91,11 +91,11 @@ public class ProfileResponse {
         this.image = image;
     }
 
-    public ProfileTypesEnum getProfileType() {
+    public String getProfileType() {
         return profileType;
     }
 
-    public void setProfileType(ProfileTypesEnum profileType) {
+    public void setProfileType(String profileType) {
         this.profileType = profileType;
     }
 
@@ -107,11 +107,11 @@ public class ProfileResponse {
         this.parentId = parentId;
     }
 
-    public StatusEnum getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(StatusEnum status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

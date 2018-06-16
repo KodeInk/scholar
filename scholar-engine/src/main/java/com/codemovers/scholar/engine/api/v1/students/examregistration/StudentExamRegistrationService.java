@@ -9,8 +9,10 @@ import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.exams.ExamsService;
 import com.codemovers.scholar.engine.api.v1.exams.entities.ExamResponse;
-import com.codemovers.scholar.engine.api.v1.students.admission.StudentAdmissionService;
-import com.codemovers.scholar.engine.api.v1.students.admission.entities.StudentAdmissionResponse;
+import com.codemovers.scholar.engine.api.v1.students.admissions.AdmissionService;
+import com.codemovers.scholar.engine.api.v1.students.admissions.entities.AdmissionResponse;
+
+
 import com.codemovers.scholar.engine.api.v1.students.examregistration.entities.StudentExamRegistrationResponse;
 import com.codemovers.scholar.engine.api.v1.students.examregistration.entities._StudentExamRegistration;
 import com.codemovers.scholar.engine.api.v1.students.termregistration.entities.StudentTermRegistrationResponse;
@@ -167,8 +169,8 @@ public class StudentExamRegistrationService extends AbstractService<_StudentExam
 
             StudentAdmission admission = studentTermRegistration.getStudent_Admission();
             if (admission != null) {
-                StudentAdmissionResponse admissionResponse = StudentAdmissionService.getInstance().populateResponse(admission);
-                registrationResponse.setStudentAdmission(admissionResponse);
+                AdmissionResponse admissionResponse = AdmissionService.getInstance().populateResponse(admission);
+                                registrationResponse.setStudentAdmission(admissionResponse);
             }
 
             response.setTerm_registration(registrationResponse);

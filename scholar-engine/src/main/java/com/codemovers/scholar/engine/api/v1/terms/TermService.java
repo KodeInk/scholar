@@ -176,7 +176,7 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
 
         Long ranking = entity.getRanking();
         response.setRanking(ranking.intValue());
-        response.setStatus(StatusEnum.fromString(entity.getStatus()));
+        response.setStatus((entity.getStatus()));
 
         if (entity.getAuthor() != null) {
             response.setAuthor(entity.getAuthor().getUsername());

@@ -7,13 +7,11 @@ package com.codemovers.scholar.engine.api.v1.students.termregistration;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEndpoint;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import com.codemovers.scholar.engine.api.v1.students.admission.StudentAdmissionEndpoint;
-import com.codemovers.scholar.engine.api.v1.students.admission.StudentAdmissionService;
+
 import com.codemovers.scholar.engine.api.v1.students.termregistration.entities.StudentTermRegistrationResponse;
 import com.codemovers.scholar.engine.api.v1.students.termregistration.entities._StudentTermRegistration;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
