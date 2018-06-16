@@ -68,10 +68,10 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
             throw new BadRequestException("Term  does not exist in the system");
         }
 
-        List<StudentAdmission> admissions = getByAdmissionNo(entity.getAdmission_no(), data);       
-        
+        List<StudentAdmission> admissions = getByAdmissionNo(entity.getAdmission_no(), data);
+
         if (admissions != null && admissions.size() > 0) {
-            throw new BadRequestException(" Admission exists with admission number : {0} ", entity.getAdmission_no());
+            throw new BadRequestException(" Admission exists with admission number :  "+entity.getAdmission_no() );
         }
 
         //todo: populate entity 
@@ -137,7 +137,7 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
             throw new BadRequestException("Student Admission Number is Empty");
         }
         List<StudentAdmission> admissions = controller.findStudentAdmission(admissioNo, data);
-        
+
         return admissions;
     }
 
@@ -158,7 +158,7 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
             admissionResponses.add(populateResponse(admission));
         });
         return admissionResponses;
-        }
+    }
 
     /**
      *

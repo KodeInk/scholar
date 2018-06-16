@@ -113,7 +113,6 @@ public class ProfileService extends AbstractService<_Profile, ProfileResponse> {
         return profile;
     }
 
-
     public Profile populateResponse(ProfileResponse entity) {
         Profile profile = new Profile();
         profile.setId(entity.getId().longValue());

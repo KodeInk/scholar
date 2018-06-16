@@ -44,7 +44,7 @@ public class _Profile extends AbstractEntity {
     public _Profile(Integer id) {
         this.id = id;
     }
-    
+
     public Integer getId() {
         return id;
     }

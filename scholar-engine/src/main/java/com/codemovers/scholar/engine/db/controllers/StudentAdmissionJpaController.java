@@ -124,20 +124,20 @@ public class StudentAdmissionJpaController extends EngineJpaController {
             em.close();
         }
     }
-    
+
     /**
      *
      * @param admissiion_no
      * @param data
      * @return
      */
-    public List<StudentAdmission> findStudentAdmission(String  admissiion_no, SchoolData data) {
+    public List<StudentAdmission> findStudentAdmission(String admissiion_no, SchoolData data) {
         List<StudentAdmission> termsList = new ArrayList<>();
         EntityManager em = getEntityManager(data.getExternalId());
 
         try {
             Query query = em.createNamedQuery("StudentAdmission.findByAdmissionNo");
-            query.setParameter("admissionNo", admissiion_no);            
+            query.setParameter("admissionNo", admissiion_no);
             termsList = query.getResultList();
             LOG.log(Level.FINE, " Student Admission found  with admission number {0}", new Object[]{admissiion_no});
         } catch (Exception ex) {
@@ -150,11 +150,8 @@ public class StudentAdmissionJpaController extends EngineJpaController {
         }
 
         return termsList;
-        
+
     }
-    
-    
-    
 
     private List<StudentAdmission> findStudentAdmissions(boolean all, int maxResults, int firstResult, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
@@ -167,11 +164,10 @@ public class StudentAdmissionJpaController extends EngineJpaController {
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();
-        }catch(Exception er){
+        } catch (Exception er) {
             er.printStackTrace();
             throw er;
-        }
-        finally {
+        } finally {
             em.close();
         }
     }
