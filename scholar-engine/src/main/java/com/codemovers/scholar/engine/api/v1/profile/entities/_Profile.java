@@ -26,8 +26,9 @@ public class _Profile extends AbstractEntity {
     private String middleName;
     private @Mandatory
     String lastName;
-    private @Mandatory
+    private  
     String prefix;
+     private      String sex;
     private @Mandatory
     Long dateOfBirth;
     private String image;
@@ -47,6 +48,14 @@ public class _Profile extends AbstractEntity {
 
     public Integer getId() {
         return id;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 
     public void setId(Integer id) {
