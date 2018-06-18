@@ -68,6 +68,9 @@ public class Profile implements Serializable {
     @Size(max = 5)
     @Column(name = "prefix")
     private String prefix;
+    @Size(max = 5)
+    @Column(name = "sex")
+    private String sex;
     @Column(name = "date_of_birth")
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
@@ -136,6 +139,15 @@ public class Profile implements Serializable {
     public void setPrefix(String prefix) {
         this.prefix = prefix;
     }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+    
 
     public Date getDateOfBirth() {
         return dateOfBirth;
