@@ -84,7 +84,10 @@ public class ProfileService extends AbstractService<_Profile, ProfileResponse> {
         if (entity.getPrefix() != null) {
             profile.setPrefix(entity.getPrefix());
         }
-
+         if (entity.getSex()!= null) {
+            profile.setSex(entity.getSex());
+        }
+         
         if (entity.getDateOfBirth() != null) {
             profile.setDateOfBirth(Utilities.getDateInUTC(entity.getDateOfBirth()));
         }
