@@ -48,6 +48,14 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
         return service;
     }
 
+    /**
+     *
+     * @param data
+     * @param entity
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
     public TermResponse create(SchoolData data, _Term entity, AuthenticationResponse authentication) throws Exception {
         check_access(CREATE_TERM_PERMISSION);
@@ -89,6 +97,13 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
 
     }
 
+    /**
+     *
+     * @param data
+     * @param entity
+     * @return
+     * @throws Exception
+     */
     @Override
     public TermResponse update(SchoolData data, _Term entity) throws Exception {
         check_access(UPDATE_TERM_PERMISSION);
@@ -115,6 +130,13 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
         return populateResponse(term);
     }
 
+    /**
+     *
+     * @param data
+     * @param id
+     * @return
+     * @throws Exception
+     */
     @Override
     public TermResponse archive(SchoolData data, Integer id) throws Exception {
         check_access(ARCHIVE_TERM_PERMISSION);
@@ -128,6 +150,13 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
         return populateResponse(term);
     }
 
+    /**
+     *
+     * @param data
+     * @param Id
+     * @return
+     * @throws Exception
+     */
     @Override
     public TermResponse getById(SchoolData data, Integer Id) throws Exception {
         check_access(LIST_TERM_PERMISSION);
@@ -139,11 +168,26 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
         return populateResponse(term);
     }
 
+    /**
+     *
+     * @param Id
+     * @param data
+     * @return
+     */
     public Terms getTerm(Integer Id, SchoolData data) {
         Terms term = controller.findTerm(Id, data);
         return term;
     }
 
+    /**
+     *
+     * @param data
+     * @param ofset
+     * @param limit
+     * @param authenticationResponse
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<TermResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authenticationResponse) throws Exception {
 
@@ -160,7 +204,38 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
         return responses;
 
     }
+    
+    /**
+     *
+     * @param data
+     * @param studyYear
+     * @param ofset
+     * @param limit
+     * @param authenticationResponse
+     * @return
+     * @throws Exception
+     */
+    public List<TermResponse> list(SchoolData data, Integer studyYear, Integer ofset, Integer limit, AuthenticationResponse authenticationResponse) throws Exception {
 
+        check_access(LIST_STUDYEAR_PERMISSION);
+
+        List<Terms> list = controller.findTerms(studyYear,limit, ofset, data);
+        List<TermResponse> responses = new ArrayList<>();
+        if (list != null) {
+            list.forEach((term) -> {
+                responses.add(populateResponse(term));
+            });
+        }
+
+        return responses;
+
+    }
+     
+    /**
+     *
+     * @param entity
+     * @return
+     */
     @Override
     public TermResponse populateResponse(Terms entity) {
         TermResponse response = new TermResponse();

@@ -22,6 +22,7 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -98,6 +99,20 @@ public class TermEndpoint extends AbstractEndpoint<_Term, TermResponse> {
     ) throws Exception {
         validate(tenantdata, authentication);
         return service.list(tenantdata, offset, limit, this.authentication);
+    }
+
+    @GET
+    @Path("/studyYear/{studyYear}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public List<TermResponse> listByYear(
+            @PathParam("studyYear") Integer studyYear,
+            @DefaultValue("0") @QueryParam("offset") int offset,
+            @DefaultValue("50") @QueryParam("limit") int limit,
+            @HeaderParam("authentication") String authentication, @Context HttpServletRequest httpRequestsss
+    ) throws Exception {
+        validate(tenantdata, authentication);
+        return service.list(tenantdata, studyYear, offset, limit, this.authentication);
     }
 
 }

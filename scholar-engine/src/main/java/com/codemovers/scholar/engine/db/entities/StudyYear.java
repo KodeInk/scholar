@@ -127,6 +127,8 @@ public class StudyYear implements Serializable {
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
+    
+    
 
     @XmlTransient
     public Collection<Terms> getTermsCollection() {

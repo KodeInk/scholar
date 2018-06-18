@@ -124,9 +124,39 @@ public class TermsJpaController extends EngineJpaController {
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();
-        } finally {
+        }catch(Exception er){
+            er.printStackTrace();
+            throw er;
+        }
+        finally {
             em.close();
         }
+    }
+
+    public  List<Terms> findTerms(Integer studyYear, int maxResults, int firstResult, SchoolData data) {
+
+        List<Terms> termsList = new ArrayList<>();
+        EntityManager em = getEntityManager(data.getExternalId());
+
+        try {
+            Query query = em.createNamedQuery("Terms.findByStudyYear");
+            query.setParameter("id", Long.valueOf(studyYear));
+              
+            query.setMaxResults(maxResults);
+            query.setFirstResult(firstResult);
+
+            termsList = query.getResultList();
+            LOG.log(Level.FINE, "Term  in study Year  {0}", new Object[]{studyYear});
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "unexpected exception {0}\n{1}", new Object[]{ex.getMessage(), Utilities.getStackTrace(ex)});
+            return null;
+            // don't throw WebApplicationException, force caller to handle this
+        } finally {
+            LOG.log(Level.FINER, "closing entity manager {0}", em);
+            em.close();
+        }
+
+        return termsList;
     }
 
     /**

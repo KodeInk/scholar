@@ -46,7 +46,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Terms.findByDateCreated", query = "SELECT t FROM Terms t WHERE t.dateCreated = :dateCreated")
     , @NamedQuery(name = "Terms.checkByStartDate", query = "SELECT t FROM Terms t WHERE  (DATE(:startdate) BETWEEN t.startDate AND t.endDate)  AND t.studyYear.id = :studyYearId  ")
     , @NamedQuery(name = "Terms.checkByEndDate", query = "SELECT t FROM Terms t WHERE    (DATE(:enddate) BETWEEN t.startDate AND t.endDate)    AND t.studyYear.id = :studyYearId ")
-   
+    , @NamedQuery(name = "Terms.findByStudyYear", query = "SELECT t FROM Terms t WHERE t.studyYear.id = :id ")
 })
 public class Terms implements Serializable {
 
