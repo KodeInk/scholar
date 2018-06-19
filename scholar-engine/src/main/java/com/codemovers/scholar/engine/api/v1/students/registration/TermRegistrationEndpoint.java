@@ -5,23 +5,25 @@
  */
 package com.codemovers.scholar.engine.api.v1.students.registration;
 
+import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEndpoint;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import com.codemovers.scholar.engine.api.v1.students.admissions.AdmissionEndpoint;
-import com.codemovers.scholar.engine.api.v1.students.admissions.AdmissionService;
 import com.codemovers.scholar.engine.api.v1.students.registration.entities.TermRegistrationResponse;
 import com.codemovers.scholar.engine.api.v1.students.registration.entities._TermRegistration;
-import com.codemovers.scholar.engine.db.controllers.StudentExamRegistrationJpaController;
+import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import java.util.List;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
+import org.eclipse.jetty.io.AbstractEndPoint;
 
 /**
  *
  * @author mover
  */
-public class TermRegistrationEndpoint extends AbstractService<_TermRegistration, TermRegistrationResponse> {
+public class TermRegistrationEndpoint extends AbstractEndpoint<_TermRegistration, TermRegistrationResponse> {
 
     private static final Logger LOG = Logger.getLogger(TermRegistrationEndpoint.class.getName());
     @Context
@@ -32,27 +34,38 @@ public class TermRegistrationEndpoint extends AbstractService<_TermRegistration,
     public TermRegistrationEndpoint() {
         service = new TermRegistrationService();
     }
-
-    @Override
-    public TermRegistrationResponse create(SchoolData data, _TermRegistration entity, AuthenticationResponse authentication) throws Exception {
-        return super.create(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
+    
+     @Override
+    public void validate(SchoolData schoolData, String authentication) throws Exception {
+        this.authentication = UserService.getInstance().validateAuthentication(schoolData, authentication);
     }
 
     @Override
-    public TermRegistrationResponse update(SchoolData data, _TermRegistration entity, AuthenticationResponse authentication) throws Exception {
-        return super.update(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
+    public TermRegistrationResponse create(_TermRegistration entity, String authentication, HttpServletRequest httpRequest) throws Exception {
+        return super.create(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public TermRegistrationResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
-        return super.archive(data, id, authentication); //To change body of generated methods, choose Tools | Templates.
+    public TermRegistrationResponse update(_TermRegistration entity, String authentication, HttpServletRequest httpRequest) throws Exception {
+        return super.update(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public TermRegistrationResponse getById(SchoolData data, Integer Id, AuthenticationResponse authentication) throws Exception {
-        return super.getById(data, Id, authentication); //To change body of generated methods, choose Tools | Templates.
+    public TermRegistrationResponse get(int id, String authentication, HttpServletRequest httpRequest) throws Exception {
+        return super.get(id, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<TermRegistrationResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
+        return super.list(start, end, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public TermRegistrationResponse archive(Integer id, String authentication, HttpServletRequest httpRequest) throws Exception {
+        return super.archive(id, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
     
+   
     
 
 }

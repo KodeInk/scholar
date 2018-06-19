@@ -44,35 +44,5 @@ public class SubjectRegistrationEndpoint extends AbstractEndpoint<_TermRegistrat
       this.authentication = UserService.getInstance().validateAuthentication(schoolData, authentication);
     }
 
-     @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Override
-    public TermRegistrationResponse create(_TermRegistration entity, String authentication, HttpServletRequest httpRequest) throws Exception {
-       validate(tenantdata, authentication);
-        return service.create(tenantdata, entity, this.authentication);
-    }
-
-    @Override
-    public TermRegistrationResponse update(_TermRegistration entity, String authentication, HttpServletRequest httpRequest) throws Exception {
-        return super.update(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public TermRegistrationResponse get(int id, String authentication, HttpServletRequest httpRequest) throws Exception {
-        return super.get(id, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<TermRegistrationResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
-        return super.list(start, end, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public TermRegistrationResponse archive(Integer id, String authentication, HttpServletRequest httpRequest) throws Exception {
-        return super.archive(id, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
     
 }
