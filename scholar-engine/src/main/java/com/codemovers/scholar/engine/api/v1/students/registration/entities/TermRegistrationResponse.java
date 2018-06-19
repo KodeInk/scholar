@@ -15,7 +15,7 @@ import java.util.Objects;
  *
  * @author mover
  */
-public class TermRegistration {
+public class TermRegistrationResponse {
     
     private Integer id;
     private AdmissionResponse admission;
@@ -26,10 +26,10 @@ public class TermRegistration {
     private String status;
     private String author;
 
-    public TermRegistration() {
+    public TermRegistrationResponse() {
     }
 
-    public TermRegistration(Integer id) {
+    public TermRegistrationResponse(Integer id) {
         this.id = id;
     }
 
@@ -122,7 +122,7 @@ public class TermRegistration {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final TermRegistration other = (TermRegistration) obj;
+        final TermRegistrationResponse other = (TermRegistrationResponse) obj;
         if (!Objects.equals(this.status, other.status)) {
             return false;
         }
