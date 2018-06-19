@@ -9,6 +9,6 @@ package com.codemovers.scholar.engine.api.v1.students.registration;
  *
  * @author mover
  */
-public class SubjectRegistrationEndpoint {
-
+public class TermRegistrationEndpoint {
+    
 }
