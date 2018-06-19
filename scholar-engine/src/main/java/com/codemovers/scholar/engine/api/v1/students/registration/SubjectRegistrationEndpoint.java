@@ -12,11 +12,16 @@ import com.codemovers.scholar.engine.api.v1.students.registration.entities.TermR
 import com.codemovers.scholar.engine.api.v1.students.registration.entities._TermRegistration;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Produces;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 
 /**
  *
@@ -36,12 +41,16 @@ public class SubjectRegistrationEndpoint extends AbstractEndpoint<_TermRegistrat
 
     @Override
     public void validate(SchoolData schoolData, String authentication) throws Exception {
-        this.authentication = UserService.getInstance().validateAuthentication(schoolData, authentication);
+      this.authentication = UserService.getInstance().validateAuthentication(schoolData, authentication);
     }
 
+     @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Override
     public TermRegistrationResponse create(_TermRegistration entity, String authentication, HttpServletRequest httpRequest) throws Exception {
-        return super.create(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+       validate(tenantdata, authentication);
+        return service.create(tenantdata, entity, this.authentication);
     }
 
     @Override
