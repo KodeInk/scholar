@@ -10,7 +10,6 @@ package com.codemovers.scholar.engine.api.v1.students.registration;
  * @author mover 6/19/2018
  */
 public class SubjectRegistrationService    {
- 
-      
+       
       
 }
