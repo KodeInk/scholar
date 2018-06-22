@@ -60,7 +60,11 @@ public class AdmissionEndpoint extends AbstractEndpoint<_Admission, AdmissionRes
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public AdmissionResponse create(_Admission entity, @HeaderParam("authentication") String authentication, @Context HttpServletRequest httpRequest) throws Exception {
+    public AdmissionResponse create(
+            _Admission entity, 
+            @HeaderParam("authentication") String authentication, 
+            @Context HttpServletRequest httpRequest
+    ) throws Exception {
         validate(tenantdata, authentication);
         return service.create(tenantdata, entity, this.authentication);
     }
