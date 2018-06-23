@@ -92,8 +92,10 @@ public class StudentTermRegistrationJpaController extends EngineJpaController {
         EntityManager em = getEntityManager(data.getExternalId());
 
         try {
-            return em.find(StudentTermRegistration.class, id.longValue());
+            StudentTermRegistration registration =  em.find(StudentTermRegistration.class, id.longValue());
+            return registration;
         } catch (Exception er) {
+            er.printStackTrace();
             return null;
         } finally {
             em.close();

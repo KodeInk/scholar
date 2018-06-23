@@ -101,14 +101,20 @@ public class TermRegistrationService extends AbstractService<_TermRegistration, 
 
     @Override
     public TermRegistrationResponse getById(SchoolData data, Integer Id, AuthenticationResponse authentication) throws Exception {
-        StudentTermRegistration termRegistration = controller.findStudentTermRegistration(Id, data);
-        return populateResponse(termRegistration);
+        try {
+            StudentTermRegistration termRegistration = controller.findStudentTermRegistration(Id, data);
+
+            return populateResponse(termRegistration);
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        }
 
     }
 
     @Override
     public List<TermRegistrationResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
-        List<StudentTermRegistration> registrations = controller.findStudentTermRegistrations( limit,ofset, data);
+        List<StudentTermRegistration> registrations = controller.findStudentTermRegistrations(limit, ofset, data);
 
         List<TermRegistrationResponse> registrationResponses = new ArrayList<>();
 
