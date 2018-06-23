@@ -56,17 +56,8 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
         //todo: validate the entity 
         entity.validate();
 
-        //todo: check  addmission class
-        Classes admissionClass = ClassService.getInstance().getClass(entity.getClass_id(), data);
-        if (admissionClass == null) {
-            throw new BadRequestException("Class does not exist in the system");
-        }
-        //todo: validate admission term 
-        Terms admissionTerm = TermService.getInstance().getTerm(entity.getTerm_id(), data);
-
-        if (admissionTerm == null) {
-            throw new BadRequestException("Term  does not exist in the system");
-        }
+        Classes admissionClass = validateAdmissionClass(entity, data);
+        Terms admissionTerm = validateAdmissionTerm(entity, data);
 
         List<StudentAdmission> admissions = getByAdmissionNo(entity.getAdmission_no(), data);
 
@@ -88,6 +79,38 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
         AdmissionResponse admissionResponse = populateResponse(admission);
 
         return admissionResponse;
+    }
+
+    /**
+     *
+     * @param entity
+     * @param data
+     * @return
+     * @throws BadRequestException
+     */
+    public Terms validateAdmissionTerm(_Admission entity, SchoolData data) throws BadRequestException {
+        //todo: validate admission term
+        Terms admissionTerm = TermService.getInstance().getTerm(entity.getTerm_id(), data);
+        if (admissionTerm == null) {
+            throw new BadRequestException("Term  does not exist in the system");
+        }
+        return admissionTerm;
+    }
+
+    /**
+     *
+     * @param entity
+     * @param data
+     * @return
+     * @throws BadRequestException
+     */
+    public Classes validateAdmissionClass(_Admission entity, SchoolData data) throws BadRequestException {
+        //todo: check  addmission class
+        Classes admissionClass = ClassService.getInstance().getClass(entity.getClass_id(), data);
+        if (admissionClass == null) {
+            throw new BadRequestException("Class does not exist in the system");
+        }
+        return admissionClass;
     }
 
     @Override
@@ -121,8 +144,19 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
             throw new BadRequestException("Sudent Admission does not exist with that ID ");
         }
 
-        return super.getById(data, Id); //To change body of generated methods, choose Tools | Templates.
+        return populateResponse(studentAdmission);
     }
+    
+     public StudentAdmission getAdmission(SchoolData data, Integer Id, AuthenticationResponse authentication) throws Exception {
+        if (Id == null) {
+            throw new BadRequestException("Student Id is null");
+        }
+        StudentAdmission studentAdmission = controller.findStudentAdmission(Id, data);
+         
+        return studentAdmission;
+    }
+     
+     
 
     /**
      *
