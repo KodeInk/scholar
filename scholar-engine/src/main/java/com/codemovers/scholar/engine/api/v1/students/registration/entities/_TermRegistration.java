@@ -5,21 +5,32 @@
  */
 package com.codemovers.scholar.engine.api.v1.students.registration.entities;
 
+import com.codemovers.scholar.engine.annotation.Mandatory;
+import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
+import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Objects;
 
 /**
  *
  * @author mover
  */
-public class _TermRegistration {
-   private Integer id;
-   private Integer addmision_id;
-   private Integer term_id;
-   private Integer class_id;
-   private Integer stream_id;
-   private Long date_created;
-   private String status;
-   private Integer author_id;
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class _TermRegistration extends AbstractEntity {
+
+    private Integer id;
+    private @Mandatory
+    Integer addmision_id;
+    private @Mandatory
+    Integer term_id;
+    private @Mandatory
+    Integer class_id;
+    private @Mandatory
+    Long date_registered;
+    private Integer stream_id;
+    private Long date_created;
+    private String status;
+    private Integer author_id;
 
     public _TermRegistration() {
     }
@@ -92,6 +103,16 @@ public class _TermRegistration {
         this.author_id = author_id;
     }
 
+    public Long getDate_registered() {
+        return date_registered;
+    }
+
+    public void setDate_registered(Long date_registered) {
+        this.date_registered = date_registered;
+    }
+    
+    
+
     @Override
     public int hashCode() {
         int hash = 5;
@@ -143,18 +164,22 @@ public class _TermRegistration {
     }
 
     @Override
+    public void validate() {
+        validateMandatoryFields(this.getClass(), this);
+    }
+
+    @Override
     public String toString() {
-        return "TermRegistration{" 
-                + "id=" + id 
-                + ", addmision_id=" + addmision_id 
-                + ", term_id=" + term_id 
-                + ", class_id=" + class_id 
-                + ", stream_id=" + stream_id 
-                + ", date_created=" + date_created 
-                + ", status=" + status 
-                + ", author_id=" + author_id 
+        return "TermRegistration{"
+                + "id=" + id
+                + ", addmision_id=" + addmision_id
+                + ", term_id=" + term_id
+                + ", class_id=" + class_id
+                + ", stream_id=" + stream_id
+                + ", date_created=" + date_created
+                + ", status=" + status
+                + ", author_id=" + author_id
                 + '}';
     }
-   
-   
+
 }
