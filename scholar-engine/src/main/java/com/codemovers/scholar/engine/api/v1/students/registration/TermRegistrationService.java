@@ -25,6 +25,7 @@ import com.codemovers.scholar.engine.db.entities.Terms;
 import com.codemovers.scholar.engine.db.entities.Users;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -100,12 +101,29 @@ public class TermRegistrationService extends AbstractService<_TermRegistration, 
 
     @Override
     public TermRegistrationResponse getById(SchoolData data, Integer Id, AuthenticationResponse authentication) throws Exception {
-        return super.getById(data, Id, authentication); //To change body of generated methods, choose Tools | Templates.
+               StudentTermRegistration termRegistration = controller.findStudentTermRegistration(Id, data);
+        return populateResponse(termRegistration);
+    
     }
 
     @Override
     public List<TermRegistrationResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
-        return super.list(data, ofset, limit, authentication); //To change body of generated methods, choose Tools | Templates.
+     List<StudentTermRegistration> registrations =   controller.findStudentTermRegistrations(ofset, limit, data);
+     
+     
+    List<TermRegistrationResponse> registrationResponses = new ArrayList<>();
+    
+    registrations.stream().forEach((registration)->{
+        return registrationResponses.add(populateResponse(registration));
+          
+    }
+    );
+    
+    registrations.forEach((StudentTermRegistration registration) -> {
+        registrationResponses.add(populateResponse(registration));
+        });
+     
+        return registrationResponses;
     }
 
     @Override
