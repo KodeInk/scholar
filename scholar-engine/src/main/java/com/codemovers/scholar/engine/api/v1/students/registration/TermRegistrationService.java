@@ -8,10 +8,14 @@ package com.codemovers.scholar.engine.api.v1.students.registration;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.classes.ClassService;
+import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
+import com.codemovers.scholar.engine.api.v1.streams.entities.StreamResponse;
 import com.codemovers.scholar.engine.api.v1.students.admissions.AdmissionService;
+import com.codemovers.scholar.engine.api.v1.students.admissions.entities.AdmissionResponse;
 import com.codemovers.scholar.engine.api.v1.students.registration.entities.TermRegistrationResponse;
 import com.codemovers.scholar.engine.api.v1.students.registration.entities._TermRegistration;
 import com.codemovers.scholar.engine.api.v1.terms.TermService;
+import com.codemovers.scholar.engine.api.v1.terms.entities.TermResponse;
 import com.codemovers.scholar.engine.db.controllers.StudentTermRegistrationJpaController;
 import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
@@ -66,13 +70,32 @@ public class TermRegistrationService extends AbstractService<_TermRegistration, 
         validateIfAlreadyRegistered(registrationClass, registrationTerm, admission, data);
         //todo: create entity
         StudentTermRegistration studentTermRegistration = controller.create(termRegistration, data);
-        //todo: populate response 
-        return super.create(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
+
+        TermRegistrationResponse registrationResponse = populateResponse(studentTermRegistration);
+
+        return registrationResponse;
+
     }
 
     @Override
     public TermRegistrationResponse update(SchoolData data, _TermRegistration entity, AuthenticationResponse authentication) throws Exception {
-        return super.update(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
+        entity.validate();
+        if (entity.getId() == null) {
+            throw new BadRequestException("missing mandatory field ID");
+        }
+
+        Classes registrationClass = validateClassOfRegistration(entity, data);
+        Terms registrationTerm = validateTermOfRegistration(entity, data);
+
+        StudentAdmission admission = validateStudentAdmission(data, entity, authentication);
+
+        StudentTermRegistration termRegistration = populateEntity(registrationClass, registrationTerm, admission, entity);
+
+        termRegistration = controller.edit(termRegistration, data);
+
+        TermRegistrationResponse registrationResponse = populateResponse(termRegistration);
+
+        return registrationResponse;
     }
 
     @Override
@@ -89,9 +112,7 @@ public class TermRegistrationService extends AbstractService<_TermRegistration, 
     public TermRegistrationResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
         return super.archive(data, id, authentication); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
-    
+
     public StudentTermRegistration populateEntity(Classes registrationClass, Terms registrationTerm, StudentAdmission admission, _TermRegistration entity) {
         //todo: populate entity
         StudentTermRegistration termRegistration = new StudentTermRegistration();
@@ -110,7 +131,7 @@ public class TermRegistrationService extends AbstractService<_TermRegistration, 
         //todo: check if student already registered for this term
         /*
         We are checking by  Term, Class, admission
-        */
+         */
         StudentTermRegistration registration = controller.findStudentByTermAndClassAndAdmission(registrationClass.getId(), registrationTerm.getId(), admission.getId(), data);
         if (registration != null) {
             throw new BadRequestException("Student Already Registered ");
@@ -145,8 +166,22 @@ public class TermRegistrationService extends AbstractService<_TermRegistration, 
         return registrationClass;
     }
 
-    
-    
-    
+    public TermRegistrationResponse populateResponse(StudentTermRegistration studentTermRegistration) {
+        AdmissionResponse admissionResponse = AdmissionService.getInstance().populateResponse(studentTermRegistration.getStudent_Admission());
+        TermResponse termResponse = TermService.getInstance().populateResponse(studentTermRegistration.getRegistration_term());
+        ClassResponse classResponse = ClassService.getInstance().populateResponse(studentTermRegistration.getRegistration_Class());
+        StreamResponse streamResponse = null;
+        TermRegistrationResponse registrationResponse = new TermRegistrationResponse();
+        registrationResponse.setAdmission(admissionResponse);
+        registrationResponse.setStudentClass(classResponse);
+        registrationResponse.setStudentTerm(termResponse);
+        registrationResponse.setStudentStream(streamResponse);
+        registrationResponse.setId(studentTermRegistration.getId().intValue());
+        registrationResponse.setAuthor(studentTermRegistration.getAuthor().getUsername());
+        registrationResponse.setStatus(studentTermRegistration.getStatus());
+        registrationResponse.setDate_created(studentTermRegistration.getDateCreated().getTime());
+        registrationResponse.setDate_registered(studentTermRegistration.getDateRegistered().getTime());
+        return registrationResponse;
+    }
 
 }

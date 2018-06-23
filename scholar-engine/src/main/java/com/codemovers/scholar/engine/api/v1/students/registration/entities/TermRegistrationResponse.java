@@ -23,6 +23,7 @@ public class TermRegistrationResponse {
     private ClassResponse  studentClass;
     private StreamResponse studentStream;
     private Long date_created;
+    private Long date_registered;
     private String status;
     private String author;
 
@@ -79,6 +80,14 @@ public class TermRegistrationResponse {
 
     public void setDate_created(Long date_created) {
         this.date_created = date_created;
+    }
+
+    public Long getDate_registered() {
+        return date_registered;
+    }
+
+    public void setDate_registered(Long date_registered) {
+        this.date_registered = date_registered;
     }
 
     public String getStatus() {
