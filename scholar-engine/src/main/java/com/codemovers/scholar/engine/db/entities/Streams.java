@@ -77,9 +77,7 @@ public class Streams implements Serializable {
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users author;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Registration_Stream")
-    private Collection<StudentTermRegistration> studentTermRegistrationCollection;
-
+   
     public Streams() {
     }
 
@@ -161,14 +159,7 @@ public class Streams implements Serializable {
         this.author = author;
     }
 
-    @XmlTransient
-    public Collection<StudentTermRegistration> getStudentTermRegistrationCollection() {
-        return studentTermRegistrationCollection;
-    }
-
-    public void setStudentTermRegistrationCollection(Collection<StudentTermRegistration> studentTermRegistrationCollection) {
-        this.studentTermRegistrationCollection = studentTermRegistrationCollection;
-    }
+ 
 
     @Override
     public int hashCode() {

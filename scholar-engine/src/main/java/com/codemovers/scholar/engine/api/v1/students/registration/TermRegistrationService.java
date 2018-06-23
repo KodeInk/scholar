@@ -134,9 +134,9 @@ public class TermRegistrationService extends AbstractService<_TermRegistration, 
         //todo: populate entity
         StudentTermRegistration termRegistration = new StudentTermRegistration();
         termRegistration.setDateCreated(new Date());
-        termRegistration.setRegistration_Class(registrationClass);
-        termRegistration.setRegistration_term(registrationTerm);
-        termRegistration.setStudent_Admission(admission);
+        termRegistration.setRegistrationClass(registrationClass);
+        termRegistration.setRegistrationTerm(registrationTerm);
+       termRegistration.setStudentAdmission(admission);
         termRegistration.setDateRegistered(new Date(entity.getDate_registered()));
         termRegistration.setDateCreated(new Date());
         termRegistration.setStatus(entity.getStatus());
@@ -184,12 +184,16 @@ public class TermRegistrationService extends AbstractService<_TermRegistration, 
     }
 
     public TermRegistrationResponse populateResponse(StudentTermRegistration studentTermRegistration) {
-        AdmissionResponse admissionResponse = AdmissionService.getInstance().populateResponse(studentTermRegistration.getStudent_Admission());
-        TermResponse termResponse = TermService.getInstance().populateResponse(studentTermRegistration.getRegistration_term());
-        ClassResponse classResponse = ClassService.getInstance().populateResponse(studentTermRegistration.getRegistration_Class());
+        AdmissionResponse admissionResponse = null;
+        if (studentTermRegistration.getStudentAdmission()!= null) {
+              admissionResponse = AdmissionService.getInstance().populateResponse(studentTermRegistration.getStudentAdmission());
+        }
+        
+        TermResponse termResponse = TermService.getInstance().populateResponse(studentTermRegistration.getRegistrationTerm());
+        ClassResponse classResponse = ClassService.getInstance().populateResponse(studentTermRegistration.getRegistrationClass());
         StreamResponse streamResponse = null;
         TermRegistrationResponse registrationResponse = new TermRegistrationResponse();
-        registrationResponse.setAdmission(admissionResponse);
+//        registrationResponse.setAdmission(admissionResponse);
         registrationResponse.setStudentClass(classResponse);
         registrationResponse.setStudentTerm(termResponse);
         registrationResponse.setStudentStream(streamResponse);

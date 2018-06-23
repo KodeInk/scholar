@@ -45,7 +45,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Profile.findByDateOfBirth", query = "SELECT p FROM Profile p WHERE p.dateOfBirth = :dateOfBirth")
     , @NamedQuery(name = "Profile.findByImage", query = "SELECT p FROM Profile p WHERE p.image = :image")
     , @NamedQuery(name = "Profile.findByParentType", query = "SELECT p FROM Profile p WHERE p.parentType = :parentType")
-    , @NamedQuery(name = "Profile.findByParentId", query = "SELECT p FROM Profile p WHERE p.parentId = :parentId")
     , @NamedQuery(name = "Profile.findByStatus", query = "SELECT p FROM Profile p WHERE p.status = :status")
     , @NamedQuery(name = "Profile.findByDateCreated", query = "SELECT p FROM Profile p WHERE p.dateCreated = :dateCreated")})
 public class Profile implements Serializable {
@@ -90,8 +89,6 @@ public class Profile implements Serializable {
     @ManyToOne
     private Users author;
 
-    @Column(name = "parent_id")
-    private Integer parentId;
 
     public Profile() {
     }
@@ -173,13 +170,7 @@ public class Profile implements Serializable {
         this.parentType = parentType;
     }
 
-    public Integer getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
-    }
+ 
 
     public String getStatus() {
         return status;
@@ -230,4 +221,4 @@ public class Profile implements Serializable {
         return "com.codemovers.scholar.engine.db.entities.Profile[ id=" + id + " ]";
     }
 
-}
+    }

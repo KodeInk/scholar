@@ -78,10 +78,10 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
 
         StudentTermRegistration registration = new StudentTermRegistration();
 
-        registration.setRegistration_term(registration_term);
-        registration.setRegistration_Class(RegistrationClass);
-        registration.setRegistration_Stream(RegistrationStream);
-        registration.setStudent_Admission(admission);
+        registration.setRegistrationTerm(registration_term);
+        registration.setRegistrationClass(RegistrationClass);
+        registration.setRegistrationStream(RegistrationStream);
+        registration.setStudentAdmission(admission);
 
         //todo: add user
         registration.setAuthor(new Users(entity.getAuthor_id().longValue()));
@@ -117,10 +117,10 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
         //Todo: get Stream by Id
         Streams RegistrationStream = StreamsJpaController.getInstance().findStream(entity.getStream_id(), data);
 
-        registration.setRegistration_term(registration_term);
-        registration.setRegistration_Class(RegistrationClass);
-        registration.setRegistration_Stream(RegistrationStream);
-        registration.setStudent_Admission(admission);
+        registration.setRegistrationTerm(registration_term);
+        registration.setRegistrationClass(RegistrationClass);
+        registration.setRegistrationStream(RegistrationStream);
+        registration.setStudentAdmission(admission);
 
         controller.edit(registration, data);
         return populateResponse(registration);
@@ -177,25 +177,25 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
         response.setId(entity.getId().intValue());
 
         //AdmissionResponse
-        if (response.getStudentAdmission() != null) {
-            StudentAdmission admission = entity.getStudent_Admission();
+        if (entity.getStudentAdmission() != null) {
+            StudentAdmission admission = entity.getStudentAdmission();
             AdmissionResponse admissionResponse = AdmissionService.getInstance().populateResponse(admission);
         }
 
-        if (response.getRegistration_term() != null) {
-            Terms term = entity.getRegistration_term();
+        if (entity.getRegistrationTerm() != null) {
+            Terms term = entity.getRegistrationTerm();
             TermResponse termResponse = TermService.getInstance().populateResponse(term);
             response.setRegistration_term(termResponse);
         }
 
-        if (response.getRegistration_class() != null) {
-            Classes _class = entity.getRegistration_Class();
+        if (entity.getRegistrationClass()!= null) {
+            Classes _class = entity.getRegistrationClass();
             ClassResponse classResponse = ClassService.getInstance().populateResponse(_class);
             response.setRegistration_class(classResponse);
         }
 
-        if (response.getRegistration_stream() != null) {
-            Streams _Stream = entity.getRegistration_Stream();
+        if (entity.getRegistrationStream()!= null) {
+            Streams _Stream = entity.getRegistrationStream();
             StreamResponse streamResponse = StreamsService.getInstance().populateResponse(_Stream);
             response.setRegistration_stream(streamResponse);
         }

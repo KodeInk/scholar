@@ -98,9 +98,7 @@ public class ProfileService extends AbstractService<_Profile, ProfileResponse> {
         if (entity.getProfileType() != null) {
             profile.setParentType(entity.getProfileType().toString());
         }
-        if (entity.getParentId() != null) {
-            profile.setParentId(entity.getParentId());
-        }
+      
         profile.setStatus(StatusEnum.ACTIVE.toString());
         if (entity.getStatus() != null) {
             profile.setStatus(entity.getStatus().toString());

@@ -47,9 +47,7 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class Classes implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Registration_Class")
-    private Collection<StudentTermRegistration> studentTermRegistrationCollection;
-
+   
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -236,13 +234,6 @@ public class Classes implements Serializable {
         return "com.codemovers.scholar.engine.db.entities.Classes[ id=" + id + " ]";
     }
 
-    @XmlTransient
-    public Collection<StudentTermRegistration> getStudentTermRegistrationCollection() {
-        return studentTermRegistrationCollection;
-    }
-
-    public void setStudentTermRegistrationCollection(Collection<StudentTermRegistration> studentTermRegistrationCollection) {
-        this.studentTermRegistrationCollection = studentTermRegistrationCollection;
-    }
+    
 
 }

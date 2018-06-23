@@ -167,7 +167,7 @@ public class StudentExamRegistrationService extends AbstractService<_StudentExam
             StudentTermRegistrationResponse registrationResponse = new StudentTermRegistrationResponse();
             registrationResponse.setId(studentTermRegistration.getId().intValue());
 
-            StudentAdmission admission = studentTermRegistration.getStudent_Admission();
+            StudentAdmission admission = studentTermRegistration.getStudentAdmission();
             if (admission != null) {
                 AdmissionResponse admissionResponse = AdmissionService.getInstance().populateResponse(admission);
                                 registrationResponse.setStudentAdmission(admissionResponse);

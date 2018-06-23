@@ -6,12 +6,12 @@
 package com.codemovers.scholar.engine.db.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,18 +19,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author mover
+ * @author Manny
  */
 @Entity
 @Table(name = "student_term_registration")
@@ -38,12 +36,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "StudentTermRegistration.findAll", query = "SELECT s FROM StudentTermRegistration s")
     , @NamedQuery(name = "StudentTermRegistration.findById", query = "SELECT s FROM StudentTermRegistration s WHERE s.id = :id")
+    , @NamedQuery(name = "StudentTermRegistration.findByDateRegistered", query = "SELECT s FROM StudentTermRegistration s WHERE s.dateRegistered = :dateRegistered")
     , @NamedQuery(name = "StudentTermRegistration.findByDateCreated", query = "SELECT s FROM StudentTermRegistration s WHERE s.dateCreated = :dateCreated")
-    , @NamedQuery(name = "StudentTermRegistration.findByStatus", query = "SELECT s FROM StudentTermRegistration s WHERE s.status = :status")
-    , @NamedQuery(name = "StudentTermRegistration.findByAdmissionIdAndTermId", query = "SELECT s FROM StudentTermRegistration s WHERE s.Registration_term.id = :registration_term_id AND s.Student_Admission.student.id = :student_id")
-    , @NamedQuery(name = "StudentTermRegistration.findByAdmissionAndTermAndClass", query = "SELECT s FROM StudentTermRegistration s WHERE s.Student_Admission.id= :admissionId AND s.Registration_term.id = :termId AND s.Registration_Class.id = :classId ")
-
-})
+    , @NamedQuery(name = "StudentTermRegistration.findByStatus", query = "SELECT s FROM StudentTermRegistration s WHERE s.status = :status")})
 public class StudentTermRegistration implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,6 +49,11 @@ public class StudentTermRegistration implements Serializable {
     private Long id;
     @Basic(optional = false)
     @NotNull
+    @Column(name = "date_registered")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateRegistered;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "date_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
@@ -62,32 +62,21 @@ public class StudentTermRegistration implements Serializable {
     @Size(min = 1, max = 8)
     @Column(name = "status")
     private String status;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentTermRegistrationId")
-    private Collection<StudentSubjectRegistration> studentSubjectRegistrationCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "termRegistration")
-    private Collection<StudentExamRegistration> studentExamRegistrationCollection;
+    @JoinColumn(name = "class_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Classes registrationClass;
     @JoinColumn(name = "stream_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Streams Registration_Stream;
+    @ManyToOne
+    private Streams registrationStream;
     @JoinColumn(name = "admission_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private StudentAdmission Student_Admission;
+    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    private StudentAdmission studentAdmission;
     @JoinColumn(name = "term_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Terms Registration_term;
+    private Terms registrationTerm;
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users author;
-
-    @JoinColumn(name = "class_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Classes Registration_Class;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "date_registered")
-    @Temporal(TemporalType.DATE)
-    private Date dateRegistered;
 
     public StudentTermRegistration() {
     }
@@ -96,8 +85,9 @@ public class StudentTermRegistration implements Serializable {
         this.id = id;
     }
 
-    public StudentTermRegistration(Long id, Date dateCreated, String status) {
+    public StudentTermRegistration(Long id, Date dateRegistered, Date dateCreated, String status) {
         this.id = id;
+        this.dateRegistered = dateRegistered;
         this.dateCreated = dateCreated;
         this.status = status;
     }
@@ -108,6 +98,14 @@ public class StudentTermRegistration implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Date getDateRegistered() {
+        return dateRegistered;
+    }
+
+    public void setDateRegistered(Date dateRegistered) {
+        this.dateRegistered = dateRegistered;
     }
 
     public Date getDateCreated() {
@@ -126,46 +124,36 @@ public class StudentTermRegistration implements Serializable {
         this.status = status;
     }
 
-    @XmlTransient
-    public Collection<StudentSubjectRegistration> getStudentSubjectRegistrationCollection() {
-        return studentSubjectRegistrationCollection;
+    public Classes getRegistrationClass() {
+        return registrationClass;
     }
 
-    public void setStudentSubjectRegistrationCollection(Collection<StudentSubjectRegistration> studentSubjectRegistrationCollection) {
-        this.studentSubjectRegistrationCollection = studentSubjectRegistrationCollection;
+    public void setRegistrationClass(Classes registrationClass) {
+        this.registrationClass = registrationClass;
     }
 
-    @XmlTransient
-    public Collection<StudentExamRegistration> getStudentExamRegistrationCollection() {
-        return studentExamRegistrationCollection;
+    public Streams getRegistrationStream() {
+        return registrationStream;
     }
 
-    public void setStudentExamRegistrationCollection(Collection<StudentExamRegistration> studentExamRegistrationCollection) {
-        this.studentExamRegistrationCollection = studentExamRegistrationCollection;
+    public void setRegistrationStream(Streams registrationStream) {
+        this.registrationStream = registrationStream;
     }
 
-    public Streams getRegistration_Stream() {
-        return Registration_Stream;
+    public StudentAdmission getStudentAdmission() {
+        return studentAdmission;
     }
 
-    public void setRegistration_Stream(Streams Registration_Stream) {
-        this.Registration_Stream = Registration_Stream;
+    public void setStudentAdmission(StudentAdmission studentAdmission) {
+        this.studentAdmission = studentAdmission;
     }
 
-    public StudentAdmission getStudent_Admission() {
-        return Student_Admission;
+    public Terms getRegistrationTerm() {
+        return registrationTerm;
     }
 
-    public void setStudent_Admission(StudentAdmission Student_Admission) {
-        this.Student_Admission = Student_Admission;
-    }
-
-    public Terms getRegistration_term() {
-        return Registration_term;
-    }
-
-    public void setRegistration_term(Terms Registration_term) {
-        this.Registration_term = Registration_term;
+    public void setRegistrationTerm(Terms registrationTerm) {
+        this.registrationTerm = registrationTerm;
     }
 
     public Users getAuthor() {
@@ -174,22 +162,6 @@ public class StudentTermRegistration implements Serializable {
 
     public void setAuthor(Users author) {
         this.author = author;
-    }
-
-    public Classes getRegistration_Class() {
-        return Registration_Class;
-    }
-
-    public void setRegistration_Class(Classes Registration_Class) {
-        this.Registration_Class = Registration_Class;
-    }
-
-    public Date getDateRegistered() {
-        return dateRegistered;
-    }
-
-    public void setDateRegistered(Date dateRegistered) {
-        this.dateRegistered = dateRegistered;
     }
 
     @Override
@@ -216,5 +188,5 @@ public class StudentTermRegistration implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.StudentTermRegistration[ id=" + id + " ]";
     }
-
+    
 }

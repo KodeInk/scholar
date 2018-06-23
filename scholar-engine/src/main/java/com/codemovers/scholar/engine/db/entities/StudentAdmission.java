@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -45,6 +46,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "StudentAdmission.findByStatus", query = "SELECT s FROM StudentAdmission s WHERE s.status = :status")
     , @NamedQuery(name = "StudentAdmission.findByDateCreated", query = "SELECT s FROM StudentAdmission s WHERE s.dateCreated = :dateCreated")})
 public class StudentAdmission implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentAdmission")
+    private Collection<StudentTermRegistration> studentTermRegistrationCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -90,8 +94,6 @@ public class StudentAdmission implements Serializable {
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users author;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Student_Admission")
-    private Collection<StudentTermRegistration> studentTermRegistrationCollection;
 
     @JoinColumn(name = "profile_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -194,14 +196,14 @@ public class StudentAdmission implements Serializable {
         this.author = author;
     }
 
-    @XmlTransient
-    public Collection<StudentTermRegistration> getStudentTermRegistrationCollection() {
-        return studentTermRegistrationCollection;
-    }
-
-    public void setStudentTermRegistrationCollection(Collection<StudentTermRegistration> studentTermRegistrationCollection) {
-        this.studentTermRegistrationCollection = studentTermRegistrationCollection;
-    }
+//    @XmlTransient
+//    public Collection<StudentTermRegistration> getStudentTermRegistrationCollection() {
+//        return studentTermRegistrationCollection;
+//    }
+//
+//    public void setStudentTermRegistrationCollection(Collection<StudentTermRegistration> studentTermRegistrationCollection) {
+//        this.studentTermRegistrationCollection = studentTermRegistrationCollection;
+//    }
 
     public Profile getProfile() {
         return student;
@@ -234,6 +236,15 @@ public class StudentAdmission implements Serializable {
     @Override
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.StudentAdmission[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<StudentTermRegistration> getStudentTermRegistrationCollection() {
+        return studentTermRegistrationCollection;
+    }
+
+    public void setStudentTermRegistrationCollection(Collection<StudentTermRegistration> studentTermRegistrationCollection) {
+        this.studentTermRegistrationCollection = studentTermRegistrationCollection;
     }
 
 }

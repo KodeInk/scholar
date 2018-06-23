@@ -95,10 +95,7 @@ public class Terms implements Serializable {
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users author;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "admissionTerm")
-    private Collection<StudentAdmission> studentAdmissionCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Registration_term")
-    private Collection<StudentTermRegistration> studentTermRegistrationCollection;
+   
 
     public Terms() {
     }
@@ -207,24 +204,7 @@ public class Terms implements Serializable {
         this.author = author;
     }
 
-    @XmlTransient
-    public Collection<StudentAdmission> getStudentAdmissionCollection() {
-        return studentAdmissionCollection;
-    }
-
-    public void setStudentAdmissionCollection(Collection<StudentAdmission> studentAdmissionCollection) {
-        this.studentAdmissionCollection = studentAdmissionCollection;
-    }
-
-    @XmlTransient
-    public Collection<StudentTermRegistration> getStudentTermRegistrationCollection() {
-        return studentTermRegistrationCollection;
-    }
-
-    public void setStudentTermRegistrationCollection(Collection<StudentTermRegistration> studentTermRegistrationCollection) {
-        this.studentTermRegistrationCollection = studentTermRegistrationCollection;
-    }
-
+ 
     @Override
     public int hashCode() {
         int hash = 0;

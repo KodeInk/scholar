@@ -92,8 +92,18 @@ public class StudentTermRegistrationJpaController extends EngineJpaController {
         EntityManager em = getEntityManager(data.getExternalId());
 
         try {
-            StudentTermRegistration registration =  em.find(StudentTermRegistration.class, id.longValue());
-            return registration;
+            Query q = em.createQuery(""
+                    + "select ST FROM StudentTermRegistration ST "
+                    + " JOIN FETCH ST.registrationClass "
+                    + " JOIN FETCH ST.registrationStream "
+                    + " JOIN FETCH ST.studentAdmission "
+                    + " JOIN FETCH ST.registrationTerm"
+                    + " WHERE ST.id=:id"
+                    + "");
+            q.setParameter("id", id.longValue());
+//            StudentTermRegistration registration =  em.getReference(StudentTermRegistration.class, id.longValue());
+              StudentTermRegistration ste =  (StudentTermRegistration) q.getSingleResult();
+              return ste;
         } catch (Exception er) {
             er.printStackTrace();
             return null;
