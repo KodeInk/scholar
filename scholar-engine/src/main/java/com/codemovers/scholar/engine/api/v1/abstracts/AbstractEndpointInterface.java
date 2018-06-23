@@ -59,7 +59,7 @@ public interface AbstractEndpointInterface<T, Z> {
      * @return
      * @throws Exception
      */
-    Z get(@QueryParam(value = "id") int id, @HeaderParam(value = "authentication") String authentication, @Context HttpServletRequest httpRequest) throws Exception;
+    Z get(@QueryParam(value = "id") Integer id, @HeaderParam(value = "authentication") String authentication, @Context HttpServletRequest httpRequest) throws Exception;
 
     /**
      *

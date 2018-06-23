@@ -119,6 +119,11 @@ public class Application {
                 getServlet(com.codemovers.scholar.engine.api.v1.students.admissions.AdmissionEndpoint.class, CORSResponseFilter.class
                 ), "/admissions/v1/*");
           
+          context.addServlet(
+                getServlet(com.codemovers.scholar.engine.api.v1.students.registration.TermRegistrationEndpoint.class, CORSResponseFilter.class
+                ), "/registration/term/v1/*");
+          
+          
           
 
         int port = 9876;

@@ -123,7 +123,7 @@ public abstract class AbstractEndpoint<T, Z> implements AbstractEndpointInterfac
      */
     @Override
     public Z get(
-            @QueryParam("id") int id,
+            @QueryParam("id") Integer id,
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest
     ) throws Exception {

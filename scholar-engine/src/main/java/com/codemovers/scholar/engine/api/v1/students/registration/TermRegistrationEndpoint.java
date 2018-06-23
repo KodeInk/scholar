@@ -18,6 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
@@ -27,6 +30,7 @@ import javax.ws.rs.core.MediaType;
  *
  * @author mover
  */
+@Path("/")
 public class TermRegistrationEndpoint extends AbstractEndpoint<_TermRegistration, TermRegistrationResponse> {
 
     private static final Logger LOG = Logger.getLogger(TermRegistrationEndpoint.class.getName());
@@ -38,8 +42,8 @@ public class TermRegistrationEndpoint extends AbstractEndpoint<_TermRegistration
     public TermRegistrationEndpoint() {
         service = new TermRegistrationService();
     }
-    
-     @Override
+
+    @Override
     public void validate(SchoolData schoolData, String authentication) throws Exception {
         this.authentication = UserService.getInstance().validateAuthentication(schoolData, authentication);
     }
@@ -48,22 +52,36 @@ public class TermRegistrationEndpoint extends AbstractEndpoint<_TermRegistration
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public TermRegistrationResponse create(_TermRegistration entity, @HeaderParam("authentication") String authentication, @Context HttpServletRequest httpRequest) throws Exception {
-         validate(tenantdata, authentication);
+    public TermRegistrationResponse create(
+            _TermRegistration entity,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest) throws Exception {
+        validate(tenantdata, authentication);
         return service.create(tenantdata, entity, this.authentication);
     }
 
-    @Override
-    public TermRegistrationResponse update(_TermRegistration entity, String authentication, HttpServletRequest httpRequest) throws Exception {
-        return super.update(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @POST
+    @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public TermRegistrationResponse get(int id, String authentication, HttpServletRequest httpRequest) throws Exception {
-        return super.get(id, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+    public TermRegistrationResponse update(_TermRegistration entity,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest) throws Exception {
+        validate(tenantdata, authentication);
+        return service.update(tenantdata, entity, this.authentication);
+    }
+
+    @POST
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Override
+    public TermRegistrationResponse get(
+            @PathParam("id") Integer id,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest) throws Exception {
+        validate(tenantdata, authentication);
+        return service.getById(tenantdata, id, this.authentication);
     }
 
     @Override
@@ -75,8 +93,5 @@ public class TermRegistrationEndpoint extends AbstractEndpoint<_TermRegistration
     public TermRegistrationResponse archive(Integer id, String authentication, HttpServletRequest httpRequest) throws Exception {
         return super.archive(id, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
-    
-   
-    
 
 }
