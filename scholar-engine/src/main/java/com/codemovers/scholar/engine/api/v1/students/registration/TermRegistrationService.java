@@ -113,11 +113,7 @@ public class TermRegistrationService extends AbstractService<_TermRegistration, 
      
     List<TermRegistrationResponse> registrationResponses = new ArrayList<>();
     
-    registrations.stream().forEach((registration)->{
-        return registrationResponses.add(populateResponse(registration));
-          
-    }
-    );
+   
     
     registrations.forEach((StudentTermRegistration registration) -> {
         registrationResponses.add(populateResponse(registration));
