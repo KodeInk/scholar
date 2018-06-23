@@ -96,7 +96,7 @@ public class StaffEdnpoint extends AbstractEndpoint<_Staff, StaffResponse> {
     @Path("{id}")
     @Override
     public StaffResponse get(
-            @QueryParam("id") int id,
+            @QueryParam("id") Integer id,
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest) throws Exception {
         try {

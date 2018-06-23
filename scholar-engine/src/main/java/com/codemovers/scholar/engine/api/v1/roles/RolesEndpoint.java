@@ -96,7 +96,7 @@ public class RolesEndpoint extends AbstractEndpoint<_Role, RoleResponse> {
     @Path("{id}")
     @Override
     public RoleResponse get(
-            @QueryParam("id") int id,
+            @QueryParam("id") Integer id,
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest) throws Exception {
         try {
