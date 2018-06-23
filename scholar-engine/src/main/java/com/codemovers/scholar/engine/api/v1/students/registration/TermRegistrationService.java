@@ -70,6 +70,28 @@ public class TermRegistrationService extends AbstractService<_TermRegistration, 
         return super.create(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public TermRegistrationResponse update(SchoolData data, _TermRegistration entity, AuthenticationResponse authentication) throws Exception {
+        return super.update(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public TermRegistrationResponse getById(SchoolData data, Integer Id, AuthenticationResponse authentication) throws Exception {
+        return super.getById(data, Id, authentication); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<TermRegistrationResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
+        return super.list(data, ofset, limit, authentication); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public TermRegistrationResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
+        return super.archive(data, id, authentication); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+    
     public StudentTermRegistration populateEntity(Classes registrationClass, Terms registrationTerm, StudentAdmission admission, _TermRegistration entity) {
         //todo: populate entity
         StudentTermRegistration termRegistration = new StudentTermRegistration();
@@ -123,24 +145,8 @@ public class TermRegistrationService extends AbstractService<_TermRegistration, 
         return registrationClass;
     }
 
-    @Override
-    public TermRegistrationResponse update(SchoolData data, _TermRegistration entity, AuthenticationResponse authentication) throws Exception {
-        return super.update(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public TermRegistrationResponse getById(SchoolData data, Integer Id, AuthenticationResponse authentication) throws Exception {
-        return super.getById(data, Id, authentication); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<TermRegistrationResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
-        return super.list(data, ofset, limit, authentication); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public TermRegistrationResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
-        return super.archive(data, id, authentication); //To change body of generated methods, choose Tools | Templates.
-    }
+    
+    
+    
 
 }
