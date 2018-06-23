@@ -136,7 +136,7 @@ public class TermRegistrationService extends AbstractService<_TermRegistration, 
         termRegistration.setDateCreated(new Date());
         termRegistration.setRegistrationClass(registrationClass);
         termRegistration.setRegistrationTerm(registrationTerm);
-       termRegistration.setStudentAdmission(admission);
+        termRegistration.setStudentAdmission(admission);
         termRegistration.setDateRegistered(new Date(entity.getDate_registered()));
         termRegistration.setDateCreated(new Date());
         termRegistration.setStatus(entity.getStatus());
@@ -184,25 +184,28 @@ public class TermRegistrationService extends AbstractService<_TermRegistration, 
     }
 
     public TermRegistrationResponse populateResponse(StudentTermRegistration studentTermRegistration) {
-        AdmissionResponse admissionResponse = null;
-        if (studentTermRegistration.getStudentAdmission()!= null) {
-              admissionResponse = AdmissionService.getInstance().populateResponse(studentTermRegistration.getStudentAdmission());
+        if (studentTermRegistration != null) {
+            AdmissionResponse admissionResponse = null;
+            if (studentTermRegistration.getStudentAdmission() != null) {
+                admissionResponse = AdmissionService.getInstance().populateResponse(studentTermRegistration.getStudentAdmission());
+            }
+
+            TermResponse termResponse = TermService.getInstance().populateResponse(studentTermRegistration.getRegistrationTerm());
+            ClassResponse classResponse = ClassService.getInstance().populateResponse(studentTermRegistration.getRegistrationClass());
+            StreamResponse streamResponse = null;
+            TermRegistrationResponse registrationResponse = new TermRegistrationResponse();
+            registrationResponse.setAdmission(admissionResponse);
+            registrationResponse.setStudentClass(classResponse);
+            registrationResponse.setStudentTerm(termResponse);
+            registrationResponse.setStudentStream(streamResponse);
+            registrationResponse.setId(studentTermRegistration.getId().intValue());
+            registrationResponse.setAuthor(studentTermRegistration.getAuthor().getUsername());
+            registrationResponse.setStatus(studentTermRegistration.getStatus());
+            registrationResponse.setDate_created(studentTermRegistration.getDateCreated().getTime());
+            registrationResponse.setDate_registered(studentTermRegistration.getDateRegistered().getTime());
+            return registrationResponse;
         }
-        
-        TermResponse termResponse = TermService.getInstance().populateResponse(studentTermRegistration.getRegistrationTerm());
-        ClassResponse classResponse = ClassService.getInstance().populateResponse(studentTermRegistration.getRegistrationClass());
-        StreamResponse streamResponse = null;
-        TermRegistrationResponse registrationResponse = new TermRegistrationResponse();
-//        registrationResponse.setAdmission(admissionResponse);
-        registrationResponse.setStudentClass(classResponse);
-        registrationResponse.setStudentTerm(termResponse);
-        registrationResponse.setStudentStream(streamResponse);
-        registrationResponse.setId(studentTermRegistration.getId().intValue());
-        registrationResponse.setAuthor(studentTermRegistration.getAuthor().getUsername());
-        registrationResponse.setStatus(studentTermRegistration.getStatus());
-        registrationResponse.setDate_created(studentTermRegistration.getDateCreated().getTime());
-        registrationResponse.setDate_registered(studentTermRegistration.getDateRegistered().getTime());
-        return registrationResponse;
+        return null;
     }
 
 }
