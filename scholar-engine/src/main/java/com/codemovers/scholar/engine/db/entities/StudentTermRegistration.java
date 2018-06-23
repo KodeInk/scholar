@@ -81,6 +81,14 @@ public class StudentTermRegistration implements Serializable {
     @JoinColumn(name = "class_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Classes Registration_Class;
+    
+     @Basic(optional = false)
+    @NotNull
+    @Column(name = "date_registered")
+    @Temporal(TemporalType.DATE)
+    private Date dateRegistered;
+     
+     
 
     public StudentTermRegistration() {
     }
@@ -176,6 +184,16 @@ public class StudentTermRegistration implements Serializable {
     public void setRegistration_Class(Classes Registration_Class) {
         this.Registration_Class = Registration_Class;
     }
+
+    public Date getDateRegistered() {
+        return dateRegistered;
+    }
+
+    public void setDateRegistered(Date dateRegistered) {
+        this.dateRegistered = dateRegistered;
+    }
+    
+    
 
     @Override
     public int hashCode() {
