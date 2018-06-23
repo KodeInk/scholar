@@ -30,24 +30,24 @@ import java.util.logging.Logger;
  * @author mover
  */
 public class TermRegistrationService extends AbstractService<_TermRegistration, TermRegistrationResponse> {
-    
+
     private static final Logger LOG = Logger.getLogger(AdmissionService.class.getName());
     private final StudentTermRegistrationJpaController controller;
     private static TermRegistrationService instance = null;
-    
+
     public TermRegistrationService() {
         controller = StudentTermRegistrationJpaController.getInstance();
     }
-    
+
     public static TermRegistrationService getInstance() {
         if (instance == null) {
             instance = new TermRegistrationService();
         }
-        
+
         return instance;
-        
+
     }
-    
+
     @Override
     public TermRegistrationResponse create(SchoolData data, _TermRegistration entity, AuthenticationResponse authentication) throws Exception {
         //todo: validate
@@ -55,12 +55,22 @@ public class TermRegistrationService extends AbstractService<_TermRegistration, 
         entity.setDate_registered(entity.getDate_registered() != null ? entity.getDate_registered() : new Date().getTime());
         entity.setAuthor_id(authentication.getId());
         entity.setStatus(StatusEnum.ACTIVE.name());
-        
+
         Classes registrationClass = validateClassOfRegistration(entity, data);
         Terms registrationTerm = validateTermOfRegistration(entity, data);
-        
+
         StudentAdmission admission = validateStudentAdmission(data, entity, authentication);
 
+        StudentTermRegistration termRegistration = populateEntity(registrationClass, registrationTerm, admission, entity);
+
+        validateIfAlreadyRegistered(registrationClass, registrationTerm, admission, data);
+        //todo: create entity
+        StudentTermRegistration studentTermRegistration = controller.create(termRegistration, data);
+        //todo: populate response 
+        return super.create(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public StudentTermRegistration populateEntity(Classes registrationClass, Terms registrationTerm, StudentAdmission admission, _TermRegistration entity) {
         //todo: populate entity
         StudentTermRegistration termRegistration = new StudentTermRegistration();
         termRegistration.setDateCreated(new Date());
@@ -71,12 +81,21 @@ public class TermRegistrationService extends AbstractService<_TermRegistration, 
         termRegistration.setDateCreated(new Date());
         termRegistration.setStatus(entity.getStatus());
         termRegistration.setAuthor(new Users(entity.getAuthor_id().longValue()));
-        //todo: check if student already registered for this term
-        //todo: create entity
-        //todo: populate response 
-        return super.create(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
+        return termRegistration;
     }
-    
+
+    public StudentTermRegistration validateIfAlreadyRegistered(Classes registrationClass, Terms registrationTerm, StudentAdmission admission, SchoolData data) throws BadRequestException {
+        //todo: check if student already registered for this term
+        /*
+        We are checking by  Term, Class, admission
+        */
+        StudentTermRegistration registration = controller.findStudentByTermAndClassAndAdmission(registrationClass.getId(), registrationTerm.getId(), admission.getId(), data);
+        if (registration != null) {
+            throw new BadRequestException("Student Already Registered ");
+        }
+        return registration;
+    }
+
     public StudentAdmission validateStudentAdmission(SchoolData data, _TermRegistration entity, AuthenticationResponse authentication) throws Exception, BadRequestException {
         //todo: get Admission By Id
         StudentAdmission admission = AdmissionService.getInstance().getAdmission(data, entity.getAddmision_id(), authentication);
@@ -85,7 +104,7 @@ public class TermRegistrationService extends AbstractService<_TermRegistration, 
         }
         return admission;
     }
-    
+
     public Terms validateTermOfRegistration(_TermRegistration entity, SchoolData data) throws BadRequestException {
         //todo: validate admission term
         Terms registrationTerm = TermService.getInstance().getTerm(entity.getTerm_id(), data);
@@ -94,7 +113,7 @@ public class TermRegistrationService extends AbstractService<_TermRegistration, 
         }
         return registrationTerm;
     }
-    
+
     public Classes validateClassOfRegistration(_TermRegistration entity, SchoolData data) throws BadRequestException {
         //todo: check  addmission class
         Classes registrationClass = ClassService.getInstance().getClass(entity.getClass_id(), data);
@@ -103,25 +122,25 @@ public class TermRegistrationService extends AbstractService<_TermRegistration, 
         }
         return registrationClass;
     }
-    
+
     @Override
     public TermRegistrationResponse update(SchoolData data, _TermRegistration entity, AuthenticationResponse authentication) throws Exception {
         return super.update(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public TermRegistrationResponse getById(SchoolData data, Integer Id, AuthenticationResponse authentication) throws Exception {
         return super.getById(data, Id, authentication); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public List<TermRegistrationResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
         return super.list(data, ofset, limit, authentication); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public TermRegistrationResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
         return super.archive(data, id, authentication); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

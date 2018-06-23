@@ -41,6 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "StudentTermRegistration.findByDateCreated", query = "SELECT s FROM StudentTermRegistration s WHERE s.dateCreated = :dateCreated")
     , @NamedQuery(name = "StudentTermRegistration.findByStatus", query = "SELECT s FROM StudentTermRegistration s WHERE s.status = :status")
     , @NamedQuery(name = "StudentTermRegistration.findByAdmissionIdAndTermId", query = "SELECT s FROM StudentTermRegistration s WHERE s.Registration_term.id = :registration_term_id AND s.Student_Admission.student.id = :student_id")
+    , @NamedQuery(name = "StudentTermRegistration.findByAdmissionAndTermAndClass", query = "SELECT s FROM StudentTermRegistration s WHERE s.Student_Admission.id= :admissionId AND s.Registration_term.id = :termId AND s.Registration_Class.id = :classId ")
 
 })
 public class StudentTermRegistration implements Serializable {
@@ -81,14 +82,12 @@ public class StudentTermRegistration implements Serializable {
     @JoinColumn(name = "class_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Classes Registration_Class;
-    
-     @Basic(optional = false)
+
+    @Basic(optional = false)
     @NotNull
     @Column(name = "date_registered")
     @Temporal(TemporalType.DATE)
     private Date dateRegistered;
-     
-     
 
     public StudentTermRegistration() {
     }
@@ -192,8 +191,6 @@ public class StudentTermRegistration implements Serializable {
     public void setDateRegistered(Date dateRegistered) {
         this.dateRegistered = dateRegistered;
     }
-    
-    
 
     @Override
     public int hashCode() {

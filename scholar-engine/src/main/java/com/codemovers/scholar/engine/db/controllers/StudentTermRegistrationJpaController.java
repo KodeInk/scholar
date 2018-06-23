@@ -25,7 +25,7 @@ import javax.ws.rs.BadRequestException;
 
 /**
  *
- * @author Manny
+ * @author mover 6/23/2018
  */
 public class StudentTermRegistrationJpaController extends EngineJpaController {
 
@@ -107,6 +107,40 @@ public class StudentTermRegistrationJpaController extends EngineJpaController {
         Query query = em.createNamedQuery("StudentTermRegistration.findByAdmissionIdAndTermId");
         query.setParameter("registration_term_id", term_id);
         query.setParameter("student_id", student_id);
+
+        try {
+            studentTermRegistrationList = query.getResultList();
+            if (studentTermRegistrationList.size() > 0) {
+                return studentTermRegistrationList.get(0);
+            }
+            return null;
+
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "unexpected exception {0}\n{1}", new Object[]{ex.getMessage(), Utilities.getStackTrace(ex)});
+            return null;
+            // don't throw WebApplicationException, force caller to handle this
+        } finally {
+            LOG.log(Level.FINER, "closing entity manager {0}", em);
+            em.close();
+        }
+
+    }
+
+    /**
+     *
+     * @param class_id
+     * @param term_id
+     * @param admissin_id
+     * @param data
+     * @return
+     */
+    public StudentTermRegistration findStudentByTermAndClassAndAdmission(Long class_id, Long term_id, Long admissin_id, SchoolData data) {
+        List<StudentTermRegistration> studentTermRegistrationList = new ArrayList<>();
+        EntityManager em = getEntityManager(data.getExternalId());
+        Query query = em.createNamedQuery("StudentTermRegistration.findByAdmissionAndTermAndClass");
+        query.setParameter("termId", term_id);
+        query.setParameter("admissionId", admissin_id);
+        query.setParameter("classId", class_id);
 
         try {
             studentTermRegistrationList = query.getResultList();
