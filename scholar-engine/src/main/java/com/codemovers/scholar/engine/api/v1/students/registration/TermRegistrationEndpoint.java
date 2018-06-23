@@ -74,7 +74,7 @@ public class TermRegistrationEndpoint extends AbstractEndpoint<_TermRegistration
         return service.update(tenantdata, entity, this.authentication);
     }
 
-    @POST
+    @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)

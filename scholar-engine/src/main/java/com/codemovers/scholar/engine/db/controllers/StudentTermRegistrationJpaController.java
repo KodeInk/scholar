@@ -171,9 +171,14 @@ public class StudentTermRegistrationJpaController extends EngineJpaController {
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();
-        } finally {
+        }catch(Exception er){
+            er.printStackTrace();
+            throw er;
+        } 
+        finally {
             em.close();
         }
+       
     }
 
     public List<StudentTermRegistration> findStudentTermRegistrations(SchoolData data) {
