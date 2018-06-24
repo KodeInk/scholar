@@ -6,12 +6,8 @@
 package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.EngineJpaController;
-import com.codemovers.scholar.engine.db.JpaController;
-import static com.codemovers.scholar.engine.db.controllers.UsersJpaController.LOG;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
-import com.codemovers.scholar.engine.db.entities.StudentSubjectRegistration;
 import com.codemovers.scholar.engine.db.entities.StudentTermRegistration;
-import com.codemovers.scholar.engine.db.entities.Users;
 import com.codemovers.scholar.engine.helper.Utilities;
 import java.util.ArrayList;
 import java.util.List;
