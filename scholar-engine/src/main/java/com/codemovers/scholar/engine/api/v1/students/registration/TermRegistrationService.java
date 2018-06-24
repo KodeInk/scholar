@@ -55,26 +55,31 @@ public class TermRegistrationService extends AbstractService<_TermRegistration, 
 
     @Override
     public TermRegistrationResponse create(SchoolData data, _TermRegistration entity, AuthenticationResponse authentication) throws Exception {
+        try {
         //todo: validate
-        entity.validate();
-        entity.setDate_registered(entity.getDate_registered() != null ? entity.getDate_registered() : new Date().getTime());
-        entity.setAuthor_id(authentication.getId());
-        entity.setStatus(StatusEnum.ACTIVE.name());
+            entity.validate();
+            entity.setDate_registered(entity.getDate_registered() != null ? entity.getDate_registered() : new Date().getTime());
+            entity.setAuthor_id(authentication.getId());
+            entity.setStatus(StatusEnum.ACTIVE.name());
 
-        Classes registrationClass = validateClassOfRegistration(entity, data);
-        Terms registrationTerm = validateTermOfRegistration(entity, data);
+            Classes registrationClass = validateClassOfRegistration(entity, data);
+            Terms registrationTerm = validateTermOfRegistration(entity, data);
 
-        StudentAdmission admission = validateStudentAdmission(data, entity, authentication);
+            StudentAdmission admission = validateStudentAdmission(data, entity, authentication);
 
-        StudentTermRegistration termRegistration = populateEntity(registrationClass, registrationTerm, admission, entity);
+            StudentTermRegistration termRegistration = populateEntity(registrationClass, registrationTerm, admission, entity);
 
-        validateIfAlreadyRegistered(registrationClass, registrationTerm, admission, data);
-        //todo: create entity
-        StudentTermRegistration studentTermRegistration = controller.create(termRegistration, data);
+            validateIfAlreadyRegistered(registrationClass, registrationTerm, admission, data);
+            //todo: create entity
+            StudentTermRegistration studentTermRegistration = controller.create(termRegistration, data);
 
-        TermRegistrationResponse registrationResponse = populateResponse(studentTermRegistration);
+            TermRegistrationResponse registrationResponse = populateResponse(studentTermRegistration);
 
-        return registrationResponse;
+            return registrationResponse;
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        }
 
     }
 
