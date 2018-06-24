@@ -47,9 +47,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "StudentAdmission.findByDateCreated", query = "SELECT s FROM StudentAdmission s WHERE s.dateCreated = :dateCreated")})
 public class StudentAdmission implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentAdmission")
-    private Collection<StudentTermRegistration> studentTermRegistrationCollection;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -196,15 +193,6 @@ public class StudentAdmission implements Serializable {
         this.author = author;
     }
 
-//    @XmlTransient
-//    public Collection<StudentTermRegistration> getStudentTermRegistrationCollection() {
-//        return studentTermRegistrationCollection;
-//    }
-//
-//    public void setStudentTermRegistrationCollection(Collection<StudentTermRegistration> studentTermRegistrationCollection) {
-//        this.studentTermRegistrationCollection = studentTermRegistrationCollection;
-//    }
-
     public Profile getProfile() {
         return student;
     }
@@ -236,15 +224,6 @@ public class StudentAdmission implements Serializable {
     @Override
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.StudentAdmission[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public Collection<StudentTermRegistration> getStudentTermRegistrationCollection() {
-        return studentTermRegistrationCollection;
-    }
-
-    public void setStudentTermRegistrationCollection(Collection<StudentTermRegistration> studentTermRegistrationCollection) {
-        this.studentTermRegistrationCollection = studentTermRegistrationCollection;
     }
 
 }

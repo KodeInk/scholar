@@ -141,10 +141,6 @@ public class StudentTermRegistrationJpaController extends EngineJpaController {
     public StudentTermRegistration findStudentByTermAndClassAndAdmission(Long class_id, Long term_id, Long admissin_id, SchoolData data) {
         List<StudentTermRegistration> studentTermRegistrationList = new ArrayList<>();
         EntityManager em = getEntityManager(data.getExternalId());
-//        Query query = em.createNamedQuery("StudentTermRegistration.findByAdmissionAndTermAndClass");
-//        query.setParameter("termId", term_id);
-//        query.setParameter("admissionId", admissin_id);
-//        query.setParameter("classId", class_id);
 
         try {
             Query query = getQuery(em, term_id, admissin_id, class_id);
@@ -166,7 +162,6 @@ public class StudentTermRegistrationJpaController extends EngineJpaController {
 
     }
 
-    
     private List<StudentTermRegistration> findStudentTermRegistrations(boolean all, int maxResults, int firstResult, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
@@ -216,10 +211,10 @@ public class StudentTermRegistrationJpaController extends EngineJpaController {
     public Query getQuery(EntityManager em) {
         Query q = em.createQuery(""
                 + "select ST FROM StudentTermRegistration ST "
-                + " JOIN FETCH ST.registrationClass "
-                + " JOIN FETCH ST.registrationStream "
-                + " JOIN FETCH ST.studentAdmission "
-                + " JOIN FETCH ST.registrationTerm"
+                + " LEFT  JOIN FETCH ST.registrationClass "
+                + " LEFT JOIN FETCH ST.registrationStream "
+                + " LEFT JOIN FETCH ST.studentAdmission "
+                + " LEFT JOIN FETCH ST.registrationTerm"
                 + "");
         return q;
     }
@@ -233,16 +228,16 @@ public class StudentTermRegistrationJpaController extends EngineJpaController {
     public Query getQuery(EntityManager em, Integer id) {
         Query q = em.createQuery(""
                 + "select ST FROM StudentTermRegistration ST "
-                + " JOIN FETCH ST.registrationClass "
-                + " JOIN FETCH ST.registrationStream "
-                + " JOIN FETCH ST.studentAdmission "
-                + " JOIN FETCH ST.registrationTerm"
+                + " LEFT JOIN FETCH ST.registrationClass "
+                + " LEFT JOIN FETCH ST.registrationStream "
+                + " LEFT JOIN FETCH ST.studentAdmission "
+                + " LEFT JOIN FETCH ST.registrationTerm"
                 + " WHERE ST.id=:id"
                 + "");
         q.setParameter("id", id.longValue());
         return q;
     }
-    
+
     /**
      *
      * @param em
@@ -254,10 +249,10 @@ public class StudentTermRegistrationJpaController extends EngineJpaController {
     public Query getQuery(EntityManager em, Long term_id, Long admissin_id, Long class_id) {
         Query query = em.createQuery(""
                 + "select ST FROM StudentTermRegistration ST "
-                + " JOIN FETCH ST.registrationClass "
-                + " JOIN FETCH ST.registrationStream "
-                + " JOIN FETCH ST.studentAdmission "
-                + " JOIN FETCH ST.registrationTerm"
+                + " LEFT  JOIN FETCH ST.registrationClass "
+                + " LEFT JOIN FETCH ST.registrationStream "
+                + " LEFT JOIN FETCH ST.studentAdmission "
+                + " LEFT JOIN FETCH ST.registrationTerm"
                 + " WHERE"
                 + " ST.registrationClass.id=:classId"
                 + " AND "
@@ -270,8 +265,5 @@ public class StudentTermRegistrationJpaController extends EngineJpaController {
         query.setParameter("classId", class_id);
         return query;
     }
-
-    
-    
 
 }
