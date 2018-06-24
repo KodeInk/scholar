@@ -69,7 +69,7 @@ public class StudentTermRegistration implements Serializable {
     @ManyToOne
     private Streams registrationStream;
     @JoinColumn(name = "admission_id", referencedColumnName = "id")
-    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @ManyToOne(optional = false,fetch = FetchType.EAGER)
     private StudentAdmission studentAdmission;
     @JoinColumn(name = "term_id", referencedColumnName = "id")
     @ManyToOne(optional = false)

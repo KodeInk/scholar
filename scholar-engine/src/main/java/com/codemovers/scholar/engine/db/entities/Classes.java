@@ -85,8 +85,10 @@ public class Classes implements Serializable {
     private Collection<ClassStream> classStreamCollection;
     @OneToMany(mappedBy = "classId")
     private Collection<SubjectClass> subjectClassCollection;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "admissionClass")
     private Collection<StudentAdmission> studentAdmissionCollection;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "classId")
     private Collection<Marksheet> marksheetCollection;
     @OneToMany(mappedBy = "examId")
