@@ -166,18 +166,20 @@ public class StudentTermRegistrationJpaController extends EngineJpaController {
 
     }
 
-    
     private List<StudentTermRegistration> findStudentTermRegistrations(boolean all, int maxResults, int firstResult, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
+        List<StudentTermRegistration> studentTermRegistrationList = new ArrayList<>();
+
         try {
 
-            Query q = getQuery(em);
+            Query query = getQuery(em);
 
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
-            }
-            return q.getResultList();
+//            if (!all) {
+//                q.setMaxResults(maxResults);
+//                q.setFirstResult(firstResult);
+//            }
+            studentTermRegistrationList = query.getResultList();
+
         } catch (Exception er) {
             er.printStackTrace();
             throw er;
@@ -185,6 +187,7 @@ public class StudentTermRegistrationJpaController extends EngineJpaController {
             em.close();
         }
 
+        return studentTermRegistrationList;
     }
 
     public List<StudentTermRegistration> findStudentTermRegistrations(SchoolData data) {
@@ -242,7 +245,7 @@ public class StudentTermRegistrationJpaController extends EngineJpaController {
         q.setParameter("id", id.longValue());
         return q;
     }
-    
+
     /**
      *
      * @param em
@@ -270,8 +273,5 @@ public class StudentTermRegistrationJpaController extends EngineJpaController {
         query.setParameter("classId", class_id);
         return query;
     }
-
-    
-    
 
 }
