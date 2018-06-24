@@ -12,6 +12,8 @@ import com.codemovers.scholar.engine.api.v1.students.admissions.entities._Admiss
 import com.codemovers.scholar.engine.api.v1.classes.ClassService;
 import com.codemovers.scholar.engine.api.v1.profile.ProfileService;
 import com.codemovers.scholar.engine.api.v1.profile.entities._Profile;
+import com.codemovers.scholar.engine.api.v1.students.registration.TermRegistrationService;
+import com.codemovers.scholar.engine.api.v1.students.registration.entities._TermRegistration;
 import com.codemovers.scholar.engine.api.v1.terms.TermService;
 import com.codemovers.scholar.engine.db.controllers.StudentAdmissionJpaController;
 import com.codemovers.scholar.engine.db.entities.Classes;
@@ -74,12 +76,22 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
         StudentAdmission admission = populateEntity(admissionClass, admissionTerm, entity, profile);
         //todo: save entity
         admission = controller.create(admission, data);
-        //todo: response body 
+        
+        {
+            registerStudentToTerm(admission, entity, admissionTerm, admissionClass, data, authentication);
+        }        
 
         AdmissionResponse admissionResponse = populateResponse(admission);
 
         return admissionResponse;
     }
+
+    public void registerStudentToTerm(StudentAdmission admission, _Admission entity, Terms admissionTerm, Classes admissionClass, SchoolData data, AuthenticationResponse authentication) throws Exception {
+        _TermRegistration registration = populateEntity(admission, entity, admissionTerm, admissionClass);
+        TermRegistrationService.getInstance().create(data, registration, authentication);
+    }
+
+   
 
     /**
      *
@@ -259,4 +271,23 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
         return admissionResponse;
     }
 
+    /**
+     *
+     * @param admission
+     * @param entity
+     * @param admissionTerm
+     * @param admissionClass
+     * @return
+     */
+    public _TermRegistration populateEntity(StudentAdmission admission, _Admission entity, Terms admissionTerm, Classes admissionClass) {
+        //todo: response body
+        _TermRegistration registration = new _TermRegistration();
+        registration.setAddmision_id(admission.getId().intValue());
+        registration.setDate_registered(entity.getDate_of_admission());
+        registration.setTerm_id(admissionTerm.getId().intValue());
+        registration.setClass_id(admissionClass.getId().intValue());
+        return registration;
+    }
+     
+     
 }
