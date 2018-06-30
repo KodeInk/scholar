@@ -166,10 +166,10 @@ public class StudentTermRegistrationJpaController extends EngineJpaController {
 
             Query query = getQuery(em);
 
-//            if (!all) {
-//                q.setMaxResults(maxResults);
-//                q.setFirstResult(firstResult);
-//            }
+            if (!all) {
+                query.setMaxResults(maxResults);
+                query.setFirstResult(firstResult);
+            }
             studentTermRegistrationList = query.getResultList();
 
         } catch (Exception er) {

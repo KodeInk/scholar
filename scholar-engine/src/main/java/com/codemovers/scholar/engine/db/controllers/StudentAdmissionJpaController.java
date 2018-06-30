@@ -6,12 +6,8 @@
 package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.EngineJpaController;
-import com.codemovers.scholar.engine.db.JpaController;
-import static com.codemovers.scholar.engine.db.controllers.TermsJpaController.LOG;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
-import com.codemovers.scholar.engine.db.entities.Streams;
 import com.codemovers.scholar.engine.db.entities.StudentAdmission;
-import com.codemovers.scholar.engine.db.entities.Terms;
 import com.codemovers.scholar.engine.helper.Utilities;
 import java.util.ArrayList;
 import java.util.List;
@@ -156,9 +152,8 @@ public class StudentAdmissionJpaController extends EngineJpaController {
     private List<StudentAdmission> findStudentAdmissions(boolean all, int maxResults, int firstResult, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(StudentAdmission.class));
-            Query q = em.createQuery(cq);
+         
+            Query q = getQuery(em);
             if (!all) {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
@@ -171,6 +166,27 @@ public class StudentAdmissionJpaController extends EngineJpaController {
             em.close();
         }
     }
+    
+    
+      public  List<StudentAdmission> findStudentAdmissions(int maxResults, int firstResult, Integer studyYear, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
+        try {
+         
+            Query q = getQuery(em);
+            if (!all) {
+                q.setMaxResults(maxResults);
+                q.setFirstResult(firstResult);
+            }
+            return q.getResultList();
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        } finally {
+            em.close();
+        }
+    }
+      
+      
 
     /**
      *
@@ -208,6 +224,14 @@ public class StudentAdmissionJpaController extends EngineJpaController {
         } finally {
             em.close();
         }
+    }
+
+    public Query getQuery(EntityManager em) {
+        Query q = em.createQuery(""
+                + "SELECT SA FROM StudentAdmission SA "
+                + " LEFT  JOIN FETCH SA.student "
+                + "");
+        return q;
     }
 
 }
