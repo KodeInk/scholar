@@ -152,7 +152,7 @@ public class StudentAdmissionJpaController extends EngineJpaController {
     private List<StudentAdmission> findStudentAdmissions(boolean all, int maxResults, int firstResult, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
-         
+
             Query q = getQuery(em);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -166,18 +166,25 @@ public class StudentAdmissionJpaController extends EngineJpaController {
             em.close();
         }
     }
-    
-    
-      public  List<StudentAdmission> findStudentAdmissions(int maxResults, int firstResult, Integer studyYear, SchoolData data) {
+
+    /**
+     *
+     * @param maxResults
+     * @param firstResult
+     * @param studyYear
+     * @param data
+     * @return
+     */
+    public List<StudentAdmission> findStudentAdmissions(int maxResults, int firstResult, Integer studyYear, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
-         
-            Query q = getQuery(em);
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
-            }
-            return q.getResultList();
+
+            Query query = getQuery(em);
+
+            query.setMaxResults(maxResults);
+            query.setFirstResult(firstResult);
+
+            return query.getResultList();
         } catch (Exception er) {
             er.printStackTrace();
             throw er;
@@ -185,8 +192,33 @@ public class StudentAdmissionJpaController extends EngineJpaController {
             em.close();
         }
     }
-      
-      
+
+    /**
+     *
+     * @param maxResults
+     * @param firstResult
+     * @param studyYear
+     * @param admissionClass
+     * @param data
+     * @return
+     */
+    public List<StudentAdmission> findStudentAdmissions(int maxResults, int firstResult, Integer studyYear, Integer admissionClass, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
+        try {
+
+            Query query = getQuery(em);
+
+            query.setMaxResults(maxResults);
+            query.setFirstResult(firstResult);
+
+            return query.getResultList();
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        } finally {
+            em.close();
+        }
+    }
 
     /**
      *
