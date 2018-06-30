@@ -64,7 +64,7 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
         List<StudentAdmission> admissions = getByAdmissionNo(entity.getAdmission_no(), data);
 
         if (admissions != null && admissions.size() > 0) {
-            throw new BadRequestException(" Admission exists with admission number :  "+entity.getAdmission_no() );
+            throw new BadRequestException(" Admission exists with admission number :  " + entity.getAdmission_no());
         }
 
         //todo: populate entity 
@@ -76,10 +76,10 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
         StudentAdmission admission = populateEntity(admissionClass, admissionTerm, entity, profile);
         //todo: save entity
         admission = controller.create(admission, data);
-        
+
         {
             registerStudentToTerm(admission, entity, admissionTerm, admissionClass, data, authentication);
-        }        
+        }
 
         AdmissionResponse admissionResponse = populateResponse(admission);
 
@@ -90,8 +90,6 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
         _TermRegistration registration = populateEntity(admission, entity, admissionTerm, admissionClass);
         TermRegistrationService.getInstance().create(data, registration, authentication);
     }
-
-   
 
     /**
      *
@@ -158,17 +156,15 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
 
         return populateResponse(studentAdmission);
     }
-    
-     public StudentAdmission getAdmission(SchoolData data, Integer Id, AuthenticationResponse authentication) throws Exception {
+
+    public StudentAdmission getAdmission(SchoolData data, Integer Id, AuthenticationResponse authentication) throws Exception {
         if (Id == null) {
             throw new BadRequestException("Student Id is null");
         }
         StudentAdmission studentAdmission = controller.findStudentAdmission(Id, data);
-         
+
         return studentAdmission;
     }
-     
-     
 
     /**
      *
@@ -204,6 +200,32 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
             admissionResponses.add(populateResponse(admission));
         });
         return admissionResponses;
+    }
+
+    public List<AdmissionResponse> list(SchoolData data, Integer ofset, Integer limit, String command, Integer studyYear, AuthenticationResponse authentication) throws Exception {
+
+        switch (command.toUpperCase()) {
+            case "ADMISSIONCLASS":
+                List<StudentAdmission> admissions = controller.findStudentAdmissions(limit, ofset, data);
+                List<AdmissionResponse> admissionResponses = new ArrayList<>();
+                admissions.forEach(admission -> {
+                    admissionResponses.add(populateResponse(admission));
+                });
+                return admissionResponses;
+
+            case "ADMISSIONTERM":
+                List<StudentAdmission> admissions = controller.findStudentAdmissions(limit, ofset, data);
+                List<AdmissionResponse> admissionResponses = new ArrayList<>();
+                admissions.forEach(admission -> {
+                    admissionResponses.add(populateResponse(admission));
+                });
+                return admissionResponses;
+
+            default:
+                throw new BadRequestException("The command specified is not defined ");
+
+        }
+
     }
 
     /**
@@ -288,6 +310,5 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
         registration.setClass_id(admissionClass.getId().intValue());
         return registration;
     }
-     
-     
+
 }
