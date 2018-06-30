@@ -66,8 +66,7 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
         entity.setAuthor_id(authentication.getId());
         entity.setStatus(StatusEnum.ACTIVE);
 
-        //todo: get the admission by id;
-        StudentAdmission admission = StudentAdmissionJpaController.getInstance().findStudentAdmission(entity.getAdmission_number(), data);
+        StudentAdmission admission =  getStudentAdmission(entity, data);
         //TODO: get term by id
         Terms registration_term = TermsJpaController.getInstance().findTerm(entity.getTerm_id(), data);
         //TODO: get term by id
@@ -92,6 +91,21 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
         return populateResponse(registration);
     }
 
+    public StudentAdmission getStudentAdmission(_StudentTermRegistration entity, SchoolData data) throws BadRequestException {
+        List<StudentAdmission> admissions =  validateStudentAdmission(entity, data);
+        StudentAdmission admission = admissions.get(0);
+        return admission;
+    }
+
+    public List<StudentAdmission> validateStudentAdmission(_StudentTermRegistration entity, SchoolData data) throws BadRequestException {
+        //todo: get the admission by id;
+        List<StudentAdmission> admissions =  AdmissionService.getInstance().getByAdmissionNo(entity.getAdmission_number(), data);
+        if (admissions == null || admissions.size() > 0) {
+            throw new  BadRequestException(" Admission Number  "+entity.getAdmission_number()+" does not exist");
+        }
+        return admissions;
+    }
+
     @Override
     public StudentTermRegistrationResponse update(SchoolData data, _StudentTermRegistration entity, AuthenticationResponse authentication) throws Exception {
         check_access(UPDATE_STUDENT_TERM_REGISTRATION_PERMISSION);
@@ -108,7 +122,7 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
         }
 
         //todo: get the admission by id;
-        StudentAdmission admission = StudentAdmissionJpaController.getInstance().findStudentAdmission(entity.getAdmission_number(), data);
+        StudentAdmission admission = getStudentAdmission(entity, data);
         //TODO: get term by id
         Terms registration_term = TermsJpaController.getInstance().findTerm(entity.getTerm_id(), data);
         //TODO: get term by id
