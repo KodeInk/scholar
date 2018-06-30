@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.codemovers.scholar.engine.api.v1.students.examregistration;
+package com.codemovers.scholar.engine.api.v1.students.registration.exams;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
@@ -13,8 +13,8 @@ import com.codemovers.scholar.engine.api.v1.students.admissions.AdmissionService
 import com.codemovers.scholar.engine.api.v1.students.admissions.entities.AdmissionResponse;
 
 
-import com.codemovers.scholar.engine.api.v1.students.examregistration.entities.StudentExamRegistrationResponse;
-import com.codemovers.scholar.engine.api.v1.students.examregistration.entities._StudentExamRegistration;
+import com.codemovers.scholar.engine.api.v1.students.registration.exams.entities.StudentExamRegistrationResponse;
+import com.codemovers.scholar.engine.api.v1.students.registration.exams.entities._StudentExamRegistration;
 import com.codemovers.scholar.engine.api.v1.students.termregistration.entities.StudentTermRegistrationResponse;
 import com.codemovers.scholar.engine.db.controllers.ExamsJpaController;
 import com.codemovers.scholar.engine.db.controllers.StudentExamRegistrationJpaController;
