@@ -202,7 +202,7 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
         return admissionResponses;
     }
 
-    public List<AdmissionResponse> list(SchoolData data, Integer ofset, Integer limit, String command, Integer studyYear, AuthenticationResponse authentication) throws Exception {
+    public List<AdmissionResponse> list(SchoolData data, Integer ofset, Integer limit, String command, Integer studyYear,Integer admissionClass, AuthenticationResponse authentication) throws Exception {
         List<StudentAdmission> admissions = null;
         List<AdmissionResponse> admissionResponses = new ArrayList<>();
         switch (command.toUpperCase()) {
@@ -214,6 +214,11 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
                 return admissionResponses;
 
             case "ADMISSIONTERM":
+                
+                if(admissionClass == 0 )
+                {
+                    throw new  BadRequestException("Admission Class is Mandatory ");
+                }
                 admissions = controller.findStudentAdmissions(limit, ofset, data);
                 admissions.forEach(admission -> {
                     admissionResponses.add(populateResponse(admission));

@@ -99,16 +99,17 @@ public class AdmissionEndpoint extends AbstractEndpoint<_Admission, AdmissionRes
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("?command={command}&&studyyear={studyyear}")
+    @Path("?command={command}&&studyyear={studyyear}&&admissionClass={admissionClass}")
     public List<AdmissionResponse> listByCommand(
             @PathParam("command") String command,
             @PathParam("studyyear") Integer studyyear,
+            @DefaultValue("0")  @PathParam("admissionClass") Integer admissionClass,
             @DefaultValue("0") @QueryParam("offset") int offset,
             @DefaultValue("50") @QueryParam("limit") int limit,
             @HeaderParam("authentication") String authentication, @Context HttpServletRequest httpRequest) throws Exception {
         try {
             validate(tenantdata, authentication);
-            return service.list(tenantdata, offset, limit, this.authentication);
+            return service.list(tenantdata, offset, limit, command, studyyear, admissionClass, authentication);
         } catch (Exception er) {
             er.printStackTrace();
             throw er;
