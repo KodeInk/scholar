@@ -44,7 +44,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "StudentAdmission.findByExternalId", query = "SELECT s FROM StudentAdmission s WHERE s.externalId = :externalId")
     , @NamedQuery(name = "StudentAdmission.findByDateOfAdmission", query = "SELECT s FROM StudentAdmission s WHERE s.dateOfAdmission = :dateOfAdmission")
     , @NamedQuery(name = "StudentAdmission.findByStatus", query = "SELECT s FROM StudentAdmission s WHERE s.status = :status")
-    , @NamedQuery(name = "StudentAdmission.findByDateCreated", query = "SELECT s FROM StudentAdmission s WHERE s.dateCreated = :dateCreated")})
+    , @NamedQuery(name = "StudentAdmission.findByDateCreated", query = "SELECT s FROM StudentAdmission s WHERE  s.dateCreated = :dateCreated")})
 public class StudentAdmission implements Serializable {
 
     private static final long serialVersionUID = 1L;

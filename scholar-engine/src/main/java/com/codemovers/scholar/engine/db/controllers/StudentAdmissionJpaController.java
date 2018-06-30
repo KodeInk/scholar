@@ -179,7 +179,7 @@ public class StudentAdmissionJpaController extends EngineJpaController {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
 
-            Query query = getQuery(em);
+            Query query = getQuery(em, studyYear);
 
             query.setMaxResults(maxResults);
             query.setFirstResult(firstResult);
@@ -258,11 +258,60 @@ public class StudentAdmissionJpaController extends EngineJpaController {
         }
     }
 
+    /**
+     *
+     * @param em
+     * @return
+     */
     public Query getQuery(EntityManager em) {
         Query q = em.createQuery(""
                 + "SELECT SA FROM StudentAdmission SA "
                 + " LEFT  JOIN FETCH SA.student "
                 + "");
+
+        return q;
+    }
+
+    /**
+     *
+     * @param em
+     * @param studyYear
+     * @return
+     */
+    public Query getQuery(EntityManager em, Integer studyYear) {
+        Query q = em.createQuery(""
+                + "SELECT SA FROM StudentAdmission SA "
+                + " LEFT  JOIN FETCH SA.student "
+                + " LEFT  JOIN FETCH SA.admissionTerm "
+                + " WHERE "
+                + "SA.admissionTerm.studyYear.id =  :studyyear"
+                + "");
+
+        q.setParameter("studyyear", studyYear.longValue());
+
+        return q;
+    }
+
+    /**
+     *
+     * @param em
+     * @param studyYear
+     * @param admissionClass
+     * @return
+     */
+    public Query getQuery(EntityManager em, Integer studyYear, Integer admissionClass) {
+        Query q = em.createQuery(""
+                + "SELECT SA FROM StudentAdmission SA "
+                + " LEFT  JOIN FETCH SA.student "
+                + " LEFT  JOIN FETCH SA.admissionTerm "
+                + " WHERE "
+                + "SA.admissionTerm.studyYear.id =  :studyyear"
+                + " AND SA.admissionClass.id =  :admissionclass"
+                + "");
+
+        q.setParameter("studyyear", studyYear.longValue());
+        q.setParameter("admissionclass", admissionClass.longValue());
+
         return q;
     }
 

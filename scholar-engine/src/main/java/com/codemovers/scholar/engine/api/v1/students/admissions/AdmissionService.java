@@ -207,7 +207,7 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
         List<AdmissionResponse> admissionResponses = new ArrayList<>();
         switch (command.toUpperCase()) {
             case "ADMISSIONCLASS":
-                admissions = controller.findStudentAdmissions(limit, ofset, data);
+                admissions = controller.findStudentAdmissions(limit, ofset,studyYear, data);
                 admissions.forEach(admission -> {
                     admissionResponses.add(populateResponse(admission));
                 });
