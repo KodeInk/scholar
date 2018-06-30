@@ -206,7 +206,7 @@ public class StudentAdmissionJpaController extends EngineJpaController {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
 
-            Query query = getQuery(em);
+            Query query = getQuery(em,studyYear, admissionClass);
 
             query.setMaxResults(maxResults);
             query.setFirstResult(firstResult);
