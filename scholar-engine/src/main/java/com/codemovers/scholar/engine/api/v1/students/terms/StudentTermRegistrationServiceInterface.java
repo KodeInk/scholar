@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.codemovers.scholar.engine.api.v1.students.termregistration;
+package com.codemovers.scholar.engine.api.v1.students.terms;
 
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import com.codemovers.scholar.engine.api.v1.students.termregistration.entities.StudentTermRegistrationResponse;
-import com.codemovers.scholar.engine.api.v1.students.termregistration.entities._StudentTermRegistration;
+import com.codemovers.scholar.engine.api.v1.students.terms.entities.StudentTermRegistrationResponse;
+import com.codemovers.scholar.engine.api.v1.students.terms.entities._StudentTermRegistration;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.StudentTermRegistration;
 import java.util.List;

@@ -3,35 +3,39 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.codemovers.scholar.engine.api.v1.students.termregistration.entities;
+package com.codemovers.scholar.engine.api.v1.students.registration.subjects.entities;
 
 import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
 import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
-import com.codemovers.scholar.engine.helper.enums.StatusEnum;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Objects;
 
 /**
  *
- * @author mover 1/1/2028
+ * @author mover
  */
-public class _StudentTermRegistration extends AbstractEntity {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class _TermRegistration extends AbstractEntity {
 
     private Integer id;
     private @Mandatory
-    Integer admission_id;
+    Integer addmision_id;
     private @Mandatory
     Integer term_id;
     private @Mandatory
     Integer class_id;
+    private @Mandatory
+    Long date_registered;
     private Integer stream_id;
-    private StatusEnum status;
+    private Long date_created;
+    private String status;
     private Integer author_id;
 
-    public _StudentTermRegistration() {
+    public _TermRegistration() {
     }
 
-    public _StudentTermRegistration(Integer id) {
+    public _TermRegistration(Integer id) {
         this.id = id;
     }
 
@@ -43,12 +47,12 @@ public class _StudentTermRegistration extends AbstractEntity {
         this.id = id;
     }
 
-    public Integer getAdmission_id() {
-        return admission_id;
+    public Integer getAddmision_id() {
+        return addmision_id;
     }
 
-    public void setAdmission_id(Integer admission_id) {
-        this.admission_id = admission_id;
+    public void setAddmision_id(Integer addmision_id) {
+        this.addmision_id = addmision_id;
     }
 
     public Integer getTerm_id() {
@@ -59,6 +63,14 @@ public class _StudentTermRegistration extends AbstractEntity {
         this.term_id = term_id;
     }
 
+    public Integer getClass_id() {
+        return class_id;
+    }
+
+    public void setClass_id(Integer class_id) {
+        this.class_id = class_id;
+    }
+
     public Integer getStream_id() {
         return stream_id;
     }
@@ -67,11 +79,19 @@ public class _StudentTermRegistration extends AbstractEntity {
         this.stream_id = stream_id;
     }
 
-    public StatusEnum getStatus() {
+    public Long getDate_created() {
+        return date_created;
+    }
+
+    public void setDate_created(Long date_created) {
+        this.date_created = date_created;
+    }
+
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(StatusEnum status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -83,24 +103,27 @@ public class _StudentTermRegistration extends AbstractEntity {
         this.author_id = author_id;
     }
 
-    public Integer getClass_id() {
-        return class_id;
+    public Long getDate_registered() {
+        return date_registered;
     }
 
-    public void setClass_id(Integer class_id) {
-        this.class_id = class_id;
+    public void setDate_registered(Long date_registered) {
+        this.date_registered = date_registered;
     }
+    
+    
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + Objects.hashCode(this.id);
-        hash = 79 * hash + Objects.hashCode(this.admission_id);
-        hash = 79 * hash + Objects.hashCode(this.term_id);
-        hash = 79 * hash + Objects.hashCode(this.class_id);
-        hash = 79 * hash + Objects.hashCode(this.stream_id);
-        hash = 79 * hash + Objects.hashCode(this.status);
-        hash = 79 * hash + Objects.hashCode(this.author_id);
+        int hash = 5;
+        hash = 37 * hash + Objects.hashCode(this.id);
+        hash = 37 * hash + Objects.hashCode(this.addmision_id);
+        hash = 37 * hash + Objects.hashCode(this.term_id);
+        hash = 37 * hash + Objects.hashCode(this.class_id);
+        hash = 37 * hash + Objects.hashCode(this.stream_id);
+        hash = 37 * hash + Objects.hashCode(this.date_created);
+        hash = 37 * hash + Objects.hashCode(this.status);
+        hash = 37 * hash + Objects.hashCode(this.author_id);
         return hash;
     }
 
@@ -115,11 +138,14 @@ public class _StudentTermRegistration extends AbstractEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final _StudentTermRegistration other = (_StudentTermRegistration) obj;
+        final _TermRegistration other = (_TermRegistration) obj;
+        if (!Objects.equals(this.status, other.status)) {
+            return false;
+        }
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.admission_id, other.admission_id)) {
+        if (!Objects.equals(this.addmision_id, other.addmision_id)) {
             return false;
         }
         if (!Objects.equals(this.term_id, other.term_id)) {
@@ -131,13 +157,10 @@ public class _StudentTermRegistration extends AbstractEntity {
         if (!Objects.equals(this.stream_id, other.stream_id)) {
             return false;
         }
-        if (this.status != other.status) {
+        if (!Objects.equals(this.date_created, other.date_created)) {
             return false;
         }
-        if (!Objects.equals(this.author_id, other.author_id)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.author_id, other.author_id);
     }
 
     @Override
@@ -147,15 +170,16 @@ public class _StudentTermRegistration extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "_StudentTermRegistration{"
+        return "TermRegistration{"
                 + "id=" + id
-                + ", admission_id=" + admission_id
-                + ", class_id=" + class_id
+                + ", addmision_id=" + addmision_id
                 + ", term_id=" + term_id
+                + ", class_id=" + class_id
                 + ", stream_id=" + stream_id
+                + ", date_created=" + date_created
                 + ", status=" + status
                 + ", author_id=" + author_id
-                + "}";
+                + '}';
     }
 
 }

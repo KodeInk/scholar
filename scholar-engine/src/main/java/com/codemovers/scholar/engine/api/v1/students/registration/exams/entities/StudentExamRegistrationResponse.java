@@ -6,7 +6,7 @@
 package com.codemovers.scholar.engine.api.v1.students.registration.exams.entities;
 
 import com.codemovers.scholar.engine.api.v1.exams.entities.ExamResponse;
-import com.codemovers.scholar.engine.api.v1.students.termregistration.entities.StudentTermRegistrationResponse;
+import com.codemovers.scholar.engine.api.v1.students.terms.entities.StudentTermRegistrationResponse;
 import java.util.Date;
 import java.util.Objects;
 

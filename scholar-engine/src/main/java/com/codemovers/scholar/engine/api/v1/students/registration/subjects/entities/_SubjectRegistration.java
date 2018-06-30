@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.codemovers.scholar.engine.api.v1.students.registration.terms.entities;
+package com.codemovers.scholar.engine.api.v1.students.registration.subjects.entities;
 
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import java.util.Date;

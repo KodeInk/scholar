@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.codemovers.scholar.engine.api.v1.students.termregistration;
+package com.codemovers.scholar.engine.api.v1.students.terms;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
@@ -14,8 +14,8 @@ import com.codemovers.scholar.engine.api.v1.streams.entities.StreamResponse;
 import com.codemovers.scholar.engine.api.v1.students.admissions.AdmissionService;
 import com.codemovers.scholar.engine.api.v1.students.admissions.entities.AdmissionResponse;
 
-import com.codemovers.scholar.engine.api.v1.students.termregistration.entities.StudentTermRegistrationResponse;
-import com.codemovers.scholar.engine.api.v1.students.termregistration.entities._StudentTermRegistration;
+import com.codemovers.scholar.engine.api.v1.students.terms.entities.StudentTermRegistrationResponse;
+import com.codemovers.scholar.engine.api.v1.students.terms.entities._StudentTermRegistration;
 import com.codemovers.scholar.engine.api.v1.terms.TermService;
 import com.codemovers.scholar.engine.api.v1.terms.entities.TermResponse;
 import com.codemovers.scholar.engine.db.controllers.ClassJpaController;
@@ -67,7 +67,7 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
         entity.setStatus(StatusEnum.ACTIVE);
 
         //todo: get the admission by id;
-        StudentAdmission admission = StudentAdmissionJpaController.getInstance().findStudentAdmission(entity.getAdmission_id(), data);
+        StudentAdmission admission = StudentAdmissionJpaController.getInstance().findStudentAdmission(entity.getAdmission_number(), data);
         //TODO: get term by id
         Terms registration_term = TermsJpaController.getInstance().findTerm(entity.getTerm_id(), data);
         //TODO: get term by id
@@ -108,7 +108,7 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
         }
 
         //todo: get the admission by id;
-        StudentAdmission admission = StudentAdmissionJpaController.getInstance().findStudentAdmission(entity.getAdmission_id(), data);
+        StudentAdmission admission = StudentAdmissionJpaController.getInstance().findStudentAdmission(entity.getAdmission_number(), data);
         //TODO: get term by id
         Terms registration_term = TermsJpaController.getInstance().findTerm(entity.getTerm_id(), data);
         //TODO: get term by id

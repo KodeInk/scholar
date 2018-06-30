@@ -15,7 +15,7 @@ import com.codemovers.scholar.engine.api.v1.students.admissions.entities.Admissi
 
 import com.codemovers.scholar.engine.api.v1.students.registration.exams.entities.StudentExamRegistrationResponse;
 import com.codemovers.scholar.engine.api.v1.students.registration.exams.entities._StudentExamRegistration;
-import com.codemovers.scholar.engine.api.v1.students.termregistration.entities.StudentTermRegistrationResponse;
+import com.codemovers.scholar.engine.api.v1.students.terms.entities.StudentTermRegistrationResponse;
 import com.codemovers.scholar.engine.db.controllers.ExamsJpaController;
 import com.codemovers.scholar.engine.db.controllers.StudentExamRegistrationJpaController;
 import com.codemovers.scholar.engine.db.controllers.StudentTermRegistrationJpaController;

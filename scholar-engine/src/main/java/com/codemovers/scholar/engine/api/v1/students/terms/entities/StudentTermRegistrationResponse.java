@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.codemovers.scholar.engine.api.v1.students.termregistration.entities;
+package com.codemovers.scholar.engine.api.v1.students.terms.entities;
 
 import com.codemovers.scholar.engine.api.v1.students.admissions.entities.AdmissionResponse;
 import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;

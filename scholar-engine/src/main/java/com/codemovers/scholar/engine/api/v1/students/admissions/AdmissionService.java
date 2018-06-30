@@ -12,8 +12,8 @@ import com.codemovers.scholar.engine.api.v1.students.admissions.entities._Admiss
 import com.codemovers.scholar.engine.api.v1.classes.ClassService;
 import com.codemovers.scholar.engine.api.v1.profile.ProfileService;
 import com.codemovers.scholar.engine.api.v1.profile.entities._Profile;
-import com.codemovers.scholar.engine.api.v1.students.registration.terms.TermRegistrationService;
-import com.codemovers.scholar.engine.api.v1.students.registration.terms.entities._TermRegistration;
+import com.codemovers.scholar.engine.api.v1.students.registration.subjects.TermRegistrationService;
+import com.codemovers.scholar.engine.api.v1.students.registration.subjects.entities._TermRegistration;
 import com.codemovers.scholar.engine.api.v1.terms.TermService;
 import com.codemovers.scholar.engine.db.controllers.StudentAdmissionJpaController;
 import com.codemovers.scholar.engine.db.entities.Classes;
