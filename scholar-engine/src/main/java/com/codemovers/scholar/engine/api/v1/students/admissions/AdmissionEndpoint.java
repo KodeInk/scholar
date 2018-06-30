@@ -22,6 +22,7 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -61,8 +62,8 @@ public class AdmissionEndpoint extends AbstractEndpoint<_Admission, AdmissionRes
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
     public AdmissionResponse create(
-            _Admission entity, 
-            @HeaderParam("authentication") String authentication, 
+            _Admission entity,
+            @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest
     ) throws Exception {
         validate(tenantdata, authentication);
@@ -83,6 +84,25 @@ public class AdmissionEndpoint extends AbstractEndpoint<_Admission, AdmissionRes
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
     public List<AdmissionResponse> list(
+            @DefaultValue("0") @QueryParam("offset") int offset,
+            @DefaultValue("50") @QueryParam("limit") int limit,
+            @HeaderParam("authentication") String authentication, @Context HttpServletRequest httpRequest) throws Exception {
+        try {
+            validate(tenantdata, authentication);
+            return service.list(tenantdata, offset, limit, this.authentication);
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("?command={command}&&studyyear={studyyear}")
+    public List<AdmissionResponse> listByCommand(
+            @PathParam("command") String command,
+            @PathParam("studyyear") Integer studyyear,
             @DefaultValue("0") @QueryParam("offset") int offset,
             @DefaultValue("50") @QueryParam("limit") int limit,
             @HeaderParam("authentication") String authentication, @Context HttpServletRequest httpRequest) throws Exception {
