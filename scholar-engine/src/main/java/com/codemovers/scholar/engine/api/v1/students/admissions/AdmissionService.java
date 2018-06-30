@@ -203,19 +203,18 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
     }
 
     public List<AdmissionResponse> list(SchoolData data, Integer ofset, Integer limit, String command, Integer studyYear, AuthenticationResponse authentication) throws Exception {
-
+        List<StudentAdmission> admissions = null;
+        List<AdmissionResponse> admissionResponses = new ArrayList<>();
         switch (command.toUpperCase()) {
             case "ADMISSIONCLASS":
-                List<StudentAdmission> admissions = controller.findStudentAdmissions(limit, ofset, data);
-                List<AdmissionResponse> admissionResponses = new ArrayList<>();
+                admissions = controller.findStudentAdmissions(limit, ofset, data);
                 admissions.forEach(admission -> {
                     admissionResponses.add(populateResponse(admission));
                 });
                 return admissionResponses;
 
             case "ADMISSIONTERM":
-                List<StudentAdmission> admissions = controller.findStudentAdmissions(limit, ofset, data);
-                List<AdmissionResponse> admissionResponses = new ArrayList<>();
+                admissions = controller.findStudentAdmissions(limit, ofset, data);
                 admissions.forEach(admission -> {
                     admissionResponses.add(populateResponse(admission));
                 });
