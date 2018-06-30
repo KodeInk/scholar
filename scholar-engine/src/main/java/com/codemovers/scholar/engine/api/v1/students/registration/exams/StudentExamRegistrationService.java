@@ -15,7 +15,7 @@ import com.codemovers.scholar.engine.api.v1.students.admissions.entities.Admissi
 
 import com.codemovers.scholar.engine.api.v1.students.registration.exams.entities.StudentExamRegistrationResponse;
 import com.codemovers.scholar.engine.api.v1.students.registration.exams.entities._StudentExamRegistration;
-import com.codemovers.scholar.engine.api.v1.students.terms.entities.StudentTermRegistrationResponse;
+import com.codemovers.scholar.engine.api.v1.students.terms.entities.TermRegistrationResponse;
 import com.codemovers.scholar.engine.db.controllers.ExamsJpaController;
 import com.codemovers.scholar.engine.db.controllers.StudentExamRegistrationJpaController;
 import com.codemovers.scholar.engine.db.controllers.StudentTermRegistrationJpaController;
@@ -164,13 +164,13 @@ public class StudentExamRegistrationService extends AbstractService<_StudentExam
 
         if (entity.getTermRegistration() != null) {
             StudentTermRegistration studentTermRegistration = entity.getTermRegistration();
-            StudentTermRegistrationResponse registrationResponse = new StudentTermRegistrationResponse();
+            TermRegistrationResponse registrationResponse = new TermRegistrationResponse();
             registrationResponse.setId(studentTermRegistration.getId().intValue());
 
             StudentAdmission admission = studentTermRegistration.getStudentAdmission();
             if (admission != null) {
                 AdmissionResponse admissionResponse = AdmissionService.getInstance().populateResponse(admission);
-                                registrationResponse.setStudentAdmission(admissionResponse);
+                                registrationResponse.setAdmission(admissionResponse);
             }
 
             response.setTerm_registration(registrationResponse);

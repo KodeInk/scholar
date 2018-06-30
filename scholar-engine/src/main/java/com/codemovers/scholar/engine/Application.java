@@ -120,7 +120,7 @@ public class Application {
                 ), "/admissions/v1/*");
           
           context.addServlet(
-                getServlet(com.codemovers.scholar.engine.api.v1.students.registration.subjects.TermRegistrationEndpoint.class, CORSResponseFilter.class
+                getServlet(com.codemovers.scholar.engine.api.v1.students.terms.TermRegistrationEndpoint.class, CORSResponseFilter.class
                 ), "/registration/term/v1/*");
           
           

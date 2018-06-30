@@ -6,7 +6,7 @@
 package com.codemovers.scholar.engine.api.v1.students.registration.exams.entities;
 
 import com.codemovers.scholar.engine.api.v1.exams.entities.ExamResponse;
-import com.codemovers.scholar.engine.api.v1.students.terms.entities.StudentTermRegistrationResponse;
+import com.codemovers.scholar.engine.api.v1.students.terms.entities.TermRegistrationResponse;
 import java.util.Date;
 import java.util.Objects;
 
@@ -17,7 +17,7 @@ import java.util.Objects;
 public class StudentExamRegistrationResponse {
 
     private Integer id;
-    private StudentTermRegistrationResponse term_registration;
+    private TermRegistrationResponse term_registration;
     private ExamResponse exam;
     private String status;
     private Date date_created;
@@ -38,11 +38,11 @@ public class StudentExamRegistrationResponse {
         this.id = id;
     }
 
-    public StudentTermRegistrationResponse getTerm_registration() {
+    public TermRegistrationResponse getTerm_registration() {
         return term_registration;
     }
 
-    public void setTerm_registration(StudentTermRegistrationResponse term_registration) {
+    public void setTerm_registration(TermRegistrationResponse term_registration) {
         this.term_registration = term_registration;
     }
 
