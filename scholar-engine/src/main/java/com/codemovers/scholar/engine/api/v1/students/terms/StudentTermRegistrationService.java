@@ -58,6 +58,14 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
         return service;
     }
 
+    /**
+     *
+     * @param data
+     * @param entity
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
     public StudentTermRegistrationResponse create(SchoolData data, _StudentTermRegistration entity, AuthenticationResponse authentication) throws Exception {
         check_access(REGISTER_STUDENT_TERM_PERMISSION);
@@ -91,21 +99,14 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
         return populateResponse(registration);
     }
 
-    public StudentAdmission getStudentAdmission(_StudentTermRegistration entity, SchoolData data) throws BadRequestException {
-        List<StudentAdmission> admissions =  validateStudentAdmission(entity, data);
-        StudentAdmission admission = admissions.get(0);
-        return admission;
-    }
-
-    public List<StudentAdmission> validateStudentAdmission(_StudentTermRegistration entity, SchoolData data) throws BadRequestException {
-        //todo: get the admission by id;
-        List<StudentAdmission> admissions =  AdmissionService.getInstance().getByAdmissionNo(entity.getAdmission_number(), data);
-        if (admissions == null || admissions.size() > 0) {
-            throw new  BadRequestException(" Admission Number  "+entity.getAdmission_number()+" does not exist");
-        }
-        return admissions;
-    }
-
+    /**
+     *
+     * @param data
+     * @param entity
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
     public StudentTermRegistrationResponse update(SchoolData data, _StudentTermRegistration entity, AuthenticationResponse authentication) throws Exception {
         check_access(UPDATE_STUDENT_TERM_REGISTRATION_PERMISSION);
@@ -140,6 +141,14 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
         return populateResponse(registration);
     }
 
+    /**
+     *
+     * @param data
+     * @param id
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
     public StudentTermRegistrationResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
 
@@ -157,6 +166,13 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
         return populateResponse(registration);
     }
 
+    /**
+     *
+     * @param data
+     * @param Id
+     * @return
+     * @throws Exception
+     */
     @Override
     public StudentTermRegistrationResponse getById(SchoolData data, Integer Id) throws Exception {
         check_access(LIST_STUDENT_TERM_REGISTRATION_PERMISSION);
@@ -168,6 +184,15 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
         return populateResponse(registration);
     }
 
+    /**
+     *
+     * @param data
+     * @param ofset
+     * @param limit
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<StudentTermRegistrationResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
         check_access(LIST_STUDENT_TERM_REGISTRATION_PERMISSION);
@@ -184,6 +209,11 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
 
     }
 
+    /**
+     *
+     * @param entity
+     * @return
+     */
     @Override
     public StudentTermRegistrationResponse populateResponse(StudentTermRegistration entity) {
         StudentTermRegistrationResponse response = new StudentTermRegistrationResponse();
@@ -222,5 +252,37 @@ public class StudentTermRegistrationService extends AbstractService<_StudentTerm
 
         return response;
     }
+    
+    /**
+     *
+     * @param entity
+     * @param data
+     * @return
+     * @throws BadRequestException
+     */
+    public StudentAdmission getStudentAdmission(_StudentTermRegistration entity, SchoolData data) throws BadRequestException {
+        List<StudentAdmission> admissions =  validateStudentAdmission(entity, data);
+        StudentAdmission admission = admissions.get(0);
+        return admission;
+    }
+
+    /**
+     *
+     * @param entity
+     * @param data
+     * @return
+     * @throws BadRequestException
+     */
+    public List<StudentAdmission> validateStudentAdmission(_StudentTermRegistration entity, SchoolData data) throws BadRequestException {
+        //todo: get the admission by id;
+        List<StudentAdmission> admissions =  AdmissionService.getInstance().getByAdmissionNo(entity.getAdmission_number(), data);
+        if (admissions == null || admissions.size() > 0) {
+            throw new  BadRequestException(" Admission Number  "+entity.getAdmission_number()+" does not exist");
+        }
+        return admissions;
+    }
+    
+    
+    
 
 }
