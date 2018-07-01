@@ -166,6 +166,19 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
         return studentAdmission;
     }
 
+    public StudentAdmission getAdmission(SchoolData data, String admission_number, AuthenticationResponse authentication) throws Exception {
+        if (admission_number == null) {
+            throw new BadRequestException("Student Id is null");
+        }
+        List<StudentAdmission> studentAdmissions = controller.findStudentAdmission(admission_number, data);
+
+        if (studentAdmissions != null && studentAdmissions.size() > 0) {
+            return studentAdmissions.get(0);
+        }
+
+        return null;
+    }
+
     /**
      *
      * @param admissioNo
@@ -307,7 +320,7 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
     public _TermRegistration populateEntity(StudentAdmission admission, _Admission entity, Terms admissionTerm, Classes admissionClass) {
         //todo: response body
         _TermRegistration registration = new _TermRegistration();
-        registration.setAddmision_id(admission.getId().intValue());
+        registration.setAdmission_number(admission.getAdmissionNo());
         registration.setDate_registered(entity.getDate_of_admission());
         registration.setTerm_id(admissionTerm.getId().intValue());
         registration.setClass_id(admissionClass.getId().intValue());

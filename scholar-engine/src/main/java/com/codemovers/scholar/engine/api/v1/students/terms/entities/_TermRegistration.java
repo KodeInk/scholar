@@ -20,7 +20,7 @@ public class _TermRegistration extends AbstractEntity {
 
     private Integer id;
     private @Mandatory
-    Integer addmision_id;
+    String admission_number;
     private @Mandatory
     Integer term_id;
     private @Mandatory
@@ -47,12 +47,12 @@ public class _TermRegistration extends AbstractEntity {
         this.id = id;
     }
 
-    public Integer getAddmision_id() {
-        return addmision_id;
+    public String getAdmission_number() {
+        return admission_number;
     }
 
-    public void setAddmision_id(Integer addmision_id) {
-        this.addmision_id = addmision_id;
+    public void setAdmission_number(String admission_number) {
+        this.admission_number = admission_number;
     }
 
     public Integer getTerm_id() {
@@ -117,7 +117,7 @@ public class _TermRegistration extends AbstractEntity {
     public int hashCode() {
         int hash = 5;
         hash = 37 * hash + Objects.hashCode(this.id);
-        hash = 37 * hash + Objects.hashCode(this.addmision_id);
+        hash = 37 * hash + Objects.hashCode(this.admission_number);
         hash = 37 * hash + Objects.hashCode(this.term_id);
         hash = 37 * hash + Objects.hashCode(this.class_id);
         hash = 37 * hash + Objects.hashCode(this.stream_id);
@@ -145,7 +145,7 @@ public class _TermRegistration extends AbstractEntity {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.addmision_id, other.addmision_id)) {
+        if (!Objects.equals(this.admission_number, other.admission_number)) {
             return false;
         }
         if (!Objects.equals(this.term_id, other.term_id)) {
@@ -172,7 +172,7 @@ public class _TermRegistration extends AbstractEntity {
     public String toString() {
         return "TermRegistration{"
                 + "id=" + id
-                + ", addmision_id=" + addmision_id
+                + ", admission_number=" + admission_number
                 + ", term_id=" + term_id
                 + ", class_id=" + class_id
                 + ", stream_id=" + stream_id

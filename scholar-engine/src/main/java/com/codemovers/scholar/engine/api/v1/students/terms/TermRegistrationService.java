@@ -163,7 +163,7 @@ public class TermRegistrationService extends AbstractService<_TermRegistration, 
 
     public StudentAdmission validateStudentAdmission(SchoolData data, _TermRegistration entity, AuthenticationResponse authentication) throws Exception, BadRequestException {
         //todo: get Admission By Id
-        StudentAdmission admission = AdmissionService.getInstance().getAdmission(data, entity.getAddmision_id(), authentication);
+        StudentAdmission admission = AdmissionService.getInstance().getAdmission(data, entity.getAdmission_number(), authentication);
         if (admission == null) {
             throw new BadRequestException("Student Admission   does not exist in the system");
         }
