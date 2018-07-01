@@ -126,6 +126,30 @@ public class StudentTermRegistrationJpaController extends EngineJpaController {
 
     }
 
+    public StudentTermRegistration findStudentByTermAndClassAndAdmission(Long study_year_id, Long admissin_id, SchoolData data) {
+        List<StudentTermRegistration> studentTermRegistrationList = new ArrayList<>();
+        EntityManager em = getEntityManager(data.getExternalId());
+
+        try {
+            Query query = getQuery(em, study_year_id, admissin_id);
+
+            studentTermRegistrationList = query.getResultList();
+            if (studentTermRegistrationList.size() > 0) {
+                return studentTermRegistrationList.get(0);
+            }
+            return null;
+
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "unexpected exception {0}\n{1}", new Object[]{ex.getMessage(), Utilities.getStackTrace(ex)});
+            return null;
+            // don't throw WebApplicationException, force caller to handle this
+        } finally {
+            LOG.log(Level.FINER, "closing entity manager {0}", em);
+            em.close();
+        }
+
+    }
+
     /**
      *
      * @param class_id
@@ -263,6 +287,31 @@ public class StudentTermRegistrationJpaController extends EngineJpaController {
         query.setParameter("termId", term_id);
         query.setParameter("admissionId", admissin_id);
         query.setParameter("classId", class_id);
+        return query;
+    }
+
+    /**
+     *
+     * @param em
+     * @param year_id
+     * @param admissin_id
+     * @return
+     */
+    public Query getQuery(EntityManager em, Long year_id, Long admissin_id) {
+        Query query = em.createQuery(""
+                + "select ST FROM StudentTermRegistration ST "
+                + " LEFT  JOIN FETCH ST.registrationClass "
+                + " LEFT JOIN FETCH ST.registrationStream "
+                + " LEFT JOIN FETCH ST.studentAdmission "
+                + " LEFT JOIN FETCH ST.registrationTerm"
+                + " WHERE"
+                + " ST.studentAdmission.id=:admissionId"
+                + " AND "
+                + " ST.studentAdmission.admissionTerm.studyYear.id=:studyyearid"
+                + "");
+        query.setParameter("studyyearid", year_id);
+        query.setParameter("admissionId", admissin_id);
+
         return query;
     }
 
