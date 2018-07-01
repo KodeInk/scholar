@@ -70,7 +70,11 @@ public class TermRegistrationService extends AbstractService<_TermRegistration, 
             StudentTermRegistration termRegistration = populateEntity(registrationClass, registrationTerm, admission, entity);
 
             validateIfAlreadyRegistered(registrationClass, registrationTerm, admission, data);
-            //todo: create entity
+            
+           
+            validateIfStudentRegisteredInStudyYear(registrationTerm, admission, data);
+          
+             //todo: create entity
             StudentTermRegistration studentTermRegistration = controller.create(termRegistration, data);
 
             TermRegistrationResponse registrationResponse = populateResponse(studentTermRegistration);
@@ -82,6 +86,8 @@ public class TermRegistrationService extends AbstractService<_TermRegistration, 
         }
 
     }
+
+    
 
     @Override
     public TermRegistrationResponse update(SchoolData data, _TermRegistration entity, AuthenticationResponse authentication) throws Exception {
@@ -158,6 +164,7 @@ public class TermRegistrationService extends AbstractService<_TermRegistration, 
         if (registration != null) {
             throw new BadRequestException("Student Already Registered ");
         }
+        
         return registration;
     }
 
@@ -188,6 +195,15 @@ public class TermRegistrationService extends AbstractService<_TermRegistration, 
         return registrationClass;
     }
 
+    public void validateIfStudentRegisteredInStudyYear(Terms registrationTerm, StudentAdmission admission, SchoolData data) {
+        StudentTermRegistration studentTermRegistration =    controller.findStudentByTermAndClassAndAdmission(registrationTerm.getStudyYear().getId(), admission.getId(), data);
+        if(studentTermRegistration != null){
+            throw new BadRequestException("Student Already Registered In This Academic Year");
+        }
+    
+    }
+    
+    
     public TermRegistrationResponse populateResponse(StudentTermRegistration studentTermRegistration) {
         if (studentTermRegistration != null) {
             AdmissionResponse admissionResponse = null;
