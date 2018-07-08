@@ -147,6 +147,25 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
 
     }
 
+    
+    public List<ClassResponse> search(SchoolData data, String query, AuthenticationResponse authentication) throws Exception {
+        check_access(ARCHIVE_CLASS_PERMISSION);
+        
+       List<Classes> list =  controller.query(query, data);
+     
+       List<ClassResponse> classResponses = new ArrayList<>();
+        list.forEach(respond->{
+            classResponses.add(populateResponse(respond));
+        });
+    
+              
+       
+       return classResponses;
+
+    }
+
+    
+    
     /**
      *
      * @param data
