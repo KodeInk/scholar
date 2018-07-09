@@ -129,28 +129,40 @@ public class ClassJpaController extends EngineJpaController {
         }
     }
 
-    public List<Classes> query(String searchQuery,SchoolData data) {
+    public Query getQuery(EntityManager em, String searchQuery) {
+
+        Query query = em.createQuery(""
+                + "select ST FROM Classes ST "
+                + " WHERE ST.name LIKE :name"
+                + " OR ST.code LIKE :code"
+                + "");
+
+        query.setParameter("name", "%"+searchQuery+"%");
+        query.setParameter("code", "%"+searchQuery+"%");
+
+        return query;
+
+    }
+
+    public List<Classes> query(String searchQuery, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         List<Classes> list = new ArrayList<>();
         try {
-            Query query = em.createNamedQuery("Classes.findClassByNameRankCode");
-            query.setParameter("name", searchQuery);
-            query.setParameter("rank", searchQuery);
-            query.setParameter("code", searchQuery);
+            Query query = getQuery(em, searchQuery);
+//            query.setParameter("name", "%"+searchQuery+"%");
 
+//            query.setParameter("code","a");
             list = query.getResultList();
         } catch (Exception er) {
             er.printStackTrace();
-            throw er;            
+            throw er;
         } finally {
             em.close();
         }
 
         return list;
     }
-    
-    
-    
+
     public List<Classes> findClasses(String name, String code, Long ranking, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         List<Classes> list = new ArrayList<>();
@@ -163,14 +175,13 @@ public class ClassJpaController extends EngineJpaController {
             list = query.getResultList();
         } catch (Exception er) {
             er.printStackTrace();
-            throw er;            
+            throw er;
         } finally {
             em.close();
         }
 
         return list;
     }
-    
 
     private List<Classes> findClassEntities(boolean all, int maxResults, int firstResult, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
