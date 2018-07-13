@@ -129,29 +129,13 @@ public class ClassJpaController extends EngineJpaController {
         }
     }
 
-    public Query getQuery(EntityManager em, String searchQuery) {
-
-        Query query = em.createQuery(""
-                + "select ST FROM Classes ST "
-                + " WHERE ST.name LIKE :name"
-                + " OR ST.code LIKE :code"
-                + "");
-
-        query.setParameter("name", "%"+searchQuery+"%");
-        query.setParameter("code", "%"+searchQuery+"%");
-
-        return query;
-
-    }
-
-    public List<Classes> query(String searchQuery, SchoolData data) {
+    public List<Classes> query(String searchQuery, int maxResults, int firstResult, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         List<Classes> list = new ArrayList<>();
         try {
             Query query = getQuery(em, searchQuery);
-//            query.setParameter("name", "%"+searchQuery+"%");
-
-//            query.setParameter("code","a");
+            query.setMaxResults(maxResults);
+            query.setFirstResult(firstResult);
             list = query.getResultList();
         } catch (Exception er) {
             er.printStackTrace();
@@ -262,6 +246,21 @@ public class ClassJpaController extends EngineJpaController {
                 em.close();
             }
         }
+    }
+
+    public Query getQuery(EntityManager em, String searchQuery) {
+
+        Query query = em.createQuery(""
+                + "select ST FROM Classes ST "
+                + " WHERE ST.name LIKE :name"
+                + " OR ST.code LIKE :code"
+                + "");
+
+        query.setParameter("name", "%" + searchQuery + "%");
+        query.setParameter("code", "%" + searchQuery + "%");
+
+        return query;
+
     }
 
 }

@@ -68,7 +68,7 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
         //todo: check if a class exists with the same name or code or ranking
         List<Classes> list = controller.findClasses(entity.getName(), entity.getCode(), entity.getRanking().longValue(), data);
 
-        if (list != null && list.size() > 0 ) {
+        if (list != null && list.size() > 0) {
             throw new BadRequestException("Class exists with same name code or ranking ");
         }
         //todo: add author_id,  add status enum
@@ -147,25 +147,20 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
 
     }
 
-    
-    public List<ClassResponse> search(SchoolData data, String query, AuthenticationResponse authentication) throws Exception {
+    public List<ClassResponse> search(SchoolData data, String query, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
         check_access(ARCHIVE_CLASS_PERMISSION);
-        
-       List<Classes> list =  controller.query(query, data);
-     
-       List<ClassResponse> classResponses = new ArrayList<>();
-        list.forEach(respond->{
+
+        List<Classes> list = controller.query(query, limit, ofset, data);
+
+        List<ClassResponse> classResponses = new ArrayList<>();
+        list.forEach(respond -> {
             classResponses.add(populateResponse(respond));
         });
-    
-              
-       
-       return classResponses;
+
+        return classResponses;
 
     }
 
-    
-    
     /**
      *
      * @param data
@@ -214,7 +209,7 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
      * @throws Exception
      */
     @Override
-    public ClassResponse getById(SchoolData data, Integer Id,AuthenticationResponse authentication) throws Exception {
+    public ClassResponse getById(SchoolData data, Integer Id, AuthenticationResponse authentication) throws Exception {
         check_access(LIST_CLASSES_PERMISSION);
         Classes _class = getClass(Id, data);
         if (_class == null) {

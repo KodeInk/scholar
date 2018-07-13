@@ -101,20 +101,19 @@ public class ClassEndpoint extends AbstractEndpoint<_Class, ClassResponse> {
         return service.list(tenantdata, offset, limit, this.authentication);
     }
 
-    
-     @GET
+    @GET
     @Path("/search/{query}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    
+
     public List<ClassResponse> search(
             @PathParam("query") String query,
-            @HeaderParam("authentication") String authentication, 
+            @HeaderParam("authentication") String authentication,
+            @DefaultValue("0") @QueryParam("offset") int offset,
+            @DefaultValue("50") @QueryParam("limit") int limit,
             @Context HttpServletRequest httpRequest) throws Exception, Exception {
         validate(tenantdata, authentication);
-        return service.search(tenantdata, query, this.authentication);
+        return service.search(tenantdata, query, offset, limit, this.authentication);
     }
 
-    
-    
 }
