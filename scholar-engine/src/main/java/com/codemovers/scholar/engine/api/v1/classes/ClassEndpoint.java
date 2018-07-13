@@ -113,6 +113,8 @@ public class ClassEndpoint extends AbstractEndpoint<_Class, ClassResponse> {
             @DefaultValue("50") @QueryParam("limit") int limit,
             @Context HttpServletRequest httpRequest) throws Exception, Exception {
         validate(tenantdata, authentication);
+         System.out.println("==============================");
+        System.out.println(query);
         return service.search(tenantdata, query, offset, limit, this.authentication);
     }
 
