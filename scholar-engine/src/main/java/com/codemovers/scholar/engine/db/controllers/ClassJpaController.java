@@ -5,7 +5,7 @@
  */
 package com.codemovers.scholar.engine.db.controllers;
 
-import com.codemovers.scholar.engine.api.v1.classes.entities._Class;
+import com.codemovers.scholar.engine.api.v1.classes.entities.SchoolClass;
 import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.BookType;

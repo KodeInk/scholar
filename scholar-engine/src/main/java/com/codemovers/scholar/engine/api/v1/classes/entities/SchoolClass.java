@@ -20,7 +20,7 @@ import java.util.Objects;
  * @author mover
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class _Class extends AbstractEntity {
+public class SchoolClass extends AbstractEntity {
 
     private Integer id;
     private @Mandatory
@@ -34,10 +34,10 @@ public class _Class extends AbstractEntity {
     private Integer author_id;
     private _Stream[] streams;
 
-    public _Class() {
+    public SchoolClass() {
     }
 
-    public _Class(Integer id) {
+    public SchoolClass(Integer id) {
         this.id = id;
     }
 
@@ -130,7 +130,7 @@ public class _Class extends AbstractEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final _Class other = (_Class) obj;
+        final SchoolClass other = (SchoolClass) obj;
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }

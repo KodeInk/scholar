@@ -7,7 +7,7 @@ package com.codemovers.scholar.engine.api.v1.classes;
 
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
-import com.codemovers.scholar.engine.api.v1.classes.entities._Class;
+import com.codemovers.scholar.engine.api.v1.classes.entities.SchoolClass;
 import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.List;
@@ -26,7 +26,7 @@ public interface ClassServiceInterface {
 
     ClassResponse archive(SchoolData data, Integer id) throws Exception;
 
-    ClassResponse create(SchoolData data, _Class entity, AuthenticationResponse authentication) throws Exception;
+    ClassResponse create(SchoolData data, SchoolClass entity, AuthenticationResponse authentication) throws Exception;
 
     ClassResponse delete(SchoolData data, Integer id) throws Exception;
 
@@ -36,6 +36,6 @@ public interface ClassServiceInterface {
 
     ClassResponse populateResponse(Classes entity);
 
-    ClassResponse update(SchoolData data, _Class entity, AuthenticationResponse authentication) throws Exception;
+    ClassResponse update(SchoolData data, SchoolClass entity, AuthenticationResponse authentication) throws Exception;
 
 }

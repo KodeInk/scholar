@@ -8,7 +8,7 @@ package com.codemovers.scholar.engine.api.v1.classes;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
-import com.codemovers.scholar.engine.api.v1.classes.entities._Class;
+import com.codemovers.scholar.engine.api.v1.classes.entities.SchoolClass;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.controllers.ClassJpaController;
 import com.codemovers.scholar.engine.db.entities.Classes;
@@ -26,7 +26,7 @@ import java.util.logging.Logger;
  *
  * @author mover 12/19/2017
  */
-public class ClassService extends AbstractService<_Class, ClassResponse> implements ClassServiceInterface {
+public class ClassService extends AbstractService<SchoolClass, ClassResponse> implements ClassServiceInterface {
 
     private static final Logger LOG = Logger.getLogger(UserService.class.getName());
     private final ClassJpaController controller;
@@ -59,7 +59,7 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
      * @throws Exception
      */
     @Override
-    public ClassResponse create(SchoolData data, _Class entity, AuthenticationResponse authentication) throws Exception {
+    public ClassResponse create(SchoolData data, SchoolClass entity, AuthenticationResponse authentication) throws Exception {
         //todo: check permissions
         check_access(CREATE_CLASS_PERMISSION);
         //todo: validate the class creation
@@ -170,7 +170,7 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
      * @throws Exception
      */
     @Override
-    public ClassResponse update(SchoolData data, _Class entity, AuthenticationResponse authentication) throws Exception {
+    public ClassResponse update(SchoolData data, SchoolClass entity, AuthenticationResponse authentication) throws Exception {
         check_access(UPDATE_CLASS_PERMISSION);
         //todo: validate
         entity.validate();
@@ -255,7 +255,7 @@ public class ClassService extends AbstractService<_Class, ClassResponse> impleme
      * @param entity
      * @return
      */
-    public Classes getClasses(_Class entity) {
+    public Classes getClasses(SchoolClass entity) {
         // call the controller and create the class
         Classes classes = new Classes();
         classes.setAuthor(new Users(entity.getAuthor_id().longValue()));

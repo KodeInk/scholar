@@ -8,7 +8,7 @@ package com.codemovers.scholar.engine.api.v1.classes;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEndpoint;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
-import com.codemovers.scholar.engine.api.v1.classes.entities._Class;
+import com.codemovers.scholar.engine.api.v1.classes.entities.SchoolClass;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
@@ -34,7 +34,7 @@ import javax.ws.rs.core.MediaType;
  * @author mover 12/19/2017
  */
 @Path("/")
-public class ClassEndpoint extends AbstractEndpoint<_Class, ClassResponse> {
+public class ClassEndpoint extends AbstractEndpoint<SchoolClass, ClassResponse> {
 
     private static final Logger LOG = Logger.getLogger(ClassEndpoint.class.getName());
     @Context
@@ -65,7 +65,7 @@ public class ClassEndpoint extends AbstractEndpoint<_Class, ClassResponse> {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public ClassResponse create(_Class entity, @HeaderParam("authentication") String authentication, @Context HttpServletRequest httpRequest) throws Exception {
+    public ClassResponse create(SchoolClass entity, @HeaderParam("authentication") String authentication, @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.create(tenantdata, entity, this.authentication);
     }
@@ -74,7 +74,7 @@ public class ClassEndpoint extends AbstractEndpoint<_Class, ClassResponse> {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public ClassResponse update(_Class entity, @HeaderParam("authentication") String authentication, @Context HttpServletRequest httpRequest) throws Exception {
+    public ClassResponse update(SchoolClass entity, @HeaderParam("authentication") String authentication, @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.update(tenantdata, entity, this.authentication);
     }
@@ -98,6 +98,10 @@ public class ClassEndpoint extends AbstractEndpoint<_Class, ClassResponse> {
             @DefaultValue("50") @QueryParam("limit") int limit,
             @HeaderParam("authentication") String authentication, @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
+        System.out.println("---------------------------");
+        System.out.println("OFFSET : " + offset);
+        System.out.println("LIMIT :  " + limit);
+        System.out.println("---------------------------");
         return service.list(tenantdata, offset, limit, this.authentication);
     }
 
@@ -113,7 +117,7 @@ public class ClassEndpoint extends AbstractEndpoint<_Class, ClassResponse> {
             @DefaultValue("50") @QueryParam("limit") int limit,
             @Context HttpServletRequest httpRequest) throws Exception, Exception {
         validate(tenantdata, authentication);
-         System.out.println("==============================");
+        System.out.println("==============================");
         System.out.println(query);
         return service.search(tenantdata, query, offset, limit, this.authentication);
     }
