@@ -65,7 +65,9 @@ public class ClassEndpoint extends AbstractEndpoint<SchoolClass, ClassResponse> 
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public ClassResponse create(SchoolClass entity, @HeaderParam("authentication") String authentication, @Context HttpServletRequest httpRequest) throws Exception {
+    public ClassResponse create(SchoolClass entity,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.create(tenantdata, entity, this.authentication);
     }
@@ -74,7 +76,9 @@ public class ClassEndpoint extends AbstractEndpoint<SchoolClass, ClassResponse> 
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public ClassResponse update(SchoolClass entity, @HeaderParam("authentication") String authentication, @Context HttpServletRequest httpRequest) throws Exception {
+    public ClassResponse update(SchoolClass entity,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.update(tenantdata, entity, this.authentication);
     }

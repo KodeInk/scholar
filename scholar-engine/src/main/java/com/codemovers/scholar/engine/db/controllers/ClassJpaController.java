@@ -167,6 +167,27 @@ public class ClassJpaController extends EngineJpaController {
         return list;
     }
 
+    public List<Classes> findClasses(Integer classId, String name, String code, Long ranking, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
+        List<Classes> list = new ArrayList<>();
+        try {
+            Query query = em.createNamedQuery("Classes.findClassByNameRankCodeOnEdit");
+            query.setParameter("name", name);
+            query.setParameter("rank", ranking);
+            query.setParameter("code", code);
+            query.setParameter("id", classId.longValue());
+
+            list = query.getResultList();
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        } finally {
+            em.close();
+        }
+
+        return list;
+    }
+
     private List<Classes> findClassEntities(boolean all, int maxResults, int firstResult, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {

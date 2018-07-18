@@ -43,13 +43,13 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Classes.findByRanking", query = "SELECT c FROM Classes c WHERE c.ranking = :ranking")
     , @NamedQuery(name = "Classes.findByStatus", query = "SELECT c FROM Classes c WHERE c.status = :status")
     , @NamedQuery(name = "Classes.findByDateCreated", query = "SELECT c FROM Classes c WHERE c.dateCreated = :dateCreated")
-    , @NamedQuery(name = "Classes.findClassByNameRankCode", query = "SELECT c FROM Classes c WHERE (c.name = :name OR c.ranking = :rank OR c.code = :code )")
+    , @NamedQuery(name = "Classes.findClassByNameRankCode", query = "SELECT c FROM Classes c WHERE (c.name = :name OR c.ranking = :rank OR c.code = :code ) ")
+    , @NamedQuery(name = "Classes.findClassByNameRankCodeOnEdit", query = "SELECT c FROM Classes c WHERE (c.name = :name OR c.ranking = :rank OR c.code = :code ) AND c.id <> :id")
     , @NamedQuery(name = "Classes.search", query = "SELECT c FROM Classes c WHERE (c.name = :search  OR c.code = :search )")
-        
+
 })
 public class Classes implements Serializable {
 
-   
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -87,10 +87,10 @@ public class Classes implements Serializable {
     private Collection<ClassStream> classStreamCollection;
     @OneToMany(mappedBy = "classId")
     private Collection<SubjectClass> subjectClassCollection;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "admissionClass")
     private Collection<StudentAdmission> studentAdmissionCollection;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "classId")
     private Collection<Marksheet> marksheetCollection;
     @OneToMany(mappedBy = "examId")
@@ -237,7 +237,5 @@ public class Classes implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.Classes[ id=" + id + " ]";
     }
-
-    
 
 }

@@ -194,6 +194,14 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
             }
         }
 
+        //todo: check if there is a nother class withthe same ranking or name apart from this class 
+          List<Classes> list = controller.findClasses(entity.getName(), entity.getCode(), entity.getRanking().longValue(), data);
+
+        if (list != null && list.size() > 0) {
+            throw new BadRequestException("Class exists with same name code or ranking ");
+        }
+     
+        
         //todo: update
         classes = controller.edit(classes, data);
         return populateResponse(classes);
