@@ -74,7 +74,7 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
         //todo: add author_id,  add status enum
         entity.setAuthor_id(authentication.getId());
         entity.setStatus(StatusEnum.ACTIVE);
-        Classes classes = getClasses(entity);
+        Classes classes = populateEntity(entity);
 
         classes = controller.create(classes, data);
         return populateResponse(classes);
@@ -180,33 +180,22 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
         }
         Classes classes = getClass(entity.getId(), data);
 
-        if (entity.getName() != null && !entity.getName().equalsIgnoreCase(classes.getName())) {
-            classes.setName(entity.getName());
-        }
-
-        if (entity.getCode() != null && !entity.getCode().equalsIgnoreCase(classes.getCode())) {
-            classes.setCode(entity.getCode());
-        }
-        if (entity.getRanking() != null) {
-            Long ranking = classes.getRanking();
-            if (entity.getRanking() != null && (ranking.intValue() != entity.getRanking())) {
-                classes.setRanking(ranking);
-            }
-        }
+        populateEntity(entity, classes);
 
         //todo: check if there is a nother class withthe same ranking or name apart from this class 
-          List<Classes> list = controller.findClasses(entity.getId(),entity.getName(), entity.getCode(), entity.getRanking().longValue(), data);
+        List<Classes> list = controller.findClasses(entity.getId(), entity.getName(), entity.getCode(), entity.getRanking().longValue(), data);
 
         if (list != null && list.size() > 0) {
             throw new BadRequestException("Another Class exists with same name code or ranking ");
         }
-     
-        
+
         //todo: update
         classes = controller.edit(classes, data);
         return populateResponse(classes);
 
     }
+
+   
 
     /**
      *
@@ -263,7 +252,7 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
      * @param entity
      * @return
      */
-    public Classes getClasses(SchoolClass entity) {
+    public Classes populateEntity(SchoolClass entity) {
         // call the controller and create the class
         Classes classes = new Classes();
         classes.setAuthor(new Users(entity.getAuthor_id().longValue()));
@@ -274,5 +263,26 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
         classes.setStatus(entity.getStatus().name());
         return classes;
     }
+    
+    /**
+     *
+     * @param entity
+     * @param classes
+     */
+    public void populateEntity(SchoolClass entity, Classes classes) {
+        if (entity.getName() != null && !entity.getName().equalsIgnoreCase(classes.getName())) {
+            classes.setName(entity.getName());
+        }
+        
+        if (entity.getCode() != null && !entity.getCode().equalsIgnoreCase(classes.getCode())) {
+            classes.setCode(entity.getCode());
+        }
+        if (entity.getRanking() != null) {
+            Long ranking = entity.getRanking().longValue();
+            classes.setRanking(ranking);
+            
+        }
+    }
+     
 
 }
