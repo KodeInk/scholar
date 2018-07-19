@@ -198,7 +198,7 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
           List<Classes> list = controller.findClasses(entity.getId(),entity.getName(), entity.getCode(), entity.getRanking().longValue(), data);
 
         if (list != null && list.size() > 0) {
-            throw new BadRequestException("Class exists with same name code or ranking ");
+            throw new BadRequestException("Another Class exists with same name code or ranking ");
         }
      
         
