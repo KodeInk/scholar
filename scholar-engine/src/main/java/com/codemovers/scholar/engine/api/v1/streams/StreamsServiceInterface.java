@@ -7,7 +7,7 @@ package com.codemovers.scholar.engine.api.v1.streams;
 
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.streams.entities.StreamResponse;
-import com.codemovers.scholar.engine.api.v1.streams.entities._Stream;
+import com.codemovers.scholar.engine.api.v1.streams.entities.Stream;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Streams;
 import java.util.List;
@@ -26,7 +26,7 @@ public interface StreamsServiceInterface {
 
     StreamResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception;
 
-    StreamResponse create(SchoolData data, _Stream entity, AuthenticationResponse authentication) throws Exception;
+    StreamResponse create(SchoolData data, Stream entity, AuthenticationResponse authentication) throws Exception;
 
     StreamResponse delete(SchoolData data, Integer id) throws Exception;
 
@@ -36,6 +36,6 @@ public interface StreamsServiceInterface {
 
     StreamResponse populateResponse(Streams entity);
 
-    StreamResponse update(SchoolData data, _Stream entity, AuthenticationResponse authentication) throws Exception;
+    StreamResponse update(SchoolData data, Stream entity, AuthenticationResponse authentication) throws Exception;
 
 }

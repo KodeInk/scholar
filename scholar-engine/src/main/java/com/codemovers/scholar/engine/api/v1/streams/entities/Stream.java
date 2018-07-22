@@ -18,7 +18,7 @@ import java.util.Objects;
  * @author mover 12/19/2017
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class _Stream extends AbstractEntity {
+public class Stream extends AbstractEntity {
 
     private Integer id;
     private @Mandatory
@@ -31,10 +31,10 @@ public class _Stream extends AbstractEntity {
     Integer author_id;
     private Integer[] classes;
 
-    public _Stream() {
+    public Stream() {
     }
 
-    public _Stream(Integer id) {
+    public Stream(Integer id) {
         this.id = id;
     }
 
@@ -117,7 +117,7 @@ public class _Stream extends AbstractEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final _Stream other = (_Stream) obj;
+        final Stream other = (Stream) obj;
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }

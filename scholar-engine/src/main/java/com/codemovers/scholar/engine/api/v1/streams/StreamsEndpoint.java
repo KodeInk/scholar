@@ -8,7 +8,7 @@ package com.codemovers.scholar.engine.api.v1.streams;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEndpoint;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.streams.entities.StreamResponse;
-import com.codemovers.scholar.engine.api.v1.streams.entities._Stream;
+import com.codemovers.scholar.engine.api.v1.streams.entities.Stream;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
@@ -30,7 +30,7 @@ import javax.ws.rs.core.MediaType;
  * @author mover 12/19/2017
  */
 @Path("/")
-public class StreamsEndpoint extends AbstractEndpoint<_Stream, StreamResponse> {
+public class StreamsEndpoint extends AbstractEndpoint<Stream, StreamResponse> {
 
     private static final Logger LOG = Logger.getLogger(StreamsEndpoint.class.getName());
     @Context
@@ -51,7 +51,7 @@ public class StreamsEndpoint extends AbstractEndpoint<_Stream, StreamResponse> {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public StreamResponse create(_Stream entity, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public StreamResponse create(Stream entity, String authentication, HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.create(tenantdata, entity, this.authentication);
     }
@@ -60,7 +60,7 @@ public class StreamsEndpoint extends AbstractEndpoint<_Stream, StreamResponse> {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public StreamResponse update(_Stream entity, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public StreamResponse update(Stream entity, String authentication, HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.update(tenantdata, entity, this.authentication);
     }

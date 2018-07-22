@@ -10,7 +10,7 @@ import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 
 import com.codemovers.scholar.engine.api.v1.streams.entities.StreamResponse;
-import com.codemovers.scholar.engine.api.v1.streams.entities._Stream;
+import com.codemovers.scholar.engine.api.v1.streams.entities.Stream;
 import com.codemovers.scholar.engine.db.controllers.StreamsJpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Streams;
@@ -27,7 +27,7 @@ import java.util.logging.Logger;
  *
  * @author mover 12/19/2017
  */
-public class StreamsService extends AbstractService<_Stream, StreamResponse> implements StreamsServiceInterface {
+public class StreamsService extends AbstractService<Stream, StreamResponse> implements StreamsServiceInterface {
 
     private static final Logger LOG = Logger.getLogger(StreamsService.class.getName());
     private final StreamsJpaController controller;
@@ -45,7 +45,7 @@ public class StreamsService extends AbstractService<_Stream, StreamResponse> imp
     }
 
     @Override
-    public StreamResponse create(SchoolData data, _Stream entity, AuthenticationResponse authentication) throws Exception {
+    public StreamResponse create(SchoolData data, Stream entity, AuthenticationResponse authentication) throws Exception {
 
         //todo: check access
         check_access(CREATE_STREAM_PERMISSION);
@@ -68,7 +68,7 @@ public class StreamsService extends AbstractService<_Stream, StreamResponse> imp
     }
 
     @Override
-    public StreamResponse update(SchoolData data, _Stream entity, AuthenticationResponse authentication) throws Exception {
+    public StreamResponse update(SchoolData data, Stream entity, AuthenticationResponse authentication) throws Exception {
         check_access(UPDATE_STREAM_PERMISSION);
         entity.validate();
 

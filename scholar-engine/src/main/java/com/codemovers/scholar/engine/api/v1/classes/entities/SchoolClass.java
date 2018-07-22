@@ -7,7 +7,7 @@ package com.codemovers.scholar.engine.api.v1.classes.entities;
 
 import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
-import com.codemovers.scholar.engine.api.v1.streams.entities._Stream;
+import com.codemovers.scholar.engine.api.v1.streams.entities.Stream;
 import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -32,7 +32,7 @@ public class SchoolClass extends AbstractEntity {
     private StatusEnum status;
     private Date date_created;
     private Integer author_id;
-    private _Stream[] streams;
+    private Stream[] streams;
 
     public SchoolClass() {
     }
@@ -97,11 +97,11 @@ public class SchoolClass extends AbstractEntity {
         this.author_id = author_id;
     }
 
-    public _Stream[] getStreams() {
+    public Stream[] getStreams() {
         return streams;
     }
 
-    public void setStreams(_Stream[] streams) {
+    public void setStreams(Stream[] streams) {
         this.streams = streams;
     }
 
