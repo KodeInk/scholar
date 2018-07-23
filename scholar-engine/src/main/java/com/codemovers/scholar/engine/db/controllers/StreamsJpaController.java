@@ -105,9 +105,14 @@ public class StreamsJpaController extends EngineJpaController {
         EntityManager em = getEntityManager(data.getExternalId());
         List<Streams> list = new ArrayList<>();
         try {
-            Query query = getQuery(em, name, code);
-            query.setMaxResults(maxResults);
-            query.setFirstResult(firstResult);
+            Query query = em.createNamedQuery("Streams.findByNameorCode", Streams.class);
+            query.setParameter("name", name);
+            query.setParameter("code", code);
+            query.setParameter("status", "ACTIVE");
+//            
+//                    //getQuery(em, name, code);
+//            query.setMaxResults(maxResults);
+//            query.setFirstResult(firstResult);
             list = query.getResultList();
         } catch (Exception er) {
             er.printStackTrace();

@@ -41,7 +41,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Streams.findByName", query = "SELECT s FROM Streams s WHERE s.name = :name")
     , @NamedQuery(name = "Streams.findByCode", query = "SELECT s FROM Streams s WHERE s.code = :code")
     , @NamedQuery(name = "Streams.findByStatus", query = "SELECT s FROM Streams s WHERE s.status = :status")
-    , @NamedQuery(name = "Streams.findByDateCreated", query = "SELECT s FROM Streams s WHERE s.dateCreated = :dateCreated")})
+    , @NamedQuery(name = "Streams.findByDateCreated", query = "SELECT s FROM Streams s WHERE s.dateCreated = :dateCreated")
+    , @NamedQuery(name = "Streams.findByNameorCode", query = "SELECT s FROM Streams s WHERE s.code LIKE :code OR s.name LIKE :name AND s.status LIKE :status ")
+})
 public class Streams implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -70,11 +72,11 @@ public class Streams implements Serializable {
     @Column(name = "date_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
-    
+
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users author;
-   
+
     public Streams() {
     }
 
@@ -130,8 +132,6 @@ public class Streams implements Serializable {
         this.dateCreated = dateCreated;
     }
 
-  
-
     public Users getAuthor() {
         return author;
     }
@@ -139,8 +139,6 @@ public class Streams implements Serializable {
     public void setAuthor(Users author) {
         this.author = author;
     }
-
- 
 
     @Override
     public int hashCode() {

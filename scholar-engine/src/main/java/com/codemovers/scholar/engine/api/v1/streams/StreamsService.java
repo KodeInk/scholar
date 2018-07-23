@@ -199,7 +199,7 @@ public class StreamsService extends AbstractService<Stream, StreamResponse> impl
      */
     public void validateIfStreamExists(Streams stream, SchoolData data) throws BadRequestException {
         //TODO: CHECK TO SEE THAT THERE IS NO OTHER STREAM WITH SAME NAME OR CODE
-        List<Streams> list =   controller.findStreams(stream.getName(), stream.getCode(), -1, -1, data);
+        List<Streams> list =   controller.findStreams(stream.getName(), stream.getCode(), 0, 1, data);
         if(list.size() > 0 ){
             throw new BadRequestException("A stream  exists with the same name or code ");
         }
