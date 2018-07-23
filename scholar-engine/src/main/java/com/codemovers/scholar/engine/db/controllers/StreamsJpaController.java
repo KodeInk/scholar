@@ -109,10 +109,8 @@ public class StreamsJpaController extends EngineJpaController {
             query.setParameter("name", name);
             query.setParameter("code", code);
             query.setParameter("status", "ACTIVE");
-//            
-//                    //getQuery(em, name, code);
-//            query.setMaxResults(maxResults);
-//            query.setFirstResult(firstResult);
+            query.setMaxResults(maxResults);
+            query.setFirstResult(firstResult);
             list = query.getResultList();
         } catch (Exception er) {
             er.printStackTrace();
