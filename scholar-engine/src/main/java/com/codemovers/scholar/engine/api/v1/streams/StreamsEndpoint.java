@@ -12,15 +12,18 @@ import com.codemovers.scholar.engine.api.v1.streams.entities.Stream;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -35,7 +38,7 @@ public class StreamsEndpoint extends AbstractEndpoint<Stream, StreamResponse> {
     private static final Logger LOG = Logger.getLogger(StreamsEndpoint.class.getName());
     @Context
     private ContainerRequestContext context;
-    StreamsService service = null;
+    private StreamsService service = null;
     private AuthenticationResponse authentication = null;
 
     public StreamsEndpoint() {
@@ -51,7 +54,11 @@ public class StreamsEndpoint extends AbstractEndpoint<Stream, StreamResponse> {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public StreamResponse create(Stream entity, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public StreamResponse create(
+            Stream entity,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest
+    ) throws Exception {
         validate(tenantdata, authentication);
         return service.create(tenantdata, entity, this.authentication);
     }
@@ -60,21 +67,37 @@ public class StreamsEndpoint extends AbstractEndpoint<Stream, StreamResponse> {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public StreamResponse update(Stream entity, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public StreamResponse update(
+            Stream entity,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.update(tenantdata, entity, this.authentication);
     }
 
+    @POST
+    @Path("/archive/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public StreamResponse archive(Integer id, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public StreamResponse archive(
+            @PathParam("id") Integer id,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest
+    ) throws Exception {
         validate(tenantdata, authentication);
         return service.archive(tenantdata, id, this.authentication);
     }
 
     @Override
-    public List<StreamResponse> list(int start, int end, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public List<StreamResponse> list(
+            @DefaultValue("0") @QueryParam("offset") int offset,
+            @DefaultValue("50") @QueryParam("limit") int limit,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest
+    ) throws Exception {
         validate(tenantdata, authentication);
-        return service.list(tenantdata, start, end, this.authentication);
+        return service.list(tenantdata, offset, limit, this.authentication);
     }
 
 }
