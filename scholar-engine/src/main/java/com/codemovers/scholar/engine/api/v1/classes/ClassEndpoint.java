@@ -100,7 +100,8 @@ public class ClassEndpoint extends AbstractEndpoint<SchoolClass, ClassResponse> 
     public List<ClassResponse> list(
             @DefaultValue("0") @QueryParam("offset") int offset,
             @DefaultValue("50") @QueryParam("limit") int limit,
-            @HeaderParam("authentication") String authentication, @Context HttpServletRequest httpRequest) throws Exception {
+            @HeaderParam("authentication") String authentication, 
+            @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         System.out.println("---------------------------");
         System.out.println("OFFSET : " + offset);

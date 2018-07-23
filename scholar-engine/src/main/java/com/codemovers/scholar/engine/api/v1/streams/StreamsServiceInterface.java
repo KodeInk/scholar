@@ -28,11 +28,11 @@ public interface StreamsServiceInterface {
 
     StreamResponse create(SchoolData data, Stream entity, AuthenticationResponse authentication) throws Exception;
 
-    StreamResponse delete(SchoolData data, Integer id) throws Exception;
+    StreamResponse delete(SchoolData data, Integer id,AuthenticationResponse authentication) throws Exception;
 
-    StreamResponse getById(SchoolData data, Integer Id) throws Exception;
+    StreamResponse getById(SchoolData data, Integer Id,AuthenticationResponse authentication) throws Exception;
 
-    List<StreamResponse> list(SchoolData data, Integer ofset, Integer limit) throws Exception;
+    List<StreamResponse> list(SchoolData data, Integer ofset, Integer limit,AuthenticationResponse authentication) throws Exception;
 
     StreamResponse populateResponse(Streams entity);
 

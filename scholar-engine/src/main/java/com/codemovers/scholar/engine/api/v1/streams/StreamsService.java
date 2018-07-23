@@ -105,7 +105,7 @@ public class StreamsService extends AbstractService<Stream, StreamResponse> impl
     }
 
     @Override
-    public List<StreamResponse> list(SchoolData data, Integer ofset, Integer limit) throws Exception {
+    public List<StreamResponse> list(SchoolData data, Integer ofset, Integer limit,AuthenticationResponse authentication) throws Exception {
         check_access(LIST_STREAM_PERMISSION);
         List<Streams> list = controller.findStreams(ofset, limit, data);
         List<StreamResponse> responses = new ArrayList<>();
@@ -120,7 +120,7 @@ public class StreamsService extends AbstractService<Stream, StreamResponse> impl
     }
 
     @Override
-    public StreamResponse getById(SchoolData data, Integer Id) throws Exception {
+    public StreamResponse getById(SchoolData data, Integer Id,AuthenticationResponse authentication) throws Exception {
         check_access(LIST_STREAM_PERMISSION);
         Streams _stream = controller.findStream(Id, data);
         return populateResponse(_stream);
@@ -128,7 +128,7 @@ public class StreamsService extends AbstractService<Stream, StreamResponse> impl
     }
 
     @Override
-    public StreamResponse delete(SchoolData data, Integer id) throws Exception {
+    public StreamResponse delete(SchoolData data, Integer id,AuthenticationResponse authentication) throws Exception {
         check_access(DELETE_STREAM_PERMISSION);
         controller.destroy(id, data);
         return null;
