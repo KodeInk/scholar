@@ -33,10 +33,17 @@ public class StreamsService extends AbstractService<Stream, StreamResponse> impl
     private final StreamsJpaController controller;
     private static StreamsService service = null;
 
+    /**
+     *
+     */
     public StreamsService() {
         controller = StreamsJpaController.getInstance();
     }
 
+    /**
+     *
+     * @return
+     */
     public static StreamsService getInstance() {
         if (service == null) {
             service = new StreamsService();
@@ -44,6 +51,14 @@ public class StreamsService extends AbstractService<Stream, StreamResponse> impl
         return service;
     }
 
+    /**
+     *
+     * @param data
+     * @param entity
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
     public StreamResponse create(SchoolData data, Stream entity, AuthenticationResponse authentication) throws Exception {
 
@@ -62,11 +77,20 @@ public class StreamsService extends AbstractService<Stream, StreamResponse> impl
         stream.setAuthor(new Users(entity.getAuthor_id().longValue()));
         stream.setStatus(entity.getStatus().toString());
 
+        validateIfStreamExists(stream, data);
         stream = controller.create(stream, data);
 
         return populateResponse(stream);
     }
 
+    /**
+     *
+     * @param data
+     * @param entity
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
     public StreamResponse update(SchoolData data, Stream entity, AuthenticationResponse authentication) throws Exception {
         check_access(UPDATE_STREAM_PERMISSION);
@@ -91,6 +115,14 @@ public class StreamsService extends AbstractService<Stream, StreamResponse> impl
         return populateResponse(stream);
     }
 
+    /**
+     *
+     * @param data
+     * @param id
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
     public StreamResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
         check_access(ARCHIVE_STREAM_PERMISSION);
@@ -104,6 +136,15 @@ public class StreamsService extends AbstractService<Stream, StreamResponse> impl
         return populateResponse(_stream);
     }
 
+    /**
+     *
+     * @param data
+     * @param ofset
+     * @param limit
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<StreamResponse> list(SchoolData data, Integer ofset, Integer limit,AuthenticationResponse authentication) throws Exception {
         check_access(LIST_STREAM_PERMISSION);
@@ -119,6 +160,14 @@ public class StreamsService extends AbstractService<Stream, StreamResponse> impl
         return responses;
     }
 
+    /**
+     *
+     * @param data
+     * @param Id
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
     public StreamResponse getById(SchoolData data, Integer Id,AuthenticationResponse authentication) throws Exception {
         check_access(LIST_STREAM_PERMISSION);
@@ -127,12 +176,36 @@ public class StreamsService extends AbstractService<Stream, StreamResponse> impl
 
     }
 
+    /**
+     *
+     * @param data
+     * @param id
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
     public StreamResponse delete(SchoolData data, Integer id,AuthenticationResponse authentication) throws Exception {
         check_access(DELETE_STREAM_PERMISSION);
         controller.destroy(id, data);
         return null;
     }
+    
+    /**
+     *
+     * @param stream
+     * @param data
+     * @throws BadRequestException
+     */
+    public void validateIfStreamExists(Streams stream, SchoolData data) throws BadRequestException {
+        //TODO: CHECK TO SEE THAT THERE IS NO OTHER STREAM WITH SAME NAME OR CODE
+        List<Streams> list =   controller.findStreams(stream.getName(), stream.getCode(), -1, -1, data);
+        if(list.size() > 0 ){
+            throw new BadRequestException("A stream  exists with the same name or code ");
+        }
+    }
+
+      
 
     @Override
     public StreamResponse populateResponse(Streams entity) {

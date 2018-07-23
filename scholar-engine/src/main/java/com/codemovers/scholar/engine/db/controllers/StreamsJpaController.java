@@ -11,6 +11,7 @@ import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.Roles;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Streams;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -100,6 +101,24 @@ public class StreamsJpaController extends EngineJpaController {
         }
     }
 
+    public List<Streams> findStreams(String name, String code, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
+        List<Streams> list = new ArrayList<>();
+        try {
+            Query query = getQuery(em, name, code);
+            query.setMaxResults(maxResults);
+            query.setFirstResult(firstResult);
+            list = query.getResultList();
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        } finally {
+            em.close();
+        }
+
+        return list;
+    }
+
     private List<Streams> findStreams(boolean all, int maxResults, int firstResult, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
@@ -156,6 +175,21 @@ public class StreamsJpaController extends EngineJpaController {
                 em.close();
             }
         }
+    }
+
+    public Query getQuery(EntityManager em, String name, String code) {
+
+        Query query = em.createQuery(""
+                + "select ST FROM Streams ST "
+                + " WHERE ST.name LIKE :name"
+                + " OR ST.code LIKE :code"
+                + "");
+
+        query.setParameter("name", name);
+        query.setParameter("code", code);
+
+        return query;
+
     }
 
 }

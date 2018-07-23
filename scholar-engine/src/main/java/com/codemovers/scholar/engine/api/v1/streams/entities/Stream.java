@@ -27,8 +27,7 @@ public class Stream extends AbstractEntity {
     String code;
     private StatusEnum status;
     private Date date_created;
-    private @Mandatory
-    Integer author_id;
+    private Integer author_id;
     private Integer[] classes;
 
     public Stream() {
