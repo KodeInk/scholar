@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -89,6 +90,9 @@ public class StreamsEndpoint extends AbstractEndpoint<Stream, StreamResponse> {
         return service.archive(tenantdata, id, this.authentication);
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Override
     public List<StreamResponse> list(
             @DefaultValue("0") @QueryParam("offset") int offset,

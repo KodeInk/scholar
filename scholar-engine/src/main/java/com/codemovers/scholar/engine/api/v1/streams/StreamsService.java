@@ -107,7 +107,7 @@ public class StreamsService extends AbstractService<Stream, StreamResponse> impl
     @Override
     public List<StreamResponse> list(SchoolData data, Integer ofset, Integer limit,AuthenticationResponse authentication) throws Exception {
         check_access(LIST_STREAM_PERMISSION);
-        List<Streams> list = controller.findStreams(ofset, limit, data);
+        List<Streams> list = controller.findStreams(limit,ofset, data);
         List<StreamResponse> responses = new ArrayList<>();
         if (list != null) {
 

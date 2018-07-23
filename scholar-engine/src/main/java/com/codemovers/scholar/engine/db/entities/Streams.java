@@ -70,10 +70,7 @@ public class Streams implements Serializable {
     @Column(name = "date_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
-    @OneToMany(mappedBy = "streamId")
-    private Collection<ClassStream> classStreamCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "admissionStream")
-    private Collection<StudentAdmission> studentAdmissionCollection;
+    
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users author;
@@ -133,23 +130,7 @@ public class Streams implements Serializable {
         this.dateCreated = dateCreated;
     }
 
-    @XmlTransient
-    public Collection<ClassStream> getClassStreamCollection() {
-        return classStreamCollection;
-    }
-
-    public void setClassStreamCollection(Collection<ClassStream> classStreamCollection) {
-        this.classStreamCollection = classStreamCollection;
-    }
-
-    @XmlTransient
-    public Collection<StudentAdmission> getStudentAdmissionCollection() {
-        return studentAdmissionCollection;
-    }
-
-    public void setStudentAdmissionCollection(Collection<StudentAdmission> studentAdmissionCollection) {
-        this.studentAdmissionCollection = studentAdmissionCollection;
-    }
+  
 
     public Users getAuthor() {
         return author;
