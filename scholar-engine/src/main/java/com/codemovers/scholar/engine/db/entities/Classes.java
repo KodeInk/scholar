@@ -83,7 +83,7 @@ public class Classes implements Serializable {
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users author;
-    @OneToMany(mappedBy = "classId")
+    @OneToMany(mappedBy = "streamClass")
     private Collection<ClassStream> classStreamCollection;
     @OneToMany(mappedBy = "classId")
     private Collection<SubjectClass> subjectClassCollection;

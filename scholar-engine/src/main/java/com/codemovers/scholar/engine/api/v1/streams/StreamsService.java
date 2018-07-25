@@ -9,12 +9,10 @@ import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import static com.codemovers.scholar.engine.api.v1.classes.ClassServiceInterface.ARCHIVE_CLASS_PERMISSION;
-import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 
 import com.codemovers.scholar.engine.api.v1.streams.entities.StreamResponse;
 import com.codemovers.scholar.engine.api.v1.streams.entities.Stream;
 import com.codemovers.scholar.engine.db.controllers.StreamsJpaController;
-import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Streams;
 import com.codemovers.scholar.engine.db.entities.Users;
@@ -103,7 +101,7 @@ public class StreamsService extends AbstractService<Stream, StreamResponse> impl
             throw new BadRequestException("UNIQUE ID MISSING");
         }
 
-        Streams stream = controller.findStream(entity.getId(), data);
+        Streams stream = getStream(entity.getId(), data);
 
         if (entity.getName() != null && !entity.getName().equalsIgnoreCase(stream.getName())) {
             stream.setName(entity.getName());
@@ -130,7 +128,7 @@ public class StreamsService extends AbstractService<Stream, StreamResponse> impl
     @Override
     public StreamResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
         check_access(ARCHIVE_STREAM_PERMISSION);
-        Streams _stream = controller.findStream(id, data);
+        Streams _stream = getStream(id, data);
         if (_stream == null) {
             throw new BadRequestException(" Stream does not exist ");
         }
@@ -189,9 +187,20 @@ public class StreamsService extends AbstractService<Stream, StreamResponse> impl
     @Override
     public StreamResponse getById(SchoolData data, Integer Id, AuthenticationResponse authentication) throws Exception {
         check_access(LIST_STREAM_PERMISSION);
-        Streams _stream = controller.findStream(Id, data);
+        Streams _stream = getStream(Id, data);
         return populateResponse(_stream);
 
+    }
+
+    /**
+     *
+     * @param Id
+     * @param data
+     * @return
+     */
+    public  Streams getStream(Integer Id, SchoolData data) {
+        Streams _stream = controller.findStream(Id, data);
+        return _stream;
     }
 
     /**

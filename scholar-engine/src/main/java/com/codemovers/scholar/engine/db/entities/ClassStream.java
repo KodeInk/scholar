@@ -51,13 +51,13 @@ public class ClassStream implements Serializable {
     private Date dateCreated;
     @JoinColumn(name = "class_id", referencedColumnName = "id")
     @ManyToOne
-    private Classes classId;
+    private Classes streamClass;
     @JoinColumn(name = "stream_id", referencedColumnName = "id")
     @ManyToOne
-    private Streams streamId;
+    private Streams classStream;
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne
-    private Users authorId;
+    private Users author;
 
     public ClassStream() {
     }
@@ -90,28 +90,28 @@ public class ClassStream implements Serializable {
         this.dateCreated = dateCreated;
     }
 
-    public Classes getClassId() {
-        return classId;
+    public Classes getStreamClass() {
+        return streamClass;
     }
 
-    public void setClassId(Classes classId) {
-        this.classId = classId;
+    public void setStreamClass(Classes streamClass) {
+        this.streamClass = streamClass;
     }
 
-    public Streams getStreamId() {
-        return streamId;
+    public Streams getClassStream() {
+        return classStream;
     }
 
-    public void setStreamId(Streams streamId) {
-        this.streamId = streamId;
+    public void setClassStream(Streams classStream) {
+        this.classStream = classStream;
     }
 
-    public Users getAuthorId() {
-        return authorId;
+    public Users getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(Users authorId) {
-        this.authorId = authorId;
+    public void setAuthor(Users author) {
+        this.author = author;
     }
 
     @Override

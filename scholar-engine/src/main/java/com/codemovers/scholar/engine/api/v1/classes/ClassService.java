@@ -9,10 +9,14 @@ import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 import com.codemovers.scholar.engine.api.v1.classes.entities.SchoolClass;
+import com.codemovers.scholar.engine.api.v1.streams.StreamsService;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.controllers.ClassJpaController;
+import com.codemovers.scholar.engine.db.controllers.ClassStreamJpaController;
+import com.codemovers.scholar.engine.db.entities.ClassStream;
 import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import com.codemovers.scholar.engine.db.entities.Streams;
 import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.check_access;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
@@ -77,8 +81,39 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
         Classes classes = populateEntity(entity);
 
         classes = controller.create(classes, data);
+
+        attachStream(entity, classes, data);
+
         return populateResponse(classes);
 
+    }
+
+    /**
+     *
+     * @param entity
+     * @param classes
+     * @param data
+     */
+    public void attachStream(SchoolClass entity, Classes classes, SchoolData data) {
+        if (entity.getStreams() != null && classes.getId() != null ) {
+             
+            //todo: attach streams to office 
+            ClassStream classStream = new ClassStream();
+            classStream.setStreamClass(classes);
+            classStream.setAuthor(classes.getAuthor());
+
+            for (Integer stream : entity.getStreams()) {
+                Streams streams = StreamsService.getInstance().getStream(stream, data);
+                if (streams != null) {
+                    classStream.setClassStream(streams);
+                    classStream.setStatus(StatusEnum.ACTIVE.name());
+                    classStream.setDateCreated(new Date());
+                    //todo: create stream
+                    ClassStreamJpaController.getInstance().create(classStream, data);
+                }
+            }
+
+        }
     }
 
     /**
@@ -195,8 +230,6 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
 
     }
 
-   
-
     /**
      *
      * @param data
@@ -263,7 +296,7 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
         classes.setStatus(entity.getStatus().name());
         return classes;
     }
-    
+
     /**
      *
      * @param entity
@@ -273,16 +306,15 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
         if (entity.getName() != null && !entity.getName().equalsIgnoreCase(classes.getName())) {
             classes.setName(entity.getName());
         }
-        
+
         if (entity.getCode() != null && !entity.getCode().equalsIgnoreCase(classes.getCode())) {
             classes.setCode(entity.getCode());
         }
         if (entity.getRanking() != null) {
             Long ranking = entity.getRanking().longValue();
             classes.setRanking(ranking);
-            
+
         }
     }
-     
 
 }

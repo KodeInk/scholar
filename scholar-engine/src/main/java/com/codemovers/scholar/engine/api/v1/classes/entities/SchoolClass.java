@@ -32,7 +32,7 @@ public class SchoolClass extends AbstractEntity {
     private StatusEnum status;
     private Date date_created;
     private Integer author_id;
-    private Stream[] streams;
+    private Integer[] streams;
 
     public SchoolClass() {
     }
@@ -97,11 +97,11 @@ public class SchoolClass extends AbstractEntity {
         this.author_id = author_id;
     }
 
-    public Stream[] getStreams() {
+    public Integer[] getStreams() {
         return streams;
     }
 
-    public void setStreams(Stream[] streams) {
+    public void setStreams(Integer[] streams) {
         this.streams = streams;
     }
 
