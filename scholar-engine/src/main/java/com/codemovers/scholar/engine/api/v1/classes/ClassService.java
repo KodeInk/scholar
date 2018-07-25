@@ -31,7 +31,7 @@ import java.util.logging.Logger;
  * @author mover 12/19/2017
  */
 public class ClassService extends AbstractService<SchoolClass, ClassResponse> implements ClassServiceInterface {
-
+    
     private static final Logger LOG = Logger.getLogger(UserService.class.getName());
     private final ClassJpaController controller;
     private static ClassService service = null;
@@ -71,7 +71,7 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
 
         //todo: check if a class exists with the same name or code or ranking
         List<Classes> list = controller.findClasses(entity.getName(), entity.getCode(), entity.getRanking().longValue(), data);
-
+        
         if (list != null && list.size() > 0) {
             throw new BadRequestException("Class exists with same name code or ranking ");
         }
@@ -79,13 +79,13 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
         entity.setAuthor_id(authentication.getId());
         entity.setStatus(StatusEnum.ACTIVE);
         Classes classes = populateEntity(entity);
-
+        
         classes = controller.create(classes, data);
-
+        
         attachStream(entity, classes, data);
-
+        
         return populateResponse(classes);
-
+        
     }
 
     /**
@@ -95,13 +95,13 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
      * @param data
      */
     public void attachStream(SchoolClass entity, Classes classes, SchoolData data) {
-        if (entity.getStreams() != null && classes.getId() != null ) {
-             
+        if (entity.getStreams() != null && classes.getId() != null) {
+
             //todo: attach streams to office 
             ClassStream classStream = new ClassStream();
             classStream.setStreamClass(classes);
             classStream.setAuthor(classes.getAuthor());
-
+            
             for (Integer stream : entity.getStreams()) {
                 Streams streams = StreamsService.getInstance().getStream(stream, data);
                 if (streams != null) {
@@ -112,7 +112,7 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
                     ClassStreamJpaController.getInstance().create(classStream, data);
                 }
             }
-
+            
         }
     }
 
@@ -129,7 +129,7 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
     public List<ClassResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
         //todo: check list classes permissions
         check_access(LIST_CLASSES_PERMISSION);
-
+        
         List<Classes> list = controller.findClassEntities(ofset, limit, data);
         List<ClassResponse> responses = new ArrayList<>();
         if (list != null) {
@@ -137,7 +137,7 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
                 responses.add(populateResponse(_class));
             });
         }
-
+        
         return responses;
     }
 
@@ -157,7 +157,7 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
             throw new BadRequestException("Record does not exist");
         }
         controller.destroy(_class.getId().intValue(), data);
-
+        
         return null;
     }
 
@@ -179,21 +179,21 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
         _class.setStatus(StatusEnum.ARCHIVED.toString());
         _class = controller.edit(_class, data);
         return populateResponse(_class);
-
+        
     }
-
+    
     public List<ClassResponse> search(SchoolData data, String query, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
         check_access(ARCHIVE_CLASS_PERMISSION);
-
+        
         List<Classes> list = controller.query(query, limit, ofset, data);
-
+        
         List<ClassResponse> classResponses = new ArrayList<>();
         list.forEach(respond -> {
             classResponses.add(populateResponse(respond));
         });
-
+        
         return classResponses;
-
+        
     }
 
     /**
@@ -214,12 +214,12 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
             throw new BadRequestException("UNIQUE ID MISSING");
         }
         Classes classes = getClass(entity.getId(), data);
-
+        
         populateEntity(entity, classes);
 
         //todo: check if there is a nother class withthe same ranking or name apart from this class 
         List<Classes> list = controller.findClasses(entity.getId(), entity.getName(), entity.getCode(), entity.getRanking().longValue(), data);
-
+        
         if (list != null && list.size() > 0) {
             throw new BadRequestException("Another Class exists with same name code or ranking ");
         }
@@ -227,7 +227,7 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
         //todo: update
         classes = controller.edit(classes, data);
         return populateResponse(classes);
-
+        
     }
 
     /**
@@ -245,10 +245,10 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
         if (_class == null) {
             throw new BadRequestException("Record does not exist");
         }
-
+        
         return populateResponse(_class);
     }
-
+    
     public Classes getClass(Integer Id, SchoolData data) {
         //todo: get class by id
         Classes _class = controller.findClass(Id, data);
@@ -306,15 +306,15 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
         if (entity.getName() != null && !entity.getName().equalsIgnoreCase(classes.getName())) {
             classes.setName(entity.getName());
         }
-
+        
         if (entity.getCode() != null && !entity.getCode().equalsIgnoreCase(classes.getCode())) {
             classes.setCode(entity.getCode());
         }
         if (entity.getRanking() != null) {
             Long ranking = entity.getRanking().longValue();
             classes.setRanking(ranking);
-
+            
         }
     }
-
+    
 }
