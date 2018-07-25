@@ -113,6 +113,7 @@ public class StreamsService extends AbstractService<Stream, StreamResponse> impl
             stream.setCode(entity.getCode());
         }
 
+        validateIfStreamExists(stream, data);
         stream = controller.edit(stream, data);
 
         return populateResponse(stream);
@@ -149,9 +150,9 @@ public class StreamsService extends AbstractService<Stream, StreamResponse> impl
      * @throws Exception
      */
     @Override
-    public List<StreamResponse> list(SchoolData data, Integer ofset, Integer limit,AuthenticationResponse authentication) throws Exception {
+    public List<StreamResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
         check_access(LIST_STREAM_PERMISSION);
-        List<Streams> list = controller.findStreams(limit,ofset, data);
+        List<Streams> list = controller.findStreams(limit, ofset, data);
         List<StreamResponse> responses = new ArrayList<>();
         if (list != null) {
 
@@ -162,9 +163,8 @@ public class StreamsService extends AbstractService<Stream, StreamResponse> impl
 
         return responses;
     }
-    
-    
-        public List<StreamResponse> search(SchoolData data, String query, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
+
+    public List<StreamResponse> search(SchoolData data, String query, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
         check_access(ARCHIVE_CLASS_PERMISSION);
 
         List<Streams> list = controller.query(query, limit, ofset, data);
@@ -187,7 +187,7 @@ public class StreamsService extends AbstractService<Stream, StreamResponse> impl
      * @throws Exception
      */
     @Override
-    public StreamResponse getById(SchoolData data, Integer Id,AuthenticationResponse authentication) throws Exception {
+    public StreamResponse getById(SchoolData data, Integer Id, AuthenticationResponse authentication) throws Exception {
         check_access(LIST_STREAM_PERMISSION);
         Streams _stream = controller.findStream(Id, data);
         return populateResponse(_stream);
@@ -203,12 +203,12 @@ public class StreamsService extends AbstractService<Stream, StreamResponse> impl
      * @throws Exception
      */
     @Override
-    public StreamResponse delete(SchoolData data, Integer id,AuthenticationResponse authentication) throws Exception {
+    public StreamResponse delete(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
         check_access(DELETE_STREAM_PERMISSION);
         controller.destroy(id, data);
         return null;
     }
-    
+
     /**
      *
      * @param stream
@@ -217,13 +217,17 @@ public class StreamsService extends AbstractService<Stream, StreamResponse> impl
      */
     public void validateIfStreamExists(Streams stream, SchoolData data) throws BadRequestException {
         //TODO: CHECK TO SEE THAT THERE IS NO OTHER STREAM WITH SAME NAME OR CODE
-        List<Streams> list =   controller.findStreams(stream.getName(), stream.getCode(), 0, 1, data);
-        if(list.size() > 0 ){
+        List<Streams> list = null;
+        if (stream.getId() == null) {
+            list = controller.findStreams(stream.getName(), stream.getCode(), 0, 1, data);
+        } else {
+            list = controller.findStreams(stream.getId(), stream.getName(), stream.getCode(), 0, 1, data);
+        }
+
+        if (list.size() > 0) {
             throw new BadRequestException("A stream  exists with the same name or code ");
         }
     }
-
-      
 
     @Override
     public StreamResponse populateResponse(Streams entity) {

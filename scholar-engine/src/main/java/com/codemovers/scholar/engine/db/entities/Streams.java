@@ -43,6 +43,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Streams.findByStatus", query = "SELECT s FROM Streams s WHERE s.status = :status")
     , @NamedQuery(name = "Streams.findByDateCreated", query = "SELECT s FROM Streams s WHERE s.dateCreated = :dateCreated")
     , @NamedQuery(name = "Streams.findByNameorCode", query = "SELECT s FROM Streams s WHERE s.code LIKE :code OR s.name LIKE :name AND s.status LIKE :status ")
+    , @NamedQuery(name = "Streams.findByNameorCodeOnOther", query = "SELECT s FROM Streams s WHERE s.code LIKE :code OR s.name LIKE :name AND s.status LIKE :status  WHERE id <> :id")
+
 })
 public class Streams implements Serializable {
 
