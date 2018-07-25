@@ -8,10 +8,13 @@ package com.codemovers.scholar.engine.api.v1.streams;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
+import static com.codemovers.scholar.engine.api.v1.classes.ClassServiceInterface.ARCHIVE_CLASS_PERMISSION;
+import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 
 import com.codemovers.scholar.engine.api.v1.streams.entities.StreamResponse;
 import com.codemovers.scholar.engine.api.v1.streams.entities.Stream;
 import com.codemovers.scholar.engine.db.controllers.StreamsJpaController;
+import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Streams;
 import com.codemovers.scholar.engine.db.entities.Users;
@@ -158,6 +161,21 @@ public class StreamsService extends AbstractService<Stream, StreamResponse> impl
         }
 
         return responses;
+    }
+    
+    
+        public List<StreamResponse> search(SchoolData data, String query, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
+        check_access(ARCHIVE_CLASS_PERMISSION);
+
+        List<Streams> list = controller.query(query, limit, ofset, data);
+
+        List<StreamResponse> classResponses = new ArrayList<>();
+        list.forEach(respond -> {
+            classResponses.add(populateResponse(respond));
+        });
+
+        return classResponses;
+
     }
 
     /**

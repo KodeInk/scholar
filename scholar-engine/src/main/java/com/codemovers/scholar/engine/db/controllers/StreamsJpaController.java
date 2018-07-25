@@ -7,6 +7,7 @@ package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.JpaController;
+import com.codemovers.scholar.engine.db.entities.ClassStream;
 import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.Roles;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
@@ -190,6 +191,39 @@ public class StreamsJpaController extends EngineJpaController {
 
         query.setParameter("name", name);
         query.setParameter("code", code);
+
+        return query;
+
+    }
+
+    public List<Streams> query(String searchQuery, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
+        List<Streams> list = new ArrayList<>();
+        try {
+            Query query = getQuery(em, searchQuery);
+            query.setMaxResults(maxResults);
+            query.setFirstResult(firstResult);
+            list = query.getResultList();
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        } finally {
+            em.close();
+        }
+
+        return list;
+    }
+
+    public Query getQuery(EntityManager em, String searchQuery) {
+
+        Query query = em.createQuery(""
+                + "select ST FROM Streams ST "
+                + " WHERE ST.name LIKE :name"
+                + " OR ST.code LIKE :code"
+                + "");
+
+        query.setParameter("name", "%" + searchQuery + "%");
+        query.setParameter("code", "%" + searchQuery + "%");
 
         return query;
 
