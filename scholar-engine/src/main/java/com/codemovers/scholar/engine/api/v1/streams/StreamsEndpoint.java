@@ -109,7 +109,6 @@ public class StreamsEndpoint extends AbstractEndpoint<Stream, StreamResponse> {
     @Path("/search/{query}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-
     public List<StreamResponse> search(
             @PathParam("query") String query,
             @HeaderParam("authentication") String authentication,
