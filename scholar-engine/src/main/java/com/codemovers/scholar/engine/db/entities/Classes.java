@@ -91,8 +91,8 @@ public class Classes implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "class_stream", joinColumns = {
-        @JoinColumn(name = "stream_id", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "class_id", referencedColumnName = "id")})
+        @JoinColumn(name = "class_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "stream_id", referencedColumnName = "id")})
     private Set<ClassStream> classStreamCollection;
 
     @OneToMany(mappedBy = "classId")
