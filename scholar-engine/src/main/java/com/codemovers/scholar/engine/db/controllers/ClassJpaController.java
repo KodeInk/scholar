@@ -124,7 +124,9 @@ public class ClassJpaController extends EngineJpaController {
     public Classes findClass(Integer id, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
-            return em.find(Classes.class, id.longValue());
+            Classes classes = em.find(Classes.class, id.longValue());
+            classes.getClassStreamCollection();
+            return classes;
         } catch (Exception er) {
             return null;
         } finally {

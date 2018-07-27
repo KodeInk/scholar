@@ -8,14 +8,17 @@ package com.codemovers.scholar.engine.db.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -83,8 +86,15 @@ public class Classes implements Serializable {
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users author;
-    @OneToMany(mappedBy = "streamClass")
-    private Collection<ClassStream> classStreamCollection;
+//    @OneToMany(mappedBy = "streamClass")
+//    private Collection<ClassStream> classStreamCollection;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "class_stream", joinColumns = {
+        @JoinColumn(name = "stream_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "class_id", referencedColumnName = "id")})
+    private Set<ClassStream> classStreamCollection;
+
     @OneToMany(mappedBy = "classId")
     private Collection<SubjectClass> subjectClassCollection;
 
@@ -168,12 +178,12 @@ public class Classes implements Serializable {
         this.author = author;
     }
 
-    @XmlTransient
-    public Collection<ClassStream> getClassStreamCollection() {
+   
+    public Set<ClassStream> getClassStreamCollection() {
         return classStreamCollection;
     }
 
-    public void setClassStreamCollection(Collection<ClassStream> classStreamCollection) {
+    public void setClassStreamCollection(Set<ClassStream> classStreamCollection) {
         this.classStreamCollection = classStreamCollection;
     }
 

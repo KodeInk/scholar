@@ -222,6 +222,7 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
             throw new BadRequestException("UNIQUE ID MISSING");
         }
         Classes classes = getClass(entity.getId(), data);
+       
 
         populateEntity(entity, classes);
 
@@ -260,6 +261,7 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
     public Classes getClass(Integer Id, SchoolData data) {
         //todo: get class by id
         Classes _class = controller.findClass(Id, data);
+        
         return _class;
     }
 
