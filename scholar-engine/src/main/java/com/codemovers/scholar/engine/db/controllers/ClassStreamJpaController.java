@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -130,4 +131,28 @@ public class ClassStreamJpaController extends EngineJpaController {
         }
     }
     
+    
+      public void destroy(Integer id, SchoolData data) throws Exception {
+        EntityManager em = null;
+        try {
+            em = getEntityManager(data.getExternalId());
+            em.getTransaction().begin();
+            ClassStream classStream;
+            try {
+                classStream = em.getReference(ClassStream.class, id.longValue());
+                classStream.getId();
+            } catch (EntityNotFoundException enfe) {
+                throw enfe;
+            }
+            em.remove(classStream);
+            em.getTransaction().commit();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+      
+      
 }

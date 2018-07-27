@@ -21,8 +21,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 import javax.ws.rs.BadRequestException;
+import org.hibernate.jpa.criteria.OrderImpl;
 
 /**
  *
