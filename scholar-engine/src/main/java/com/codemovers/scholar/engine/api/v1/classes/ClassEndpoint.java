@@ -103,10 +103,6 @@ public class ClassEndpoint extends AbstractEndpoint<SchoolClass, ClassResponse> 
             @HeaderParam("authentication") String authentication, 
             @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
-        System.out.println("---------------------------");
-        System.out.println("OFFSET : " + offset);
-        System.out.println("LIMIT :  " + limit);
-        System.out.println("---------------------------");
         return service.list(tenantdata, offset, limit, this.authentication);
     }
 

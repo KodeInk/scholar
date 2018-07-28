@@ -6,10 +6,9 @@
 package com.codemovers.scholar.engine.api.v1.classes.entities;
 
 import com.codemovers.scholar.engine.api.v1.streams.entities.StreamResponse;
-import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Arrays;
-import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -26,7 +25,7 @@ public class ClassResponse {
     private String status;
     private Long date_created;
     private String author;
-    private StreamResponse[] streamResponses;
+    private List<StreamResponse> streamResponses;
 
     public ClassResponse() {
     }
@@ -91,11 +90,11 @@ public class ClassResponse {
         this.author = author;
     }
 
-    public StreamResponse[] getStreamResponses() {
+    public List<StreamResponse> getStreamResponses() {
         return streamResponses;
     }
 
-    public void setStreamResponses(StreamResponse[] streamResponses) {
+    public void setStreamResponses(List<StreamResponse> streamResponses) {
         this.streamResponses = streamResponses;
     }
 
@@ -109,7 +108,7 @@ public class ClassResponse {
         hash = 71 * hash + Objects.hashCode(this.status);
         hash = 71 * hash + Objects.hashCode(this.date_created);
         hash = 71 * hash + Objects.hashCode(this.author);
-        hash = 71 * hash + Arrays.deepHashCode(this.streamResponses);
+        hash = 71 * hash + Objects.hashCode(this.streamResponses);
         return hash;
     }
 
@@ -131,6 +130,9 @@ public class ClassResponse {
         if (!Objects.equals(this.code, other.code)) {
             return false;
         }
+        if (!Objects.equals(this.status, other.status)) {
+            return false;
+        }
         if (!Objects.equals(this.author, other.author)) {
             return false;
         }
@@ -140,14 +142,16 @@ public class ClassResponse {
         if (!Objects.equals(this.ranking, other.ranking)) {
             return false;
         }
-        if (this.status != other.status) {
-            return false;
-        }
         if (!Objects.equals(this.date_created, other.date_created)) {
             return false;
         }
-        return Arrays.deepEquals(this.streamResponses, other.streamResponses);
+        if (!Objects.equals(this.streamResponses, other.streamResponses)) {
+            return false;
+        }
+        return true;
     }
+
+    
 
     @Override
     public String toString() {
@@ -156,7 +160,7 @@ public class ClassResponse {
                 + ", name=" + name
                 + ", code=" + code
                 + ", ranking=" + ranking
-                + ", streams=" + Arrays.toString(streamResponses)
+                + ", streams=" + streamResponses
                 + ", status=" + status
                 + ", date_created=" + date_created
                 + ", author=" + author

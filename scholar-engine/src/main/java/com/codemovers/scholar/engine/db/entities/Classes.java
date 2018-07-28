@@ -86,8 +86,6 @@ public class Classes implements Serializable {
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users author;
-//    @OneToMany(mappedBy = "streamClass")
-//    private Collection<ClassStream> classStreamCollection;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "class_stream", joinColumns = {
@@ -178,7 +176,6 @@ public class Classes implements Serializable {
         this.author = author;
     }
 
-   
     public Set<ClassStream> getClassStreamCollection() {
         return classStreamCollection;
     }

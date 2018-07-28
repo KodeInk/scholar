@@ -24,6 +24,7 @@ import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -87,14 +88,14 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
         return populateResponse(classes);
 
     }
-    
-    public void detachStream(List<ClassStream> classStreams,SchoolData data) throws Exception{
-        
+
+    public void detachStream(List<ClassStream> classStreams, SchoolData data) throws Exception {
+
         //todo: loop through all the classes and destroy 
-         for (ClassStream stream : classStreams) {
-             controller.destroy(stream.getId().intValue(), data);
-         }
-        
+        for (ClassStream stream : classStreams) {
+            controller.destroy(stream.getId().intValue(), data);
+        }
+
     }
 
     /**
@@ -222,7 +223,6 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
             throw new BadRequestException("UNIQUE ID MISSING");
         }
         Classes classes = getClass(entity.getId(), data);
-       
 
         populateEntity(entity, classes);
 
@@ -261,7 +261,7 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
     public Classes getClass(Integer Id, SchoolData data) {
         //todo: get class by id
         Classes _class = controller.findClass(Id, data);
-        
+
         return _class;
     }
 
@@ -286,6 +286,14 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
         response.setDate_created(entity.getDateCreated().getTime());
         if (entity.getAuthor() != null) {
             response.setAuthor(entity.getAuthor().getUsername());
+        }
+        if (entity.getClassStreamCollection() != null) {
+            Set<ClassStream> streams = entity.getClassStreamCollection();
+            for (ClassStream stream : streams) {
+                if(stream.getClassStream() != null){
+                    
+                }
+            }
         }
         return response;
     }
