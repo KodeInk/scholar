@@ -10,6 +10,7 @@ import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResp
 import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 import com.codemovers.scholar.engine.api.v1.classes.entities.SchoolClass;
 import com.codemovers.scholar.engine.api.v1.streams.StreamsService;
+import com.codemovers.scholar.engine.api.v1.streams.entities.StreamResponse;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.controllers.ClassJpaController;
 import com.codemovers.scholar.engine.db.controllers.ClassStreamJpaController;
@@ -289,13 +290,28 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
         }
         if (entity.getClassStreamCollection() != null) {
             Set<ClassStream> streams = entity.getClassStreamCollection();
+            List<StreamResponse> streamResponses = new ArrayList<>();
             for (ClassStream stream : streams) {
-                if(stream.getClassStream() != null){
-                    
+                if (stream.getClassStream() != null) {
+                    Streams classStream = stream.getClassStream();
+                    streamResponses.add(populateResponse(classStream));
                 }
             }
+            response.setStreamResponses(streamResponses);
         }
         return response;
+    }
+
+    public StreamResponse populateResponse(Streams classStream) {
+        StreamResponse streamResponse = new StreamResponse();
+        if (classStream != null) {
+            streamResponse.setId(classStream.getId().intValue());
+            streamResponse.setCode(classStream.getCode());
+            streamResponse.setName(classStream.getName());
+            streamResponse.setStatus(classStream.getStatus());
+            streamResponse.setDate_created(classStream.getDateCreated().getTime());
+        }
+        return streamResponse;
     }
 
     /**

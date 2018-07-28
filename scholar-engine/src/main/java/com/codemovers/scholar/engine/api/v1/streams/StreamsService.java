@@ -198,7 +198,7 @@ public class StreamsService extends AbstractService<Stream, StreamResponse> impl
      * @param data
      * @return
      */
-    public  Streams getStream(Integer Id, SchoolData data) {
+    public Streams getStream(Integer Id, SchoolData data) {
         Streams _stream = controller.findStream(Id, data);
         return _stream;
     }
@@ -240,14 +240,12 @@ public class StreamsService extends AbstractService<Stream, StreamResponse> impl
 
     @Override
     public StreamResponse populateResponse(Streams entity) {
-
         StreamResponse response = new StreamResponse();
         response.setName(entity.getName());
         response.setCode(entity.getCode());
         response.setId(entity.getId().intValue());
-        response.setDate_created(entity.getDateCreated());
-        response.setStatus(StatusEnum.fromString(entity.getStatus()));
-
+        response.setDate_created(entity.getDateCreated().getTime());
+        response.setStatus(entity.getStatus());
         if (entity.getAuthor() != null) {
             response.setAuthor(entity.getAuthor().getUsername());
         }
