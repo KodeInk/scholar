@@ -339,20 +339,23 @@ Using SHA-256 :
 
         StringBuilder sb = new StringBuilder();
 
-            if (password.length() <= 4) {
-                throw new BadRequestException("Password Length is too short");
-            }
+        if (password.length() <= 4) {
+            throw new BadRequestException("Password Length is too short");
+        }
 
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            md.update(password.getBytes("UTF-8"));
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(password.getBytes("UTF-8"));
 
-            byte[] bytes = md.digest();
+        byte[] bytes = md.digest();
 
-            for (int i = 0; i < bytes.length; i++) {
-                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-            }
+        for (int i = 0; i < bytes.length; i++) {
+            sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+        }
 
-            //    return sb.toString();
+        //    return sb.toString();
+        System.out.println("=======================");
+        System.out.println(sb.toString());
+        System.out.println("=======================");
 
         return sb.toString();
     }
@@ -481,6 +484,5 @@ Using SHA-256 :
 
         return d;
     }
-
 
 }
