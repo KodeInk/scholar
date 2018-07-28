@@ -91,7 +91,7 @@ public class Classes implements Serializable {
     @JoinTable(name = "class_stream", joinColumns = {
         @JoinColumn(name = "class_id", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "stream_id", referencedColumnName = "id")})
-    private Set<ClassStream> classStreamCollection;
+    private Set<Streams> classStream;
 
     @OneToMany(mappedBy = "classId")
     private Collection<SubjectClass> subjectClassCollection;
@@ -176,12 +176,12 @@ public class Classes implements Serializable {
         this.author = author;
     }
 
-    public Set<ClassStream> getClassStreamCollection() {
-        return classStreamCollection;
+    public Set<Streams> getClassStream() {
+        return classStream;
     }
 
-    public void setClassStreamCollection(Set<ClassStream> classStreamCollection) {
-        this.classStreamCollection = classStreamCollection;
+    public void setClassStream(Set<Streams> classStream) {
+        this.classStream = classStream;
     }
 
     @XmlTransient

@@ -5,9 +5,7 @@
  */
 package com.codemovers.scholar.engine.api.v1.streams.entities;
 
-import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.util.Date;
 import java.util.Objects;
 
 /**

@@ -120,7 +120,7 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
 
         //todo: update
         classes = controller.edit(classes, data);
-        detachStream(classes.getClassStreamCollection(), data);
+        detachStream(classes, data);
         attachStream(entity, classes, data);
         return populateResponse(classes);
 
@@ -128,15 +128,15 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
 
     /**
      *
-     * @param classStreams
+     * @param classes
      * @param data
      * @throws Exception
      */
-    public void detachStream(Set<ClassStream> classStreams, SchoolData data) throws Exception {
-        //todo: loop through all the classes and destroy 
-        for (ClassStream stream : classStreams) {
-            controller.destroy(stream.getId().intValue(), data);
-        }
+    public void detachStream(Classes classes, SchoolData data) throws Exception {
+        //todo: select from class Stream where class_id = 1;
+        //then Destroy :: 
+        ClassStreamJpaController.getInstance().deleteClassStreamByClassId(classes.getId().intValue(), data);
+         
     }
 
     /**
@@ -293,12 +293,12 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
         if (entity.getAuthor() != null) {
             response.setAuthor(entity.getAuthor().getUsername());
         }
-        if (entity.getClassStreamCollection() != null) {
-            Set<ClassStream> streams = entity.getClassStreamCollection();
+        if (entity.getClassStream() != null) {
+            Set<Streams> streams = entity.getClassStream();
             List<StreamResponse> streamResponses = new ArrayList<>();
-            for (ClassStream stream : streams) {
-                if (stream.getClassStream() != null) {
-                    Streams classStream = stream.getClassStream();
+            for (Streams stream : streams) {
+                if (stream != null) {
+                    Streams classStream = stream;
                     streamResponses.add(populateResponse(classStream));
                 }
             }

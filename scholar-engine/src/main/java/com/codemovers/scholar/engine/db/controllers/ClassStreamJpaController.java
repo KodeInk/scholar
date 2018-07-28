@@ -6,12 +6,9 @@
 package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.EngineJpaController;
-import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.BookType;
 import com.codemovers.scholar.engine.db.entities.ClassStream;
-import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -94,6 +91,28 @@ public class ClassStreamJpaController extends EngineJpaController {
         }
     }
 
+    public void  deleteClassStreamByClassId(Integer classId, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
+        try {
+
+            Query query = em.createQuery(""
+                    + "select ST FROM ClassStream ST"
+                    + " WHERE ST.streamClass.id = :id"
+                    + "");
+            query.setParameter("id", classId.longValue());
+            List<ClassStream> classStreams = query.getResultList();
+
+            for (ClassStream cs : classStreams) {
+                em.getTransaction().begin();
+                em.remove(cs);
+                em.getTransaction().commit();
+            }
+
+        } finally {
+            em.close();
+        }
+    }
+
     private List<ClassStream> findClassStreamEntities(boolean all, int maxResults, int firstResult, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
@@ -130,9 +149,8 @@ public class ClassStreamJpaController extends EngineJpaController {
             em.close();
         }
     }
-    
-    
-      public void destroy(Integer id, SchoolData data) throws Exception {
+
+    public void destroy(Integer id, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
             em = getEntityManager(data.getExternalId());
@@ -153,6 +171,4 @@ public class ClassStreamJpaController extends EngineJpaController {
         }
     }
 
-      
-      
 }

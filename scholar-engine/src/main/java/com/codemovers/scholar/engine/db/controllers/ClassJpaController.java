@@ -118,7 +118,7 @@ public class ClassJpaController extends EngineJpaController {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
             Classes classes = em.find(Classes.class, id.longValue());
-            classes.getClassStreamCollection();
+            classes.getClassStream();
             return classes;
         } catch (Exception er) {
             return null;
@@ -192,10 +192,10 @@ public class ClassJpaController extends EngineJpaController {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Classes.class));
             Query q = em.createQuery(cq);
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
-            }
+//            if (!all) {
+//                q.setMaxResults(maxResults);
+//                q.setFirstResult(firstResult);
+//            }
             return q.getResultList();
         } finally {
             em.close();
@@ -282,4 +282,20 @@ public class ClassJpaController extends EngineJpaController {
 
     }
 
+    
+      public Query getQuery(EntityManager em) {
+
+        Query query = em.createQuery(""
+                + "select ST FROM Classes ST"
+                + "LEFT JOIN ST.classStream "
+              
+                + "");
+
+      
+        return query;
+
+    }
+
+      
+      
 }
