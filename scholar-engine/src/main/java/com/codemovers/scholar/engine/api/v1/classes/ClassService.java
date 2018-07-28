@@ -90,13 +90,53 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
 
     }
 
-    public void detachStream(List<ClassStream> classStreams, SchoolData data) throws Exception {
+    /**
+     *
+     * @param data
+     * @param entity
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public ClassResponse update(SchoolData data, SchoolClass entity, AuthenticationResponse authentication) throws Exception {
+        check_access(UPDATE_CLASS_PERMISSION);
+        //todo: validate
+        entity.validate();
+        //todo: get the entity by id if exists
+        if (entity.getId() == null) {
+            throw new BadRequestException("UNIQUE ID MISSING");
+        }
+        Classes classes = getClass(entity.getId(), data);
 
+        populateEntity(entity, classes);
+
+        //todo: check if there is a nother class withthe same ranking or name apart from this class 
+        List<Classes> list = controller.findClasses(entity.getId(), entity.getName(), entity.getCode(), entity.getRanking().longValue(), data);
+
+        if (list != null && list.size() > 0) {
+            throw new BadRequestException("Another Class exists with same name code or ranking ");
+        }
+
+        //todo: update
+        classes = controller.edit(classes, data);
+        detachStream(classes.getClassStreamCollection(), data);
+        attachStream(entity, classes, data);
+        return populateResponse(classes);
+
+    }
+
+    /**
+     *
+     * @param classStreams
+     * @param data
+     * @throws Exception
+     */
+    public void detachStream(Set<ClassStream> classStreams, SchoolData data) throws Exception {
         //todo: loop through all the classes and destroy 
         for (ClassStream stream : classStreams) {
             controller.destroy(stream.getId().intValue(), data);
         }
-
     }
 
     /**
@@ -107,7 +147,6 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
      */
     public void attachStream(SchoolClass entity, Classes classes, SchoolData data) {
         if (entity.getStreams() != null && classes.getId() != null) {
-
             //todo: attach streams to office 
             for (Integer stream : entity.getStreams()) {
                 Streams streams = StreamsService.getInstance().getStream(stream, data);
@@ -209,40 +248,6 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
     /**
      *
      * @param data
-     * @param entity
-     * @param authentication
-     * @return
-     * @throws Exception
-     */
-    @Override
-    public ClassResponse update(SchoolData data, SchoolClass entity, AuthenticationResponse authentication) throws Exception {
-        check_access(UPDATE_CLASS_PERMISSION);
-        //todo: validate
-        entity.validate();
-        //todo: get the entity by id if exists
-        if (entity.getId() == null) {
-            throw new BadRequestException("UNIQUE ID MISSING");
-        }
-        Classes classes = getClass(entity.getId(), data);
-
-        populateEntity(entity, classes);
-
-        //todo: check if there is a nother class withthe same ranking or name apart from this class 
-        List<Classes> list = controller.findClasses(entity.getId(), entity.getName(), entity.getCode(), entity.getRanking().longValue(), data);
-
-        if (list != null && list.size() > 0) {
-            throw new BadRequestException("Another Class exists with same name code or ranking ");
-        }
-
-        //todo: update
-        classes = controller.edit(classes, data);
-        return populateResponse(classes);
-
-    }
-
-    /**
-     *
-     * @param data
      * @param Id
      * @param authentication
      * @return
@@ -302,6 +307,11 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
         return response;
     }
 
+    /**
+     *
+     * @param classStream
+     * @return
+     */
     public StreamResponse populateResponse(Streams classStream) {
         StreamResponse streamResponse = new StreamResponse();
         if (classStream != null) {
