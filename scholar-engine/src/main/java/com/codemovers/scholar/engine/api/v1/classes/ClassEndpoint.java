@@ -98,10 +98,11 @@ public class ClassEndpoint extends AbstractEndpoint<SchoolClass, ClassResponse> 
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
     public List<ClassResponse> list(
-            @DefaultValue("0") @QueryParam("offset") int offset,
+              @DefaultValue("0") @QueryParam("offset") int offset,
             @DefaultValue("50") @QueryParam("limit") int limit,
-            @HeaderParam("authentication") String authentication, 
-            @Context HttpServletRequest httpRequest) throws Exception {
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest
+    ) throws Exception {
         validate(tenantdata, authentication);
         return service.list(tenantdata, offset, limit, this.authentication);
     }
