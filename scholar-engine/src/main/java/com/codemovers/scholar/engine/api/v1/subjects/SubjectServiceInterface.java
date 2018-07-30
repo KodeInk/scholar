@@ -7,7 +7,7 @@ package com.codemovers.scholar.engine.api.v1.subjects;
 
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.subjects.entities.SubjectResponse;
-import com.codemovers.scholar.engine.api.v1.subjects.entities._Subject;
+import com.codemovers.scholar.engine.api.v1.subjects.entities.Subject;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Subjects;
 import java.util.List;
@@ -26,7 +26,7 @@ public interface SubjectServiceInterface {
 
     SubjectResponse archive(SchoolData data, Integer id) throws Exception;
 
-    SubjectResponse create(SchoolData data, _Subject entity, AuthenticationResponse authentication) throws Exception;
+    SubjectResponse create(SchoolData data, Subject entity, AuthenticationResponse authentication) throws Exception;
 
     SubjectResponse getById(SchoolData data, Integer Id) throws Exception;
 
@@ -34,6 +34,6 @@ public interface SubjectServiceInterface {
 
     SubjectResponse populateResponse(Subjects entity);
 
-    SubjectResponse update(SchoolData data, _Subject entity) throws Exception;
+    SubjectResponse update(SchoolData data, Subject entity) throws Exception;
 
 }

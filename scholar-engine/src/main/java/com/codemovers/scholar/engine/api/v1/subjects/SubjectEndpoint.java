@@ -8,7 +8,7 @@ package com.codemovers.scholar.engine.api.v1.subjects;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEndpoint;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.subjects.entities.SubjectResponse;
-import com.codemovers.scholar.engine.api.v1.subjects.entities._Subject;
+import com.codemovers.scholar.engine.api.v1.subjects.entities.Subject;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
@@ -27,14 +27,13 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import static org.bouncycastle.asn1.x509.X509ObjectIdentifiers.id;
 
 /**
  *
  * @author mover 12/20/2017
  */
 @Path("/")
-public class SubjectEndpoint extends AbstractEndpoint<_Subject, SubjectResponse> {
+public class SubjectEndpoint extends AbstractEndpoint<Subject, SubjectResponse> {
 
     private static final Logger LOG = Logger.getLogger(SubjectEndpoint.class.getName());
     @Context
@@ -55,7 +54,7 @@ public class SubjectEndpoint extends AbstractEndpoint<_Subject, SubjectResponse>
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public SubjectResponse create(_Subject entity,
+    public SubjectResponse create(Subject entity,
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
@@ -66,7 +65,7 @@ public class SubjectEndpoint extends AbstractEndpoint<_Subject, SubjectResponse>
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public SubjectResponse update(_Subject entity,
+    public SubjectResponse update(Subject entity,
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);

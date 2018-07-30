@@ -8,7 +8,7 @@ package com.codemovers.scholar.engine.api.v1.subjects;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.subjects.entities.SubjectResponse;
-import com.codemovers.scholar.engine.api.v1.subjects.entities._Subject;
+import com.codemovers.scholar.engine.api.v1.subjects.entities.Subject;
 import com.codemovers.scholar.engine.db.controllers.SubjectsJpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Subjects;
@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  *
  * @author mover 12/20/2017
  */
-public class SubjectService extends AbstractService<_Subject, SubjectResponse> implements SubjectServiceInterface {
+public class SubjectService extends AbstractService<Subject, SubjectResponse> implements SubjectServiceInterface {
 
     private static final Logger LOG = Logger.getLogger(SubjectService.class.getName());
 
@@ -43,7 +43,7 @@ public class SubjectService extends AbstractService<_Subject, SubjectResponse> i
     }
 
     @Override
-    public SubjectResponse create(SchoolData data, _Subject entity, AuthenticationResponse authentication) throws Exception {
+    public SubjectResponse create(SchoolData data, Subject entity, AuthenticationResponse authentication) throws Exception {
         check_access(CREATE_SUBJECT_PERMISSION);
         entity.validate();
 
@@ -62,7 +62,7 @@ public class SubjectService extends AbstractService<_Subject, SubjectResponse> i
     }
 
     @Override
-    public SubjectResponse update(SchoolData data, _Subject entity) throws Exception {
+    public SubjectResponse update(SchoolData data, Subject entity) throws Exception {
         check_access(UPDATE_SUBJECT_PERMISSION);
         entity.validate();
 
@@ -148,7 +148,7 @@ public class SubjectService extends AbstractService<_Subject, SubjectResponse> i
         return response;
     }
 
-    public Subjects getSubject(_Subject entity) {
+    public Subjects getSubject(Subject entity) {
         Subjects subject = new Subjects();
         subject.setName(entity.getName());
         subject.setCode(entity.getCode());
