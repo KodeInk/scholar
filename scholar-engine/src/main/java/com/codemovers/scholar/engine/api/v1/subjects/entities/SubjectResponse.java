@@ -5,20 +5,18 @@
  */
 package com.codemovers.scholar.engine.api.v1.subjects.entities;
 
-import com.codemovers.scholar.engine.annotation.Mandatory;
-import com.codemovers.scholar.engine.helper.enums.StatusEnum;
-import java.util.Date;
 import java.util.Objects;
 
 /**
  *
- * @author Manny
+ * @author mover 7/30/2018
  */
 public class SubjectResponse {
 
     private Integer id;
     private String name;
     private String code;
+    private String subjectcategory;
     private String status;
     private Long date_created;
     private String author;
@@ -53,6 +51,15 @@ public class SubjectResponse {
     public void setCode(String code) {
         this.code = code;
     }
+
+    public String getSubjectcategory() {
+        return subjectcategory;
+    }
+
+    public void setSubjectcategory(String subjectcategory) {
+        this.subjectcategory = subjectcategory;
+    }
+    
 
     public String getStatus() {
         return status;

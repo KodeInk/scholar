@@ -24,6 +24,7 @@ public class Subject extends AbstractEntity {
     private @Mandatory
     String code;
     private StatusEnum status;
+    private SubjectCategoryEnum subjectCategory;
     private Date date_created;
     private Integer author_id;
 
@@ -56,6 +57,14 @@ public class Subject extends AbstractEntity {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public SubjectCategoryEnum getSubjectCategory() {
+        return subjectCategory;
+    }
+
+    public void setSubjectCategory(SubjectCategoryEnum subjectCategory) {
+        this.subjectCategory = subjectCategory;
     }
 
     public StatusEnum getStatus() {
