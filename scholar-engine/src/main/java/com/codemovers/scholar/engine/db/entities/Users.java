@@ -97,7 +97,6 @@ public class Users implements Serializable {
         @JoinColumn(name = "staff_id", referencedColumnName = "id")})
     private Staff staff;
 
-
     public Users() {
     }
 
@@ -200,4 +199,4 @@ public class Users implements Serializable {
         return "Users[ id=" + id + " ]";
     }
 
-    }
+}

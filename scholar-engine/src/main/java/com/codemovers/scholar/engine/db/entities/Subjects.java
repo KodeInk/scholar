@@ -23,6 +23,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -58,6 +59,11 @@ public class Subjects implements Serializable {
     @Size(max = 255)
     @Column(name = "code")
     private String code;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 8)
+    @Column(name = "category")
+    private String category;
     @Size(max = 8)
     @Column(name = "status")
     private String status;
@@ -115,6 +121,14 @@ public class Subjects implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getStatus() {
