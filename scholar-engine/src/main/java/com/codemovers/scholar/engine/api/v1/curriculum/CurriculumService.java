@@ -59,20 +59,9 @@ public class CurriculumService extends AbstractService<_Curriculum, CurriculumRe
         //todo: validate
         entity.validate();
         Curriculum curriculum = populateEntity(entity, authentication);
-
         validateCurriculumExists(curriculum, data);
-
         curriculum = controller.create(curriculum, data);
-
         return populateResponse(curriculum);
-    }
-
-    public void validateCurriculumExists(Curriculum curriculum, SchoolData data) throws BadRequestException {
-        //todo: check to see that there is no curriculum with the same name
-        List<Curriculum> curriculums = controller.findCurriculumByNameCodeId(curriculum.getName(), curriculum.getCode(), curriculum.getId().intValue(), data);
-        if (curriculums.size() > 0) {
-            throw new BadRequestException("Curriculum with the same exists in the database");
-        }
     }
 
     @Override
@@ -84,23 +73,24 @@ public class CurriculumService extends AbstractService<_Curriculum, CurriculumRe
             throw new BadRequestException("UNIQUE ID MISSING");
         }
 
-        Curriculum _Curriculum = controller.findCurriculum(entity.getId(), data);
+        Curriculum curriculum = controller.findCurriculum(entity.getId(), data);
 
-        if (entity.getName() != null && !entity.getName().equalsIgnoreCase(_Curriculum.getName())) {
-            _Curriculum.setName(entity.getName());
+        if (entity.getName() != null && !entity.getName().equalsIgnoreCase(curriculum.getName())) {
+            curriculum.setName(entity.getName());
         }
 
-        if (entity.getCode() != null && !entity.getCode().equalsIgnoreCase(_Curriculum.getCode())) {
-            _Curriculum.setCode(entity.getCode());
+        if (entity.getCode() != null && !entity.getCode().equalsIgnoreCase(curriculum.getCode())) {
+            curriculum.setCode(entity.getCode());
         }
 
-        if (entity.getDescription() != null && !entity.getDescription().equalsIgnoreCase(_Curriculum.getDescription())) {
-            _Curriculum.setDescription(entity.getDescription());
+        if (entity.getDescription() != null && !entity.getDescription().equalsIgnoreCase(curriculum.getDescription())) {
+            curriculum.setDescription(entity.getDescription());
         }
 
-        _Curriculum = controller.edit(_Curriculum, data);
+        validateCurriculumExists(curriculum, data);
+        curriculum = controller.edit(curriculum, data);
 
-        return populateResponse(_Curriculum);
+        return populateResponse(curriculum);
     }
 
     @Override
@@ -142,6 +132,14 @@ public class CurriculumService extends AbstractService<_Curriculum, CurriculumRe
 
         return populateResponse(_Curriculum);
 
+    }
+
+    public void validateCurriculumExists(Curriculum curriculum, SchoolData data) throws BadRequestException {
+        //todo: check to see that there is no curriculum with the same name
+        List<Curriculum> curriculums = controller.findCurriculumByNameCodeId(curriculum.getName(), curriculum.getCode(), curriculum.getId().intValue(), data);
+        if (curriculums.size() > 0) {
+            throw new BadRequestException("Curriculum with the same exists in the database");
+        }
     }
 
     public CurriculumResponse populateResponse(Curriculum entity) {
