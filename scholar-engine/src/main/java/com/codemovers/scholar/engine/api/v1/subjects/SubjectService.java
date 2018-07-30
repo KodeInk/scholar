@@ -109,8 +109,8 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         List<Subjects> list = controller.findSubjects(limit, ofset, data);
         List<SubjectResponse> responses = new ArrayList<>();
         if (list != null) {
-            list.forEach((_subject) -> {
-                responses.add(populateResponse(_subject));
+            list.forEach((subject) -> {
+                responses.add(populateResponse(subject));
             });
         }
 
@@ -135,8 +135,9 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         SubjectResponse response = new SubjectResponse();
 
         response.setId(entity.getId().intValue());
-        response.setCode(entity.getCode());
         response.setName(entity.getName());
+        response.setCode(entity.getCode());
+        response.setCategory(entity.getCategory());
         response.setStatus(entity.getStatus());
         if (entity.getAuthor() != null) {
             response.setAuthor(entity.getAuthor().getUsername());

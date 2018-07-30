@@ -16,7 +16,7 @@ public class SubjectResponse {
     private Integer id;
     private String name;
     private String code;
-    private String subjectcategory;
+    private String category;
     private String status;
     private Long date_created;
     private String author;
@@ -52,12 +52,12 @@ public class SubjectResponse {
         this.code = code;
     }
 
-    public String getSubjectcategory() {
-        return subjectcategory;
+    public String getCategory() {
+        return category;
     }
 
-    public void setSubjectcategory(String subjectcategory) {
-        this.subjectcategory = subjectcategory;
+    public void setCategory(String category) {
+        this.category = category;
     }
     
 
