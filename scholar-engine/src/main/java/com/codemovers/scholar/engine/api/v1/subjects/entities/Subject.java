@@ -24,7 +24,8 @@ public class Subject extends AbstractEntity {
     private @Mandatory
     String code;
     private StatusEnum status;
-    private SubjectCategoryEnum category;
+    private @Mandatory
+    SubjectCategoryEnum category;
     private Date date_created;
     private Integer author_id;
 
@@ -144,6 +145,7 @@ public class Subject extends AbstractEntity {
                 + "id=" + id
                 + ", name=" + name
                 + ", code=" + code
+                + ", category=" + category.name()
                 + ", status=" + status
                 + ", date_created=" + date_created
                 + ", author_id=" + author_id
