@@ -49,7 +49,7 @@ public class SubjectsJpaController extends EngineJpaController {
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
-            entity   = findSubjects(entity.getId().intValue(), data);
+            entity = findSubjects(entity.getId().intValue(), data);
         } catch (Exception eml) {
             LOG.log(Level.INFO, eml.toString());
             throw eml;
@@ -140,7 +140,7 @@ public class SubjectsJpaController extends EngineJpaController {
         return SubjectsJpaController.this.findSubjects(false, maxResults, firstResult, data);
     }
 
-      public List<Subjects> query(String searchQuery, int maxResults, int firstResult, SchoolData data) {
+    public List<Subjects> query(String searchQuery, int maxResults, int firstResult, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         List<Subjects> list = new ArrayList<>();
         try {
@@ -158,8 +158,6 @@ public class SubjectsJpaController extends EngineJpaController {
         return list;
     }
 
-      
-      
     public int getCount(SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
@@ -172,24 +170,22 @@ public class SubjectsJpaController extends EngineJpaController {
             em.close();
         }
     }
-    
-     public Query getQuery(EntityManager em, String searchQuery) {
+
+    public Query getQuery(EntityManager em, String searchQuery) {
 
         Query query = em.createQuery(""
-                + "select ST FROM Classes ST "
-                + " WHERE ST.name LIKE :name"
-                + " OR ST.code LIKE :code"
+                + "select SUB FROM Subjects SUB "
+                + " WHERE SUB.name LIKE :name"
+                + " OR SUB.code LIKE :code"
+                + " OR SUB.category LIKE :category"
                 + "");
 
         query.setParameter("name", "%" + searchQuery + "%");
         query.setParameter("code", "%" + searchQuery + "%");
+        query.setParameter("category", "%" + searchQuery + "%");
 
         return query;
 
     }
-
-     
-     
-     
 
 }

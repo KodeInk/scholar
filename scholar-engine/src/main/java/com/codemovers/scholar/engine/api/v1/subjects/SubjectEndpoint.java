@@ -100,7 +100,7 @@ public class SubjectEndpoint extends AbstractEndpoint<Subject, SubjectResponse> 
         return service.list(tenantdata, offset, limit, this.authentication);
     }
 
-     @GET
+    @GET
     @Path("/search/{query}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
