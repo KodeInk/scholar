@@ -140,6 +140,26 @@ public class SubjectsJpaController extends EngineJpaController {
         return SubjectsJpaController.this.findSubjects(false, maxResults, firstResult, data);
     }
 
+      public List<Subjects> query(String searchQuery, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
+        List<Subjects> list = new ArrayList<>();
+        try {
+            Query query = getQuery(em, searchQuery);
+            query.setMaxResults(maxResults);
+            query.setFirstResult(firstResult);
+            list = query.getResultList();
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        } finally {
+            em.close();
+        }
+
+        return list;
+    }
+
+      
+      
     public int getCount(SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
@@ -152,5 +172,24 @@ public class SubjectsJpaController extends EngineJpaController {
             em.close();
         }
     }
+    
+     public Query getQuery(EntityManager em, String searchQuery) {
+
+        Query query = em.createQuery(""
+                + "select ST FROM Classes ST "
+                + " WHERE ST.name LIKE :name"
+                + " OR ST.code LIKE :code"
+                + "");
+
+        query.setParameter("name", "%" + searchQuery + "%");
+        query.setParameter("code", "%" + searchQuery + "%");
+
+        return query;
+
+    }
+
+     
+     
+     
 
 }

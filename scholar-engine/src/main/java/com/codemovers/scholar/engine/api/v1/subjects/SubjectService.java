@@ -7,9 +7,12 @@ package com.codemovers.scholar.engine.api.v1.subjects;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
+import static com.codemovers.scholar.engine.api.v1.classes.ClassServiceInterface.ARCHIVE_CLASS_PERMISSION;
+import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 import com.codemovers.scholar.engine.api.v1.subjects.entities.SubjectResponse;
 import com.codemovers.scholar.engine.api.v1.subjects.entities.Subject;
 import com.codemovers.scholar.engine.db.controllers.SubjectsJpaController;
+import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Subjects;
 import com.codemovers.scholar.engine.db.entities.Users;
@@ -115,6 +118,20 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         }
 
         return responses;
+
+    }
+
+    public List<SubjectResponse> search(SchoolData data, String query, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
+        check_access(ARCHIVE_CLASS_PERMISSION);
+
+        List<Subjects> list = controller.query(query, limit, ofset, data);
+
+        List<SubjectResponse> classResponses = new ArrayList<>();
+        list.forEach(response -> {
+            classResponses.add(populateResponse(response));
+        });
+
+        return classResponses;
 
     }
 
