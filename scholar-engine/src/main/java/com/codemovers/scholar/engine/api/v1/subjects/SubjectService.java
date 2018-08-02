@@ -171,6 +171,7 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         subject.setName(entity.getName());
         subject.setCode(entity.getCode());
         subject.setStatus(entity.getStatus().toString());
+        subject.setCategory(entity.getCategory().name());
         // subject.setDateCreated(entity.getDate_created());
         subject.setAuthor(new Users(entity.getAuthor_id().longValue()));
         return subject;
