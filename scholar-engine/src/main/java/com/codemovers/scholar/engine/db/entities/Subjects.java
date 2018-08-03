@@ -42,7 +42,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Subjects.findByCode", query = "SELECT s FROM Subjects s WHERE s.code = :code")
     , @NamedQuery(name = "Subjects.findByStatus", query = "SELECT s FROM Subjects s WHERE s.status = :status")
     , @NamedQuery(name = "Subjects.findByDateCreated", query = "SELECT s FROM Subjects s WHERE s.dateCreated = :dateCreated")
-    , @NamedQuery(name = "Subjects.findSubjectByNameAndCode", query = "SELECT s FROM Subjects s WHERE s.name = :name AND s.code = :code ")
+    , @NamedQuery(name = "Subjects.findSubjectByNameORCode", query = "SELECT s FROM Subjects s WHERE (s.name = :name OR s.code = :code( ")
+ , @NamedQuery(name = "Subjects.findSubjectByNameORCodeOnEdit", query = "SELECT s FROM Subjects s WHERE (s.name = :name OR s.code = :code)  AND s.id <> :id ")
 
 })
 public class Subjects implements Serializable {

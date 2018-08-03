@@ -7,7 +7,6 @@ package com.codemovers.scholar.engine.api.v1.subjects;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEndpoint;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 import com.codemovers.scholar.engine.api.v1.subjects.entities.SubjectResponse;
 import com.codemovers.scholar.engine.api.v1.subjects.entities.Subject;
 import com.codemovers.scholar.engine.api.v1.users.UserService;

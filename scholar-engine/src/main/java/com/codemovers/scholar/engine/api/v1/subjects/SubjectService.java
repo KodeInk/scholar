@@ -65,7 +65,7 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
     }
 
     @Override
-    public SubjectResponse update(SchoolData data, Subject entity) throws Exception {
+    public SubjectResponse update(SchoolData data, Subject entity, AuthenticationResponse authenticationResponse) throws Exception {
         check_access(UPDATE_SUBJECT_PERMISSION);
         entity.validate();
 
@@ -77,6 +77,12 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
 
         if (subject == null) {
             throw new BadRequestException("SUBJECT  RECORD DOES NOT EXIST");
+        }
+
+        //todo: check to see that there is no other subject with same name
+        List<Subjects> list = controller.findSubjects(entity.getName(), entity.getCode(), entity.getId(), data);
+        if (list.size() > 0) {
+            throw new BadRequestException("Subject with the same name or code exists in the database");
         }
 
         if (entity.getName() != null && !entity.getName().equalsIgnoreCase(subject.getName())) {

@@ -66,7 +66,7 @@ public class SubjectsJpaController extends EngineJpaController {
         EntityManager em = getEntityManager(data.getExternalId());
         List<Subjects> list = new ArrayList<>();
         try {
-            Query query = em.createNamedQuery("Subjects.findSubjectByNameAndCode");
+            Query query = em.createNamedQuery("Subjects.findSubjectByNameORCode");
             query.setParameter("name", name);
             query.setParameter("code", code);
 
@@ -80,6 +80,27 @@ public class SubjectsJpaController extends EngineJpaController {
 
         return list;
     }
+    
+     public List<Subjects> findSubjects(String name, String code, Integer id,SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
+        List<Subjects> list = new ArrayList<>();
+        try {
+            Query query = em.createNamedQuery("Subjects.findSubjectByNameORCodeOnEdit");
+            query.setParameter("name", name);
+            query.setParameter("code", code);
+            query.setParameter("id", id.longValue());
+
+            list = query.getResultList();
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        } finally {
+            em.close();
+        }
+
+        return list;
+    }
+     
 
     public Subjects edit(Subjects subjects, SchoolData data) throws Exception {
         EntityManager em = null;
