@@ -92,6 +92,11 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         if (entity.getCode() != null && !entity.getCode().equalsIgnoreCase(subject.getCode())) {
             subject.setCode(entity.getCode());
         }
+        
+         if (entity.getCategory().name()!= null && !entity.getCategory().name().equalsIgnoreCase(subject.getCategory())) {
+            subject.setCategory(entity.getCategory().name());
+        }
+         
 
         subject = controller.edit(subject, data);
         return populateResponse(subject);
