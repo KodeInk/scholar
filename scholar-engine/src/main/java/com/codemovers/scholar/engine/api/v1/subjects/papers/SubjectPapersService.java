@@ -7,10 +7,12 @@ package com.codemovers.scholar.engine.api.v1.subjects.papers;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import com.codemovers.scholar.engine.api.v1.subjects.papers.entities.SubjectPapers;
+import com.codemovers.scholar.engine.api.v1.subjects.papers.entities.SubjectPaper;
 import com.codemovers.scholar.engine.api.v1.subjects.papers.entities.SubjectPapersResponse;
 import com.codemovers.scholar.engine.db.controllers.SubjectPapersJpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import com.codemovers.scholar.engine.db.entities.SubjectPapers;
+import com.codemovers.scholar.engine.db.entities.Subjects;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import java.util.List;
 import java.util.logging.Logger;
@@ -19,7 +21,7 @@ import java.util.logging.Logger;
  *
  * @author mover 1/3/2018
  */
-public class SubjectPapersService extends AbstractService<SubjectPapers, SubjectPapersResponse> {
+public class SubjectPapersService extends AbstractService<SubjectPaper, SubjectPapersResponse> {
 
     private static final Logger LOG = Logger.getLogger(SubjectPapersService.class.getName());
     private final SubjectPapersJpaController controller;
@@ -45,7 +47,7 @@ public class SubjectPapersService extends AbstractService<SubjectPapers, Subject
      * @throws Exception
      */
     @Override
-    public SubjectPapersResponse create(SchoolData data, SubjectPapers entity, AuthenticationResponse authentication) throws Exception {
+    public SubjectPapersResponse create(SchoolData data, SubjectPaper entity, AuthenticationResponse authentication) throws Exception {
         entity.validate();
 
         entity.setAuthor_id(authentication.getId());
@@ -59,7 +61,7 @@ public class SubjectPapersService extends AbstractService<SubjectPapers, Subject
     }
 
     @Override
-    public SubjectPapersResponse update(SchoolData data, SubjectPapers entity, AuthenticationResponse authentication) throws Exception {
+    public SubjectPapersResponse update(SchoolData data, SubjectPaper entity, AuthenticationResponse authentication) throws Exception {
         return super.update(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -78,4 +80,18 @@ public class SubjectPapersService extends AbstractService<SubjectPapers, Subject
         return super.getById(data, Id, authentication); //To change body of generated methods, choose Tools | Templates.
     }
 
+    
+    //todo: populate entity 
+    public SubjectPapers getEntity(SubjectPaper entity){
+           //todo: populate Entity
+           SubjectPapers subjectPapers = new SubjectPapers();
+           subjectPapers.setCode(entity.getCode());
+           subjectPapers.setName(entity.getName());
+           subjectPapers.setSubject(new Subjects(entity.getSubject_id().longValue()));
+           
+           
+           
+           return null;
+    }
+    
 }

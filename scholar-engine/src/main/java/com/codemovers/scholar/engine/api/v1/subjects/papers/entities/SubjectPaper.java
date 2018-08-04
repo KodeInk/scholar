@@ -16,7 +16,7 @@ import java.util.Objects;
  *
  * @author mover 1/4/2018
  */
-public class SubjectPapers extends AbstractEntity {
+public class SubjectPaper extends AbstractEntity {
 
     private Integer id;
     private @Mandatory
@@ -29,10 +29,10 @@ public class SubjectPapers extends AbstractEntity {
     private Integer author_id;
     private Date date_created;
 
-    public SubjectPapers() {
+    public SubjectPaper() {
     }
 
-    public SubjectPapers(Integer id) {
+    public SubjectPaper(Integer id) {
         this.id = id;
     }
 
@@ -116,7 +116,7 @@ public class SubjectPapers extends AbstractEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final SubjectPapers other = (SubjectPapers) obj;
+        final SubjectPaper other = (SubjectPaper) obj;
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }

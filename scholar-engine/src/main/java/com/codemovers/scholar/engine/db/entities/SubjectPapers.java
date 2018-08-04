@@ -65,7 +65,7 @@ public class SubjectPapers implements Serializable {
     private Collection<TeachingTimetable> teachingTimetableCollection;
     @JoinColumn(name = "subject_id", referencedColumnName = "id")
     @ManyToOne
-    private Subjects subjectId;
+    private Subjects subject;
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne
     private Users authorId;
@@ -134,12 +134,12 @@ public class SubjectPapers implements Serializable {
         this.teachingTimetableCollection = teachingTimetableCollection;
     }
 
-    public Subjects getSubjectId() {
-        return subjectId;
+    public Subjects getSubject() {
+        return subject;
     }
 
-    public void setSubjectId(Subjects subjectId) {
-        this.subjectId = subjectId;
+    public void setSubject(Subjects subject) {
+        this.subject = subject;
     }
 
     public Users getAuthorId() {

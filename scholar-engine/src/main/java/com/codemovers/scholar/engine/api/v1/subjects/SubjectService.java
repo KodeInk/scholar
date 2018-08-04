@@ -57,7 +57,7 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         entity.setAuthor_id(authentication.getId());
         entity.setStatus(StatusEnum.ACTIVE);
 
-        Subjects subject = getSubject(entity);
+        Subjects subject = populateEntity(entity);
         subject = controller.create(subject, data);
         return populateResponse(subject);
     }
@@ -175,7 +175,7 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         return response;
     }
 
-    public Subjects getSubject(Subject entity) {
+    public Subjects populateEntity(Subject entity) {
         Subjects subject = new Subjects();
         subject.setName(entity.getName());
         subject.setCode(entity.getCode());

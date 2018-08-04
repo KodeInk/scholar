@@ -8,7 +8,7 @@ package com.codemovers.scholar.engine.api.v1.subjects.papers;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEndpoint;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.subjects.papers.entities.SubjectPapersResponse;
-import com.codemovers.scholar.engine.api.v1.subjects.papers.entities.SubjectPapers;
+import com.codemovers.scholar.engine.api.v1.subjects.papers.entities.SubjectPaper;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
@@ -33,7 +33,7 @@ import javax.ws.rs.core.MediaType;
  * @author mover 1/3/2018
  */
 @Path("/")
-public class SubjectPapersEndpoint extends AbstractEndpoint<SubjectPapers, SubjectPapersResponse> {
+public class SubjectPapersEndpoint extends AbstractEndpoint<SubjectPaper, SubjectPapersResponse> {
 
     private static final Logger LOG = Logger.getLogger(SubjectPapersEndpoint.class.getName());
     @Context
@@ -56,7 +56,7 @@ public class SubjectPapersEndpoint extends AbstractEndpoint<SubjectPapers, Subje
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
     public SubjectPapersResponse create(
-            SubjectPapers entity,
+            SubjectPaper entity,
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest
     ) throws Exception {
@@ -69,7 +69,7 @@ public class SubjectPapersEndpoint extends AbstractEndpoint<SubjectPapers, Subje
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
     public SubjectPapersResponse update(
-            SubjectPapers entity,
+            SubjectPaper entity,
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest
     ) throws Exception {
