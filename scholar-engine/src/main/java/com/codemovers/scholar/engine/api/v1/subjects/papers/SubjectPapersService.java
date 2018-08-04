@@ -7,6 +7,7 @@ package com.codemovers.scholar.engine.api.v1.subjects.papers;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
+import com.codemovers.scholar.engine.api.v1.subjects.SubjectService;
 import com.codemovers.scholar.engine.api.v1.subjects.papers.entities.SubjectPaper;
 import com.codemovers.scholar.engine.api.v1.subjects.papers.entities.SubjectPapersResponse;
 import com.codemovers.scholar.engine.db.controllers.SubjectPapersJpaController;
@@ -53,9 +54,10 @@ public class SubjectPapersService extends AbstractService<SubjectPaper, SubjectP
 
         entity.setAuthor_id(authentication.getId());
         entity.setStatus(StatusEnum.ACTIVE);
-        
+
         //todo: find to see that the subject exists in the database 
-       
+        Subjects subject = SubjectService.getInstance().findSubject(entity.getSubject_id(), data);
+        SubjectPapers subjectPapers = populateEntity(entity, subject);
 
         //todo: validate the entity
         //todo: check if there is no paper with the same name in the same subject 
@@ -85,7 +87,7 @@ public class SubjectPapersService extends AbstractService<SubjectPaper, SubjectP
     }
 
     //todo: populate entity 
-    public SubjectPapers getEntity(SubjectPaper entity, Subjects subject) {
+    public SubjectPapers populateEntity(SubjectPaper entity, Subjects subject) {
         //todo: populate Entity
         SubjectPapers subjectPapers = new SubjectPapers();
         subjectPapers.setCode(entity.getCode());
