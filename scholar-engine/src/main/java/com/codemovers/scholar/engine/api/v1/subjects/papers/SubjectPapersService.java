@@ -13,6 +13,7 @@ import com.codemovers.scholar.engine.db.controllers.SubjectPapersJpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.SubjectPapers;
 import com.codemovers.scholar.engine.db.entities.Subjects;
+import com.codemovers.scholar.engine.db.entities.Users;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import java.util.List;
 import java.util.logging.Logger;
@@ -88,10 +89,10 @@ public class SubjectPapersService extends AbstractService<SubjectPaper, SubjectP
            subjectPapers.setCode(entity.getCode());
            subjectPapers.setName(entity.getName());
            subjectPapers.setSubject(subject);
+           subjectPapers.setStatus(entity.getStatus().name());
+           subjectPapers.setAuthor(new Users(entity.getAuthor_id().longValue()));
            
-           
-           
-           return null;
+           return subjectPapers;
     }
     
 }
