@@ -82,12 +82,12 @@ public class SubjectPapersService extends AbstractService<SubjectPaper, SubjectP
 
     
     //todo: populate entity 
-    public SubjectPapers getEntity(SubjectPaper entity){
+    public SubjectPapers getEntity(SubjectPaper entity,Subjects subject){
            //todo: populate Entity
            SubjectPapers subjectPapers = new SubjectPapers();
            subjectPapers.setCode(entity.getCode());
            subjectPapers.setName(entity.getName());
-           subjectPapers.setSubject(new Subjects(entity.getSubject_id().longValue()));
+           subjectPapers.setSubject(subject);
            
            
            
