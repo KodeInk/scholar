@@ -71,11 +71,7 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
             throw new BadRequestException("UNIQUE ID MISSING");
         }
 
-        Subjects subject = controller.findSubjects(entity.getId(), data);
-
-        if (subject == null) {
-            throw new BadRequestException("SUBJECT  RECORD DOES NOT EXIST");
-        }
+        Subjects subject = findSubject(entity.getId(), data);
 
         //todo: check to see that there is no other subject with same name
         List<Subjects> list = controller.findSubjects(entity.getName(), entity.getCode(), entity.getId(), data);
@@ -103,11 +99,7 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
     @Override
     public SubjectResponse archive(SchoolData data, Integer id) throws Exception {
         check_access(ARCHIVE_SUBJECT_PERMISSION);
-        Subjects subject = controller.findSubjects(id, data);
-
-        if (subject == null) {
-            throw new BadRequestException("SUBJECT  RECORD DOES NOT EXIST");
-        }
+        Subjects subject = findSubject(id, data);
 
         subject.setStatus(StatusEnum.ARCHIVED.toString());
 
@@ -147,14 +139,12 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
     @Override
     public SubjectResponse getById(SchoolData data, Integer Id) throws Exception {
 
-        Subjects subject = controller.findSubjects(Id, data);
-
-        if (subject == null) {
-            throw new BadRequestException("SUBJECT  RECORD DOES NOT EXIST");
-        }
+        Subjects subject = findSubject(Id, data);
 
         return populateResponse(subject);
     }
+
+   
 
     @Override
     public SubjectResponse populateResponse(Subjects entity) {
@@ -175,6 +165,15 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         return response;
     }
 
+     public Subjects findSubject(Integer Id, SchoolData data) throws BadRequestException {
+        Subjects subject = controller.findSubjects(Id, data);
+        if (subject == null) {
+            throw new BadRequestException("SUBJECT  RECORD DOES NOT EXIST");
+        }
+        return subject;
+    }
+     
+     
     public Subjects populateEntity(Subject entity) {
         Subjects subject = new Subjects();
         subject.setName(entity.getName());

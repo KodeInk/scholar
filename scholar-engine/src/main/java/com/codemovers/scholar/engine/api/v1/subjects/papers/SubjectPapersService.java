@@ -53,6 +53,9 @@ public class SubjectPapersService extends AbstractService<SubjectPaper, SubjectP
 
         entity.setAuthor_id(authentication.getId());
         entity.setStatus(StatusEnum.ACTIVE);
+        
+        //todo: find to see that the subject exists in the database 
+       
 
         //todo: validate the entity
         //todo: check if there is no paper with the same name in the same subject 
@@ -81,18 +84,16 @@ public class SubjectPapersService extends AbstractService<SubjectPaper, SubjectP
         return super.getById(data, Id, authentication); //To change body of generated methods, choose Tools | Templates.
     }
 
-    
     //todo: populate entity 
-    public SubjectPapers getEntity(SubjectPaper entity,Subjects subject){
-           //todo: populate Entity
-           SubjectPapers subjectPapers = new SubjectPapers();
-           subjectPapers.setCode(entity.getCode());
-           subjectPapers.setName(entity.getName());
-           subjectPapers.setSubject(subject);
-           subjectPapers.setStatus(entity.getStatus().name());
-           subjectPapers.setAuthor(new Users(entity.getAuthor_id().longValue()));
-           
-           return subjectPapers;
+    public SubjectPapers getEntity(SubjectPaper entity, Subjects subject) {
+        //todo: populate Entity
+        SubjectPapers subjectPapers = new SubjectPapers();
+        subjectPapers.setCode(entity.getCode());
+        subjectPapers.setName(entity.getName());
+        subjectPapers.setSubject(subject);
+        subjectPapers.setStatus(entity.getStatus().name());
+        subjectPapers.setAuthor(new Users(entity.getAuthor_id().longValue()));
+        return subjectPapers;
     }
-    
+
 }
