@@ -11,6 +11,7 @@ import com.codemovers.scholar.engine.api.v1.subjects.papers.entities.SubjectPape
 import com.codemovers.scholar.engine.api.v1.subjects.papers.entities.SubjectPapersResponse;
 import com.codemovers.scholar.engine.db.controllers.SubjectPapersJpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -45,13 +46,15 @@ public class SubjectPapersService extends AbstractService<SubjectPapers, Subject
      */
     @Override
     public SubjectPapersResponse create(SchoolData data, SubjectPapers entity, AuthenticationResponse authentication) throws Exception {
-        
+        entity.validate();
+
+        entity.setAuthor_id(authentication.getId());
+        entity.setStatus(StatusEnum.ACTIVE);
+
         //todo: validate the entity
         //todo: check if there is no paper with the same name in the same subject 
-        
         //todo: populate entity
         //todo:  create 
-        
         return null;
     }
 
@@ -75,7 +78,4 @@ public class SubjectPapersService extends AbstractService<SubjectPapers, Subject
         return super.getById(data, Id, authentication); //To change body of generated methods, choose Tools | Templates.
     }
 
-    
-    
-    
 }

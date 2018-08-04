@@ -22,7 +22,7 @@ import javax.ws.rs.BadRequestException;
 
 /**
  *
- * @author Manny
+ * @author mover
  */
 public class SubjectPapersJpaController extends EngineJpaController {
 
