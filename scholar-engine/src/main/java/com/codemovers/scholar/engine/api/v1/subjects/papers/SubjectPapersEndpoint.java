@@ -37,9 +37,8 @@ public class SubjectPapersEndpoint extends AbstractEndpoint<SubjectPapers, Subje
     }
 
     @Override
-    public void validateAuthentication(SchoolData schoolData, String authentication)throws Exception {
+    public void validate(SchoolData schoolData, String authentication) throws Exception {
         this.authentication = UserService.getInstance().validateAuthentication(schoolData, authentication);
-
     }
 
     @Override
