@@ -46,6 +46,11 @@ public class SubjectPapersService extends AbstractService<SubjectPapers, Subject
     @Override
     public SubjectPapersResponse create(SchoolData data, SubjectPapers entity, AuthenticationResponse authentication) throws Exception {
         
+        //todo: validate the entity
+        //todo: check if there is no paper with the same name in the same subject 
+        
+        //todo: populate entity
+        //todo:  create 
         
         return null;
     }

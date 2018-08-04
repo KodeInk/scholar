@@ -84,6 +84,7 @@ public class SubjectEndpoint extends AbstractEndpoint<Subject, SubjectResponse> 
             @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.archive(tenantdata, id, this.authentication);
+        
     }
 
     @GET
