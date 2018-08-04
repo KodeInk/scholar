@@ -56,7 +56,7 @@ public class SubjectPapersEndpoint extends AbstractEndpoint<SubjectPapers, Subje
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest
     ) throws Exception {
-      validate(tenantdata, authentication);
+        validate(tenantdata, authentication);
         return service.create(tenantdata, entity, this.authentication);
     }
 
