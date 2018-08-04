@@ -6,8 +6,10 @@
 package com.codemovers.scholar.engine.api.v1.subjects.papers;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEndpoint;
+import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.subjects.papers.entities.SubjectPapersResponse;
 import com.codemovers.scholar.engine.api.v1.subjects.papers.entities.SubjectPapers;
+import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.List;
 import java.util.logging.Logger;
@@ -28,14 +30,16 @@ public class SubjectPapersEndpoint extends AbstractEndpoint<SubjectPapers, Subje
     private ContainerRequestContext context;
 
     SubjectPapersService service = null;
+    private AuthenticationResponse authentication = null;
 
     public SubjectPapersEndpoint() {
         service = new SubjectPapersService();
     }
 
     @Override
-    public void validateAuthentication(SchoolData schoolData, String authentication) {
-        super.validateAuthentication(schoolData, authentication); //To change body of generated methods, choose Tools | Templates.
+    public void validateAuthentication(SchoolData schoolData, String authentication)throws Exception {
+        this.authentication = UserService.getInstance().validateAuthentication(schoolData, authentication);
+
     }
 
     @Override

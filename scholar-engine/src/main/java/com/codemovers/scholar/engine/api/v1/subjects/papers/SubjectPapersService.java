@@ -35,9 +35,19 @@ public class SubjectPapersService extends AbstractService<SubjectPapers, Subject
         return service;
     }
 
+    /**
+     *
+     * @param data
+     * @param entity
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
     public SubjectPaperResponse create(SchoolData data, SubjectPapers entity, AuthenticationResponse authentication) throws Exception {
-        return super.create(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
+        
+        
+        return null;
     }
 
     @Override
