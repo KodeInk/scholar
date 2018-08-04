@@ -11,6 +11,7 @@ import com.codemovers.scholar.engine.api.v1.subjects.papers.entities.SubjectPape
 import com.codemovers.scholar.engine.api.v1.subjects.papers.entities.SubjectPapers;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -55,8 +56,8 @@ public class SubjectPapersEndpoint extends AbstractEndpoint<SubjectPapers, Subje
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest
     ) throws Exception {
-        return super.create(entity, authentication, httpRequest);
-        //To change body of generated methods, choose Tools | Templates.
+      validate(tenantdata, authentication);
+        return service.create(tenantdata, entity, this.authentication);
     }
 
     @Override

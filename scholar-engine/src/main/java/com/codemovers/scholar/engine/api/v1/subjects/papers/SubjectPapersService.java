@@ -7,8 +7,8 @@ package com.codemovers.scholar.engine.api.v1.subjects.papers;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import com.codemovers.scholar.engine.api.v1.subjects.entities.SubjectPaperResponse;
 import com.codemovers.scholar.engine.api.v1.subjects.papers.entities.SubjectPapers;
+import com.codemovers.scholar.engine.api.v1.subjects.papers.entities.SubjectPapersResponse;
 import com.codemovers.scholar.engine.db.controllers.SubjectPapersJpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  *
  * @author mover 1/3/2018
  */
-public class SubjectPapersService extends AbstractService<SubjectPapers, SubjectPaperResponse> {
+public class SubjectPapersService extends AbstractService<SubjectPapers, SubjectPapersResponse> {
 
     private static final Logger LOG = Logger.getLogger(SubjectPapersService.class.getName());
     private final SubjectPapersJpaController controller;
@@ -44,29 +44,29 @@ public class SubjectPapersService extends AbstractService<SubjectPapers, Subject
      * @throws Exception
      */
     @Override
-    public SubjectPaperResponse create(SchoolData data, SubjectPapers entity, AuthenticationResponse authentication) throws Exception {
+    public SubjectPapersResponse create(SchoolData data, SubjectPapers entity, AuthenticationResponse authentication) throws Exception {
         
         
         return null;
     }
 
     @Override
-    public SubjectPaperResponse update(SchoolData data, SubjectPapers entity, AuthenticationResponse authentication) throws Exception {
+    public SubjectPapersResponse update(SchoolData data, SubjectPapers entity, AuthenticationResponse authentication) throws Exception {
         return super.update(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public SubjectPaperResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
+    public SubjectPapersResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception {
         return super.archive(data, id, authentication); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<SubjectPaperResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
+    public List<SubjectPapersResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
         return super.list(data, ofset, limit, authentication); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public SubjectPaperResponse getById(SchoolData data, Integer Id, AuthenticationResponse authentication) throws Exception {
+    public SubjectPapersResponse getById(SchoolData data, Integer Id, AuthenticationResponse authentication) throws Exception {
         return super.getById(data, Id, authentication); //To change body of generated methods, choose Tools | Templates.
     }
 
