@@ -14,9 +14,14 @@ import com.codemovers.scholar.engine.db.entities.SchoolData;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 
 /**
  *
@@ -41,8 +46,15 @@ public class SubjectPapersEndpoint extends AbstractEndpoint<SubjectPapers, Subje
         this.authentication = UserService.getInstance().validateAuthentication(schoolData, authentication);
     }
 
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public SubjectPapersResponse create(SubjectPapers entity, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public SubjectPapersResponse create(
+            SubjectPapers entity,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest
+    ) throws Exception {
         return super.create(entity, authentication, httpRequest);
         //To change body of generated methods, choose Tools | Templates.
     }
