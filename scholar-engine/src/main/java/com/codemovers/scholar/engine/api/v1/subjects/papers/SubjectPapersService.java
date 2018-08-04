@@ -7,7 +7,7 @@ package com.codemovers.scholar.engine.api.v1.subjects.papers;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.subjects.entities.SubjectPaperResponse;
-import com.codemovers.scholar.engine.api.v1.subjects.papers.entities._SubjectPapers;
+import com.codemovers.scholar.engine.api.v1.subjects.papers.entities.SubjectPapers;
 import com.codemovers.scholar.engine.db.controllers.SubjectPapersJpaController;
 import java.util.logging.Logger;
 
@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  *
  * @author mover 1/3/2018
  */
-public class SubjectPapersService extends AbstractService<_SubjectPapers, SubjectPaperResponse> {
+public class SubjectPapersService extends AbstractService<SubjectPapers, SubjectPaperResponse> {
 
     private static final Logger LOG = Logger.getLogger(SubjectPapersService.class.getName());
     private final SubjectPapersJpaController controller;

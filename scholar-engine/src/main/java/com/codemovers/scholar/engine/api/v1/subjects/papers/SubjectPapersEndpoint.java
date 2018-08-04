@@ -6,12 +6,9 @@
 package com.codemovers.scholar.engine.api.v1.subjects.papers;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEndpoint;
-import com.codemovers.scholar.engine.api.v1.subjects.SubjectEndpoint;
-import com.codemovers.scholar.engine.api.v1.subjects.SubjectService;
 import com.codemovers.scholar.engine.api.v1.subjects.papers.entities.SubjectPapersResponse;
-import com.codemovers.scholar.engine.api.v1.subjects.papers.entities._SubjectPapers;
+import com.codemovers.scholar.engine.api.v1.subjects.papers.entities.SubjectPapers;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +21,7 @@ import javax.ws.rs.core.Context;
  * @author mover 1/3/2018
  */
 @Path("/")
-public class SubjectPapersEndpoint extends AbstractEndpoint<_SubjectPapers, SubjectPapersResponse> {
+public class SubjectPapersEndpoint extends AbstractEndpoint<SubjectPapers, SubjectPapersResponse> {
 
     private static final Logger LOG = Logger.getLogger(SubjectPapersEndpoint.class.getName());
     @Context
@@ -42,12 +39,13 @@ public class SubjectPapersEndpoint extends AbstractEndpoint<_SubjectPapers, Subj
     }
 
     @Override
-    public SubjectPapersResponse create(_SubjectPapers entity, String authentication, HttpServletRequest httpRequest) throws Exception {
-        return super.create(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+    public SubjectPapersResponse create(SubjectPapers entity, String authentication, HttpServletRequest httpRequest) throws Exception {
+        return super.create(entity, authentication, httpRequest);
+        //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public SubjectPapersResponse update(_SubjectPapers entity, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public SubjectPapersResponse update(SubjectPapers entity, String authentication, HttpServletRequest httpRequest) throws Exception {
         return super.update(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 
