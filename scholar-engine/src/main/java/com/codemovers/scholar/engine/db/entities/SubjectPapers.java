@@ -40,7 +40,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "SubjectPapers.findByName", query = "SELECT s FROM SubjectPapers s WHERE s.name = :name")
     , @NamedQuery(name = "SubjectPapers.findByCode", query = "SELECT s FROM SubjectPapers s WHERE s.code = :code")
     , @NamedQuery(name = "SubjectPapers.findByStatus", query = "SELECT s FROM SubjectPapers s WHERE s.status = :status")
-    , @NamedQuery(name = "SubjectPapers.findByDateCreated", query = "SELECT s FROM SubjectPapers s WHERE s.dateCreated = :dateCreated")})
+    , @NamedQuery(name = "SubjectPapers.findByDateCreated", query = "SELECT s FROM SubjectPapers s WHERE s.dateCreated = :dateCreated")
+    , @NamedQuery(name = "SubjectPapers.findByNameOrCode", query = "SELECT s FROM SubjectPapers s WHERE (s.name LIKE :name OR s.code LIKE :code) AND s.subject.id = :subjectId")
+        
+})
 public class SubjectPapers implements Serializable {
 
     private static final long serialVersionUID = 1L;
