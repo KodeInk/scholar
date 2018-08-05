@@ -26,7 +26,7 @@ public class Subject extends AbstractEntity {
     private StatusEnum status;
     private @Mandatory
     SubjectTypeEnum type;
-    private Date date_created;
+    private Long date_created;
     private Integer author_id;
 
     public Subject() {
@@ -76,11 +76,11 @@ public class Subject extends AbstractEntity {
         this.status = status;
     }
 
-    public Date getDate_created() {
+    public Long getDate_created() {
         return date_created;
     }
 
-    public void setDate_created(Date date_created) {
+    public void setDate_created(Long date_created) {
         this.date_created = date_created;
     }
 

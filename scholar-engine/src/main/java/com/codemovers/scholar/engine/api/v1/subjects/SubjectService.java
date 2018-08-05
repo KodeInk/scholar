@@ -18,6 +18,7 @@ import static com.codemovers.scholar.engine.helper.Utilities.check_access;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -58,6 +59,8 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         entity.setStatus(StatusEnum.ACTIVE);
 
         Subjects subject = populateEntity(entity);
+        subject.setDateCreated(new Date());
+        
         subject = controller.create(subject, data);
         return populateResponse(subject);
     }

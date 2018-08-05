@@ -19,6 +19,7 @@ import com.codemovers.scholar.engine.db.entities.Users;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -60,6 +61,7 @@ public class SubjectPapersService extends AbstractService<SubjectPaper, SubjectP
         //todo: find to see that the subject exists in the database 
         Subjects subject = SubjectService.getInstance().findSubject(entity.getSubject_id(), data);
         SubjectPapers subjectPapers = populateEntity(entity, subject);
+        subjectPapers.setDateCreated(new Date());
         verifySubjectPapers(entity, data);
         subjectPapers = controller.create(subjectPapers, data);
         return populateResponse(subjectPapers);
