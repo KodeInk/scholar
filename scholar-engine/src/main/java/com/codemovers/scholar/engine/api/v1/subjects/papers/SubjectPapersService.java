@@ -17,6 +17,7 @@ import com.codemovers.scholar.engine.db.entities.SubjectPapers;
 import com.codemovers.scholar.engine.db.entities.Subjects;
 import com.codemovers.scholar.engine.db.entities.Users;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
+import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -61,14 +62,21 @@ public class SubjectPapersService extends AbstractService<SubjectPaper, SubjectP
         Subjects subject = SubjectService.getInstance().findSubject(entity.getSubject_id(), data);
         SubjectPapers subjectPapers = populateEntity(entity, subject);
 
-        //todo: find if there is no paper with the same name or code in the same subject
-        List<SubjectPapers> subjectPaperses = controller.findSubjectpapers(entity.getName(), entity.getCode(), entity.getSubject_id(), data);
-
+        verifySubjectPapers(entity, data);
+        
         //todo: validate the entity
         //todo: check if there is no paper with the same name in the same subject 
         //todo: populate entity
         //todo:  create 
         return null;
+    }
+
+    public void verifySubjectPapers(SubjectPaper entity, SchoolData data) throws BadRequestException {
+        //todo: find if there is no paper with the same name or code in the same subject
+        List<SubjectPapers> subjectPaperses = controller.findSubjectpapers(entity.getName(), entity.getCode(), entity.getSubject_id(), data);
+        if(subjectPaperses.size() > 0 ){
+            throw new BadRequestException("Subject Paper exists with same name or code");
+        }
     }
 
     @Override
