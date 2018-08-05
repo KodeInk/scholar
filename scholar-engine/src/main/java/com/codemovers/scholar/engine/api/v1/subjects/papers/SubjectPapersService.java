@@ -82,6 +82,15 @@ public class SubjectPapersService extends AbstractService<SubjectPaper, SubjectP
         return super.archive(data, id, authentication); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param data
+     * @param ofset
+     * @param limit
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<SubjectPapersResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
         List<SubjectPapers> list = controller.findSubjectPapers(limit, ofset, data);
