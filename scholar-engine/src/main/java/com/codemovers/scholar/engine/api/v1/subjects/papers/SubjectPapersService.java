@@ -8,6 +8,7 @@ package com.codemovers.scholar.engine.api.v1.subjects.papers;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.subjects.SubjectService;
+import com.codemovers.scholar.engine.api.v1.subjects.entities.SubjectResponse;
 import com.codemovers.scholar.engine.api.v1.subjects.papers.entities.SubjectPaper;
 import com.codemovers.scholar.engine.api.v1.subjects.papers.entities.SubjectPapersResponse;
 import com.codemovers.scholar.engine.db.controllers.SubjectPapersJpaController;
@@ -16,6 +17,7 @@ import com.codemovers.scholar.engine.db.entities.SubjectPapers;
 import com.codemovers.scholar.engine.db.entities.Subjects;
 import com.codemovers.scholar.engine.db.entities.Users;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -62,7 +64,7 @@ public class SubjectPapersService extends AbstractService<SubjectPaper, SubjectP
         //todo: find subject paper with same name or code where subject id 
         // :: todo: test some issues :: --> 
         controller.findSubjectPaper(Integer.SIZE, data);
-        
+
         //todo: validate the entity
         //todo: check if there is no paper with the same name in the same subject 
         //todo: populate entity
@@ -82,7 +84,15 @@ public class SubjectPapersService extends AbstractService<SubjectPaper, SubjectP
 
     @Override
     public List<SubjectPapersResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
-        return super.list(data, ofset, limit, authentication); //To change body of generated methods, choose Tools | Templates.
+        List<SubjectPapers> list = controller.findSubjectPapers(limit, ofset, data);
+        List<SubjectPapersResponse> responses = new ArrayList<>();
+        if (list != null) {
+            list.forEach((subject) -> {
+                responses.add(populateResponse(subject));
+            });
+        }
+
+        return responses;
     }
 
     @Override
@@ -100,6 +110,27 @@ public class SubjectPapersService extends AbstractService<SubjectPaper, SubjectP
         subjectPapers.setStatus(entity.getStatus().name());
         subjectPapers.setAuthor(new Users(entity.getAuthor_id().longValue()));
         return subjectPapers;
+    }
+
+    public SubjectPapersResponse populateResponse(SubjectPapers entity) {
+        SubjectPapersResponse response = new SubjectPapersResponse();
+
+        response.setId(entity.getId().intValue());
+        response.setName(entity.getName());
+        response.setCode(entity.getCode());
+        response.setStatus(entity.getStatus());
+        if (entity.getAuthor() != null) {
+            response.setAuthor(entity.getAuthor().getUsername());
+        }
+
+        if (entity.getDateCreated() != null) {
+            response.setDate_created(entity.getDateCreated().getTime());
+        }
+
+        SubjectResponse subjectResponse = SubjectService.getInstance().populateResponse(entity.getSubject());
+        response.setSubject(subjectResponse);
+
+        return response;
     }
 
 }
