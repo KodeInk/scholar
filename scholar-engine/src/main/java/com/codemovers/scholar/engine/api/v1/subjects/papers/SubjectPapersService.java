@@ -61,10 +61,8 @@ public class SubjectPapersService extends AbstractService<SubjectPaper, SubjectP
         Subjects subject = SubjectService.getInstance().findSubject(entity.getSubject_id(), data);
         SubjectPapers subjectPapers = populateEntity(entity, subject);
 
-        
         //todo: find if there is no paper with the same name or code in the same subject
-        controller.findSubjectPaper(Integer.SIZE, data);
-        
+        List<SubjectPapers> subjectPaperses = controller.findSubjectpapers(entity.getName(), entity.getCode(), entity.getSubject_id(), data);
 
         //todo: validate the entity
         //todo: check if there is no paper with the same name in the same subject 
