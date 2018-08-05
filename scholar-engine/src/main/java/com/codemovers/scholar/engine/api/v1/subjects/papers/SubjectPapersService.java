@@ -54,27 +54,21 @@ public class SubjectPapersService extends AbstractService<SubjectPaper, SubjectP
     @Override
     public SubjectPapersResponse create(SchoolData data, SubjectPaper entity, AuthenticationResponse authentication) throws Exception {
         entity.validate();
-
         entity.setAuthor_id(authentication.getId());
         entity.setStatus(StatusEnum.ACTIVE);
 
         //todo: find to see that the subject exists in the database 
         Subjects subject = SubjectService.getInstance().findSubject(entity.getSubject_id(), data);
         SubjectPapers subjectPapers = populateEntity(entity, subject);
-
         verifySubjectPapers(entity, data);
-        
-        //todo: validate the entity
-        //todo: check if there is no paper with the same name in the same subject 
-        //todo: populate entity
-        //todo:  create 
-        return null;
+        subjectPapers = controller.create(subjectPapers, data);
+        return populateResponse(subjectPapers);
     }
 
     public void verifySubjectPapers(SubjectPaper entity, SchoolData data) throws BadRequestException {
         //todo: find if there is no paper with the same name or code in the same subject
         List<SubjectPapers> subjectPaperses = controller.findSubjectpapers(entity.getName(), entity.getCode(), entity.getSubject_id(), data);
-        if(subjectPaperses.size() > 0 ){
+        if (subjectPaperses.size() > 0) {
             throw new BadRequestException("Subject Paper exists with same name or code");
         }
     }
