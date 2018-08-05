@@ -9,15 +9,15 @@ package com.codemovers.scholar.engine.api.v1.subjects.entities;
  *
  * @author mover 7/30/2018
  */
-public enum SubjectCategoryEnum {
+public enum SubjectTypeEnum {
       MAJOR, ELECTIVE;
 
-    public static final SubjectCategoryEnum fromString(String text) {
-        SubjectCategoryEnum returnValue = MAJOR;
+    public static final SubjectTypeEnum fromString(String text) {
+        SubjectTypeEnum returnValue = MAJOR;
 
         try {
             if (text != null) {
-                returnValue = SubjectCategoryEnum.valueOf(text.toUpperCase());
+                returnValue = SubjectTypeEnum.valueOf(text.toUpperCase());
             }
         } catch (IllegalArgumentException e) {
 
@@ -27,7 +27,7 @@ public enum SubjectCategoryEnum {
         return returnValue;
     }
 
-    public static final SubjectCategoryEnum fromObject(Object text) {
+    public static final SubjectTypeEnum fromObject(Object text) {
         return fromString(text.toString());
     }
 }

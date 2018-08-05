@@ -87,8 +87,8 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
             subject.setCode(entity.getCode());
         }
 
-        if (entity.getCategory().name() != null && !entity.getCategory().name().equalsIgnoreCase(subject.getCategory())) {
-            subject.setCategory(entity.getCategory().name());
+        if (entity.getType().name() != null && !entity.getType().name().equalsIgnoreCase(subject.getType())) {
+            subject.setType(entity.getType().name());
         }
 
         subject = controller.edit(subject, data);
@@ -150,7 +150,7 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         response.setId(entity.getId().intValue());
         response.setName(entity.getName());
         response.setCode(entity.getCode());
-        response.setCategory(entity.getCategory());
+        response.setType(entity.getType());
         response.setStatus(entity.getStatus());
         if (entity.getAuthor() != null) {
             response.setAuthor(entity.getAuthor().getUsername());
@@ -175,7 +175,7 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         subject.setName(entity.getName());
         subject.setCode(entity.getCode());
         subject.setStatus(entity.getStatus().toString());
-        subject.setCategory(entity.getCategory().name());
+        subject.setType(entity.getType().name());
         // subject.setDateCreated(entity.getDate_created());
         subject.setAuthor(new Users(entity.getAuthor_id().longValue()));
         return subject;

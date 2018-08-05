@@ -63,8 +63,8 @@ public class Subjects implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 8)
-    @Column(name = "category")
-    private String category;
+    @Column(name = "type")
+    private String type;
     @Size(max = 8)
     @Column(name = "status")
     private String status;
@@ -124,12 +124,12 @@ public class Subjects implements Serializable {
         this.code = code;
     }
 
-    public String getCategory() {
-        return category;
+    public String getType() {
+        return type;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getStatus() {
