@@ -8,6 +8,7 @@ package com.codemovers.scholar.engine.db.controllers;
 import com.codemovers.scholar.engine.db.EngineJpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.SubjectPapers;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -105,6 +106,28 @@ public class SubjectPapersJpaController extends EngineJpaController {
             em.close();
         }
     }
+    
+    public List<SubjectPapers> findSubjectpapers(String name, String code,Integer subject_id, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
+        List<SubjectPapers> list = new ArrayList<>();
+        try {
+            Query query = em.createNamedQuery("SubjectPapers.findByNameOrCode");
+            query.setParameter("name", name);
+            query.setParameter("code", code);
+            query.setParameter("id", subject_id.longValue());
+            
+
+            list = query.getResultList();
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        } finally {
+            em.close();
+        }
+
+        return list;
+    }
+    
 
     public List<SubjectPapers> findSubjectPapers(SchoolData data) {
         return findSubjectPapers(true, -1, -1, data);
