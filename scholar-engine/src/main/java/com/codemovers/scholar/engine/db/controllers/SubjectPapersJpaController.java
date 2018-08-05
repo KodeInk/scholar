@@ -114,7 +114,7 @@ public class SubjectPapersJpaController extends EngineJpaController {
             Query query = em.createNamedQuery("SubjectPapers.findByNameOrCode");
             query.setParameter("name", name);
             query.setParameter("code", code);
-            query.setParameter("id", subject_id.longValue());
+            query.setParameter("subjectId", subject_id.longValue());
             
 
             list = query.getResultList();
