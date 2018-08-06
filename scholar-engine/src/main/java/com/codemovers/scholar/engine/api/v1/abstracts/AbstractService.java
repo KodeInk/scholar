@@ -98,5 +98,10 @@ public abstract class AbstractService<T, Z> {
     public List<Z> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
         throw new UnsupportedOperationException("Not Supported ");
     }
+    
+    public List<Z> search(SchoolData data, String query, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
+          throw new UnsupportedOperationException("Not Supported ");
+    }
+    
 
 }

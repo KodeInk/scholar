@@ -22,6 +22,7 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -103,6 +104,22 @@ public class SubjectPapersEndpoint extends AbstractEndpoint<SubjectPaper, Subjec
         validate(tenantdata, authentication);
         return service.list(tenantdata, offset, limit, this.authentication);
 
+    }
+
+    @GET
+    @Path("/search/{query}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public List<SubjectPapersResponse> search(
+            @PathParam("query") String query,
+            @HeaderParam("authentication") String authentication,
+            @DefaultValue("0") @QueryParam("offset") int offset,
+            @DefaultValue("50") @QueryParam("limit") int limit,
+            @Context HttpServletRequest httpRequest) throws Exception, Exception {
+        validate(tenantdata, authentication);
+        System.out.println("==============================");
+        System.out.println(query);
+        return service.search(tenantdata, query, offset, limit, this.authentication);
     }
 
 }

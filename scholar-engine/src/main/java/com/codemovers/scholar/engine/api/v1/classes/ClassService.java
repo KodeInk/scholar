@@ -231,6 +231,7 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
 
     }
 
+    @Override
     public List<ClassResponse> search(SchoolData data, String query, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
         check_access(ARCHIVE_CLASS_PERMISSION);
 

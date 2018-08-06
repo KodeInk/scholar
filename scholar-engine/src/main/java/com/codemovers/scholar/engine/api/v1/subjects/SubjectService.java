@@ -124,6 +124,7 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
 
     }
 
+    @Override
     public List<SubjectResponse> search(SchoolData data, String query, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
         check_access(ARCHIVE_CLASS_PERMISSION);
 

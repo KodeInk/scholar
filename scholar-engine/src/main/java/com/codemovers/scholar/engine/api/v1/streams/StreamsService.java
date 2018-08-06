@@ -162,6 +162,7 @@ public class StreamsService extends AbstractService<Stream, StreamResponse> impl
         return responses;
     }
 
+    @Override
     public List<StreamResponse> search(SchoolData data, String query, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
         check_access(ARCHIVE_CLASS_PERMISSION);
 

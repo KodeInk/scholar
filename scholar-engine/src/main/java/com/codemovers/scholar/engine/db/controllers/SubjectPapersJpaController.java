@@ -128,6 +128,25 @@ public class SubjectPapersJpaController extends EngineJpaController {
         return list;
     }
     
+    public List<SubjectPapers> query(String searchQuery, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
+        List<SubjectPapers> list = new ArrayList<>();
+        try {
+            Query query = getQuery(em, searchQuery);
+            query.setMaxResults(maxResults);
+            query.setFirstResult(firstResult);
+            list = query.getResultList();
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        } finally {
+            em.close();
+        }
+
+        return list;
+    }
+    
+    
 
     public List<SubjectPapers> findSubjectPapers(SchoolData data) {
         return findSubjectPapers(true, -1, -1, data);
@@ -149,5 +168,25 @@ public class SubjectPapersJpaController extends EngineJpaController {
             em.close();
         }
     }
+    
+        public Query getQuery(EntityManager em, String searchQuery) {
+
+        Query query = em.createQuery(""
+                + "select SP FROM SubjectPapers SP "
+                + " WHERE SP.name LIKE :name"
+                + " OR SP.code LIKE :code"
+                + "");
+
+        query.setParameter("name", "%" + searchQuery + "%");
+        query.setParameter("code", "%" + searchQuery + "%");
+
+        return query;
+
+    }
+
+
+        
+        
+        
 
 }
