@@ -81,7 +81,31 @@ public class SubjectPapersService extends AbstractService<SubjectPaper, SubjectP
 
     @Override
     public SubjectPapersResponse update(SchoolData data, SubjectPaper entity, AuthenticationResponse authentication) throws Exception {
-        return super.update(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
+        entity.validate();
+        if (entity.getId() == null) {
+            throw new BadRequestException("UNIQUE ID MISSING");
+        }
+
+        findSubjectPaper(entity.getId(), data);
+
+        entity.setAuthor_id(authentication.getId());
+        entity.setStatus(StatusEnum.ACTIVE);
+
+        //todo: find to see that the subject exists in the database 
+        Subjects subject = SubjectService.getInstance().findSubject(entity.getSubject_id(), data);
+        SubjectPapers subjectPapers = populateEntity(entity, subject);
+        subjectPapers.setDateCreated(new Date());
+        verifySubjectPapers(entity, data);
+        subjectPapers = controller.create(subjectPapers, data);
+        return populateResponse(subjectPapers);
+    }
+
+    public void findSubjectPaper(Integer id, SchoolData data) throws BadRequestException {
+        SubjectPapers subjectpaper = controller.findSubjectPaper(id, data);
+
+        if (subjectpaper == null) {
+            throw new BadRequestException("SUBJECT  RECORD DOES NOT EXIST");
+        }
     }
 
     @Override
