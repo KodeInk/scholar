@@ -106,8 +106,8 @@ public class SubjectPapersJpaController extends EngineJpaController {
             em.close();
         }
     }
-    
-    public List<SubjectPapers> findSubjectpapers(String name, String code,Integer subject_id, SchoolData data) {
+
+    public List<SubjectPapers> findSubjectpapers(String name, String code, Integer subject_id, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         List<SubjectPapers> list = new ArrayList<>();
         try {
@@ -115,7 +115,6 @@ public class SubjectPapersJpaController extends EngineJpaController {
             query.setParameter("name", name);
             query.setParameter("code", code);
             query.setParameter("subjectId", subject_id.longValue());
-            
 
             list = query.getResultList();
         } catch (Exception er) {
@@ -127,7 +126,7 @@ public class SubjectPapersJpaController extends EngineJpaController {
 
         return list;
     }
-    
+
     public List<SubjectPapers> query(String searchQuery, int maxResults, int firstResult, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         List<SubjectPapers> list = new ArrayList<>();
@@ -145,8 +144,6 @@ public class SubjectPapersJpaController extends EngineJpaController {
 
         return list;
     }
-    
-    
 
     public List<SubjectPapers> findSubjectPapers(SchoolData data) {
         return findSubjectPapers(true, -1, -1, data);
@@ -168,25 +165,22 @@ public class SubjectPapersJpaController extends EngineJpaController {
             em.close();
         }
     }
-    
-        public Query getQuery(EntityManager em, String searchQuery) {
+
+    public Query getQuery(EntityManager em, String searchQuery) {
 
         Query query = em.createQuery(""
                 + "select SP FROM SubjectPapers SP "
                 + " WHERE SP.name LIKE :name"
                 + " OR SP.code LIKE :code"
+                + " OR SP.subject.name LIKE :subjectname"
                 + "");
 
         query.setParameter("name", "%" + searchQuery + "%");
         query.setParameter("code", "%" + searchQuery + "%");
+        query.setParameter("subjectname", "%" + searchQuery + "%");
 
         return query;
 
     }
-
-
-        
-        
-        
 
 }
