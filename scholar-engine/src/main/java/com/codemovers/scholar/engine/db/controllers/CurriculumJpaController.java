@@ -134,15 +134,14 @@ public class CurriculumJpaController extends EngineJpaController {
         return list;
     }
 
-    public List<Curriculum> findCurriculumByNameCodeId(String name, String code, Integer id, SchoolData data) {
+    public List<Curriculum> findCurriculumByNameCode(String name, String code, Integer id, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         List<Curriculum> list = new ArrayList<>();
         try {
-            Query query = em.createNamedQuery("Curriculum.findByNameOrCode");
+            Query query = em.createNamedQuery("Curriculum.findByNameOrCodeOnEdit");
             query.setParameter("name", name);
             query.setParameter("code", code);
             query.setParameter("id", id.longValue());
-
             list = query.getResultList();
         } catch (Exception er) {
             er.printStackTrace();
@@ -154,6 +153,27 @@ public class CurriculumJpaController extends EngineJpaController {
         return list;
     }
 
+    
+    public List<Curriculum> findCurriculumByNameCode(String name, String code, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
+        List<Curriculum> list = new ArrayList<>();
+        try {
+            Query query = em.createNamedQuery("Curriculum.findByNameOrCode");
+            query.setParameter("name", name);
+            query.setParameter("code", code);
+            list = query.getResultList();
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        } finally {
+            em.close();
+        }
+
+        return list;
+    }
+
+    
+    
     public int getCount(SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {

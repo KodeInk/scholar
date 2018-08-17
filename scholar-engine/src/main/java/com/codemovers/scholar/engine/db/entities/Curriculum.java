@@ -42,7 +42,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Curriculum.findByDescription", query = "SELECT c FROM Curriculum c WHERE c.description = :description")
     , @NamedQuery(name = "Curriculum.findByStatus", query = "SELECT c FROM Curriculum c WHERE c.status = :status")
     , @NamedQuery(name = "Curriculum.findByDateCreated", query = "SELECT c FROM Curriculum c WHERE c.dateCreated = :dateCreated")
-    , @NamedQuery(name = "Curriculum.findByNameOrCode", query = "SELECT c FROM Curriculum c WHERE (c.name = :name OR c.code = :code) AND c.id <> :id ")
+    , @NamedQuery(name = "Curriculum.findByNameOrCodeOnEdit", query = "SELECT c FROM Curriculum c WHERE (c.name = :name OR c.code = :code) AND c.id <> :id ")
+    , @NamedQuery(name = "Curriculum.findByNameOrCode", query = "SELECT c FROM Curriculum c WHERE c.name = :name OR c.code = :code ")
+
 })
 public class Curriculum implements Serializable {
 

@@ -50,10 +50,10 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         entity.validate();
 
         //todo: check to see that the name and code of the subject does not exist
-        List<Subjects> list = controller.findSubjects(entity.getName(), entity.getCode(), data);
-        if (list.size() > 0) {
-            throw new BadRequestException("Subject with the same name or code exists in the database");
-        }
+//        List<Subjects> list = controller.findSubjects(entity.getName(), entity.getCode(), data);
+//        if (list.size() > 0) {
+//            throw new BadRequestException("Subject with the same name or code exists in the database");
+//        }
 
         entity.setAuthor_id(authentication.getId());
         entity.setStatus(StatusEnum.ACTIVE);

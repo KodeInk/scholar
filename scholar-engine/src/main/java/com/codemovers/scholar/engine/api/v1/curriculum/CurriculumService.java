@@ -59,6 +59,7 @@ public class CurriculumService extends AbstractService<_Curriculum, CurriculumRe
         //todo: validate
         entity.validate();
         Curriculum curriculum = populateEntity(entity, authentication);
+        //A bug right here
         validateCurriculumExists(curriculum, data);
         curriculum = controller.create(curriculum, data);
         return populateResponse(curriculum);
@@ -136,7 +137,17 @@ public class CurriculumService extends AbstractService<_Curriculum, CurriculumRe
 
     public void validateCurriculumExists(Curriculum curriculum, SchoolData data) throws BadRequestException {
         //todo: check to see that there is no curriculum with the same name
-        List<Curriculum> curriculums = controller.findCurriculumByNameCodeId(curriculum.getName(), curriculum.getCode(), curriculum.getId().intValue(), data);
+        List<Curriculum> curriculums = null;
+        if(curriculum.getId() == null){
+           curriculums = controller.findCurriculumByNameCode(curriculum.getName(), curriculum.getCode(), data);
+       
+        }else
+        {
+           curriculums = controller.findCurriculumByNameCode(curriculum.getName(), curriculum.getCode(), curriculum.getId().intValue(), data);
+        
+        }
+        
+        
         if (curriculums.size() > 0) {
             throw new BadRequestException("Curriculum with the same exists in the database");
         }
