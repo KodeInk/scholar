@@ -11,11 +11,17 @@ import com.codemovers.scholar.engine.api.v1.grading.details.entities.GradingDeta
 import com.codemovers.scholar.engine.api.v1.grading.details.entities.GradingDetailResponse;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Produces;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 
 /**
  *
@@ -38,9 +44,17 @@ public class GradingDetailsEndpoint extends AbstractEndpoint<GradingDetail, Grad
         this.authentication = UserService.getInstance().validateAuthentication(schoolData, authentication);
     }
 
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public GradingDetailResponse create(GradingDetail entity, String authentication, HttpServletRequest httpRequest) throws Exception {
-        return super.create(entity, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+    public GradingDetailResponse create(
+            GradingDetail entity,
+            @HeaderParam("authentication") String authentication,
+            @Context HttpServletRequest httpRequest
+    ) throws Exception {
+          validate(tenantdata, authentication);
+       return  service.create(tenantdata, entity, this.authentication);
     }
 
     @Override
@@ -62,8 +76,5 @@ public class GradingDetailsEndpoint extends AbstractEndpoint<GradingDetail, Grad
     public GradingDetailResponse archive(Integer id, String authentication, HttpServletRequest httpRequest) throws Exception {
         return super.archive(id, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
-    
 
 }
