@@ -282,20 +282,15 @@ public class ClassJpaController extends EngineJpaController {
 
     }
 
-    
-      public Query getQuery(EntityManager em) {
+    public Query getQuery(EntityManager em) {
 
         Query query = em.createQuery(""
                 + "select ST FROM Classes ST"
                 + "LEFT JOIN ST.classStream "
-              
                 + "");
 
-      
         return query;
 
     }
 
-      
-      
 }

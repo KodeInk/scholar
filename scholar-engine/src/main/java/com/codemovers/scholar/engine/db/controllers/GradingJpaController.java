@@ -6,6 +6,7 @@
 package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.EngineJpaController;
+import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.Exams;
 import com.codemovers.scholar.engine.db.entities.Grading;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
@@ -105,6 +106,39 @@ public class GradingJpaController extends EngineJpaController {
         } finally {
             em.close();
         }
+    }
+
+    public List<Grading> query(String searchQuery, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
+        List<Grading> list = new ArrayList<>();
+        try {
+            Query query = getQuery(em, searchQuery);
+            query.setMaxResults(maxResults);
+            query.setFirstResult(firstResult);
+            list = query.getResultList();
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        } finally {
+            em.close();
+        }
+
+        return list;
+    }
+
+    public Query getQuery(EntityManager em, String searchQuery) {
+
+        Query query = em.createQuery(""
+                + "SELECT GRD FROM Grading GRD "
+                + " WHERE GRD.name LIKE :name"
+                + " OR GRD.code LIKE :code"
+                + "");
+
+        query.setParameter("name", "%" + searchQuery + "%");
+        query.setParameter("code", "%" + searchQuery + "%");
+
+        return query;
+
     }
 
     private List<Grading> findGradingEntities(boolean all, int maxResults, int firstResult, SchoolData data) {

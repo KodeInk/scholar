@@ -7,6 +7,8 @@ package com.codemovers.scholar.engine.api.v1.grading;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
+import static com.codemovers.scholar.engine.api.v1.classes.ClassServiceInterface.ARCHIVE_CLASS_PERMISSION;
+import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 import com.codemovers.scholar.engine.api.v1.grading.entities.GradingResponse;
 import com.codemovers.scholar.engine.api.v1.grading.entities._Grading;
 import com.codemovers.scholar.engine.db.controllers.GradingDetailsJpaController;
@@ -15,6 +17,7 @@ import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.Grading;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Users;
+import static com.codemovers.scholar.engine.helper.Utilities.check_access;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.ArrayList;
@@ -82,6 +85,21 @@ public class GradingService extends AbstractService<_Grading, GradingResponse> {
         }
 
         return responses;
+    }
+
+    @Override
+    public List<GradingResponse> search(SchoolData data, String query, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
+        check_access(ARCHIVE_CLASS_PERMISSION);
+
+        List<Grading> list = controller.query(query, limit, ofset, data);
+
+        List<GradingResponse> classResponses = new ArrayList<>();
+        list.forEach(respond -> {
+            classResponses.add(populateResponse(respond));
+        });
+
+        return classResponses;
+
     }
 
     @Override

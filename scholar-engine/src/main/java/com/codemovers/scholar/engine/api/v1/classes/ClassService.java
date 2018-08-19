@@ -136,7 +136,7 @@ public class ClassService extends AbstractService<SchoolClass, ClassResponse> im
         //todo: select from class Stream where class_id = 1;
         //then Destroy :: 
         ClassStreamJpaController.getInstance().deleteClassStreamByClassId(classes.getId().intValue(), data);
-         
+
     }
 
     /**
