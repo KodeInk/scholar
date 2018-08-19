@@ -49,10 +49,10 @@ public class GradingDetails implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "grading_scale")
-    private long gradingScale;
+    @JoinColumn(name = "grading_scale", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Grading gradingScale;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
@@ -95,7 +95,7 @@ public class GradingDetails implements Serializable {
         this.id = id;
     }
 
-    public GradingDetails(Long id, long gradingScale, String symbol, long mingrade, long maxgrade, String value, String status, Date dateCreated) {
+    public GradingDetails(Long id, Grading gradingScale, String symbol, long mingrade, long maxgrade, String value, String status, Date dateCreated) {
         this.id = id;
         this.gradingScale = gradingScale;
         this.symbol = symbol;
@@ -114,11 +114,11 @@ public class GradingDetails implements Serializable {
         this.id = id;
     }
 
-    public long getGradingScale() {
+    public Grading getGradingScale() {
         return gradingScale;
     }
 
-    public void setGradingScale(long gradingScale) {
+    public void setGradingScale(Grading gradingScale) {
         this.gradingScale = gradingScale;
     }
 
