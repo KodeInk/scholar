@@ -16,7 +16,7 @@ import java.util.Objects;
  *
  * @author mover 12/20/2017
  */
-public class _Grading extends AbstractEntity {
+public class Gradings extends AbstractEntity {
 
     private Integer id;
     private @Mandatory
@@ -28,10 +28,10 @@ public class _Grading extends AbstractEntity {
     private Date date_created;
     private Integer author_id;
 
-    public _Grading() {
+    public Gradings() {
     }
 
-    public _Grading(Integer id) {
+    public Gradings(Integer id) {
         this.id = id;
     }
 
@@ -115,7 +115,7 @@ public class _Grading extends AbstractEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final _Grading other = (_Grading) obj;
+        final Gradings other = (Gradings) obj;
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }

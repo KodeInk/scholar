@@ -7,9 +7,8 @@ package com.codemovers.scholar.engine.api.v1.grading;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEndpoint;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 import com.codemovers.scholar.engine.api.v1.grading.entities.GradingResponse;
-import com.codemovers.scholar.engine.api.v1.grading.entities._Grading;
+import com.codemovers.scholar.engine.api.v1.grading.entities.Gradings;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
@@ -35,7 +34,7 @@ import javax.ws.rs.core.MediaType;
  * @author mover 12/20/2017
  */
 @Path("/")
-public class GradingEndpoint extends AbstractEndpoint<_Grading, GradingResponse> {
+public class GradingEndpoint extends AbstractEndpoint<Gradings, GradingResponse> {
 
     private static final Logger LOG = Logger.getLogger(GradingEndpoint.class.getName());
     @Context
@@ -59,7 +58,7 @@ public class GradingEndpoint extends AbstractEndpoint<_Grading, GradingResponse>
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public GradingResponse create(_Grading entity,
+    public GradingResponse create(Gradings entity,
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest) throws Exception {
          validate(tenantdata, authentication);
@@ -70,11 +69,11 @@ public class GradingEndpoint extends AbstractEndpoint<_Grading, GradingResponse>
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public GradingResponse update(_Grading entity,
+    public GradingResponse update(Gradings entity,
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest) throws Exception {
-        return super.update(entity, authentication, httpRequest);
-//To change body of generated methods, choose Tools | Templates.
+         validate(tenantdata, authentication);
+        return  service.update(tenantdata, entity, this.authentication);
     }
 
     @POST

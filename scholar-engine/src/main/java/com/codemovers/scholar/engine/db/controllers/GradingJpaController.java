@@ -99,10 +99,10 @@ public class GradingJpaController extends EngineJpaController {
         }
     }
 
-    public Exams findGrading(Integer id, SchoolData data) {
+    public Grading findGrading(Integer id, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
-            return em.find(Exams.class, id);
+            return em.find(Grading.class, id);
         } finally {
             em.close();
         }
