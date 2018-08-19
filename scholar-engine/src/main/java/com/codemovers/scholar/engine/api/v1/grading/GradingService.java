@@ -98,12 +98,12 @@ public class GradingService extends AbstractService<Gradings, GradingResponse> {
 
         populateEntity(entity, grading);
 
-        List<Grading> gradings = controller.findGrading(entity.getName(), entity.getCode(), data);
+        List<Grading> gradings = controller.findGrading(entity.getName(), entity.getCode(), entity.getId(), data);
         if (gradings.size() > 0) {
             throw new BadRequestException("A grading exists with the same name or code");
         }
-
-        grading = controller.create(grading, data);
+        grading = controller.edit(grading, data); 
+        
         return populateResponse(grading);
     }
 

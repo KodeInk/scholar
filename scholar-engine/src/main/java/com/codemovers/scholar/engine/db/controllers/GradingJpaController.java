@@ -57,6 +57,23 @@ public class GradingJpaController extends EngineJpaController {
         return gradingList;
     }
 
+    public List<Grading> findGrading(String name, String code, Integer id, SchoolData data) {
+        List<Grading> gradingList = new ArrayList<>();
+        EntityManager em = getEntityManager(data.getExternalId());
+        Query query = em.createNamedQuery("Grading.findByNameOrCodeOnEdit");
+        query.setParameter("name", name);
+        query.setParameter("code", code);
+        query.setParameter("id", id.longValue());
+        try {
+            gradingList = query.getResultList();
+
+        } finally {
+            LOG.log(Level.FINER, "closing entity manager {0}", em);
+            em.close();
+        }
+        return gradingList;
+    }
+
     public Grading create(Grading entity, SchoolData data) {
         EntityManager em = null;
         try {
@@ -76,17 +93,17 @@ public class GradingJpaController extends EngineJpaController {
 
     }
 
-    public void edit(Grading grading, SchoolData data) throws Exception {
+    public Grading edit(Grading entity, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
             em = getEntityManager(data.getExternalId());
             em.getTransaction().begin();
-            grading = em.merge(grading);
+            entity = em.merge(entity);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = grading.getId().intValue();
+                Integer id = entity.getId().intValue();
                 if (findGrading(id, data) == null) {
                     throw new BadRequestException("The Contact with id " + id + " no longer exists.");
                 }
@@ -97,12 +114,14 @@ public class GradingJpaController extends EngineJpaController {
                 em.close();
             }
         }
+
+        return entity;
     }
 
     public Grading findGrading(Integer id, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
-            return em.find(Grading.class, id);
+            return em.find(Grading.class, id.longValue());
         } finally {
             em.close();
         }
