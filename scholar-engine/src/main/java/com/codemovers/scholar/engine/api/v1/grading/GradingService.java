@@ -30,10 +30,8 @@ import java.util.logging.Logger;
 public class GradingService extends AbstractService<Gradings, GradingResponse> {
 
     private static final Logger LOG = Logger.getLogger(GradingService.class.getName());
-
     private final GradingJpaController controller;
     private final GradingDetailsJpaController detailsJpaController;
-
     private static GradingService service = null;
 
     /**

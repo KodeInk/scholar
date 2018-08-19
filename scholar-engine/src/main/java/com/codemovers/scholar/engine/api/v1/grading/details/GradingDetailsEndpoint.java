@@ -103,7 +103,9 @@ public class GradingDetailsEndpoint extends AbstractEndpoint<GradingDetail, Grad
     }
 
     @Override
-    public GradingDetailResponse get(Integer id, String authentication, HttpServletRequest httpRequest) throws Exception {
+    public GradingDetailResponse get(Integer id,
+            String authentication, 
+            HttpServletRequest httpRequest) throws Exception {
         return super.archive(id, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
     }
 

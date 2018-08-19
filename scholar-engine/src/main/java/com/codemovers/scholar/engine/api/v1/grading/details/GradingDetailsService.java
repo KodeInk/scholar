@@ -6,15 +6,34 @@
 package com.codemovers.scholar.engine.api.v1.grading.details;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
+import com.codemovers.scholar.engine.api.v1.grading.GradingService;
 import com.codemovers.scholar.engine.api.v1.grading.details.entities.GradingDetail;
 import com.codemovers.scholar.engine.api.v1.grading.details.entities.GradingDetailResponse;
-import com.codemovers.scholar.engine.api.v1.grading.entities.GradingResponse;
-import com.codemovers.scholar.engine.api.v1.grading.entities.Gradings;
+import com.codemovers.scholar.engine.db.controllers.GradingDetailsJpaController;
+import java.util.logging.Logger;
 
 /**
  *
- * @author Manny
+ * @author mover 8/19/2018
  */
 public class GradingDetailsService extends AbstractService<GradingDetail, GradingDetailResponse> {
+
+    private static final Logger LOG = Logger.getLogger(GradingService.class.getName());
+    private final GradingDetailsJpaController controller;
+    private static GradingDetailsService service = null;
+
+    public GradingDetailsService() {
+        controller = GradingDetailsJpaController.getInstance();
+    }
+
+    public static GradingDetailsService getInstance() {
+        if (service == null) {
+            service = new GradingDetailsService();
+        }
+        return service;
+    }
     
+    
+    
+
 }
