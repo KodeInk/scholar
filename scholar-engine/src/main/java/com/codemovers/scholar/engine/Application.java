@@ -102,6 +102,11 @@ public class Application {
         context.addServlet(
                 getServlet(com.codemovers.scholar.engine.api.v1.grading.GradingEndpoint.class, CORSResponseFilter.class
                 ), "/grading/v1/*");
+        
+         context.addServlet(
+                getServlet(com.codemovers.scholar.engine.api.v1.grading.GradingEndpoint.class, CORSResponseFilter.class
+                ), "/grading/details/v1/*");
+         
 
         context.addServlet(
                 getServlet(com.codemovers.scholar.engine.api.v1.studyear.StudyYearEndpoint.class, CORSResponseFilter.class

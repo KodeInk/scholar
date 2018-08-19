@@ -3,42 +3,33 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.codemovers.scholar.engine.api.v1.grading.entities;
+package com.codemovers.scholar.engine.api.v1.grading.details.entities;
 
-import com.codemovers.scholar.engine.annotation.Mandatory;
-import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
-import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  *
  * @author mover 12/20/2017
  */
-public class _GradingDetail extends AbstractEntity {
+public class GradingDetailResponse {
 
     private Integer id;
-    private @Mandatory
-    Integer grading_id;
-    private @Mandatory
-    Integer grading_scale;
-    private @Mandatory
-    String symbol;
-    private @Mandatory
-    Integer min_grade;
-    private @Mandatory
-    Integer max_grade;
-    private @Mandatory
-    String value;
-    private @Mandatory
-    StatusEnum status;
+    private Integer grading_id;
+    private Integer grading_scale;
+    private String symbol;
+    private Integer min_grade;
+    private Integer max_grade;
+    private String value;
+    private StatusEnum status;
     private Date date_created;
     private Integer author_id;
 
-    public _GradingDetail() {
+    public GradingDetailResponse() {
     }
 
-    public _GradingDetail(Integer id) {
+    public GradingDetailResponse(Integer id) {
         this.id = id;
     }
 
@@ -123,13 +114,66 @@ public class _GradingDetail extends AbstractEntity {
     }
 
     @Override
-    public void validate() {
-        validateMandatoryFields(this.getClass(), this);
+    public int hashCode() {
+        int hash = 7;
+        hash = 19 * hash + Objects.hashCode(this.id);
+        hash = 19 * hash + Objects.hashCode(this.grading_id);
+        hash = 19 * hash + Objects.hashCode(this.grading_scale);
+        hash = 19 * hash + Objects.hashCode(this.symbol);
+        hash = 19 * hash + Objects.hashCode(this.min_grade);
+        hash = 19 * hash + Objects.hashCode(this.max_grade);
+        hash = 19 * hash + Objects.hashCode(this.value);
+        hash = 19 * hash + Objects.hashCode(this.status);
+        hash = 19 * hash + Objects.hashCode(this.date_created);
+        hash = 19 * hash + Objects.hashCode(this.author_id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final GradingDetailResponse other = (GradingDetailResponse) obj;
+        if (!Objects.equals(this.symbol, other.symbol)) {
+            return false;
+        }
+        if (!Objects.equals(this.value, other.value)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.grading_id, other.grading_id)) {
+            return false;
+        }
+        if (!Objects.equals(this.grading_scale, other.grading_scale)) {
+            return false;
+        }
+        if (!Objects.equals(this.min_grade, other.min_grade)) {
+            return false;
+        }
+        if (!Objects.equals(this.max_grade, other.max_grade)) {
+            return false;
+        }
+        if (this.status != other.status) {
+            return false;
+        }
+        if (!Objects.equals(this.date_created, other.date_created)) {
+            return false;
+        }
+        return Objects.equals(this.author_id, other.author_id);
     }
 
     @Override
     public String toString() {
-        return "_GradingDetail{"
+        return "GradingDetailResponse{"
                 + "id=" + id
                 + ", grading_id=" + grading_id
                 + ", grading_scale=" + grading_scale
