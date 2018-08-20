@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author mover
+ * @author Manny
  */
 @Entity
 @Table(name = "grading_details")
@@ -34,15 +34,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "GradingDetails.findAll", query = "SELECT g FROM GradingDetails g")
     , @NamedQuery(name = "GradingDetails.findById", query = "SELECT g FROM GradingDetails g WHERE g.id = :id")
-    , @NamedQuery(name = "GradingDetails.findByGradingScale", query = "SELECT g FROM GradingDetails g WHERE g.gradingScale = :gradingScale")
     , @NamedQuery(name = "GradingDetails.findBySymbol", query = "SELECT g FROM GradingDetails g WHERE g.symbol = :symbol")
     , @NamedQuery(name = "GradingDetails.findByMingrade", query = "SELECT g FROM GradingDetails g WHERE g.mingrade = :mingrade")
     , @NamedQuery(name = "GradingDetails.findByMaxgrade", query = "SELECT g FROM GradingDetails g WHERE g.maxgrade = :maxgrade")
-    , @NamedQuery(name = "GradingDetails.findByValue", query = "SELECT g FROM GradingDetails g WHERE g.value = :value")
     , @NamedQuery(name = "GradingDetails.findByStatus", query = "SELECT g FROM GradingDetails g WHERE g.status = :status")
-    , @NamedQuery(name = "GradingDetails.findByDateCreated", query = "SELECT g FROM GradingDetails g WHERE g.dateCreated = :dateCreated")
- 
-})
+    , @NamedQuery(name = "GradingDetails.findByDateCreated", query = "SELECT g FROM GradingDetails g WHERE g.dateCreated = :dateCreated")})
 public class GradingDetails implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,10 +47,6 @@ public class GradingDetails implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    @JoinColumn(name = "grading_scale", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Grading gradingScale;
-
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
@@ -70,11 +62,6 @@ public class GradingDetails implements Serializable {
     private long maxgrade;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "value")
-    private String value;
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 8)
     @Column(name = "status")
     private String status;
@@ -83,7 +70,9 @@ public class GradingDetails implements Serializable {
     @Column(name = "date_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
-
+    @JoinColumn(name = "grading_scale", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Grading gradingScale;
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users author;
@@ -95,13 +84,11 @@ public class GradingDetails implements Serializable {
         this.id = id;
     }
 
-    public GradingDetails(Long id, Grading gradingScale, String symbol, long mingrade, long maxgrade, String value, String status, Date dateCreated) {
+    public GradingDetails(Long id, String symbol, long mingrade, long maxgrade, String status, Date dateCreated) {
         this.id = id;
-        this.gradingScale = gradingScale;
         this.symbol = symbol;
         this.mingrade = mingrade;
         this.maxgrade = maxgrade;
-        this.value = value;
         this.status = status;
         this.dateCreated = dateCreated;
     }
@@ -112,14 +99,6 @@ public class GradingDetails implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Grading getGradingScale() {
-        return gradingScale;
-    }
-
-    public void setGradingScale(Grading gradingScale) {
-        this.gradingScale = gradingScale;
     }
 
     public String getSymbol() {
@@ -146,14 +125,6 @@ public class GradingDetails implements Serializable {
         this.maxgrade = maxgrade;
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -168,6 +139,14 @@ public class GradingDetails implements Serializable {
 
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public Grading getGradingScale() {
+        return gradingScale;
+    }
+
+    public void setGradingScale(Grading gradingScale) {
+        this.gradingScale = gradingScale;
     }
 
     public Users getAuthor() {
@@ -202,5 +181,5 @@ public class GradingDetails implements Serializable {
     public String toString() {
         return "com.codemovers.scholar.engine.db.entities.GradingDetails[ id=" + id + " ]";
     }
-
+    
 }

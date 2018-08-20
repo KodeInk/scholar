@@ -18,8 +18,7 @@ import java.util.Date;
 public class GradingDetail extends AbstractEntity {
 
     private Integer id;
-    private @Mandatory
-    Integer grading_id;
+
     private @Mandatory
     Integer grading_scale;
     private @Mandatory
@@ -28,10 +27,7 @@ public class GradingDetail extends AbstractEntity {
     Integer min_grade;
     private @Mandatory
     Integer max_grade;
-    private @Mandatory
-    String value;
-    private @Mandatory
-    StatusEnum status;
+    private StatusEnum status;
     private Date date_created;
     private Integer author_id;
 
@@ -48,14 +44,6 @@ public class GradingDetail extends AbstractEntity {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getGrading_id() {
-        return grading_id;
-    }
-
-    public void setGrading_id(Integer grading_id) {
-        this.grading_id = grading_id;
     }
 
     public Integer getGrading_scale() {
@@ -88,14 +76,6 @@ public class GradingDetail extends AbstractEntity {
 
     public void setMax_grade(Integer max_grade) {
         this.max_grade = max_grade;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
     }
 
     public StatusEnum getStatus() {
@@ -131,12 +111,10 @@ public class GradingDetail extends AbstractEntity {
     public String toString() {
         return "_GradingDetail{"
                 + "id=" + id
-                + ", grading_id=" + grading_id
                 + ", grading_scale=" + grading_scale
                 + ", symbol=" + symbol
                 + ", min_grade=" + min_grade
                 + ", max_grade=" + max_grade
-                + ", value=" + value
                 + ", status=" + status
                 + ", date_created=" + date_created
                 + ", author_id=" + author_id

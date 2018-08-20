@@ -88,6 +88,7 @@ public class Grading implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "gradingScale")
     private Collection<GradingDetails> gradingDetailsCollection;
 
+     
     public Grading() {
     }
 
@@ -203,4 +204,5 @@ public class Grading implements Serializable {
         return "com.codemovers.scholar.engine.db.entities.Grading[ id=" + id + " ]";
     }
 
+   
 }

@@ -118,11 +118,11 @@ public class GradingDetailsJpaController extends EngineJpaController {
         return findGradingDetailEntities(false, maxResults, firstResult, data);
     }
 
-    public List<GradingDetails> findGradingDetailEntities(String symbol, Integer min, Integer max, Integer gradingScale, int maxResults, int firstResult, SchoolData data) {
+    public List<GradingDetails> findIfGradingDetailsExists(String symbol, Integer min, Integer max, Integer gradingScale, int maxResults, int firstResult, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         List<GradingDetails> list = new ArrayList<>();
         try {
-            Query query = getQuery(em, symbol, max, min, gradingScale);
+            Query query = findIfGradingDetailsExistsQuery(em, symbol, max, min, gradingScale);
             query.setMaxResults(maxResults);
             query.setFirstResult(firstResult);
             list = query.getResultList();
@@ -149,20 +149,22 @@ public class GradingDetailsJpaController extends EngineJpaController {
         }
     }
 
-    public Query getQuery(EntityManager em, String queryString, Integer max, Integer min, Integer gradingScale) {
+    public Query findIfGradingDetailsExistsQuery(EntityManager em, String queryString, Integer max, Integer min, Integer gradingScale) {
 
         Query query = em.createQuery(""
                 + "select GD FROM GradingDetails GD "
                 + "LEFT JOIN GD.gradingScale GS "
                 + "WHERE "
                 + " ( GD.symbol LIKE :symbol "
-                + " OR GD.mingrade = :mingrade "
-                + " OR GD.maxgrade = :maxgrade "
-                + " OR GS.name = :name ) AND GD.id = :id "
+                + " OR"
+                + " ("
+                + " GD.mingrade <= :mingrade "
+                + " AND GD.maxgrade >= :maxgrade "
+                + " ) "
+                + "  ) AND GS.id = :id "
                 + "");
 
-        query.setParameter("symbol", "%" + queryString + "%");
-        query.setParameter("name", "%" + queryString + "%");
+        query.setParameter("symbol", "%" + queryString + "%");       
         query.setParameter("mingrade", min.longValue());
         query.setParameter("maxgrade", max.longValue());
         query.setParameter("id", gradingScale.longValue());
