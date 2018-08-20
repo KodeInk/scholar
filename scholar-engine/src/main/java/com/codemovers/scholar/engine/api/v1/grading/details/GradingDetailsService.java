@@ -119,34 +119,40 @@ public class GradingDetailsService extends AbstractService<GradingDetail, Gradin
      * @return
      */
     public GradingDetailResponse populateResponse(GradingDetails gradingDetail) {
-        GradingDetailResponse detailResponse = new GradingDetailResponse();
+        GradingDetailResponse response = new GradingDetailResponse();
         if (gradingDetail.getGradingScale() != null) {
-            detailResponse.setGradingScale(gradingDetail.getGradingScale().getName());
+            response.setGradingScale(gradingDetail.getGradingScale().getName());
         }
-        detailResponse.setId(gradingDetail.getId().intValue());
-        detailResponse.setDate_created(gradingDetail.getDateCreated().getTime());
-        detailResponse.setMax_grade(gradingDetail.getMaxgrade());
-        detailResponse.setMin_grade(gradingDetail.getMingrade());
-        detailResponse.setStatus(gradingDetail.getStatus());
-        detailResponse.setSymbol(gradingDetail.getStatus());
+        response.setId(gradingDetail.getId().intValue());
+        response.setDate_created(gradingDetail.getDateCreated().getTime());
+        response.setMax_grade(gradingDetail.getMaxgrade());
+        response.setMin_grade(gradingDetail.getMingrade());
+        response.setStatus(gradingDetail.getStatus());
+        response.setSymbol(gradingDetail.getStatus());
 
         if (gradingDetail.getAuthor() != null) {
-            detailResponse.setAuthor(gradingDetail.getAuthor().getUsername());
+            response.setAuthor(gradingDetail.getAuthor().getUsername());
         }
 
-        return detailResponse;
+        return response;
     }
 
+    /**
+     *
+     * @param entity
+     * @param gradingScale
+     * @return
+     */
     public GradingDetails populateEntity(GradingDetail entity, Grading gradingScale) {
-        GradingDetails gd = new GradingDetails();
-        gd.setGradingScale(gradingScale);
-        gd.setMaxgrade(entity.getMax_grade().longValue());
-        gd.setMingrade(entity.getMin_grade().longValue());
-        gd.setSymbol(entity.getSymbol());
-        gd.setStatus(entity.getStatus().name());
-        gd.setDateCreated(entity.getDate_created());
-        gd.setAuthor(new Users(entity.getAuthor_id().longValue()));
-        return gd;
+        GradingDetails gradingDetail = new GradingDetails();
+        gradingDetail.setGradingScale(gradingScale);
+        gradingDetail.setMaxgrade(entity.getMax_grade().longValue());
+        gradingDetail.setMingrade(entity.getMin_grade().longValue());
+        gradingDetail.setSymbol(entity.getSymbol());
+        gradingDetail.setStatus(entity.getStatus().name());
+        gradingDetail.setDateCreated(entity.getDate_created());
+        gradingDetail.setAuthor(new Users(entity.getAuthor_id().longValue()));
+        return gradingDetail;
     }
 
 }
