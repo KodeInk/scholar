@@ -40,7 +40,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "GradingDetails.findByMaxgrade", query = "SELECT g FROM GradingDetails g WHERE g.maxgrade = :maxgrade")
     , @NamedQuery(name = "GradingDetails.findByValue", query = "SELECT g FROM GradingDetails g WHERE g.value = :value")
     , @NamedQuery(name = "GradingDetails.findByStatus", query = "SELECT g FROM GradingDetails g WHERE g.status = :status")
-    , @NamedQuery(name = "GradingDetails.findByDateCreated", query = "SELECT g FROM GradingDetails g WHERE g.dateCreated = :dateCreated")})
+    , @NamedQuery(name = "GradingDetails.findByDateCreated", query = "SELECT g FROM GradingDetails g WHERE g.dateCreated = :dateCreated")
+ 
+})
 public class GradingDetails implements Serializable {
 
     private static final long serialVersionUID = 1L;

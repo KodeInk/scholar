@@ -41,7 +41,12 @@ public class GradingDetailsService extends AbstractService<GradingDetail, Gradin
 
     @Override
     public GradingDetailResponse create(SchoolData data, GradingDetail entity, AuthenticationResponse authentication) throws Exception {
-        return super.create(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
+        //todo: validate entity
+         entity.validate();
+        //todo: find if there exists the same 
+        
+        return super.create(data, entity, authentication);
+        //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -49,6 +54,15 @@ public class GradingDetailsService extends AbstractService<GradingDetail, Gradin
         return super.update(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param data
+     * @param ofset
+     * @param limit
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<GradingDetailResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
 
@@ -60,10 +74,7 @@ public class GradingDetailsService extends AbstractService<GradingDetail, Gradin
                 responses.add(populateResponse(gradingDetail));
             });
         }
-
         return responses;
-
-//To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

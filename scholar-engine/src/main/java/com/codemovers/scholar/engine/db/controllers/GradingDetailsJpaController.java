@@ -6,13 +6,16 @@
 package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.EngineJpaController;
-import com.codemovers.scholar.engine.db.JpaController;
-import com.codemovers.scholar.engine.db.entities.Exams;
+import static com.codemovers.scholar.engine.db.controllers.GradingJpaController.LOG;
+import com.codemovers.scholar.engine.db.entities.Classes;
+import com.codemovers.scholar.engine.db.entities.Grading;
 import com.codemovers.scholar.engine.db.entities.GradingDetails;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javassist.expr.Instanceof;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
@@ -115,6 +118,24 @@ public class GradingDetailsJpaController extends EngineJpaController {
         return findGradingDetailEntities(false, maxResults, firstResult, data);
     }
 
+    public List<GradingDetails> findGradingDetailEntities(String name, String code, Integer min, Integer max, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
+        List<GradingDetails> list = new ArrayList<>();
+        try {
+            Query query = getQuery(em, code, max, min);
+            query.setMaxResults(maxResults);
+            query.setFirstResult(firstResult);
+            list = query.getResultList();
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        } finally {
+            em.close();
+        }
+
+        return list;
+    }
+
     public int getCount(SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
@@ -126,6 +147,27 @@ public class GradingDetailsJpaController extends EngineJpaController {
         } finally {
             em.close();
         }
+    }
+
+    public Query getQuery(EntityManager em, String queryString, Integer max, Integer min) {
+
+        Query query = em.createQuery(""
+                + "select GD FROM GradingDetails GD "
+                + "LEFT JOIN GD.gradingScale GS "
+                + "WHERE "
+                + "GD.symbol LIKE :symbol "
+                + " OR GD.mingrade = :mingrade "
+                + " OR GD.maxgrade = :maxgrade "
+                + " OR GS.name = :name "
+                + "");
+
+        query.setParameter("symbol", "%" + queryString + "%");
+        query.setParameter("name", "%" + queryString + "%");
+        query.setParameter("mingrade", min.longValue());
+        query.setParameter("maxgrade", max.longValue());
+
+        return query;
+
     }
 
 }
