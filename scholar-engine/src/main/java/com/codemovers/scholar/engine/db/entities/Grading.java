@@ -85,7 +85,7 @@ public class Grading implements Serializable {
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users author;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "gradingId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "gradingScale")
     private Collection<GradingDetails> gradingDetailsCollection;
 
     public Grading() {

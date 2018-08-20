@@ -100,7 +100,9 @@ public class GradingJpaController extends EngineJpaController {
             em.getTransaction().begin();
             entity = em.merge(entity);
             em.getTransaction().commit();
+
         } catch (Exception ex) {
+            ex.printStackTrace();
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = entity.getId().intValue();

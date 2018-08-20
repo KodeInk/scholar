@@ -81,12 +81,10 @@ public class GradingDetails implements Serializable {
     @Column(name = "date_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
-    @JoinColumn(name = "grading_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Grading gradingId;
+
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Users authorId;
+    private Users author;
 
     public GradingDetails() {
     }
@@ -170,20 +168,12 @@ public class GradingDetails implements Serializable {
         this.dateCreated = dateCreated;
     }
 
-    public Grading getGradingId() {
-        return gradingId;
+    public Users getAuthor() {
+        return author;
     }
 
-    public void setGradingId(Grading gradingId) {
-        this.gradingId = gradingId;
-    }
-
-    public Users getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(Users authorId) {
-        this.authorId = authorId;
+    public void setAuthor(Users author) {
+        this.author = author;
     }
 
     @Override

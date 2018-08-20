@@ -5,8 +5,7 @@
  */
 package com.codemovers.scholar.engine.api.v1.grading.details.entities;
 
-import com.codemovers.scholar.engine.helper.enums.StatusEnum;
-import java.util.Date;
+import com.codemovers.scholar.engine.api.v1.grading.entities.GradingResponse;
 import java.util.Objects;
 
 /**
@@ -16,21 +15,15 @@ import java.util.Objects;
 public class GradingDetailResponse {
 
     private Integer id;
-    private Integer grading_id;
-    private Integer grading_scale;
+    private GradingResponse gradingScale;
     private String symbol;
-    private Integer min_grade;
-    private Integer max_grade;
-    private String value;
-    private StatusEnum status;
-    private Date date_created;
-    private Integer author_id;
+    private Long min_grade;
+    private Long max_grade;    
+    private String status;
+    private Long date_created;
+    private String author;
 
     public GradingDetailResponse() {
-    }
-
-    public GradingDetailResponse(Integer id) {
-        this.id = id;
     }
 
     public Integer getId() {
@@ -41,20 +34,12 @@ public class GradingDetailResponse {
         this.id = id;
     }
 
-    public Integer getGrading_id() {
-        return grading_id;
+    public GradingResponse getGradingScale() {
+        return gradingScale;
     }
 
-    public void setGrading_id(Integer grading_id) {
-        this.grading_id = grading_id;
-    }
-
-    public Integer getGrading_scale() {
-        return grading_scale;
-    }
-
-    public void setGrading_scale(Integer grading_scale) {
-        this.grading_scale = grading_scale;
+    public void setGradingScale(GradingResponse gradingScale) {
+        this.gradingScale = gradingScale;
     }
 
     public String getSymbol() {
@@ -65,67 +50,59 @@ public class GradingDetailResponse {
         this.symbol = symbol;
     }
 
-    public Integer getMin_grade() {
+    public Long getMin_grade() {
         return min_grade;
     }
 
-    public void setMin_grade(Integer min_grade) {
+    public void setMin_grade(Long min_grade) {
         this.min_grade = min_grade;
     }
 
-    public Integer getMax_grade() {
+    public Long getMax_grade() {
         return max_grade;
     }
 
-    public void setMax_grade(Integer max_grade) {
+    public void setMax_grade(Long max_grade) {
         this.max_grade = max_grade;
     }
 
-    public String getValue() {
-        return value;
-    }
+    
 
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public StatusEnum getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(StatusEnum status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public Date getDate_created() {
+    public Long getDate_created() {
         return date_created;
     }
 
-    public void setDate_created(Date date_created) {
+    public void setDate_created(Long date_created) {
         this.date_created = date_created;
     }
 
-    public Integer getAuthor_id() {
-        return author_id;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setAuthor_id(Integer author_id) {
-        this.author_id = author_id;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 19 * hash + Objects.hashCode(this.id);
-        hash = 19 * hash + Objects.hashCode(this.grading_id);
-        hash = 19 * hash + Objects.hashCode(this.grading_scale);
-        hash = 19 * hash + Objects.hashCode(this.symbol);
-        hash = 19 * hash + Objects.hashCode(this.min_grade);
-        hash = 19 * hash + Objects.hashCode(this.max_grade);
-        hash = 19 * hash + Objects.hashCode(this.value);
-        hash = 19 * hash + Objects.hashCode(this.status);
-        hash = 19 * hash + Objects.hashCode(this.date_created);
-        hash = 19 * hash + Objects.hashCode(this.author_id);
+        hash = 59 * hash + Objects.hashCode(this.id);
+        hash = 59 * hash + Objects.hashCode(this.gradingScale);
+        hash = 59 * hash + Objects.hashCode(this.symbol);
+        hash = 59 * hash + Objects.hashCode(this.min_grade);
+        hash = 59 * hash + Objects.hashCode(this.max_grade);       
+        hash = 59 * hash + Objects.hashCode(this.status);
+        hash = 59 * hash + Objects.hashCode(this.date_created);
+        hash = 59 * hash + Objects.hashCode(this.author);
         return hash;
     }
 
@@ -144,16 +121,17 @@ public class GradingDetailResponse {
         if (!Objects.equals(this.symbol, other.symbol)) {
             return false;
         }
-        if (!Objects.equals(this.value, other.value)) {
+        
+        if (!Objects.equals(this.status, other.status)) {
+            return false;
+        }
+        if (!Objects.equals(this.author, other.author)) {
             return false;
         }
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.grading_id, other.grading_id)) {
-            return false;
-        }
-        if (!Objects.equals(this.grading_scale, other.grading_scale)) {
+        if (!Objects.equals(this.gradingScale, other.gradingScale)) {
             return false;
         }
         if (!Objects.equals(this.min_grade, other.min_grade)) {
@@ -162,29 +140,25 @@ public class GradingDetailResponse {
         if (!Objects.equals(this.max_grade, other.max_grade)) {
             return false;
         }
-        if (this.status != other.status) {
-            return false;
-        }
         if (!Objects.equals(this.date_created, other.date_created)) {
             return false;
         }
-        return Objects.equals(this.author_id, other.author_id);
+        return true;
     }
 
     @Override
     public String toString() {
-        return "GradingDetailResponse{"
+        return "GradingDetailResponse"
+                + "{"
                 + "id=" + id
-                + ", grading_id=" + grading_id
-                + ", grading_scale=" + grading_scale
+                + ", gradingScale=" + gradingScale
                 + ", symbol=" + symbol
                 + ", min_grade=" + min_grade
-                + ", max_grade=" + max_grade
-                + ", value=" + value
+                + ", max_grade=" + max_grade               
                 + ", status=" + status
                 + ", date_created=" + date_created
-                + ", author_id=" + author_id
-                + "}";
+                + ", author=" + author
+                + '}';
     }
 
 }

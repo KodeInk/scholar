@@ -95,7 +95,7 @@ public class GradingDetailsJpaController extends EngineJpaController {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Exams.class));
+            cq.select(cq.from(GradingDetails.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);

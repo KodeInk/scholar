@@ -94,7 +94,7 @@ public class Application {
         context.addServlet(
                 getServlet(com.codemovers.scholar.engine.api.v1.subjects.SubjectEndpoint.class, CORSResponseFilter.class
                 ), "/subjects/v1/*");
-        
+
         context.addServlet(
                 getServlet(com.codemovers.scholar.engine.api.v1.subjects.papers.SubjectPapersEndpoint.class, CORSResponseFilter.class
                 ), "/subjects/papers/v1/*");
@@ -102,11 +102,10 @@ public class Application {
         context.addServlet(
                 getServlet(com.codemovers.scholar.engine.api.v1.grading.GradingEndpoint.class, CORSResponseFilter.class
                 ), "/grading/v1/*");
-        
-         context.addServlet(
-                getServlet(com.codemovers.scholar.engine.api.v1.grading.GradingEndpoint.class, CORSResponseFilter.class
+
+        context.addServlet(
+                getServlet(com.codemovers.scholar.engine.api.v1.grading.details.GradingDetailsEndpoint.class, CORSResponseFilter.class
                 ), "/grading/details/v1/*");
-         
 
         context.addServlet(
                 getServlet(com.codemovers.scholar.engine.api.v1.studyear.StudyYearEndpoint.class, CORSResponseFilter.class
@@ -135,8 +134,6 @@ public class Application {
         context.addServlet(
                 getServlet(com.codemovers.scholar.engine.api.v1.students.terms.TermRegistrationEndpoint.class, CORSResponseFilter.class
                 ), "/registration/term/v1/*");
-        
-        
 
         int port = 9876;
         jettyServer = new Server(port);
