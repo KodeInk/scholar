@@ -15,7 +15,7 @@ import java.util.Objects;
 public class GradingDetailResponse {
 
     private Integer id;
-    private GradingResponse gradingScale;
+    private String gradingScale;
     private String symbol;
     private Long min_grade;
     private Long max_grade;    
@@ -34,11 +34,11 @@ public class GradingDetailResponse {
         this.id = id;
     }
 
-    public GradingResponse getGradingScale() {
+    public String getGradingScale() {
         return gradingScale;
     }
 
-    public void setGradingScale(GradingResponse gradingScale) {
+    public void setGradingScale(String gradingScale) {
         this.gradingScale = gradingScale;
     }
 

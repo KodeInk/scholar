@@ -55,12 +55,16 @@ public class GradingDetailsService extends AbstractService<GradingDetail, Gradin
             throw new BadRequestException("Grading detail Exists with the same symbol or grading minimum and maximum exists already  ");
         }
 
+        Grading gradingScale = GradingService.getInstance().getGrading(entity.getGrading_scale(), data);
+        if (gradingScale == null) {
+            throw new BadRequestException("Grading Scale does not exist in the database ");
+        }
+
         entity.setStatus(StatusEnum.ACTIVE);
         entity.setAuthor_id(authentication.getId());
         entity.setDate_created(new Date());
 
-        GradingDetails gradingDetail = populateEntity(entity);
-
+        GradingDetails gradingDetail = populateEntity(entity, gradingScale);
         gradingDetail = controller.create(gradingDetail, data);
 
         return populateResponse(gradingDetail);
@@ -117,8 +121,7 @@ public class GradingDetailsService extends AbstractService<GradingDetail, Gradin
     public GradingDetailResponse populateResponse(GradingDetails gradingDetail) {
         GradingDetailResponse detailResponse = new GradingDetailResponse();
         if (gradingDetail.getGradingScale() != null) {
-           // GradingResponse gradingResponse = GradingService.getInstance().populateResponse(gradingDetail.getGradingScale());
-           // detailResponse.setGradingScale(gradingResponse);
+            detailResponse.setGradingScale(gradingDetail.getGradingScale().getName());
         }
         detailResponse.setId(gradingDetail.getId().intValue());
         detailResponse.setDate_created(gradingDetail.getDateCreated().getTime());
@@ -134,9 +137,9 @@ public class GradingDetailsService extends AbstractService<GradingDetail, Gradin
         return detailResponse;
     }
 
-    public GradingDetails populateEntity(GradingDetail entity) {
+    public GradingDetails populateEntity(GradingDetail entity, Grading gradingScale) {
         GradingDetails gd = new GradingDetails();
-        gd.setGradingScale(new Grading(entity.getGrading_scale().longValue()));
+        gd.setGradingScale(gradingScale);
         gd.setMaxgrade(entity.getMax_grade().longValue());
         gd.setMingrade(entity.getMin_grade().longValue());
         gd.setSymbol(entity.getSymbol());
