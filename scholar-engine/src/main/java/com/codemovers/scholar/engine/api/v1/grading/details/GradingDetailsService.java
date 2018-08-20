@@ -14,8 +14,11 @@ import com.codemovers.scholar.engine.api.v1.grading.entities.GradingResponse;
 import com.codemovers.scholar.engine.db.controllers.GradingDetailsJpaController;
 import com.codemovers.scholar.engine.db.entities.GradingDetails;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import com.codemovers.scholar.engine.db.entities.Users;
+import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -45,14 +48,21 @@ public class GradingDetailsService extends AbstractService<GradingDetail, Gradin
         //todo: validate entity
         entity.validate();
         //todo: find if there exists the same 
-        List<GradingDetails> gds = controller.findGradingDetailEntities(entity.getSymbol(), entity.getMin_grade(), entity.getMax_grade(),entity.getGrading_scale(), 0, 1, data);
+        List<GradingDetails> gds = controller.findGradingDetailEntities(entity.getSymbol(), entity.getMin_grade(), entity.getMax_grade(), entity.getGrading_scale(), 0, 1, data);
 
-        if(gds != null  && gds.size() > 0  ){
-                throw new BadRequestException("Grading detail Exists with the same symbol or code in the same Grading ");
+        if (gds != null && gds.size() > 0) {
+            throw new BadRequestException("Grading detail Exists with the same symbol or code in the same Grading ");
         }
+
+        entity.setStatus(StatusEnum.ACTIVE);
+        entity.setAuthor_id(authentication.getId());
+        entity.setDate_created(new Date());
+
+        GradingDetails gradingDetail = populateEntity(entity);
+
+       gradingDetail =  controller.create(gradingDetail, data);
         
-        return super.create(data, entity, authentication);
-        //To change body of generated methods, choose Tools | Templates.
+       return populateResponse(gradingDetail);
     }
 
     @Override
@@ -121,6 +131,16 @@ public class GradingDetailsService extends AbstractService<GradingDetail, Gradin
         }
 
         return detailResponse;
+    }
+
+    public GradingDetails populateEntity(GradingDetail entity) {
+        GradingDetails gd = new GradingDetails();
+        gd.setMaxgrade(entity.getMax_grade().longValue());
+        gd.setMingrade(entity.getMin_grade().longValue());
+        gd.setSymbol(entity.getSymbol());
+        gd.setDateCreated(entity.getDate_created());
+        gd.setAuthor(new Users(entity.getAuthor_id().longValue()));
+        return gd;
     }
 
 }
