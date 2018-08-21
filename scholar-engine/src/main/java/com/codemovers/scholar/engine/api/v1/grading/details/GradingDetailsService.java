@@ -74,7 +74,27 @@ public class GradingDetailsService extends AbstractService<GradingDetail, Gradin
 
     @Override
     public GradingDetailResponse update(SchoolData data, GradingDetail entity, AuthenticationResponse authentication) throws Exception {
-        return super.update(data, entity, authentication); //To change body of generated methods, choose Tools | Templates.
+
+        //todo: validate entity
+        entity.validate();
+        if (entity.getId() == null) {
+            throw new BadRequestException("UNIQUE ID MISSING");
+        }
+
+        GradingDetails gradingDetail = controller.findGradingDetail(entity.getId(), data);
+
+        populateEntity(entity, gradingDetail);
+
+        //todo: kalas 
+        List<GradingDetails> gds = controller.findIfGradingDetailsExists(entity.getSymbol(), entity.getMin_grade(), entity.getMax_grade(), entity.getGrading_scale(), 0, 1, data);
+
+        if (gds != null && gds.size() > 0) {
+            throw new BadRequestException("Grading detail Exists with the same symbol or grading minimum and maximum exists already  ");
+        }
+
+        gradingDetail = controller.edit(gradingDetail, data);
+        return populateResponse(gradingDetail);
+
     }
 
     /**
@@ -172,6 +192,20 @@ public class GradingDetailsService extends AbstractService<GradingDetail, Gradin
         gradingDetail.setDateCreated(entity.getDate_created());
         gradingDetail.setAuthor(new Users(entity.getAuthor_id().longValue()));
         return gradingDetail;
+    }
+
+    public void populateEntity(GradingDetail entity, GradingDetails gradingDetail) {
+        if (entity.getMin_grade() != null && (entity.getMin_grade().longValue() != gradingDetail.getMingrade())) {
+            gradingDetail.setMingrade(entity.getMin_grade().longValue());
+        }
+
+        if (entity.getMax_grade() != null && (entity.getMax_grade().longValue() != gradingDetail.getMaxgrade())) {
+            gradingDetail.setMaxgrade(entity.getMax_grade().longValue());
+        }
+
+        if (entity.getSymbol() != null && !entity.getSymbol().equalsIgnoreCase(gradingDetail.getSymbol())) {
+            gradingDetail.setSymbol(entity.getSymbol());
+        }
     }
 
 }

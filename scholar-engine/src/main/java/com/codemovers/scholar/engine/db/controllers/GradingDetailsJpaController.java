@@ -58,7 +58,7 @@ public class GradingDetailsJpaController extends EngineJpaController {
 
     }
 
-    public void edit(GradingDetails gradingDetails, SchoolData data) throws Exception {
+    public GradingDetails edit(GradingDetails gradingDetails, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
             em = getEntityManager(data.getExternalId());
@@ -79,6 +79,8 @@ public class GradingDetailsJpaController extends EngineJpaController {
                 em.close();
             }
         }
+        
+        return gradingDetails;
     }
 
     public GradingDetails findGradingDetail(Integer id, SchoolData data) {
@@ -114,6 +116,25 @@ public class GradingDetailsJpaController extends EngineJpaController {
         return findGradingDetailEntities(false, maxResults, firstResult, data);
     }
 
+    public List<GradingDetails> findIfGradingDetailsExists(String symbol, Integer min, Integer max, Integer gradingScale,Integer id, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
+        List<GradingDetails> list = new ArrayList<>();
+        try {
+            Query query = findIfGradingDetailsExistsQuery(em, symbol, max, min, gradingScale);
+            query.setMaxResults(maxResults);
+            query.setFirstResult(firstResult);
+            list = query.getResultList();
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        } finally {
+            em.close();
+        }
+
+        return list;
+    }
+
+    
     public List<GradingDetails> findIfGradingDetailsExists(String symbol, Integer min, Integer max, Integer gradingScale, int maxResults, int firstResult, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         List<GradingDetails> list = new ArrayList<>();
@@ -132,7 +153,8 @@ public class GradingDetailsJpaController extends EngineJpaController {
         return list;
     }
 
-      public List<GradingDetails> query(String searchQuery, int maxResults, int firstResult, SchoolData data) {
+    
+    public List<GradingDetails> query(String searchQuery, int maxResults, int firstResult, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         List<GradingDetails> list = new ArrayList<>();
         try {
@@ -149,8 +171,7 @@ public class GradingDetailsJpaController extends EngineJpaController {
 
         return list;
     }
-      
-      
+
     public int getCount(SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
@@ -162,6 +183,32 @@ public class GradingDetailsJpaController extends EngineJpaController {
         } finally {
             em.close();
         }
+    }
+
+    public Query findIfGradingDetailsExistsQuery(EntityManager em, String queryString, Integer max, Integer min, Integer gradingScale, Integer id) {
+
+        Query query = em.createQuery(""
+                + "select GD FROM GradingDetails GD "
+                + "LEFT JOIN GD.gradingScale GS "
+                + "WHERE "
+                + " ( GD.symbol LIKE :symbol "
+                + " OR"
+                + " ("
+                + " GD.mingrade <= :mingrade "
+                + " AND GD.maxgrade >= :maxgrade "
+                + " ) "
+                + "  ) AND GS.id = :gradingscale"
+                + " AND GD.id <> :id "
+                + "");
+
+        query.setParameter("symbol", "%" + queryString + "%");
+        query.setParameter("mingrade", min.longValue());
+        query.setParameter("maxgrade", max.longValue());
+        query.setParameter("gradingscale", gradingScale.longValue());
+        query.setParameter("id", id.longValue());
+
+        return query;
+
     }
 
     public Query findIfGradingDetailsExistsQuery(EntityManager em, String queryString, Integer max, Integer min, Integer gradingScale) {
