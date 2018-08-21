@@ -5,7 +5,9 @@
  */
 package com.codemovers.scholar.engine.api.v1.grading.entities;
 
+import com.codemovers.scholar.engine.api.v1.grading.details.entities.GradingDetailResponse;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -21,6 +23,7 @@ public class GradingResponse {
     private StatusEnum status;
     private Long dateCreated;
     private String author;
+    private List<GradingDetailResponse> gradingDetailResponses;
 
     public GradingResponse() {
     }
@@ -85,6 +88,16 @@ public class GradingResponse {
         this.author = author;
     }
 
+    public List<GradingDetailResponse> getGradingDetailResponses() {
+        return gradingDetailResponses;
+    }
+
+    public void setGradingDetailResponses(List<GradingDetailResponse> gradingDetailResponses) {
+        this.gradingDetailResponses = gradingDetailResponses;
+    }
+ 
+    
+
     @Override
     public int hashCode() {
         int hash = 3;
@@ -131,4 +144,21 @@ public class GradingResponse {
         return Objects.equals(this.author, other.author);
     }
 
+    @Override
+    public String toString() {
+        return "GradingResponse{"
+                + "id=" + id 
+                + ", name=" + name 
+                + ", code=" + code 
+                + ", description=" + description 
+                + ", status=" + status 
+                + ", dateCreated=" + dateCreated
+                + ", author=" + author
+                + ", gradingDetailResponses=" + gradingDetailResponses 
+                + '}';
+    }
+
+
+    
+    
 }

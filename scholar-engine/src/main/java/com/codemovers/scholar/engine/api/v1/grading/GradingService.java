@@ -8,11 +8,14 @@ package com.codemovers.scholar.engine.api.v1.grading;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import static com.codemovers.scholar.engine.api.v1.classes.ClassServiceInterface.ARCHIVE_CLASS_PERMISSION;
+import com.codemovers.scholar.engine.api.v1.grading.details.GradingDetailsService;
+import com.codemovers.scholar.engine.api.v1.grading.details.entities.GradingDetailResponse;
 import com.codemovers.scholar.engine.api.v1.grading.entities.GradingResponse;
 import com.codemovers.scholar.engine.api.v1.grading.entities.Gradings;
 import com.codemovers.scholar.engine.db.controllers.GradingDetailsJpaController;
 import com.codemovers.scholar.engine.db.controllers.GradingJpaController;
 import com.codemovers.scholar.engine.db.entities.Grading;
+import com.codemovers.scholar.engine.db.entities.GradingDetails;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.check_access;
@@ -206,7 +209,18 @@ public class GradingService extends AbstractService<Gradings, GradingResponse> {
             if (entity.getAuthor() != null) {
                 response.setAuthor(entity.getAuthor().getUsername());
             }
+            
+            if(entity.getGradingDetailsCollection() != null && entity.getGradingDetailsCollection().size() > 0 ){
+                
+                List<GradingDetailResponse> detailResponses = new ArrayList<>();
+                entity.getGradingDetailsCollection().stream().map((gd) -> GradingDetailsService.getInstance().populateResponse(gd)).forEachOrdered((gdr) -> {
+                    detailResponses.add(gdr);
+                });
+                response.setGradingDetailResponses(detailResponses);
+                
+            }
         }
+        
 
         return response;
     }
