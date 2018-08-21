@@ -5,7 +5,6 @@
  */
 package com.codemovers.scholar.engine.api.v1.grading.details.entities;
 
-import com.codemovers.scholar.engine.api.v1.grading.entities.GradingResponse;
 import java.util.Objects;
 
 /**
