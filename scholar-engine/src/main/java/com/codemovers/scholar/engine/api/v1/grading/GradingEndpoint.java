@@ -61,8 +61,8 @@ public class GradingEndpoint extends AbstractEndpoint<Gradings, GradingResponse>
     public GradingResponse create(Gradings entity,
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest) throws Exception {
-         validate(tenantdata, authentication);
-        return  service.create(tenantdata, entity, this.authentication);
+        validate(tenantdata, authentication);
+        return service.create(tenantdata, entity, this.authentication);
     }
 
     @PUT
@@ -72,8 +72,8 @@ public class GradingEndpoint extends AbstractEndpoint<Gradings, GradingResponse>
     public GradingResponse update(Gradings entity,
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest) throws Exception {
-         validate(tenantdata, authentication);
-        return  service.update(tenantdata, entity, this.authentication);
+        validate(tenantdata, authentication);
+        return service.update(tenantdata, entity, this.authentication);
     }
 
     @POST
@@ -99,12 +99,11 @@ public class GradingEndpoint extends AbstractEndpoint<Gradings, GradingResponse>
         validate(tenantdata, authentication);
         return service.list(tenantdata, offset, limit, this.authentication);
     }
-    
-     @GET
+
+    @GET
     @Path("/search/{query}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-
     public List<GradingResponse> search(
             @PathParam("query") String query,
             @HeaderParam("authentication") String authentication,
@@ -116,6 +115,5 @@ public class GradingEndpoint extends AbstractEndpoint<Gradings, GradingResponse>
         System.out.println(query);
         return service.search(tenantdata, query, offset, limit, this.authentication);
     }
-    
 
 }

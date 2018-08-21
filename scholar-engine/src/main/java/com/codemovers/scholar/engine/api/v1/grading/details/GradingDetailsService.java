@@ -7,6 +7,7 @@ package com.codemovers.scholar.engine.api.v1.grading.details;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
+import static com.codemovers.scholar.engine.api.v1.classes.ClassServiceInterface.ARCHIVE_CLASS_PERMISSION;
 import com.codemovers.scholar.engine.api.v1.grading.GradingService;
 import com.codemovers.scholar.engine.api.v1.grading.details.entities.GradingDetail;
 import com.codemovers.scholar.engine.api.v1.grading.details.entities.GradingDetailResponse;
@@ -16,6 +17,7 @@ import com.codemovers.scholar.engine.db.entities.Grading;
 import com.codemovers.scholar.engine.db.entities.GradingDetails;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Users;
+import static com.codemovers.scholar.engine.helper.Utilities.check_access;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.ArrayList;
@@ -103,9 +105,26 @@ public class GradingDetailsService extends AbstractService<GradingDetail, Gradin
         return super.getById(data, Id, authentication); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param data
+     * @param query
+     * @param ofset
+     * @param limit
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<GradingDetailResponse> search(SchoolData data, String query, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
-        return super.search(data, query, ofset, limit, authentication); //To change body of generated methods, choose Tools | Templates.
+        check_access(ARCHIVE_CLASS_PERMISSION);
+        List<GradingDetails> list = controller.query(query, limit, ofset, data);
+        List<GradingDetailResponse> classResponses = new ArrayList<>();
+        list.forEach(respond -> {
+            classResponses.add(populateResponse(respond));
+        });
+
+        return classResponses;
     }
 
     @Override
@@ -128,7 +147,7 @@ public class GradingDetailsService extends AbstractService<GradingDetail, Gradin
         response.setMax_grade(gradingDetail.getMaxgrade());
         response.setMin_grade(gradingDetail.getMingrade());
         response.setStatus(gradingDetail.getStatus());
-        response.setSymbol(gradingDetail.getStatus());
+        response.setSymbol(gradingDetail.getSymbol());
 
         if (gradingDetail.getAuthor() != null) {
             response.setAuthor(gradingDetail.getAuthor().getUsername());

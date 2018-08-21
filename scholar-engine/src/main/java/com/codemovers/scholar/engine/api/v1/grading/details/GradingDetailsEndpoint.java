@@ -104,9 +104,25 @@ public class GradingDetailsEndpoint extends AbstractEndpoint<GradingDetail, Grad
 
     @Override
     public GradingDetailResponse get(Integer id,
-            String authentication, 
+            String authentication,
             HttpServletRequest httpRequest) throws Exception {
         return super.archive(id, authentication, httpRequest); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @GET
+    @Path("/search/{query}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public List<GradingDetailResponse> search(
+            @PathParam("query") String query,
+            @HeaderParam("authentication") String authentication,
+            @DefaultValue("0") @QueryParam("offset") int offset,
+            @DefaultValue("50") @QueryParam("limit") int limit,
+            @Context HttpServletRequest httpRequest) throws Exception, Exception {
+        validate(tenantdata, authentication);
+        System.out.println("==============================");
+        System.out.println(query);
+        return service.search(tenantdata, query, offset, limit, this.authentication);
     }
 
 }
