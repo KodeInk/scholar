@@ -85,6 +85,11 @@ public class GradingDetailsService extends AbstractService<GradingDetail, Gradin
 
         populateEntity(entity, gradingDetail);
 
+        if (entity.getGrading_scale() != null && (entity.getGrading_scale().longValue() != gradingDetail.getGradingScale().getId())) {
+            Grading gradingScale = GradingService.getInstance().getGrading(entity.getGrading_scale(), data);
+            gradingDetail.setGradingScale(gradingScale);
+        }
+
         //todo: kalas 
         List<GradingDetails> gds = controller.findIfGradingDetailsExists(entity.getSymbol(), entity.getMin_grade(), entity.getMax_grade(), entity.getGrading_scale(), 0, 1, data);
 
@@ -195,6 +200,7 @@ public class GradingDetailsService extends AbstractService<GradingDetail, Gradin
     }
 
     public void populateEntity(GradingDetail entity, GradingDetails gradingDetail) {
+
         if (entity.getMin_grade() != null && (entity.getMin_grade().longValue() != gradingDetail.getMingrade())) {
             gradingDetail.setMingrade(entity.getMin_grade().longValue());
         }
