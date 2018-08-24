@@ -7,7 +7,7 @@ package com.codemovers.scholar.engine.api.v1.studyear;
 
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.studyear.entities.StudyYearResponse;
-import com.codemovers.scholar.engine.api.v1.studyear.entities._StudyYear;
+import com.codemovers.scholar.engine.api.v1.studyear.entities.StudyYears;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.StudyYear;
 import java.util.List;
@@ -25,7 +25,7 @@ public interface StudyYearServiceInterface {
 
     StudyYearResponse archive(SchoolData data, Integer id) throws Exception;
 
-    StudyYearResponse create(SchoolData data, _StudyYear entity, AuthenticationResponse authentication) throws Exception;
+    StudyYearResponse create(SchoolData data, StudyYears entity, AuthenticationResponse authentication) throws Exception;
 
     StudyYearResponse getById(SchoolData data, Integer Id) throws Exception;
 
@@ -33,6 +33,6 @@ public interface StudyYearServiceInterface {
 
     StudyYearResponse populateResponse(StudyYear entity);
 
-    StudyYearResponse update(SchoolData data, _StudyYear entity, AuthenticationResponse authentication) throws Exception;
+    StudyYearResponse update(SchoolData data, StudyYears entity, AuthenticationResponse authentication) throws Exception;
 
 }

@@ -8,7 +8,7 @@ package com.codemovers.scholar.engine.api.v1.studyear;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.studyear.entities.StudyYearResponse;
-import com.codemovers.scholar.engine.api.v1.studyear.entities._StudyYear;
+import com.codemovers.scholar.engine.api.v1.studyear.entities.StudyYears;
 import com.codemovers.scholar.engine.db.controllers.StudyYearJpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.StudyYear;
@@ -25,7 +25,7 @@ import java.util.logging.Logger;
  *
  * @author mover 12/20/2017
  */
-public class StudyYearService extends AbstractService<_StudyYear, StudyYearResponse> implements StudyYearServiceInterface {
+public class StudyYearService extends AbstractService<StudyYears, StudyYearResponse> implements StudyYearServiceInterface {
 
     private static final Logger LOG = Logger.getLogger(StudyYearService.class.getName());
     private final StudyYearJpaController controller;
@@ -51,7 +51,7 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
      * @throws Exception
      */
     @Override
-    public StudyYearResponse create(SchoolData data, _StudyYear entity, AuthenticationResponse authentication) throws Exception {
+    public StudyYearResponse create(SchoolData data, StudyYears entity, AuthenticationResponse authentication) throws Exception {
         check_access(CREATE_STUDYEAR_PERMISSION);
         entity.validate();
         StudyYear studyYear = populateEntity(entity, authentication);
@@ -69,7 +69,7 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
      * @throws Exception
      */
     @Override
-    public StudyYearResponse update(SchoolData data, _StudyYear entity, AuthenticationResponse authentication) throws Exception {
+    public StudyYearResponse update(SchoolData data, StudyYears entity, AuthenticationResponse authentication) throws Exception {
 
         check_access(UPDATE_STUDYEAR_PERMISSION);
         entity.validate();
@@ -181,7 +181,7 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
      * @param studyYear
      * @return
      */
-    public StudyYear populateEntity(_StudyYear entity, StudyYear studyYear) {
+    public StudyYear populateEntity(StudyYears entity, StudyYear studyYear) {
         StudyYear sy = studyYear;
         if (entity.getTheme() != null && !entity.getTheme().equalsIgnoreCase(studyYear.getTheme())) {
             sy.setTheme(entity.getTheme());
@@ -204,7 +204,7 @@ public class StudyYearService extends AbstractService<_StudyYear, StudyYearRespo
      * @param authentication
      * @return
      */
-    public StudyYear populateEntity(_StudyYear entity, AuthenticationResponse authentication) {
+    public StudyYear populateEntity(StudyYears entity, AuthenticationResponse authentication) {
         entity.setAuthor_id(authentication.getId());
         entity.setStatus(StatusEnum.ACTIVE);
         StudyYear studyYear = new StudyYear();

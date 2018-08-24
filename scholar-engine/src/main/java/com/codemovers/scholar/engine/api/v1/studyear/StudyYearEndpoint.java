@@ -8,7 +8,7 @@ package com.codemovers.scholar.engine.api.v1.studyear;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEndpoint;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.studyear.entities.StudyYearResponse;
-import com.codemovers.scholar.engine.api.v1.studyear.entities._StudyYear;
+import com.codemovers.scholar.engine.api.v1.studyear.entities.StudyYears;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
@@ -35,7 +35,7 @@ import javax.ws.rs.core.MediaType;
  * @author mover 12/20/2017 tst
  */
 @Path("/")
-public class StudyYearEndpoint extends AbstractEndpoint<_StudyYear, StudyYearResponse> {
+public class StudyYearEndpoint extends AbstractEndpoint<StudyYears, StudyYearResponse> {
 
     private static final Logger LOG = Logger.getLogger(StudyYearEndpoint.class.getName());
     @Context
@@ -56,7 +56,7 @@ public class StudyYearEndpoint extends AbstractEndpoint<_StudyYear, StudyYearRes
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public StudyYearResponse create(_StudyYear entity,
+    public StudyYearResponse create(StudyYears entity,
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
@@ -67,7 +67,7 @@ public class StudyYearEndpoint extends AbstractEndpoint<_StudyYear, StudyYearRes
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public StudyYearResponse update(_StudyYear entity,
+    public StudyYearResponse update(StudyYears entity,
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);

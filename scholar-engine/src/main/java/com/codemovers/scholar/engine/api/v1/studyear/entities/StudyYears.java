@@ -9,13 +9,14 @@ import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
 import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
+import java.util.List;
 import java.util.Objects;
 
 /**
  *
  * @author mover 12/20/2017
  */
-public class _StudyYear extends AbstractEntity {
+public class StudyYears extends AbstractEntity {
 
     private Integer id;
     private @Mandatory
@@ -27,11 +28,12 @@ public class _StudyYear extends AbstractEntity {
     private StatusEnum status;
     private Integer author_id;
     private Long date_created;
+    private List<Integer> curricula;
 
-    public _StudyYear() {
+    public StudyYears() {
     }
 
-    public _StudyYear(Integer id) {
+    public StudyYears(Integer id) {
         this.id = id;
     }
 
@@ -91,6 +93,14 @@ public class _StudyYear extends AbstractEntity {
         this.date_created = date_created;
     }
 
+    public List<Integer> getCurricula() {
+        return curricula;
+    }
+
+    public void setCurricula(List<Integer> curricula) {
+        this.curricula = curricula;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -115,7 +125,7 @@ public class _StudyYear extends AbstractEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final _StudyYear other = (_StudyYear) obj;
+        final StudyYears other = (StudyYears) obj;
         if (!Objects.equals(this.theme, other.theme)) {
             return false;
         }
@@ -149,6 +159,7 @@ public class _StudyYear extends AbstractEntity {
                 + ", theme=" + theme
                 + ", start_date=" + start_date
                 + ", end_date=" + end_date
+                + ", curricula=" + curricula
                 + ", status=" + status
                 + ", author_id=" + author_id
                 + ", date_created=" + date_created
