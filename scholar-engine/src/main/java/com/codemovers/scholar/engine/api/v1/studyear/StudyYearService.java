@@ -63,7 +63,7 @@ public class StudyYearService extends AbstractService<StudyYears, StudyYearRespo
         StudyYear studyYear = populateEntity(entity, authentication);
         studyYear = controller.create(studyYear, data);
         //todo: create curricula existence
-        manageStudyYearCurrilum(studyYear, data, entity);
+        manageStudyYearCurrilum(studyYear, data, entity,authentication);
         return populateResponse(studyYear);
 
     }
@@ -92,6 +92,8 @@ public class StudyYearService extends AbstractService<StudyYears, StudyYearRespo
         studyYear = populateEntity(entity, studyYear);
 
         studyYear = controller.edit(studyYear, data);
+        manageStudyYearCurrilum(studyYear, data, entity,authentication);
+        
         return populateResponse(studyYear);
     }
 
@@ -169,12 +171,12 @@ public class StudyYearService extends AbstractService<StudyYears, StudyYearRespo
      * @param entity
      * @return 
      */
-    public List<StudyYearCurriculum> manageStudyYearCurrilum(StudyYear studyYear, SchoolData data, StudyYears entity) {
+    public List<StudyYearCurriculum> manageStudyYearCurrilum(StudyYear studyYear, SchoolData data, StudyYears entity,AuthenticationResponse authentication) {
         //todo: remove all curricula in this study year
         List<StudyYearCurriculum> list = new ArrayList<>();
         curriculumJpaController.deleteCurriculumByStudyYearId(studyYear.getId().intValue(), data);
         if (entity.getCurricula() != null) {
-            entity.getCurricula().stream().map((curriculum_id) -> createStudyYearCurriculum(curriculum_id, data, studyYear)).forEachOrdered((studyYearCurriculum) -> {
+            entity.getCurricula().stream().map((curriculum_id) -> createStudyYearCurriculum(curriculum_id, data, studyYear,authentication)).forEachOrdered((studyYearCurriculum) -> {
                 list.add(studyYearCurriculum);
             });
         }
@@ -190,13 +192,16 @@ public class StudyYearService extends AbstractService<StudyYears, StudyYearRespo
      * @param studyYear
      * @return 
      */
-    public StudyYearCurriculum createStudyYearCurriculum(Integer curriculum_id, SchoolData data, StudyYear studyYear) {
+    public StudyYearCurriculum createStudyYearCurriculum(Integer curriculum_id, SchoolData data, StudyYear studyYear,AuthenticationResponse authentication) {
         //todo: create curriculum_id
         Curriculum curriculum = CurriculumService.getInstance().getCurriculum(curriculum_id, data);
         StudyYearCurriculum studyYearCurriculum = new StudyYearCurriculum();
         studyYearCurriculum.setStudyYear(studyYear);
         studyYearCurriculum.setCurriculum(curriculum);
+        studyYearCurriculum.setStatus(StatusEnum.ACTIVE.name());
+        studyYearCurriculum.setAuthorId(new Users(authentication.getId().longValue()));
         studyYearCurriculum = curriculumJpaController.create(studyYearCurriculum, data);
+        
         return studyYearCurriculum;
 
     }
