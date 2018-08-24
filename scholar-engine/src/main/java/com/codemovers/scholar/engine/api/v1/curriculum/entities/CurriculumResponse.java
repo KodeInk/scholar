@@ -5,7 +5,6 @@
  */
 package com.codemovers.scholar.engine.api.v1.curriculum.entities;
 
-import java.util.Date;
 import java.util.Objects;
 
 /**

@@ -8,6 +8,7 @@ package com.codemovers.scholar.engine.api.v1.studyear;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.curriculum.CurriculumService;
+import com.codemovers.scholar.engine.api.v1.curriculum.entities.CurriculumResponse;
 import com.codemovers.scholar.engine.api.v1.studyear.entities.StudyYearResponse;
 import com.codemovers.scholar.engine.api.v1.studyear.entities.StudyYears;
 import com.codemovers.scholar.engine.db.controllers.StudyYearCurriculumJpaController;
@@ -36,11 +37,18 @@ public class StudyYearService extends AbstractService<StudyYears, StudyYearRespo
     private final StudyYearCurriculumJpaController curriculumJpaController;
     private static StudyYearService service = null;
 
+    /**
+     *
+     */
     public StudyYearService() {
         controller = StudyYearJpaController.getInstance();
         curriculumJpaController = StudyYearCurriculumJpaController.getInstance();
     }
 
+    /**
+     *
+     * @return
+     */
     public static StudyYearService getInstance() {
         if (service == null) {
             service = new StudyYearService();
@@ -216,7 +224,6 @@ public class StudyYearService extends AbstractService<StudyYears, StudyYearRespo
     @Override
     public StudyYearResponse populateResponse(StudyYear entity) {
         StudyYearResponse response = new StudyYearResponse();
-
         response.setId(entity.getId().intValue());
         response.setTheme(entity.getTheme());
         response.setStart_date(entity.getStartDate().getTime());
@@ -226,6 +233,14 @@ public class StudyYearService extends AbstractService<StudyYears, StudyYearRespo
             response.setAuthor(entity.getAuthor().getUsername());
         }
         response.setDate_created(entity.getDateCreated().getTime());
+        if (entity.getCurricula() != null) {
+            List<CurriculumResponse> curriculumResponses = new ArrayList<>();
+            for (Curriculum syc : entity.getCurricula()) {
+                CurriculumResponse curriculumResponse = CurriculumService.getInstance().populateResponse(syc);
+                curriculumResponses.add(curriculumResponse);
+            }
+            response.setCurricula(curriculumResponses);
+        }
         return response;
     }
 
@@ -236,20 +251,20 @@ public class StudyYearService extends AbstractService<StudyYears, StudyYearRespo
      * @return
      */
     public StudyYear populateEntity(StudyYears entity, StudyYear studyYear) {
-        StudyYear sy = studyYear;
+        StudyYear studyyear = studyYear;
         if (entity.getTheme() != null && !entity.getTheme().equalsIgnoreCase(studyYear.getTheme())) {
-            sy.setTheme(entity.getTheme());
+            studyyear.setTheme(entity.getTheme());
         }
 
         if (entity.getStart_date() != null && entity.getStart_date() != (studyYear.getStartDate().getTime())) {
-            sy.setStartDate(new Date(entity.getStart_date()));
+            studyyear.setStartDate(new Date(entity.getStart_date()));
         }
 
         if (entity.getStart_date() != null && entity.getStart_date() != (studyYear.getEndDate().getTime())) {
-            sy.setEndDate(new Date(entity.getEnd_date()));
+            studyyear.setEndDate(new Date(entity.getEnd_date()));
         }
 
-        return sy;
+        return studyyear;
     }
 
     /**

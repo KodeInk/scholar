@@ -8,14 +8,17 @@ package com.codemovers.scholar.engine.db.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -67,8 +70,13 @@ public class StudyYear implements Serializable {
     private Date dateCreated;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studyYear")
     private Collection<Terms> termsCollection;
-    @OneToMany(mappedBy = "studyYear")
-    private Collection<StudyYearCurriculum> studyYearCurriculumCollection;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "study_year_curriculum", joinColumns = {
+        @JoinColumn(name = "study_year_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "curriculum_id", referencedColumnName = "id")})
+    private Set<Curriculum> curricula;
+
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne
     private Users author;
@@ -127,8 +135,6 @@ public class StudyYear implements Serializable {
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
-    
-    
 
     @XmlTransient
     public Collection<Terms> getTermsCollection() {
@@ -139,14 +145,15 @@ public class StudyYear implements Serializable {
         this.termsCollection = termsCollection;
     }
 
-    @XmlTransient
-    public Collection<StudyYearCurriculum> getStudyYearCurriculumCollection() {
-        return studyYearCurriculumCollection;
+    public Set<Curriculum> getCurricula() {
+        return curricula;
     }
 
-    public void setStudyYearCurriculumCollection(Collection<StudyYearCurriculum> studyYearCurriculumCollection) {
-        this.studyYearCurriculumCollection = studyYearCurriculumCollection;
+    public void setCurricula(Set<Curriculum> curricula) {
+        this.curricula = curricula;
     }
+
+    
 
     public Users getAuthor() {
         return author;
