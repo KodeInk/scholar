@@ -19,7 +19,7 @@ import javax.ws.rs.BadRequestException;
 
 /**
  *
- * @author Manny
+ * @author mover 8/24/2018
  */
 public class StudyYearCurriculumJpaController extends EngineJpaController {
 

@@ -67,7 +67,7 @@ public class StudyYear implements Serializable {
     private Date dateCreated;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studyYear")
     private Collection<Terms> termsCollection;
-    @OneToMany(mappedBy = "studyYearId")
+    @OneToMany(mappedBy = "studyYear")
     private Collection<StudyYearCurriculum> studyYearCurriculumCollection;
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne

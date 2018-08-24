@@ -76,7 +76,7 @@ public class Curriculum implements Serializable {
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne
     private Users author;
-    @OneToMany(mappedBy = "curriculumId")
+    @OneToMany(mappedBy = "curriculum")
     private Collection<StudyYearCurriculum> studyYearCurriculumCollection;
 
     public Curriculum() {

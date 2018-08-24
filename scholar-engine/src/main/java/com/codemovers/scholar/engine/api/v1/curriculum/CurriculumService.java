@@ -74,7 +74,7 @@ public class CurriculumService extends AbstractService<_Curriculum, CurriculumRe
             throw new BadRequestException("UNIQUE ID MISSING");
         }
 
-        Curriculum curriculum = controller.findCurriculum(entity.getId(), data);
+        Curriculum curriculum = getCurriculum(entity.getId(), data);
 
         if (entity.getName() != null && !entity.getName().equalsIgnoreCase(curriculum.getName())) {
             curriculum.setName(entity.getName());
@@ -97,7 +97,7 @@ public class CurriculumService extends AbstractService<_Curriculum, CurriculumRe
     @Override
     public CurriculumResponse archive(SchoolData data, Integer id) throws Exception {
         check_access(ARCHIVE_CURRICULUM_PERMISSION);
-        Curriculum _Curriculum = controller.findCurriculum(id, data);
+        Curriculum _Curriculum = getCurriculum(id, data);
 
         if (_Curriculum == null) {
             throw new BadRequestException("Record does not exist");
@@ -125,14 +125,19 @@ public class CurriculumService extends AbstractService<_Curriculum, CurriculumRe
     @Override
     public CurriculumResponse getById(SchoolData data, Integer Id) throws Exception {
         check_access(LIST_CURRICULUM_PERMISSION);
-        //todo: get class by id
-        Curriculum _Curriculum = controller.findCurriculum(Id, data);
+        Curriculum _Curriculum = getCurriculum(Id, data);
         if (_Curriculum == null) {
             throw new BadRequestException("Record does not exist");
         }
 
         return populateResponse(_Curriculum);
 
+    }
+
+    public Curriculum getCurriculum(Integer Id, SchoolData data) {
+        //todo: get class by id
+        Curriculum _Curriculum = controller.findCurriculum(Id, data);
+        return _Curriculum;
     }
 
     public void validateCurriculumExists(Curriculum curriculum, SchoolData data) throws BadRequestException {

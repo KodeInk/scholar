@@ -51,10 +51,10 @@ public class StudyYearCurriculum implements Serializable {
     private Date dateCreated;
     @JoinColumn(name = "curriculum_id", referencedColumnName = "id")
     @ManyToOne
-    private Curriculum curriculumId;
+    private Curriculum curriculum;
     @JoinColumn(name = "study_year_id", referencedColumnName = "id")
     @ManyToOne
-    private StudyYear studyYearId;
+    private StudyYear studyYear;
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne
     private Users authorId;
@@ -90,20 +90,20 @@ public class StudyYearCurriculum implements Serializable {
         this.dateCreated = dateCreated;
     }
 
-    public Curriculum getCurriculumId() {
-        return curriculumId;
+    public Curriculum getCurriculum() {
+        return curriculum;
     }
 
-    public void setCurriculumId(Curriculum curriculumId) {
-        this.curriculumId = curriculumId;
+    public void setCurriculum(Curriculum curriculum) {
+        this.curriculum = curriculum;
     }
 
-    public StudyYear getStudyYearId() {
-        return studyYearId;
+    public StudyYear getStudyYear() {
+        return studyYear;
     }
 
-    public void setStudyYearId(StudyYear studyYearId) {
-        this.studyYearId = studyYearId;
+    public void setStudyYear(StudyYear studyYear) {
+        this.studyYear = studyYear;
     }
 
     public Users getAuthorId() {

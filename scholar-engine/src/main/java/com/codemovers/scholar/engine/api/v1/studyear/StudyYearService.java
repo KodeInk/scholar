@@ -7,11 +7,15 @@ package com.codemovers.scholar.engine.api.v1.studyear;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
+import com.codemovers.scholar.engine.api.v1.curriculum.CurriculumService;
 import com.codemovers.scholar.engine.api.v1.studyear.entities.StudyYearResponse;
 import com.codemovers.scholar.engine.api.v1.studyear.entities.StudyYears;
+import com.codemovers.scholar.engine.db.controllers.StudyYearCurriculumJpaController;
 import com.codemovers.scholar.engine.db.controllers.StudyYearJpaController;
+import com.codemovers.scholar.engine.db.entities.Curriculum;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.StudyYear;
+import com.codemovers.scholar.engine.db.entities.StudyYearCurriculum;
 import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.check_access;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
@@ -29,10 +33,12 @@ public class StudyYearService extends AbstractService<StudyYears, StudyYearRespo
 
     private static final Logger LOG = Logger.getLogger(StudyYearService.class.getName());
     private final StudyYearJpaController controller;
+    private final StudyYearCurriculumJpaController curriculumJpaController;
     private static StudyYearService service = null;
 
     public StudyYearService() {
         controller = StudyYearJpaController.getInstance();
+        curriculumJpaController = StudyYearCurriculumJpaController.getInstance();
     }
 
     public static StudyYearService getInstance() {
@@ -57,7 +63,20 @@ public class StudyYearService extends AbstractService<StudyYears, StudyYearRespo
         StudyYear studyYear = populateEntity(entity, authentication);
         studyYear = controller.create(studyYear, data);
         //todo: create curricula existence
-        
+
+        if (entity.getCurricula() != null) {
+
+            for (Integer curriculum_id : entity.getCurricula()) {
+
+                //todo: create curriculum_id
+                Curriculum curriculum = CurriculumService.getInstance().getCurriculum(curriculum_id, data);
+                StudyYearCurriculum studyYearCurriculum = new StudyYearCurriculum();
+                studyYearCurriculum.setStudyYear(studyYear);
+                studyYearCurriculum.setCurriculum(curriculum);
+            }
+
+        }
+
         return populateResponse(studyYear);
 
     }
@@ -199,7 +218,7 @@ public class StudyYearService extends AbstractService<StudyYears, StudyYearRespo
 
         return sy;
     }
-    
+
     /**
      *
      * @param entity
@@ -218,8 +237,5 @@ public class StudyYearService extends AbstractService<StudyYears, StudyYearRespo
         studyYear.setAuthor(new Users(entity.getAuthor_id().longValue()));
         return studyYear;
     }
-
-    
-    
 
 }
