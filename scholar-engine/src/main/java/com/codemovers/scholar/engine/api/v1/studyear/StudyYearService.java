@@ -56,6 +56,8 @@ public class StudyYearService extends AbstractService<StudyYears, StudyYearRespo
         entity.validate();
         StudyYear studyYear = populateEntity(entity, authentication);
         studyYear = controller.create(studyYear, data);
+        //todo: create curricula existence
+        
         return populateResponse(studyYear);
 
     }
