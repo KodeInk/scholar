@@ -156,8 +156,7 @@ public class StudyYearJpaController extends EngineJpaController {
 
         Query query = em.createQuery(""
                 + "select ST FROM StudyYear ST "
-                + " WHERE ST.theme LIKE :theme"
-                + " OR ST.code LIKE :code"
+                + " WHERE ST.theme LIKE :theme"             
                 + "");
 
         query.setParameter("theme", "%" + searchQuery + "%");
