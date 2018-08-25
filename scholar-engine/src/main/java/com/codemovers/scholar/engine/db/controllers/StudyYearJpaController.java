@@ -6,9 +6,7 @@
 package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.EngineJpaController;
-import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
-import com.codemovers.scholar.engine.db.entities.StudentTermRegistration;
 import com.codemovers.scholar.engine.db.entities.StudyYear;
 import java.util.ArrayList;
 import java.util.List;
