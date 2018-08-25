@@ -72,6 +72,13 @@ public class StudyYearService extends AbstractService<StudyYears, StudyYearRespo
         check_access(CREATE_STUDYEAR_PERMISSION);
         entity.validate();
         StudyYear studyYear = populateEntity(entity, authentication);
+
+        //todo: find if there is a study period within the same range of the study year 
+        List<StudyYear> studyYears = controller.findStudyPeriod(studyYear.getStartDate(), studyYear.getEndDate(), data);
+        if (studyYears != null && studyYears.size() > 0) {
+            throw new BadRequestException("A Study year with the same period exists in the database ");
+        }
+
         studyYear = controller.create(studyYear, data);
         //todo: create curricula existence
         manageStudyYearCurrilum(studyYear, data, entity, authentication);
@@ -100,7 +107,16 @@ public class StudyYearService extends AbstractService<StudyYears, StudyYearRespo
 
         StudyYear studyYear = controller.findStudyYear(entity.getId(), data);
 
+        if (studyYear == null) {
+            throw new BadRequestException("Record does not exist in the database");
+        }
+
         studyYear = populateEntity(entity, studyYear);
+
+        List<StudyYear> studyYears = controller.findStudyPeriod(studyYear.getStartDate(), studyYear.getEndDate(), studyYear.getId().intValue(), data);
+        if (studyYears != null && studyYears.size() > 0) {
+            throw new BadRequestException("A Study year with the same period exists in the database ");
+        }
 
         studyYear = controller.edit(studyYear, data);
         manageStudyYearCurrilum(studyYear, data, entity, authentication);
@@ -175,7 +191,7 @@ public class StudyYearService extends AbstractService<StudyYears, StudyYearRespo
         return responses;
     }
 
-      @Override
+    @Override
     public List<StudyYearResponse> search(SchoolData data, String query, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
         check_access(ARCHIVE_CLASS_PERMISSION);
 
@@ -189,6 +205,7 @@ public class StudyYearService extends AbstractService<StudyYears, StudyYearRespo
         return classResponses;
 
     }
+
     /**
      *
      * @param studyYear
