@@ -12,7 +12,6 @@ import com.codemovers.scholar.engine.api.v1.studyear.entities.StudyYears;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -101,4 +100,22 @@ public class StudyYearEndpoint extends AbstractEndpoint<StudyYears, StudyYearRes
         return service.list(tenantdata, offset, limit, this.authentication);
     }
 
+    
+     @GET
+    @Path("/search/{query}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+
+    public List<StudyYearResponse> search(
+            @PathParam("query") String query,
+            @HeaderParam("authentication") String authentication,
+            @DefaultValue("0") @QueryParam("offset") int offset,
+            @DefaultValue("50") @QueryParam("limit") int limit,
+            @Context HttpServletRequest httpRequest) throws Exception, Exception {
+        validate(tenantdata, authentication);
+        System.out.println("==============================");
+        System.out.println(query);
+        return service.search(tenantdata, query, offset, limit, this.authentication);
+    }
+    
 }

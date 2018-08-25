@@ -7,12 +7,15 @@ package com.codemovers.scholar.engine.api.v1.studyear;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
+import static com.codemovers.scholar.engine.api.v1.classes.ClassServiceInterface.ARCHIVE_CLASS_PERMISSION;
+import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 import com.codemovers.scholar.engine.api.v1.curriculum.CurriculumService;
 import com.codemovers.scholar.engine.api.v1.curriculum.entities.CurriculumResponse;
 import com.codemovers.scholar.engine.api.v1.studyear.entities.StudyYearResponse;
 import com.codemovers.scholar.engine.api.v1.studyear.entities.StudyYears;
 import com.codemovers.scholar.engine.db.controllers.StudyYearCurriculumJpaController;
 import com.codemovers.scholar.engine.db.controllers.StudyYearJpaController;
+import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.Curriculum;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.StudyYear;
@@ -172,6 +175,20 @@ public class StudyYearService extends AbstractService<StudyYears, StudyYearRespo
         return responses;
     }
 
+      @Override
+    public List<StudyYearResponse> search(SchoolData data, String query, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
+        check_access(ARCHIVE_CLASS_PERMISSION);
+
+        List<StudyYear> list = controller.query(query, limit, ofset, data);
+
+        List<StudyYearResponse> classResponses = new ArrayList<>();
+        list.forEach(respond -> {
+            classResponses.add(populateResponse(respond));
+        });
+
+        return classResponses;
+
+    }
     /**
      *
      * @param studyYear

@@ -10,6 +10,7 @@ import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.StudentTermRegistration;
 import com.codemovers.scholar.engine.db.entities.StudyYear;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -96,6 +97,24 @@ public class StudyYearJpaController extends EngineJpaController {
         }
     }
 
+    public List<StudyYear> query(String searchQuery, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
+        List<StudyYear> list = new ArrayList<>();
+        try {
+            Query query = getQuery(em, searchQuery);
+            query.setMaxResults(maxResults);
+            query.setFirstResult(firstResult);
+            list = query.getResultList();
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        } finally {
+            em.close();
+        }
+
+        return list;
+    }
+
     private List<StudyYear> findStudyYears(boolean all, int maxResults, int firstResult, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
@@ -131,6 +150,20 @@ public class StudyYearJpaController extends EngineJpaController {
         } finally {
             em.close();
         }
+    }
+
+    public Query getQuery(EntityManager em, String searchQuery) {
+
+        Query query = em.createQuery(""
+                + "select ST FROM StudyYear ST "
+                + " WHERE ST.theme LIKE :theme"
+                + " OR ST.code LIKE :code"
+                + "");
+
+        query.setParameter("theme", "%" + searchQuery + "%");
+
+        return query;
+
     }
 
 }
