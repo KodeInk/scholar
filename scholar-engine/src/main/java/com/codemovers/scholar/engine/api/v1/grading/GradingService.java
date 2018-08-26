@@ -211,18 +211,20 @@ public class GradingService extends AbstractService<Gradings, GradingResponse> {
      */
     public void manageGradingSubjects(Grading grading, SchoolData data, Gradings entity) {
         detachAllSubjects(grading, data);
-        for (Integer subject_id : entity.getSubjects()) {
+        if (entity.getSubjects() != null) {
+            for (Integer subject_id : entity.getSubjects()) {
 
-            try {
-                //todo: find subject 
-                Subjects subject = SubjectService.getInstance().findSubject(subject_id, data);
-                SubjectGrading subjectGrading = new SubjectGrading();
-                subjectGrading.setGrading(grading);
-                subjectGrading.setSubject(subject);
-                subjectGrading.setStatus(StatusEnum.ACTIVE.name());
-                subjectGradingJpaController.create(subjectGrading, data);
-            } catch (Exception er) {
-                LOG.log(Level.SEVERE, er.getMessage());
+                try {
+                    //todo: find subject 
+                    Subjects subject = SubjectService.getInstance().findSubject(subject_id, data);
+                    SubjectGrading subjectGrading = new SubjectGrading();
+                    subjectGrading.setGrading(grading);
+                    subjectGrading.setSubject(subject);
+                    subjectGrading.setStatus(StatusEnum.ACTIVE.name());
+                    subjectGradingJpaController.create(subjectGrading, data);
+                } catch (Exception er) {
+                    LOG.log(Level.SEVERE, er.getMessage());
+                }
             }
         }
     }
