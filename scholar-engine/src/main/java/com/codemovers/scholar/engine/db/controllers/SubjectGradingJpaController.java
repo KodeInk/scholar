@@ -66,9 +66,9 @@ public class SubjectGradingJpaController extends EngineJpaController {
                     + " WHERE SUBGD.grading.id = :id"
                     + "");
             query.setParameter("id", gradingId.longValue());
-            List<StudyYearCurriculum> studyYearCurriculum = query.getResultList();
+            List<SubjectGrading> subjectGrading = query.getResultList();
 
-            studyYearCurriculum.stream().map((curriculum) -> {
+            subjectGrading.stream().map((curriculum) -> {
                 em.getTransaction().begin();
                 em.remove(curriculum);
                 return curriculum;
@@ -76,7 +76,11 @@ public class SubjectGradingJpaController extends EngineJpaController {
                 em.getTransaction().commit();
             });
 
-        } finally {
+        }catch(Exception er){
+            er.printStackTrace();
+            throw er;
+        } 
+        finally {
             em.close();
         }
     }
