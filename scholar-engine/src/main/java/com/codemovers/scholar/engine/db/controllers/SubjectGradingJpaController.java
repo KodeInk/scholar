@@ -58,15 +58,15 @@ public class SubjectGradingJpaController extends EngineJpaController {
 
     }
 
-      public void  deleteCurriculumByStudyYearId(Integer studyYearId, SchoolData data) {
+      public void  deleteSubjectByGradingId(Integer gradingId, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
 
             Query query = em.createQuery(""
                     + "SELECT SUBGD FROM SubjectGrading SUBGD "
-                    + " WHERE SUBGD.studyYear.id = :id"
+                    + " WHERE SUBGD.grading.id = :id"
                     + "");
-            query.setParameter("id", studyYearId.longValue());
+            query.setParameter("id", gradingId.longValue());
             List<StudyYearCurriculum> studyYearCurriculum = query.getResultList();
 
             studyYearCurriculum.stream().map((curriculum) -> {
