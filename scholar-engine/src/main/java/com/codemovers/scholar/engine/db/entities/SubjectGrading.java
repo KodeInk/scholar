@@ -44,13 +44,13 @@ public class SubjectGrading implements Serializable {
     private String status;
     @JoinColumn(name = "grading_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Grading gradingId;
+    private Grading grading;
     @JoinColumn(name = "subject_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Subjects subjectId;
+    private Subjects subject;
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne
-    private Users authorId;
+    private Users author;
 
     public SubjectGrading() {
     }
@@ -75,28 +75,28 @@ public class SubjectGrading implements Serializable {
         this.status = status;
     }
 
-    public Grading getGradingId() {
-        return gradingId;
+    public Grading getGrading() {
+        return grading;
     }
 
-    public void setGradingId(Grading gradingId) {
-        this.gradingId = gradingId;
+    public void setGrading(Grading grading) {
+        this.grading = grading;
     }
 
-    public Subjects getSubjectId() {
-        return subjectId;
+    public Subjects getSubject() {
+        return subject;
     }
 
-    public void setSubjectId(Subjects subjectId) {
-        this.subjectId = subjectId;
+    public void setSubject(Subjects subject) {
+        this.subject = subject;
     }
 
-    public Users getAuthorId() {
-        return authorId;
+    public Users getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(Users authorId) {
-        this.authorId = authorId;
+    public void setAuthor(Users author) {
+        this.author = author;
     }
 
     @Override

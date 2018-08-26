@@ -73,6 +73,9 @@ public class GradingService extends AbstractService<Gradings, GradingResponse> {
         }
         Grading grading = populateEntity(entity, authentication);
         grading = controller.create(grading, data);
+        
+        //todo: attach subjects to grading 
+        
         return populateResponse(grading);
 
     }

@@ -6,10 +6,8 @@
 package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.EngineJpaController;
-import com.codemovers.scholar.engine.db.JpaController;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.StudyYearCurriculum;
-import com.codemovers.scholar.engine.db.entities.SubjectCurriculum;
 import com.codemovers.scholar.engine.db.entities.SubjectGrading;
 import java.util.List;
 import java.util.logging.Level;
@@ -60,6 +58,32 @@ public class SubjectGradingJpaController extends EngineJpaController {
 
     }
 
+      public void  deleteCurriculumByStudyYearId(Integer studyYearId, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
+        try {
+
+            Query query = em.createQuery(""
+                    + "SELECT SUBGD FROM SubjectGrading SUBGD "
+                    + " WHERE SUBGD.studyYear.id = :id"
+                    + "");
+            query.setParameter("id", studyYearId.longValue());
+            List<StudyYearCurriculum> studyYearCurriculum = query.getResultList();
+
+            studyYearCurriculum.stream().map((curriculum) -> {
+                em.getTransaction().begin();
+                em.remove(curriculum);
+                return curriculum;
+            }).forEachOrdered((_item) -> {
+                em.getTransaction().commit();
+            });
+
+        } finally {
+            em.close();
+        }
+    }
+
+      
+      
     public void edit(SubjectGrading subjectGrading, SchoolData data) throws Exception {
         EntityManager em = null;
         try {

@@ -81,7 +81,7 @@ public class Grading implements Serializable {
     @Column(name = "date_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "gradingId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "grading")
     private Collection<SubjectGrading> subjectGradingCollection;
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)

@@ -71,7 +71,7 @@ public class Subjects implements Serializable {
     @Column(name = "date_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subject")
     private Collection<SubjectGrading> subjectGradingCollection;
     @OneToMany(mappedBy = "subjectId")
     private Collection<SubjectClass> subjectClassCollection;
