@@ -6,6 +6,7 @@
 package com.codemovers.scholar.engine.api.v1.grading.entities;
 
 import com.codemovers.scholar.engine.api.v1.grading.details.entities.GradingDetailResponse;
+import com.codemovers.scholar.engine.api.v1.subjects.entities.SubjectResponse;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +25,7 @@ public class GradingResponse {
     private Long dateCreated;
     private String author;
     private List<GradingDetailResponse> gradingDetailResponses;
+    private List<SubjectResponse> subjectResponses;
 
     public GradingResponse() {
     }
@@ -95,7 +97,16 @@ public class GradingResponse {
     public void setGradingDetailResponses(List<GradingDetailResponse> gradingDetailResponses) {
         this.gradingDetailResponses = gradingDetailResponses;
     }
+
+    public List<SubjectResponse> getSubjectResponses() {
+        return subjectResponses;
+    }
+
+    public void setSubjectResponses(List<SubjectResponse> subjectResponses) {
+        this.subjectResponses = subjectResponses;
+    }
  
+    
     
 
     @Override

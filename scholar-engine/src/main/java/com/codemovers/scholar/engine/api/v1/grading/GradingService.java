@@ -13,6 +13,7 @@ import com.codemovers.scholar.engine.api.v1.grading.details.entities.GradingDeta
 import com.codemovers.scholar.engine.api.v1.grading.entities.GradingResponse;
 import com.codemovers.scholar.engine.api.v1.grading.entities.Gradings;
 import com.codemovers.scholar.engine.api.v1.subjects.SubjectService;
+import com.codemovers.scholar.engine.api.v1.subjects.entities.SubjectResponse;
 import com.codemovers.scholar.engine.db.controllers.GradingDetailsJpaController;
 import com.codemovers.scholar.engine.db.controllers.GradingJpaController;
 import com.codemovers.scholar.engine.db.controllers.SubjectGradingJpaController;
@@ -264,6 +265,17 @@ public class GradingService extends AbstractService<Gradings, GradingResponse> {
                 response.setGradingDetailResponses(detailResponses);
 
             }
+
+            if (entity.getSubjects() != null && entity.getSubjects().size() > 0) {
+                List<SubjectResponse> subjectResponses = new ArrayList<>();
+                entity.getSubjects().stream().map((subject) -> SubjectService.getInstance().populateResponse(subject)).forEachOrdered((subjectResponse) -> {
+                    subjectResponses.add(subjectResponse);
+                });
+
+                response.setSubjectResponses(subjectResponses);
+
+            }
+
         }
 
         return response;
