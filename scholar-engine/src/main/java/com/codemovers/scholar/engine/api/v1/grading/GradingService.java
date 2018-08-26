@@ -114,6 +114,8 @@ public class GradingService extends AbstractService<Gradings, GradingResponse> {
         }
         grading = controller.edit(grading, data);
 
+        manageGradingSubjects(grading, data, entity);
+
         return populateResponse(grading);
     }
 

@@ -8,6 +8,7 @@ package com.codemovers.scholar.engine.db.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,6 +18,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -81,15 +83,19 @@ public class Grading implements Serializable {
     @Column(name = "date_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "grading")
-    private Collection<SubjectGrading> subjectGradingCollection;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "subject_grading", joinColumns = {
+        @JoinColumn(name = "grading_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "subject_id", referencedColumnName = "id")})
+    private Set<Subjects> subjects;
+
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users author;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "gradingScale", fetch = FetchType.EAGER)
     private Collection<GradingDetails> gradingDetailsCollection;
 
-     
     public Grading() {
     }
 
@@ -154,15 +160,15 @@ public class Grading implements Serializable {
         this.dateCreated = dateCreated;
     }
 
-    @XmlTransient
-    public Collection<SubjectGrading> getSubjectGradingCollection() {
-        return subjectGradingCollection;
+    public Set<Subjects> getSubjects() {
+        return subjects;
     }
 
-    public void setSubjectGradingCollection(Collection<SubjectGrading> subjectGradingCollection) {
-        this.subjectGradingCollection = subjectGradingCollection;
+    public void setSubjects(Set<Subjects> subjects) {
+        this.subjects = subjects;
     }
 
+   
     public Users getAuthor() {
         return author;
     }
@@ -205,5 +211,4 @@ public class Grading implements Serializable {
         return "com.codemovers.scholar.engine.db.entities.Grading[ id=" + id + " ]";
     }
 
-   
 }
