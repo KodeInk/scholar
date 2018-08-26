@@ -86,7 +86,6 @@ public class GradingService extends AbstractService<Gradings, GradingResponse> {
 
     }
 
-   
     /**
      *
      * @param data
@@ -201,11 +200,16 @@ public class GradingService extends AbstractService<Gradings, GradingResponse> {
         return super.getById(data, Id); //To change body of generated methods, choose Tools | Templates.
     }
 
-    
-     public void manageGradingSubjects(Grading grading, SchoolData data, Gradings entity) {
+    /**
+     *
+     * @param grading
+     * @param data
+     * @param entity
+     */
+    public void manageGradingSubjects(Grading grading, SchoolData data, Gradings entity) {
         detachAllSubjects(grading, data);
         for (Integer subject_id : entity.getSubjects()) {
-            
+
             try {
                 //todo: find subject 
                 Subjects subject = SubjectService.getInstance().findSubject(subject_id, data);
@@ -214,7 +218,7 @@ public class GradingService extends AbstractService<Gradings, GradingResponse> {
                 subjectGrading.setSubject(subject);
                 subjectGrading.setStatus(StatusEnum.ACTIVE.name());
                 subjectGradingJpaController.create(subjectGrading, data);
-            } catch (  Exception er) {
+            } catch (Exception er) {
                 LOG.log(Level.SEVERE, er.getMessage());
             }
         }
@@ -230,9 +234,6 @@ public class GradingService extends AbstractService<Gradings, GradingResponse> {
         subjectGradingJpaController.deleteSubjectByGradingId(grading.getId().intValue(), data);
     }
 
-    
-    
-    
     /**
      *
      * @param entity
