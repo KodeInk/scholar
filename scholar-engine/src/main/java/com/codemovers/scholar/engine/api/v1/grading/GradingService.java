@@ -271,9 +271,7 @@ public class GradingService extends AbstractService<Gradings, GradingResponse> {
                 entity.getSubjects().stream().map((subject) -> SubjectService.getInstance().populateResponse(subject)).forEachOrdered((subjectResponse) -> {
                     subjectResponses.add(subjectResponse);
                 });
-
                 response.setSubjectResponses(subjectResponses);
-
             }
 
         }
