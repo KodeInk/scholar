@@ -10,6 +10,7 @@ import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
 import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -27,6 +28,7 @@ public class Gradings extends AbstractEntity {
     private StatusEnum status;
     private Date date_created;
     private Integer author_id;
+    private List<Integer> subjects;
 
     public Gradings() {
     }
@@ -89,6 +91,14 @@ public class Gradings extends AbstractEntity {
 
     public void setAuthor_id(Integer author_id) {
         this.author_id = author_id;
+    }
+
+    public List<Integer> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(List<Integer> subjects) {
+        this.subjects = subjects;
     }
 
     @Override
