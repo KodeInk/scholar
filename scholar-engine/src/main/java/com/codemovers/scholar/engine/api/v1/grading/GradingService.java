@@ -12,11 +12,14 @@ import com.codemovers.scholar.engine.api.v1.grading.details.GradingDetailsServic
 import com.codemovers.scholar.engine.api.v1.grading.details.entities.GradingDetailResponse;
 import com.codemovers.scholar.engine.api.v1.grading.entities.GradingResponse;
 import com.codemovers.scholar.engine.api.v1.grading.entities.Gradings;
+import com.codemovers.scholar.engine.api.v1.subjects.SubjectService;
 import com.codemovers.scholar.engine.db.controllers.GradingDetailsJpaController;
 import com.codemovers.scholar.engine.db.controllers.GradingJpaController;
+import com.codemovers.scholar.engine.db.controllers.SubjectGradingJpaController;
 import com.codemovers.scholar.engine.db.entities.Grading;
-import com.codemovers.scholar.engine.db.entities.GradingDetails;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import com.codemovers.scholar.engine.db.entities.SubjectGrading;
+import com.codemovers.scholar.engine.db.entities.Subjects;
 import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.check_access;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
@@ -24,6 +27,7 @@ import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -35,6 +39,7 @@ public class GradingService extends AbstractService<Gradings, GradingResponse> {
     private static final Logger LOG = Logger.getLogger(GradingService.class.getName());
     private final GradingJpaController controller;
     private final GradingDetailsJpaController detailsJpaController;
+    private final SubjectGradingJpaController subjectGradingJpaController;
     private static GradingService service = null;
 
     /**
@@ -43,6 +48,7 @@ public class GradingService extends AbstractService<Gradings, GradingResponse> {
     public GradingService() {
         controller = GradingJpaController.getInstance();
         detailsJpaController = GradingDetailsJpaController.getInstance();
+        subjectGradingJpaController = SubjectGradingJpaController.getInstance();
     }
 
     /**
@@ -73,13 +79,14 @@ public class GradingService extends AbstractService<Gradings, GradingResponse> {
         }
         Grading grading = populateEntity(entity, authentication);
         grading = controller.create(grading, data);
-        
-        //todo: attach subjects to grading 
-        
+
+        manageGradingSubjects(grading, data, entity);
+
         return populateResponse(grading);
 
     }
 
+   
     /**
      *
      * @param data
@@ -106,8 +113,8 @@ public class GradingService extends AbstractService<Gradings, GradingResponse> {
         if (gradings.size() > 0) {
             throw new BadRequestException("A grading exists with the same name or code");
         }
-        grading = controller.edit(grading, data); 
-        
+        grading = controller.edit(grading, data);
+
         return populateResponse(grading);
     }
 
@@ -194,6 +201,38 @@ public class GradingService extends AbstractService<Gradings, GradingResponse> {
         return super.getById(data, Id); //To change body of generated methods, choose Tools | Templates.
     }
 
+    
+     public void manageGradingSubjects(Grading grading, SchoolData data, Gradings entity) {
+        detachAllSubjects(grading, data);
+        for (Integer subject_id : entity.getSubjects()) {
+            
+            try {
+                //todo: find subject 
+                Subjects subject = SubjectService.getInstance().findSubject(subject_id, data);
+                SubjectGrading subjectGrading = new SubjectGrading();
+                subjectGrading.setGrading(grading);
+                subjectGrading.setSubject(subject);
+                subjectGrading.setStatus(StatusEnum.ACTIVE.name());
+                subjectGradingJpaController.create(subjectGrading, data);
+            } catch (  Exception er) {
+                LOG.log(Level.SEVERE, er.getMessage());
+            }
+        }
+    }
+
+    /**
+     *
+     * @param grading
+     * @param data
+     */
+    public void detachAllSubjects(Grading grading, SchoolData data) {
+        //todo: attach subjects to grading
+        subjectGradingJpaController.deleteSubjectByGradingId(grading.getId().intValue(), data);
+    }
+
+    
+    
+    
     /**
      *
      * @param entity
@@ -212,18 +251,17 @@ public class GradingService extends AbstractService<Gradings, GradingResponse> {
             if (entity.getAuthor() != null) {
                 response.setAuthor(entity.getAuthor().getUsername());
             }
-            
-            if(entity.getGradingDetailsCollection() != null && entity.getGradingDetailsCollection().size() > 0 ){
-                
+
+            if (entity.getGradingDetailsCollection() != null && entity.getGradingDetailsCollection().size() > 0) {
+
                 List<GradingDetailResponse> detailResponses = new ArrayList<>();
                 entity.getGradingDetailsCollection().stream().map((gd) -> GradingDetailsService.getInstance().populateResponse(gd)).forEachOrdered((gdr) -> {
                     detailResponses.add(gdr);
                 });
                 response.setGradingDetailResponses(detailResponses);
-                
+
             }
         }
-        
 
         return response;
     }
@@ -252,8 +290,7 @@ public class GradingService extends AbstractService<Gradings, GradingResponse> {
      * @param grading
      */
     public void populateEntity(Gradings entity, Grading grading) {
-       
-        
+
         if (entity.getName() != null && !entity.getName().equalsIgnoreCase(grading.getName())) {
             grading.setName(entity.getName());
         }
@@ -265,7 +302,7 @@ public class GradingService extends AbstractService<Gradings, GradingResponse> {
         if (entity.getDescription() != null && !entity.getDescription().equalsIgnoreCase(grading.getDescription())) {
             grading.setDescription(entity.getDescription());
         }
-        
+
     }
 
 }

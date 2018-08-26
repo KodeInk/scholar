@@ -58,10 +58,9 @@ public class SubjectGradingJpaController extends EngineJpaController {
 
     }
 
-      public void  deleteSubjectByGradingId(Integer gradingId, SchoolData data) {
+    public void deleteSubjectByGradingId(Integer gradingId, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
-
             Query query = em.createQuery(""
                     + "SELECT SUBGD FROM SubjectGrading SUBGD "
                     + " WHERE SUBGD.grading.id = :id"
@@ -82,8 +81,6 @@ public class SubjectGradingJpaController extends EngineJpaController {
         }
     }
 
-      
-      
     public void edit(SubjectGrading subjectGrading, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
