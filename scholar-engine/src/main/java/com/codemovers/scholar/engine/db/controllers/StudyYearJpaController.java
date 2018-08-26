@@ -230,8 +230,8 @@ public class StudyYearJpaController extends EngineJpaController {
         
         Query query = em.createQuery(""
                 + "select ST FROM StudyYear ST "
-                + " WHERE ST.startDate >= :start_date "
-                + " AND ST.endDate <= :end_date "
+                + " WHERE ST.startDate <= :start_date "
+                + " AND ST.endDate >= :end_date "
                 + "");
         
         query.setParameter("start_date", start_date);
@@ -245,8 +245,8 @@ public class StudyYearJpaController extends EngineJpaController {
         
         Query query = em.createQuery(""
                 + "select ST FROM StudyYear ST "
-                + " WHERE ( ST.startDate >= :start_date "
-                + " AND ST.endDate <= :end_date )"
+                + " WHERE ( ST.startDate <= :start_date "
+                + " AND ST.endDate >= :end_date )"
                 + " AND ST.id <> :id "
                 + "");
         
