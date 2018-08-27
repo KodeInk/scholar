@@ -111,8 +111,8 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
 
         try {
             subjectCurriculumJpaController.deleteCurriculumByStudyId(subject.getId().intValue(), data);
-            if (entity.getCurriculum_list() != null) {
-                entity.getCurriculum_list().stream().map((curriculum_id) -> createStudyYearCurriculum(curriculum_id, data, subject, authentication)).forEachOrdered((studyYearCurriculum) -> {
+            if (entity.getCurricula() != null) {
+                entity.getCurricula().stream().map((curriculum_id) -> createStudyYearCurriculum(curriculum_id, data, subject, authentication)).forEachOrdered((studyYearCurriculum) -> {
                     list.add(studyYearCurriculum);
                 });
             }
