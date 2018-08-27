@@ -69,9 +69,9 @@ public class SubjectCurriculumJpaController extends EngineJpaController {
                     + " WHERE SUBCUR.subject.id = :id"
                     + "");
             query.setParameter("id", subjectId.longValue());
-            List<StudyYearCurriculum> studyYearCurriculum = query.getResultList();
+            List<SubjectCurriculum> subjectCurriculum = query.getResultList();
 
-            studyYearCurriculum.stream().map((curriculum) -> {
+            subjectCurriculum.stream().map((curriculum) -> {
                 em.getTransaction().begin();
                 em.remove(curriculum);
                 return curriculum;

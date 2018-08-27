@@ -15,8 +15,6 @@ import com.codemovers.scholar.engine.db.controllers.SubjectCurriculumJpaControll
 import com.codemovers.scholar.engine.db.controllers.SubjectsJpaController;
 import com.codemovers.scholar.engine.db.entities.Curriculum;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
-import com.codemovers.scholar.engine.db.entities.StudyYear;
-import com.codemovers.scholar.engine.db.entities.StudyYearCurriculum;
 import com.codemovers.scholar.engine.db.entities.SubjectCurriculum;
 import com.codemovers.scholar.engine.db.entities.Subjects;
 import com.codemovers.scholar.engine.db.entities.Users;
