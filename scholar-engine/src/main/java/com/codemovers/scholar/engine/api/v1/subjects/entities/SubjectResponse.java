@@ -6,6 +6,7 @@
 package com.codemovers.scholar.engine.api.v1.subjects.entities;
 
 import com.codemovers.scholar.engine.api.v1.curriculum.entities.CurriculumResponse;
+import com.codemovers.scholar.engine.api.v1.subjects.papers.entities.SubjectPapersResponse;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,8 +22,9 @@ public class SubjectResponse {
     private String type;
     private String status;
     private Long date_created;
-    private String author;
-    private List<CurriculumResponse>  curriculumResponses;
+    private String author; 
+     private List<SubjectPapersResponse> subjectPaperResponses;
+    private List<CurriculumResponse> curriculumResponses;
 
     public SubjectResponse() {
     }
@@ -95,18 +97,27 @@ public class SubjectResponse {
     public void setCurriculumResponses(List<CurriculumResponse> curriculumResponses) {
         this.curriculumResponses = curriculumResponses;
     }
-    
-    
+
+    public List<SubjectPapersResponse> getSubjectPaperResponses() {
+        return subjectPaperResponses;
+    }
+
+    public void setSubjectPaperResponses(List<SubjectPapersResponse> subjectPaperResponses) {
+        this.subjectPaperResponses = subjectPaperResponses;
+    }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 23 * hash + Objects.hashCode(this.id);
-        hash = 23 * hash + Objects.hashCode(this.name);
-        hash = 23 * hash + Objects.hashCode(this.code);
-        hash = 23 * hash + Objects.hashCode(this.status);
-        hash = 23 * hash + Objects.hashCode(this.date_created);
-        hash = 23 * hash + Objects.hashCode(this.author);
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.id);
+        hash = 59 * hash + Objects.hashCode(this.name);
+        hash = 59 * hash + Objects.hashCode(this.code);
+        hash = 59 * hash + Objects.hashCode(this.type);
+        hash = 59 * hash + Objects.hashCode(this.status);
+        hash = 59 * hash + Objects.hashCode(this.date_created);
+        hash = 59 * hash + Objects.hashCode(this.author);
+        hash = 59 * hash + Objects.hashCode(this.subjectPaperResponses);
+        hash = 59 * hash + Objects.hashCode(this.curriculumResponses);
         return hash;
     }
 
@@ -128,27 +139,42 @@ public class SubjectResponse {
         if (!Objects.equals(this.code, other.code)) {
             return false;
         }
+        if (!Objects.equals(this.type, other.type)) {
+            return false;
+        }
+        if (!Objects.equals(this.status, other.status)) {
+            return false;
+        }
         if (!Objects.equals(this.author, other.author)) {
             return false;
         }
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (this.status != other.status) {
+        if (!Objects.equals(this.date_created, other.date_created)) {
             return false;
         }
-        return Objects.equals(this.date_created, other.date_created);
+        if (!Objects.equals(this.subjectPaperResponses, other.subjectPaperResponses)) {
+            return false;
+        }
+        return Objects.equals(this.curriculumResponses, other.curriculumResponses);
     }
 
     @Override
     public String toString() {
         return "SubjectResponse{"
-                + "id=" + id
-                + ", name=" + name
-                + ", code=" + code
-                + ", status=" + status
-                + ", date_created=" + date_created
-                + ", author=" + author + '}';
+                + "id=" + id 
+                + ", name=" + name 
+                + ", code=" + code 
+                + ", type=" + type 
+                + ", status=" + status 
+                + ", date_created=" + date_created 
+                + ", author=" + author 
+                + ", subjectPaperResponses=" + subjectPaperResponses 
+                + ", curriculumResponses=" + curriculumResponses 
+                + '}';
     }
+    
+    
 
 }
