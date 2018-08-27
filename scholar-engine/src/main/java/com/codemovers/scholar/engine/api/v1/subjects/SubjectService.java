@@ -56,11 +56,11 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         check_access(CREATE_SUBJECT_PERMISSION);
         entity.validate();
 
-        //todo: check to see that the name and code of the subject does not exist
-//        List<Subjects> list = controller.findSubjects(entity.getName(), entity.getCode(), data);
-//        if (list.size() > 0) {
-//            throw new BadRequestException("Subject with the same name or code exists in the database");
-//        }
+        List<Subjects> list = controller.findSubjects(entity.getName(), entity.getCode(), data);
+        if (list.size() > 0) {
+            throw new BadRequestException("Subject with the same name or code exists in the database");
+        }
+
         entity.setAuthor_id(authentication.getId());
         entity.setStatus(StatusEnum.ACTIVE);
 
@@ -69,6 +69,7 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
 
         subject = controller.create(subject, data);
 
+        manageStudyYearCurrilum(subject, data, entity, authentication);
         //todo: add subject curriculum 
         return populateResponse(subject);
     }
@@ -90,22 +91,15 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
             throw new BadRequestException("Subject with the same name or code exists in the database");
         }
 
-        if (entity.getName() != null && !entity.getName().equalsIgnoreCase(subject.getName())) {
-            subject.setName(entity.getName());
-        }
-
-        if (entity.getCode() != null && !entity.getCode().equalsIgnoreCase(subject.getCode())) {
-            subject.setCode(entity.getCode());
-        }
-
-        if (entity.getType().name() != null && !entity.getType().name().equalsIgnoreCase(subject.getType())) {
-            subject.setType(entity.getType().name());
-        }
+        populateEntity(entity, subject);
 
         subject = controller.edit(subject, data);
+        manageStudyYearCurrilum(subject, data, entity, authenticationResponse);
+
         return populateResponse(subject);
     }
 
+   
     /**
      *
      * @param subject
@@ -235,6 +229,22 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
 
     /**
      *
+     * @param Id
+     * @param data
+     * @return
+     * @throws BadRequestException
+     */
+    public Subjects findSubject(Integer Id, SchoolData data) throws BadRequestException {
+        Subjects subject = controller.findSubjects(Id, data);
+        if (subject == null) {
+            throw new BadRequestException("SUBJECT  RECORD DOES NOT EXIST");
+        }
+        return subject;
+    }
+    
+    
+    /**
+     *
      * @param entity
      * @return
      */
@@ -257,20 +267,8 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         return response;
     }
 
-    /**
-     *
-     * @param Id
-     * @param data
-     * @return
-     * @throws BadRequestException
-     */
-    public Subjects findSubject(Integer Id, SchoolData data) throws BadRequestException {
-        Subjects subject = controller.findSubjects(Id, data);
-        if (subject == null) {
-            throw new BadRequestException("SUBJECT  RECORD DOES NOT EXIST");
-        }
-        return subject;
-    }
+    
+    
 
     /**
      *
@@ -287,5 +285,21 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         subject.setAuthor(new Users(entity.getAuthor_id().longValue()));
         return subject;
     }
+    
+     public void populateEntity(Subject entity, Subjects subject) {
+        if (entity.getName() != null && !entity.getName().equalsIgnoreCase(subject.getName())) {
+            subject.setName(entity.getName());
+        }
+
+        if (entity.getCode() != null && !entity.getCode().equalsIgnoreCase(subject.getCode())) {
+            subject.setCode(entity.getCode());
+        }
+
+        if (entity.getType().name() != null && !entity.getType().name().equalsIgnoreCase(subject.getType())) {
+            subject.setType(entity.getType().name());
+        }
+    }
+
+     
 
 }
