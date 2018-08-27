@@ -8,14 +8,17 @@ package com.codemovers.scholar.engine.db.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -43,7 +46,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Subjects.findByStatus", query = "SELECT s FROM Subjects s WHERE s.status = :status")
     , @NamedQuery(name = "Subjects.findByDateCreated", query = "SELECT s FROM Subjects s WHERE s.dateCreated = :dateCreated")
     , @NamedQuery(name = "Subjects.findSubjectByNameORCode", query = "SELECT s FROM Subjects s WHERE s.name LIKE :name OR s.code LIKE :code ")
- , @NamedQuery(name = "Subjects.findSubjectByNameORCodeOnEdit", query = "SELECT s FROM Subjects s WHERE (s.name LIKE :name OR s.code LIKE :code)  AND s.id <> :id ")
+    , @NamedQuery(name = "Subjects.findSubjectByNameORCodeOnEdit", query = "SELECT s FROM Subjects s WHERE (s.name LIKE :name OR s.code LIKE :code)  AND s.id <> :id ")
 
 })
 public class Subjects implements Serializable {
@@ -81,8 +84,13 @@ public class Subjects implements Serializable {
     private Collection<SubjectPapers> subjectPapersCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
     private Collection<StudentSubjectRegistration> studentSubjectRegistrationCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subject")
-    private Collection<SubjectCurriculum> subjectCurriculumCollection;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "subject_curriculum", joinColumns = {
+        @JoinColumn(name = "subject_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "curriculum_id", referencedColumnName = "id")})
+    private Set<Curriculum> curricula;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
     private Collection<Marksheet> marksheetCollection;
     @JoinColumn(name = "author_id", referencedColumnName = "id")
@@ -193,14 +201,15 @@ public class Subjects implements Serializable {
         this.studentSubjectRegistrationCollection = studentSubjectRegistrationCollection;
     }
 
-    @XmlTransient
-    public Collection<SubjectCurriculum> getSubjectCurriculumCollection() {
-        return subjectCurriculumCollection;
+    public Set<Curriculum> getCurricula() {
+        return curricula;
     }
 
-    public void setSubjectCurriculumCollection(Collection<SubjectCurriculum> subjectCurriculumCollection) {
-        this.subjectCurriculumCollection = subjectCurriculumCollection;
+    public void setCurricula(Set<Curriculum> curricula) {
+        this.curricula = curricula;
     }
+
+    
 
     @XmlTransient
     public Collection<Marksheet> getMarksheetCollection() {
