@@ -8,10 +8,16 @@ package com.codemovers.scholar.engine.api.v1.subjects;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import static com.codemovers.scholar.engine.api.v1.classes.ClassServiceInterface.ARCHIVE_CLASS_PERMISSION;
+import com.codemovers.scholar.engine.api.v1.curriculum.CurriculumService;
 import com.codemovers.scholar.engine.api.v1.subjects.entities.SubjectResponse;
 import com.codemovers.scholar.engine.api.v1.subjects.entities.Subject;
+import com.codemovers.scholar.engine.db.controllers.SubjectCurriculumJpaController;
 import com.codemovers.scholar.engine.db.controllers.SubjectsJpaController;
+import com.codemovers.scholar.engine.db.entities.Curriculum;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
+import com.codemovers.scholar.engine.db.entities.StudyYear;
+import com.codemovers.scholar.engine.db.entities.StudyYearCurriculum;
+import com.codemovers.scholar.engine.db.entities.SubjectCurriculum;
 import com.codemovers.scholar.engine.db.entities.Subjects;
 import com.codemovers.scholar.engine.db.entities.Users;
 import static com.codemovers.scholar.engine.helper.Utilities.check_access;
@@ -29,12 +35,13 @@ import java.util.logging.Logger;
 public class SubjectService extends AbstractService<Subject, SubjectResponse> implements SubjectServiceInterface {
 
     private static final Logger LOG = Logger.getLogger(SubjectService.class.getName());
-
     private final SubjectsJpaController controller;
+    private final SubjectCurriculumJpaController subjectCurriculumJpaController;
     private static SubjectService service = null;
 
     public SubjectService() {
         controller = SubjectsJpaController.getInstance();
+        subjectCurriculumJpaController = SubjectCurriculumJpaController.getInstance();
     }
 
     public static SubjectService getInstance() {
@@ -54,17 +61,15 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
 //        if (list.size() > 0) {
 //            throw new BadRequestException("Subject with the same name or code exists in the database");
 //        }
-
         entity.setAuthor_id(authentication.getId());
         entity.setStatus(StatusEnum.ACTIVE);
 
         Subjects subject = populateEntity(entity);
         subject.setDateCreated(new Date());
-        
+
         subject = controller.create(subject, data);
-        
+
         //todo: add subject curriculum 
-        
         return populateResponse(subject);
     }
 
@@ -101,6 +106,58 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         return populateResponse(subject);
     }
 
+    /**
+     *
+     * @param subject
+     * @param data
+     * @param entity
+     * @param authentication
+     * @return
+     */
+    public List<SubjectCurriculum> manageStudyYearCurrilum(Subjects subject, SchoolData data, Subject entity, AuthenticationResponse authentication) {
+        //todo: remove all curricula in this study year
+        List<SubjectCurriculum> list = new ArrayList<>();
+
+        subjectCurriculumJpaController.deleteCurriculumByStudyId(subject.getId().intValue(), data);
+        if (entity.getCurriculum_list() != null) {
+            entity.getCurriculum_list().stream().map((curriculum_id) -> createStudyYearCurriculum(curriculum_id, data, subject, authentication)).forEachOrdered((studyYearCurriculum) -> {
+                list.add(studyYearCurriculum);
+            });
+        }
+
+        return list;
+
+    }
+
+    /**
+     *
+     * @param curriculum_id
+     * @param data
+     * @param subject
+     * @param authentication
+     * @return
+     */
+    public SubjectCurriculum createStudyYearCurriculum(Integer curriculum_id, SchoolData data, Subjects subject, AuthenticationResponse authentication) {
+        //todo: create curriculum_id
+        Curriculum curriculum = CurriculumService.getInstance().getCurriculum(curriculum_id, data);
+        SubjectCurriculum subjectCurriculum = new SubjectCurriculum();
+        subjectCurriculum.setSubject(subject);
+        subjectCurriculum.setCurriculum(curriculum);
+        subjectCurriculum.setStatus(StatusEnum.ACTIVE.name());
+        subjectCurriculum.setDateCreated(new Date());
+        subjectCurriculum.setAuthor(new Users(authentication.getId().longValue()));
+        subjectCurriculum = subjectCurriculumJpaController.create(subjectCurriculum, data);
+        return subjectCurriculum;
+
+    }
+
+    /**
+     *
+     * @param data
+     * @param id
+     * @return
+     * @throws Exception
+     */
     @Override
     public SubjectResponse archive(SchoolData data, Integer id) throws Exception {
         check_access(ARCHIVE_SUBJECT_PERMISSION);
@@ -111,6 +168,15 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         return populateResponse(subject);
     }
 
+    /**
+     *
+     * @param data
+     * @param ofset
+     * @param limit
+     * @param authenticationResponse
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<SubjectResponse> list(SchoolData data, Integer ofset, Integer limit, AuthenticationResponse authenticationResponse) throws Exception {
         // check_access(LIST_SUBJECT_PERMISSION);
@@ -127,6 +193,16 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
 
     }
 
+    /**
+     *
+     * @param data
+     * @param query
+     * @param ofset
+     * @param limit
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<SubjectResponse> search(SchoolData data, String query, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
         check_access(ARCHIVE_CLASS_PERMISSION);
@@ -142,6 +218,13 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
 
     }
 
+    /**
+     *
+     * @param data
+     * @param Id
+     * @return
+     * @throws Exception
+     */
     @Override
     public SubjectResponse getById(SchoolData data, Integer Id) throws Exception {
 
@@ -150,6 +233,11 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         return populateResponse(subject);
     }
 
+    /**
+     *
+     * @param entity
+     * @return
+     */
     @Override
     public SubjectResponse populateResponse(Subjects entity) {
         SubjectResponse response = new SubjectResponse();
@@ -169,6 +257,13 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         return response;
     }
 
+    /**
+     *
+     * @param Id
+     * @param data
+     * @return
+     * @throws BadRequestException
+     */
     public Subjects findSubject(Integer Id, SchoolData data) throws BadRequestException {
         Subjects subject = controller.findSubjects(Id, data);
         if (subject == null) {
@@ -177,6 +272,11 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         return subject;
     }
 
+    /**
+     *
+     * @param entity
+     * @return
+     */
     public Subjects populateEntity(Subject entity) {
         Subjects subject = new Subjects();
         subject.setName(entity.getName());
