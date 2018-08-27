@@ -69,7 +69,7 @@ public class Curriculum implements Serializable {
     @Column(name = "date_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "curriculumId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "curriculum")
     private Collection<SubjectCurriculum> subjectCurriculumCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "curriculumId")
     private Collection<CurriculumDetails> curriculumDetailsCollection;

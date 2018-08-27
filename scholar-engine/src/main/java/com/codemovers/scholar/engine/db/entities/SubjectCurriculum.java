@@ -56,13 +56,13 @@ public class SubjectCurriculum implements Serializable {
     private Date dateCreated;
     @JoinColumn(name = "curriculum_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Curriculum curriculumId;
+    private Curriculum curriculum;
     @JoinColumn(name = "subject_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Subjects subjectId;
+    private Subjects subject;
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Users authorId;
+    private Users author;
 
     public SubjectCurriculum() {
     }
@@ -101,28 +101,28 @@ public class SubjectCurriculum implements Serializable {
         this.dateCreated = dateCreated;
     }
 
-    public Curriculum getCurriculumId() {
-        return curriculumId;
+    public Curriculum getCurriculum() {
+        return curriculum;
     }
 
-    public void setCurriculumId(Curriculum curriculumId) {
-        this.curriculumId = curriculumId;
+    public void setCurriculum(Curriculum curriculum) {
+        this.curriculum = curriculum;
     }
 
-    public Subjects getSubjectId() {
-        return subjectId;
+    public Subjects getSubject() {
+        return subject;
     }
 
-    public void setSubjectId(Subjects subjectId) {
-        this.subjectId = subjectId;
+    public void setSubject(Subjects subject) {
+        this.subject = subject;
     }
 
-    public Users getAuthorId() {
-        return authorId;
+    public Users getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(Users authorId) {
-        this.authorId = authorId;
+    public void setAuthor(Users author) {
+        this.author = author;
     }
 
     @Override

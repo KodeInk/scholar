@@ -81,7 +81,7 @@ public class Subjects implements Serializable {
     private Collection<SubjectPapers> subjectPapersCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
     private Collection<StudentSubjectRegistration> studentSubjectRegistrationCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subject")
     private Collection<SubjectCurriculum> subjectCurriculumCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
     private Collection<Marksheet> marksheetCollection;

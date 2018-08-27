@@ -62,6 +62,9 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         subject.setDateCreated(new Date());
         
         subject = controller.create(subject, data);
+        
+        //todo: add subject curriculum 
+        
         return populateResponse(subject);
     }
 

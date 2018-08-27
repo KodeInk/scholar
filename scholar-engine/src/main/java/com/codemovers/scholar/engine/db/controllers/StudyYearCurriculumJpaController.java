@@ -6,7 +6,6 @@
 package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.EngineJpaController;
-import com.codemovers.scholar.engine.db.entities.ClassStream;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.StudyYearCurriculum;
 import java.util.List;
@@ -28,6 +27,10 @@ public class StudyYearCurriculumJpaController extends EngineJpaController {
 
     private static StudyYearCurriculumJpaController controller = null;
 
+    /**
+     *
+     * @return
+     */
     public static StudyYearCurriculumJpaController getInstance() {
         if (controller == null) {
             controller = new StudyYearCurriculumJpaController();
@@ -35,10 +38,19 @@ public class StudyYearCurriculumJpaController extends EngineJpaController {
         return controller;
     }
 
+    /**
+     *
+     */
     public StudyYearCurriculumJpaController() {
         super(StudyYearCurriculum.class);
     }
 
+    /**
+     *
+     * @param entity
+     * @param data
+     * @return
+     */
     public StudyYearCurriculum create(StudyYearCurriculum entity, SchoolData data) {
         EntityManager em = null;
         try {
@@ -58,7 +70,12 @@ public class StudyYearCurriculumJpaController extends EngineJpaController {
 
     }
 
-     public void  deleteCurriculumByStudyYearId(Integer studyYearId, SchoolData data) {
+    /**
+     *
+     * @param studyYearId
+     * @param data
+     */
+    public void  deleteCurriculumByStudyYearId(Integer studyYearId, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
 
@@ -82,8 +99,12 @@ public class StudyYearCurriculumJpaController extends EngineJpaController {
         }
     }
 
-     
-     
+    /**
+     *
+     * @param studyYearCurriculum
+     * @param data
+     * @throws Exception
+     */
     public void edit(StudyYearCurriculum studyYearCurriculum, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
@@ -107,6 +128,12 @@ public class StudyYearCurriculumJpaController extends EngineJpaController {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @param data
+     * @return
+     */
     public StudyYearCurriculum findStudyYearCurriculum(Integer id, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
 
@@ -133,14 +160,31 @@ public class StudyYearCurriculumJpaController extends EngineJpaController {
         }
     }
 
+    /**
+     *
+     * @param data
+     * @return
+     */
     public List<StudyYearCurriculum> findStudyYearCurriculums(SchoolData data) {
         return findStudyYearCurriculums(true, -1, -1, data);
     }
 
+    /**
+     *
+     * @param maxResults
+     * @param firstResult
+     * @param data
+     * @return
+     */
     public List<StudyYearCurriculum> findStudyYearCurriculums(int maxResults, int firstResult, SchoolData data) {
         return findStudyYearCurriculums(false, maxResults, firstResult, data);
     }
 
+    /**
+     *
+     * @param data
+     * @return
+     */
     public int getCount(SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {

@@ -60,6 +60,30 @@ public class SubjectCurriculumJpaController extends EngineJpaController {
 
     }
 
+    public void deleteCurriculumByStudyYearId(Integer studyYearId, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
+        try {
+
+            Query query = em.createQuery(""
+                    + "SELECT CUR FROM SubjectCurriculum CUR "
+                    + " WHERE CUR.studyYear.id = :id"
+                    + "");
+            query.setParameter("id", studyYearId.longValue());
+            List<StudyYearCurriculum> studyYearCurriculum = query.getResultList();
+
+            studyYearCurriculum.stream().map((curriculum) -> {
+                em.getTransaction().begin();
+                em.remove(curriculum);
+                return curriculum;
+            }).forEachOrdered((_item) -> {
+                em.getTransaction().commit();
+            });
+
+        } finally {
+            em.close();
+        }
+    }
+
     public void edit(SubjectCurriculum subjectCurriculum, SchoolData data) throws Exception {
         EntityManager em = null;
         try {
