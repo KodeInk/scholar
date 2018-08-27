@@ -5,6 +5,8 @@
  */
 package com.codemovers.scholar.engine.api.v1.subjects.entities;
 
+import com.codemovers.scholar.engine.api.v1.curriculum.entities.CurriculumResponse;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -20,6 +22,7 @@ public class SubjectResponse {
     private String status;
     private Long date_created;
     private String author;
+    private List<CurriculumResponse>  curriculumResponses;
 
     public SubjectResponse() {
     }
@@ -84,6 +87,16 @@ public class SubjectResponse {
     public void setAuthor(String author) {
         this.author = author;
     }
+
+    public List<CurriculumResponse> getCurriculumResponses() {
+        return curriculumResponses;
+    }
+
+    public void setCurriculumResponses(List<CurriculumResponse> curriculumResponses) {
+        this.curriculumResponses = curriculumResponses;
+    }
+    
+    
 
     @Override
     public int hashCode() {
