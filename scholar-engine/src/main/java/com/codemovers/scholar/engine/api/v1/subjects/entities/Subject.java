@@ -9,7 +9,7 @@ import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
 import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
-import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -28,6 +28,7 @@ public class Subject extends AbstractEntity {
     SubjectTypeEnum type;
     private Long date_created;
     private Integer author_id;
+    private List<Integer> curriculum_list;
 
     public Subject() {
     }
@@ -90,6 +91,14 @@ public class Subject extends AbstractEntity {
 
     public void setAuthor_id(Integer author_id) {
         this.author_id = author_id;
+    }
+
+    public List<Integer> getCurriculum_list() {
+        return curriculum_list;
+    }
+
+    public void setCurriculum_list(List<Integer> curriculum_list) {
+        this.curriculum_list = curriculum_list;
     }
 
     @Override
