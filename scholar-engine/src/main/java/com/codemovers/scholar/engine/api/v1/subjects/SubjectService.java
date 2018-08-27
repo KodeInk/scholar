@@ -93,7 +93,6 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
 
         subject = controller.edit(subject, data);
         manageStudyYearCurrilum(subject, data, entity, authenticationResponse);
-
         return populateResponse(subject);
     }
 

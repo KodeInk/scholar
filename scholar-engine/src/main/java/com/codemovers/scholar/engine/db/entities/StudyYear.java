@@ -153,8 +153,6 @@ public class StudyYear implements Serializable {
         this.curricula = curricula;
     }
 
-    
-
     public Users getAuthor() {
         return author;
     }
