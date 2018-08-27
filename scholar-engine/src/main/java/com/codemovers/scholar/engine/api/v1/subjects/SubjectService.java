@@ -97,7 +97,6 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         return populateResponse(subject);
     }
 
-   
     /**
      *
      * @param subject
@@ -110,13 +109,16 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         //todo: remove all curricula in this study year
         List<SubjectCurriculum> list = new ArrayList<>();
 
-        subjectCurriculumJpaController.deleteCurriculumByStudyId(subject.getId().intValue(), data);
-        if (entity.getCurriculum_list() != null) {
-            entity.getCurriculum_list().stream().map((curriculum_id) -> createStudyYearCurriculum(curriculum_id, data, subject, authentication)).forEachOrdered((studyYearCurriculum) -> {
-                list.add(studyYearCurriculum);
-            });
+        try {
+            subjectCurriculumJpaController.deleteCurriculumByStudyId(subject.getId().intValue(), data);
+            if (entity.getCurriculum_list() != null) {
+                entity.getCurriculum_list().stream().map((curriculum_id) -> createStudyYearCurriculum(curriculum_id, data, subject, authentication)).forEachOrdered((studyYearCurriculum) -> {
+                    list.add(studyYearCurriculum);
+                });
+            }
+        } catch (Exception er) {
+            er.printStackTrace();
         }
-
         return list;
 
     }
@@ -239,8 +241,7 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         }
         return subject;
     }
-    
-    
+
     /**
      *
      * @param entity
@@ -265,9 +266,6 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         return response;
     }
 
-    
-    
-
     /**
      *
      * @param entity
@@ -283,8 +281,8 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         subject.setAuthor(new Users(entity.getAuthor_id().longValue()));
         return subject;
     }
-    
-     public void populateEntity(Subject entity, Subjects subject) {
+
+    public void populateEntity(Subject entity, Subjects subject) {
         if (entity.getName() != null && !entity.getName().equalsIgnoreCase(subject.getName())) {
             subject.setName(entity.getName());
         }
@@ -297,7 +295,5 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
             subject.setType(entity.getType().name());
         }
     }
-
-     
 
 }
