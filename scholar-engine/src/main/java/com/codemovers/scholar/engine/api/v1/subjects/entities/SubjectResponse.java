@@ -22,8 +22,8 @@ public class SubjectResponse {
     private String type;
     private String status;
     private Long date_created;
-    private String author; 
-     private List<SubjectPapersResponse> subjectPaperResponses;
+    private String author;
+    private List<SubjectPapersResponse> subjectPaperResponses;
     private List<CurriculumResponse> curriculumResponses;
 
     public SubjectResponse() {
@@ -64,7 +64,6 @@ public class SubjectResponse {
     public void setType(String type) {
         this.type = type;
     }
-    
 
     public String getStatus() {
         return status;
@@ -163,18 +162,16 @@ public class SubjectResponse {
     @Override
     public String toString() {
         return "SubjectResponse{"
-                + "id=" + id 
-                + ", name=" + name 
-                + ", code=" + code 
-                + ", type=" + type 
-                + ", status=" + status 
-                + ", date_created=" + date_created 
-                + ", author=" + author 
-                + ", subjectPaperResponses=" + subjectPaperResponses 
-                + ", curriculumResponses=" + curriculumResponses 
+                + "id=" + id
+                + ", name=" + name
+                + ", code=" + code
+                + ", type=" + type
+                + ", status=" + status
+                + ", date_created=" + date_created
+                + ", author=" + author
+                + ", subjectPaperResponses=" + subjectPaperResponses
+                + ", curriculumResponses=" + curriculumResponses
                 + '}';
     }
-    
-    
 
 }

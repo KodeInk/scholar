@@ -9,6 +9,7 @@ import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import static com.codemovers.scholar.engine.api.v1.classes.ClassServiceInterface.ARCHIVE_CLASS_PERMISSION;
 import com.codemovers.scholar.engine.api.v1.curriculum.CurriculumService;
+import com.codemovers.scholar.engine.api.v1.curriculum.entities.CurriculumResponse;
 import com.codemovers.scholar.engine.api.v1.subjects.entities.SubjectResponse;
 import com.codemovers.scholar.engine.api.v1.subjects.entities.Subject;
 import com.codemovers.scholar.engine.db.controllers.SubjectCurriculumJpaController;
@@ -257,6 +258,15 @@ public class SubjectService extends AbstractService<Subject, SubjectResponse> im
         response.setStatus(entity.getStatus());
         if (entity.getAuthor() != null) {
             response.setAuthor(entity.getAuthor().getUsername());
+        }
+
+        if (entity.getCurricula() != null) {
+            List<CurriculumResponse> curriculumResponses = new ArrayList<>();
+            for (Curriculum curriculum : entity.getCurricula()) {
+                CurriculumResponse cr = CurriculumService.getInstance().populateResponse(curriculum);
+                curriculumResponses.add(cr);
+            }
+            response.setCurriculumResponses(curriculumResponses);
         }
 
         if (entity.getDateCreated() != null) {

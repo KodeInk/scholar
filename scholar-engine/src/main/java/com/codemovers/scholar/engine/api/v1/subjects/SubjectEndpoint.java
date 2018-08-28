@@ -39,7 +39,7 @@ public class SubjectEndpoint extends AbstractEndpoint<Subject, SubjectResponse> 
     private static final Logger LOG = Logger.getLogger(SubjectEndpoint.class.getName());
     @Context
     private ContainerRequestContext context;
-    SubjectService service = null;
+    private SubjectService service = null;
     private AuthenticationResponse authentication = null;
 
     public SubjectEndpoint() {
