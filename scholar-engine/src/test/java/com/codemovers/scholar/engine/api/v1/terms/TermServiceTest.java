@@ -5,15 +5,8 @@
  */
 package com.codemovers.scholar.engine.api.v1.terms;
 
-import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
-import com.codemovers.scholar.engine.api.v1.terms.entities.TermResponse;
-import com.codemovers.scholar.engine.api.v1.terms.entities._Term;
-import com.codemovers.scholar.engine.db.entities.SchoolData;
-import com.codemovers.scholar.engine.db.entities.StudyYear;
-import com.codemovers.scholar.engine.db.entities.Terms;
 import com.codemovers.scholar.engine.helper.exceptions.BadRequestException;
 import java.util.Date;
-import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
