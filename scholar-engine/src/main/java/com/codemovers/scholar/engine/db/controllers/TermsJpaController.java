@@ -6,6 +6,7 @@
 package com.codemovers.scholar.engine.db.controllers;
 
 import com.codemovers.scholar.engine.db.EngineJpaController;
+import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.Terms;
 import com.codemovers.scholar.engine.helper.Utilities;
@@ -124,16 +125,15 @@ public class TermsJpaController extends EngineJpaController {
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();
-        }catch(Exception er){
+        } catch (Exception er) {
             er.printStackTrace();
             throw er;
-        }
-        finally {
+        } finally {
             em.close();
         }
     }
 
-    public  List<Terms> findTerms(Integer studyYear, int maxResults, int firstResult, SchoolData data) {
+    public List<Terms> findTerms(Integer studyYear, int maxResults, int firstResult, SchoolData data) {
 
         List<Terms> termsList = new ArrayList<>();
         EntityManager em = getEntityManager(data.getExternalId());
@@ -141,7 +141,7 @@ public class TermsJpaController extends EngineJpaController {
         try {
             Query query = em.createNamedQuery("Terms.findByStudyYear");
             query.setParameter("id", Long.valueOf(studyYear));
-              
+
             query.setMaxResults(maxResults);
             query.setFirstResult(firstResult);
 
@@ -302,6 +302,49 @@ public class TermsJpaController extends EngineJpaController {
             em.close();
         }
         return termsList;
+    }
+
+    /**
+     *
+     * @param studyYearid
+     * @param studyYearId
+     * @param maxResults
+     * @param firstResult
+     * @param data
+     * @return
+     */
+    public List<Terms> findTermsByStudyYear(Integer studyYearid, Long studyYearId, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
+        List<Terms> list = new ArrayList<>();
+        try {
+            Query query = getQuery(em, studyYearid);
+            query.setMaxResults(maxResults);
+            query.setFirstResult(firstResult);
+            list = query.getResultList();
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        } finally {
+            em.close();
+        }
+
+        return list;
+    }
+
+    /**
+     *
+     * @param em
+     * @param studyYear
+     * @return
+     */
+    public Query getQuery(EntityManager em, Integer studyYear) {
+        Query query = em.createQuery(""
+                + "select ST FROM Terms TM"
+                + "LEFT JOIN TM.studyYear SY"
+                + " WHERE  SY.id = :STUDYYEAR");
+        query.setParameter("STUDYYEAR", studyYear.longValue());
+        return query;
+
     }
 
 }

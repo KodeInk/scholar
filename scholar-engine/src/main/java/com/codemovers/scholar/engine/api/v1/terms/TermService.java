@@ -80,11 +80,9 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
         Date year_end_date = studyYear.getEndDate();
         
         validateTermEngine(term_start_date, term_end_date, year_start_date, year_end_date);
-        
-        
-        
-        
-        
+         
+       //todo: get all the terms in in this current year, then find if this term overlas another term 
+       
         
         //todo: get terms from this study year, and then check engine 
         //todo: check to see that there is no term with the same ranking 
@@ -306,6 +304,12 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
         return response;
     }
 
+    /**
+     *
+     * @param studyYear
+     * @param entity
+     * @return
+     */
     public Terms populateEntity(StudyYear studyYear, _Term entity) {
         //todo: validate period: it should not be between the ranges of the study period:
         Terms term = new Terms();
@@ -320,6 +324,13 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
         return term;
     }
 
+    /**
+     *
+     * @param entity
+     * @param term
+     * @param studyYear
+     * @return
+     */
     public Terms populateEntity(_Term entity, Terms term, StudyYear studyYear) {
         Terms t = term;
         if (entity.getName() != null && !entity.getName().equalsIgnoreCase(term.getName())) {
