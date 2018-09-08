@@ -72,6 +72,21 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
         }
         Terms term = populateEntity(studyYear, entity);
 
+        
+        //todo: does this term belong to this study year
+        Date term_start_date = term.getStartDate();
+        Date term_end_date = term.getEndDate();
+        Date year_start_date = studyYear.getStartDate();
+        Date year_end_date = studyYear.getEndDate();
+        
+        validateTermEngine(term_start_date, term_end_date, year_start_date, year_end_date);
+        
+        
+        
+        
+        
+        
+        //todo: get terms from this study year, and then check engine 
         //todo: check to see that there is no term with the same ranking 
         Long termRank = term.getRanking();
         List<Terms> termWithSameRank = controller.findTermByRank(termRank, term.getStudyYear().getId(), data);
@@ -97,6 +112,7 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
 
     }
 
+   
     /**
      *
      * @param data
@@ -230,6 +246,35 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
         return responses;
 
     }
+     
+    /**
+     *
+     * @param term_start_date
+     * @param term_end_date
+     * @param year_start_date
+     * @param year_end_date
+     * @throws BadRequestException
+     */
+    public void validateTermEngine(Date term_start_date, Date term_end_date, Date year_start_date, Date year_end_date) throws BadRequestException {
+       
+        if(term_start_date ==  null || term_end_date ==  null || year_start_date ==  null || year_end_date ==  null    ){
+             throw  new BadRequestException("All Dates are Mandatory");     
+        }
+        
+        if(term_start_date.getTime() >= term_end_date.getTime()){
+            throw  new BadRequestException("Term start date can not be greater than or equal to the term end date ");
+        }
+        
+        if(term_start_date.getTime() <= year_start_date.getTime()){
+            throw  new BadRequestException("Term start date can not be less than  or equal to the year start date");
+        }
+        
+        if(term_end_date.getTime() >= year_end_date.getTime()){
+            throw  new BadRequestException("Term end date can not be greater than or equal to  the year end date");
+        }
+    }
+
+     
      
     /**
      *
