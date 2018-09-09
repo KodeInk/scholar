@@ -248,11 +248,21 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
 
     }
 
+    /**
+     *
+     * @param data
+     * @param query
+     * @param ofset
+     * @param limit
+     * @param authentication
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<TermResponse> search(SchoolData data, String query, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
          check_access(ARCHIVE_CLASS_PERMISSION);
 
-        List<Terms> list = controller.query(query, limit, ofset, data);
+        List<Terms> list = controller.searchTerm(query, limit, ofset, data);
 
         List<TermResponse> classResponses = new ArrayList<>();
         list.forEach(respond -> {
