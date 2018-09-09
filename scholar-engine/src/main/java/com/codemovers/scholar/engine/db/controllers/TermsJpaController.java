@@ -117,9 +117,7 @@ public class TermsJpaController extends EngineJpaController {
     private List<Terms> findTerms(boolean all, int maxResults, int firstResult, SchoolData data) {
         EntityManager em = getEntityManager(data.getExternalId());
         try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Terms.class));
-            Query q = em.createQuery(cq);
+            Query q = getQuery(em);
             if (!all) {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
@@ -221,7 +219,7 @@ public class TermsJpaController extends EngineJpaController {
         return termsList;
     }
 
-    public List<Terms> checkTermByStartDate(Date startDate, Long studyYearId,Integer term_id, SchoolData data) {
+    public List<Terms> checkTermByStartDate(Date startDate, Long studyYearId, Integer term_id, SchoolData data) {
         List<Terms> termsList = new ArrayList<>();
         EntityManager em = getEntityManager(data.getExternalId());
         Query query = em.createNamedQuery("Terms.checkByStartDateOnEdit");
@@ -242,8 +240,6 @@ public class TermsJpaController extends EngineJpaController {
         return termsList;
     }
 
-    
-    
     /**
      *
      * @param startDate
@@ -298,8 +294,7 @@ public class TermsJpaController extends EngineJpaController {
         return termsList;
     }
 
-    
-     public List<Terms> checkTermByEndDate(Date endDate, Long studyYearId,Integer term_id, SchoolData data) {
+    public List<Terms> checkTermByEndDate(Date endDate, Long studyYearId, Integer term_id, SchoolData data) {
         List<Terms> termsList = new ArrayList<>();
         EntityManager em = getEntityManager(data.getExternalId());
         Query query = em.createNamedQuery("Terms.checkByEndDateOnEdit");
@@ -320,8 +315,6 @@ public class TermsJpaController extends EngineJpaController {
         return termsList;
     }
 
-     
-     
     /**
      *
      * @param startDate
@@ -412,23 +405,40 @@ public class TermsJpaController extends EngineJpaController {
      */
     public Query getQuery(EntityManager em, Integer studyYear) {
         Query query = em.createQuery(""
-                + "select ST FROM Terms TM"
-                + "LEFT JOIN TM.studyYear SY"
-                + " WHERE  SY.id = :STUDYYEAR");
+                + " SELECT TM FROM Terms TM"
+                + " LEFT JOIN TM.studyYear SY"
+                + " WHERE  SY.id = :STUDYYEAR "
+                + " ORDER BY SY.endDate DESC ");
         query.setParameter("STUDYYEAR", studyYear.longValue());
         return query;
 
     }
 
+    /**
+     *
+     * @param em
+     * @param searchQuery
+     * @return
+     */
     public Query getQuery(EntityManager em, String searchQuery) {
         Query query = em.createQuery(""
-                + " select TM FROM Terms TM "
+                + " SELECT TM FROM Terms TM "
                 + " LEFT JOIN TM.studyYear SY"
                 + " WHERE  ( SY.theme LIKE :THEME"
                 + " OR TM.name LIKE :NAME "
-                + " ) ");
+                + " ) "
+                + " ORDER BY SY.endDate DESC ");
         query.setParameter("THEME", "%" + searchQuery + "%");
         query.setParameter("NAME", "%" + searchQuery + "%");
+        return query;
+
+    }
+
+    public Query getQuery(EntityManager em) {
+        Query query = em.createQuery(""
+                + " SELECT TM FROM Terms TM"
+                + " LEFT JOIN TM.studyYear SY"                
+                + " ORDER BY SY.endDate DESC ");
         return query;
 
     }
