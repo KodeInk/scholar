@@ -75,18 +75,15 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
         }
         Terms term = populateEntity(studyYear, entity);
 
-        
         //todo: does this term belong to this study year
         Date term_start_date = term.getStartDate();
         Date term_end_date = term.getEndDate();
         Date year_start_date = studyYear.getStartDate();
         Date year_end_date = studyYear.getEndDate();
-        
+
         validateTermEngine(term_start_date, term_end_date, year_start_date, year_end_date);
-         
-       //todo: get all the terms in in this current year, then find if this term overlas another term 
-       
-        
+
+        //todo: get all the terms in in this current year, then find if this term overlas another term 
         //todo: get terms from this study year, and then check engine 
         //todo: check to see that there is no term with the same ranking 
         Long termRank = term.getRanking();
@@ -113,7 +110,6 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
 
     }
 
-   
     /**
      *
      * @param data
@@ -122,7 +118,7 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
      * @throws Exception
      */
     @Override
-    public TermResponse update(SchoolData data, _Term entity) throws Exception {
+    public TermResponse update(SchoolData data, _Term entity, AuthenticationResponse authenticationResponse) throws Exception {
         check_access(UPDATE_TERM_PERMISSION);
         entity.validate();
 
@@ -142,6 +138,26 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
         }
 
         term = populateEntity(entity, term, studyYear);
+
+        //todo: does this term belong to this study year
+        Date term_start_date = term.getStartDate();
+        Date term_end_date = term.getEndDate();
+        Date year_start_date = studyYear.getStartDate();
+        Date year_end_date = studyYear.getEndDate();
+
+        validateTermEngine(term_start_date, term_end_date, year_start_date, year_end_date);
+
+        List<Terms> termsWithStartDate = controller.checkTermByStartDate(term.getStartDate(), term.getStudyYear().getId(), term.getId().intValue(), data);
+        if (termsWithStartDate.size() > 0) {
+            throw new BadRequestException("Term start date should not be inside another term duration in the same study period ");
+        }
+
+        //todo: term end date should not be between start and end date of another term in the same study period
+        List<Terms> termsWithEndDate = controller.checkTermByEndDate(term.getEndDate(), term.getStudyYear().getId(), term.getId().intValue(), data);
+        if (termsWithEndDate.size() > 0) {
+            throw new BadRequestException("Term end date should not be inside another term in the same study period  ");
+        }
+
         term = controller.edit(term, data);
 
         return populateResponse(term);
@@ -181,7 +197,7 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
         if (term == null) {
             throw new BadRequestException("Record does not exist");
         }
-        
+
         return populateResponse(term);
     }
 
@@ -221,7 +237,7 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
         return responses;
 
     }
-    
+
     /**
      *
      * @param data
@@ -236,7 +252,7 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
 
         check_access(LIST_STUDYEAR_PERMISSION);
 
-        List<Terms> list = controller.findTerms(studyYear,limit, ofset, data);
+        List<Terms> list = controller.findTerms(studyYear, limit, ofset, data);
         List<TermResponse> responses = new ArrayList<>();
         if (list != null) {
             list.forEach((term) -> {
@@ -260,7 +276,7 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
      */
     @Override
     public List<TermResponse> search(SchoolData data, String query, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
-         check_access(ARCHIVE_CLASS_PERMISSION);
+        check_access(ARCHIVE_CLASS_PERMISSION);
 
         List<Terms> list = controller.searchTerm(query, limit, ofset, data);
 
@@ -270,11 +286,9 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
         });
 
         return classResponses;
-        
+
     }
-     
-    
-    
+
     /**
      *
      * @param term_start_date
@@ -284,26 +298,24 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
      * @throws BadRequestException
      */
     public void validateTermEngine(Date term_start_date, Date term_end_date, Date year_start_date, Date year_end_date) throws BadRequestException {
-       
-        if(term_start_date ==  null || term_end_date ==  null || year_start_date ==  null || year_end_date ==  null    ){
-             throw  new BadRequestException("All Dates are Mandatory");     
+
+        if (term_start_date == null || term_end_date == null || year_start_date == null || year_end_date == null) {
+            throw new BadRequestException("All Dates are Mandatory");
         }
-        
-        if(term_start_date.getTime() >= term_end_date.getTime()){
-            throw  new BadRequestException("Term start date can not be greater than or equal to the term end date ");
+
+        if (term_start_date.getTime() >= term_end_date.getTime()) {
+            throw new BadRequestException("Term start date can not be greater than or equal to the term end date ");
         }
-        
-        if(term_start_date.getTime() <= year_start_date.getTime()){
-            throw  new BadRequestException("Term start date can not be less than  or equal to the year start date");
+
+        if (term_start_date.getTime() < year_start_date.getTime()) {
+            throw new BadRequestException("Term start date can not be less than   the year start date :  "+year_start_date.toString());
         }
-        
-        if(term_end_date.getTime() >= year_end_date.getTime()){
-            throw  new BadRequestException("Term end date can not be greater than or equal to  the year end date");
+
+        if (term_end_date.getTime() > year_end_date.getTime()) {
+            throw new BadRequestException("Term end date can not be greater than   the year end date :  "+year_end_date.toString());
         }
     }
 
-     
-     
     /**
      *
      * @param entity

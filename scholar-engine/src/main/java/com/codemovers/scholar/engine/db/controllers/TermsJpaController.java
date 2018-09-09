@@ -221,6 +221,29 @@ public class TermsJpaController extends EngineJpaController {
         return termsList;
     }
 
+    public List<Terms> checkTermByStartDate(Date startDate, Long studyYearId,Integer term_id, SchoolData data) {
+        List<Terms> termsList = new ArrayList<>();
+        EntityManager em = getEntityManager(data.getExternalId());
+        Query query = em.createNamedQuery("Terms.checkByStartDateOnEdit");
+        query.setParameter("startdate", startDate);
+        query.setParameter("studyYearId", studyYearId);
+        query.setParameter("id", term_id.longValue());
+        try {
+            termsList = query.getResultList();
+            LOG.log(Level.FINE, "Term foudn with start date e {0}", new Object[]{startDate});
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "unexpected exception {0}\n{1}", new Object[]{ex.getMessage(), Utilities.getStackTrace(ex)});
+            return null;
+            // don't throw WebApplicationException, force caller to handle this
+        } finally {
+            LOG.log(Level.FINER, "closing entity manager {0}", em);
+            em.close();
+        }
+        return termsList;
+    }
+
+    
+    
     /**
      *
      * @param startDate
@@ -275,6 +298,30 @@ public class TermsJpaController extends EngineJpaController {
         return termsList;
     }
 
+    
+     public List<Terms> checkTermByEndDate(Date endDate, Long studyYearId,Integer term_id, SchoolData data) {
+        List<Terms> termsList = new ArrayList<>();
+        EntityManager em = getEntityManager(data.getExternalId());
+        Query query = em.createNamedQuery("Terms.checkByEndDateOnEdit");
+        query.setParameter("enddate", endDate);
+        query.setParameter("studyYearId", studyYearId);
+        query.setParameter("id", term_id.longValue());
+        try {
+            termsList = query.getResultList();
+            LOG.log(Level.FINE, "Term foudn with start date e {0}", new Object[]{endDate});
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "unexpected exception {0}\n{1}", new Object[]{ex.getMessage(), Utilities.getStackTrace(ex)});
+            return null;
+            // don't throw WebApplicationException, force caller to handle this
+        } finally {
+            LOG.log(Level.FINER, "closing entity manager {0}", em);
+            em.close();
+        }
+        return termsList;
+    }
+
+     
+     
     /**
      *
      * @param startDate
