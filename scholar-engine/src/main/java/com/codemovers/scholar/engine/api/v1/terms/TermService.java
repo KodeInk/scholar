@@ -7,6 +7,8 @@ package com.codemovers.scholar.engine.api.v1.terms;
 
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
+import static com.codemovers.scholar.engine.api.v1.classes.ClassServiceInterface.ARCHIVE_CLASS_PERMISSION;
+import com.codemovers.scholar.engine.api.v1.classes.entities.ClassResponse;
 import com.codemovers.scholar.engine.api.v1.studyear.StudyYearService;
 import static com.codemovers.scholar.engine.api.v1.studyear.StudyYearServiceInterface.LIST_STUDYEAR_PERMISSION;
 import com.codemovers.scholar.engine.api.v1.studyear.entities.StudyYearResponse;
@@ -14,6 +16,7 @@ import com.codemovers.scholar.engine.api.v1.terms.entities.TermResponse;
 import com.codemovers.scholar.engine.api.v1.terms.entities._Term;
 import com.codemovers.scholar.engine.db.controllers.StudyYearJpaController;
 import com.codemovers.scholar.engine.db.controllers.TermsJpaController;
+import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import com.codemovers.scholar.engine.db.entities.StudyYear;
 import com.codemovers.scholar.engine.db.entities.Terms;
@@ -244,7 +247,24 @@ public class TermService extends AbstractService<_Term, TermResponse> implements
         return responses;
 
     }
+
+    @Override
+    public List<TermResponse> search(SchoolData data, String query, Integer ofset, Integer limit, AuthenticationResponse authentication) throws Exception {
+         check_access(ARCHIVE_CLASS_PERMISSION);
+
+        List<Terms> list = controller.query(query, limit, ofset, data);
+
+        List<TermResponse> classResponses = new ArrayList<>();
+        list.forEach(respond -> {
+            classResponses.add(populateResponse(respond));
+        });
+
+        return classResponses;
+        
+    }
      
+    
+    
     /**
      *
      * @param term_start_date

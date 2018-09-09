@@ -333,6 +333,32 @@ public class TermsJpaController extends EngineJpaController {
 
     /**
      *
+     * @param searchQuery
+     * @param maxResults
+     * @param firstResult
+     * @param data
+     * @return
+     */
+    public List<Terms> searchTerm(String searchQuery, int maxResults, int firstResult, SchoolData data) {
+        EntityManager em = getEntityManager(data.getExternalId());
+        List<Terms> list = new ArrayList<>();
+        try {
+            Query query = getQuery(em, searchQuery);
+            query.setMaxResults(maxResults);
+            query.setFirstResult(firstResult);
+            list = query.getResultList();
+        } catch (Exception er) {
+            er.printStackTrace();
+            throw er;
+        } finally {
+            em.close();
+        }
+
+        return list;
+    }
+
+    /**
+     *
      * @param em
      * @param studyYear
      * @return
@@ -343,6 +369,19 @@ public class TermsJpaController extends EngineJpaController {
                 + "LEFT JOIN TM.studyYear SY"
                 + " WHERE  SY.id = :STUDYYEAR");
         query.setParameter("STUDYYEAR", studyYear.longValue());
+        return query;
+
+    }
+
+    public Query getQuery(EntityManager em, String searchQuery) {
+        Query query = em.createQuery(""
+                + "select ST FROM Terms TM"
+                + "LEFT JOIN TM.studyYear SY"
+                + " WHERE  ( SY.theme LIKE :THEME"
+                + " OR SY.name LIKE :NAME "
+                + ")");
+        query.setParameter("THEME", "%" + searchQuery + "%");
+        query.setParameter("NAME", "%" + searchQuery + "%");
         return query;
 
     }

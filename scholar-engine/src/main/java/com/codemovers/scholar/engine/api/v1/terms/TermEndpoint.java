@@ -115,4 +115,21 @@ public class TermEndpoint extends AbstractEndpoint<_Term, TermResponse> {
         return service.list(tenantdata, studyYear, offset, limit, this.authentication);
     }
 
+    
+    @GET
+    @Path("/search/{query}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public List<TermResponse> search(
+            @PathParam("query") String query,
+            @HeaderParam("authentication") String authentication,
+            @DefaultValue("0") @QueryParam("offset") int offset,
+            @DefaultValue("50") @QueryParam("limit") int limit,
+            @Context HttpServletRequest httpRequest) throws Exception, Exception {
+        validate(tenantdata, authentication);
+        System.out.println("==============================");
+        System.out.println(query);
+        return service.search(tenantdata, query, offset, limit, this.authentication);
+    }
+    
 }
