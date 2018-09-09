@@ -375,11 +375,11 @@ public class TermsJpaController extends EngineJpaController {
 
     public Query getQuery(EntityManager em, String searchQuery) {
         Query query = em.createQuery(""
-                + "select ST FROM Terms TM"
-                + "LEFT JOIN TM.studyYear SY"
+                + " select TM FROM Terms TM "
+                + " LEFT JOIN TM.studyYear SY"
                 + " WHERE  ( SY.theme LIKE :THEME"
-                + " OR SY.name LIKE :NAME "
-                + ")");
+                + " OR TM.name LIKE :NAME "
+                + " ) ");
         query.setParameter("THEME", "%" + searchQuery + "%");
         query.setParameter("NAME", "%" + searchQuery + "%");
         return query;
