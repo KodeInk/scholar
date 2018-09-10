@@ -7,7 +7,7 @@ package com.codemovers.scholar.engine.api.v1.students.admissions.entities;
 
 import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
-import com.codemovers.scholar.engine.api.v1.profile.entities._Profile;
+import com.codemovers.scholar.engine.api.v1.profile.entities.Profiles;
 import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -23,7 +23,7 @@ public class Admission extends AbstractEntity {
 
     private Integer id;
     private @Mandatory
-    _Profile student;
+    Profiles student;
     private @Mandatory
     String admission_no;
     private String external_id;
@@ -53,11 +53,11 @@ public class Admission extends AbstractEntity {
         this.id = id;
     }
 
-    public _Profile getStudent() {
+    public Profiles getStudent() {
         return student;
     }
 
-    public void setStudent(_Profile student) {
+    public void setStudent(Profiles student) {
         this.student = student;
     }
 

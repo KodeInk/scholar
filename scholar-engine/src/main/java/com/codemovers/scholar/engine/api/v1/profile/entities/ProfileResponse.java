@@ -30,7 +30,7 @@ public class ProfileResponse {
     private Integer parentId;
     private String status;
     private Long dateCreated;
-    private Integer authorId;
+    private String author;
 
     public ProfileResponse() {
     }
@@ -123,12 +123,12 @@ public class ProfileResponse {
         this.dateCreated = dateCreated;
     }
 
-    public Integer getAuthorId() {
-        return authorId;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(Integer authorId) {
-        this.authorId = authorId;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getSex() {
@@ -153,7 +153,7 @@ public class ProfileResponse {
         hash = 41 * hash + Objects.hashCode(this.parentId);
         hash = 41 * hash + Objects.hashCode(this.status);
         hash = 41 * hash + Objects.hashCode(this.dateCreated);
-        hash = 41 * hash + Objects.hashCode(this.authorId);
+        hash = 41 * hash + Objects.hashCode(this.author);
         return hash;
     }
 
@@ -202,7 +202,7 @@ public class ProfileResponse {
         if (!Objects.equals(this.dateCreated, other.dateCreated)) {
             return false;
         }
-        return Objects.equals(this.authorId, other.authorId);
+        return Objects.equals(this.author, other.author);
     }
 
     @Override
@@ -219,7 +219,7 @@ public class ProfileResponse {
                 + ", parentId=" + parentId
                 + ", status=" + status
                 + ", dateCreated=" + dateCreated
-                + ", authorId=" + authorId
+                + ", authorId=" + author
                 + "}";
     }
 

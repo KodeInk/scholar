@@ -7,7 +7,7 @@ package com.codemovers.scholar.engine.api.v1.staff.entities;
 
 import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
-import com.codemovers.scholar.engine.api.v1.profile.entities._Profile;
+import com.codemovers.scholar.engine.api.v1.profile.entities.Profiles;
 import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -23,7 +23,7 @@ public class _Staff extends AbstractEntity {
 
     private Integer id;
     private @Mandatory
-    _Profile profile;
+    Profiles profile;
     private @Mandatory
     Date joinDate;
     private StatusEnum status;
@@ -43,11 +43,11 @@ public class _Staff extends AbstractEntity {
         this.id = id;
     }
 
-    public _Profile getProfile() {
+    public Profiles getProfile() {
         return profile;
     }
 
-    public void setProfile(_Profile profile) {
+    public void setProfile(Profiles profile) {
         this.profile = profile;
     }
 

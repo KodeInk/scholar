@@ -11,7 +11,7 @@ import com.codemovers.scholar.engine.api.v1.students.admissions.entities.Admissi
 import com.codemovers.scholar.engine.api.v1.students.admissions.entities.Admission;
 import com.codemovers.scholar.engine.api.v1.classes.ClassService;
 import com.codemovers.scholar.engine.api.v1.profile.ProfileService;
-import com.codemovers.scholar.engine.api.v1.profile.entities._Profile;
+import com.codemovers.scholar.engine.api.v1.profile.entities.Profiles;
 import com.codemovers.scholar.engine.api.v1.students.terms.TermRegistrationService;
 import com.codemovers.scholar.engine.api.v1.students.terms.entities._TermRegistration;
 import com.codemovers.scholar.engine.api.v1.terms.TermService;
@@ -254,7 +254,7 @@ public class AdmissionService extends AbstractService<Admission, AdmissionRespon
      */
     @Override
     public Profile saveStudentProfile(Admission entity, SchoolData data, AuthenticationResponse authentication) throws Exception {
-        _Profile studentProfile = entity.getStudent();
+        Profiles studentProfile = entity.getStudent();
         studentProfile.validate();
         Profile profile = ProfileService.getInstance().getProfile(studentProfile);
         profile.setParentType("STUDENT");

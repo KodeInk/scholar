@@ -18,7 +18,7 @@ import java.util.Objects;
  * @author MOver 12/13/2017
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class _Profile extends AbstractEntity {
+public class Profiles extends AbstractEntity {
 
     private Integer id;
     private @Mandatory
@@ -39,10 +39,10 @@ public class _Profile extends AbstractEntity {
     private Integer authorId;
 
     //todo: add contact information on profile if any
-    public _Profile() {
+    public Profiles() {
     }
 
-    public _Profile(Integer id) {
+    public Profiles(Integer id) {
         this.id = id;
     }
 
@@ -179,7 +179,7 @@ public class _Profile extends AbstractEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final _Profile other = (_Profile) obj;
+        final Profiles other = (Profiles) obj;
         if (!Objects.equals(this.firstName, other.firstName)) {
             return false;
         }

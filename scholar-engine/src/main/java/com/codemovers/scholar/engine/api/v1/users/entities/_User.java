@@ -7,7 +7,7 @@ package com.codemovers.scholar.engine.api.v1.users.entities;
 
 import com.codemovers.scholar.engine.annotation.Mandatory;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEntity;
-import com.codemovers.scholar.engine.api.v1.profile.entities._Profile;
+import com.codemovers.scholar.engine.api.v1.profile.entities.Profiles;
 import com.codemovers.scholar.engine.api.v1.staff.entities._Staff;
 import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
@@ -33,7 +33,7 @@ public class _User extends AbstractEntity {
     private Long date_created;
     private @Mandatory
     String[] roles;
-    _Profile profile;
+    Profiles profile;
     _Staff staff;
 
     public _User() {
@@ -107,11 +107,11 @@ public class _User extends AbstractEntity {
         this.roles = roles;
     }
 
-    public _Profile getProfile() {
+    public Profiles getProfile() {
         return profile;
     }
 
-    public void setProfile(_Profile profile) {
+    public void setProfile(Profiles profile) {
         this.profile = profile;
     }
 

@@ -6,7 +6,7 @@
 package com.codemovers.scholar.engine.api.v1.accounts.entities;
 
 import com.codemovers.scholar.engine.annotation.Mandatory;
-import com.codemovers.scholar.engine.api.v1.profile.entities._Profile;
+import com.codemovers.scholar.engine.api.v1.profile.entities.Profiles;
 import static com.codemovers.scholar.engine.helper.Utilities.validateMandatoryFields;
 import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -18,7 +18,7 @@ import java.util.Objects;
  * @author MOVER 11/15/2017
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class _Account extends _Profile {
+public class _Account extends Profiles {
 
     private @Mandatory
     String username;

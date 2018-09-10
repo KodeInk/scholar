@@ -8,7 +8,7 @@ package com.codemovers.scholar.engine.api.v1.profile;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.profile.entities.ProfileResponse;
-import com.codemovers.scholar.engine.api.v1.profile.entities._Profile;
+import com.codemovers.scholar.engine.api.v1.profile.entities.Profiles;
 import com.codemovers.scholar.engine.db.controllers.ProfileJpaController;
 import com.codemovers.scholar.engine.db.entities.Profile;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  *
  * @author Mover 12/14/2017
  */
-public class ProfileService extends AbstractService<_Profile, ProfileResponse> {
+public class ProfileService extends AbstractService<Profiles, ProfileResponse> {
     
     private static final Logger LOG = Logger.getLogger(ProfileService.class.getName());
     
@@ -44,7 +44,7 @@ public class ProfileService extends AbstractService<_Profile, ProfileResponse> {
     }
     
     @Override
-    public ProfileResponse create(SchoolData data, _Profile entity, AuthenticationResponse authenticationResponse) throws Exception {
+    public ProfileResponse create(SchoolData data, Profiles entity, AuthenticationResponse authenticationResponse) throws Exception {
         try {
             entity.validate();
             Profile profile = getProfile(entity);
@@ -70,7 +70,7 @@ public class ProfileService extends AbstractService<_Profile, ProfileResponse> {
         }
     }
     
-    public Profile getProfile(_Profile entity) {
+    public Profile getProfile(Profiles entity) {
         Profile profile = new Profile();
         if (entity.getFirstName() != null) {
             profile.setFirstName(entity.getFirstName());
