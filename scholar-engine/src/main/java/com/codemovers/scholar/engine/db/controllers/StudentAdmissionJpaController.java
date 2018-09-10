@@ -265,8 +265,10 @@ public class StudentAdmissionJpaController extends EngineJpaController {
      */
     public Query getQuery(EntityManager em) {
         Query q = em.createQuery(""
-                + "SELECT SA FROM StudentAdmission SA "
-                + " LEFT  JOIN FETCH SA.student "
+                + " SELECT SA FROM StudentAdmission SA "
+                + " JOIN FETCH SA.student "
+                + " JOIN FETCH SA.admissionTerm "
+                + " ORDER BY SA.admissionTerm.studyYear.endDate DESC "
                 + "");
 
         return q;
@@ -280,11 +282,12 @@ public class StudentAdmissionJpaController extends EngineJpaController {
      */
     public Query getQuery(EntityManager em, Integer studyYear) {
         Query q = em.createQuery(""
-                + "SELECT SA FROM StudentAdmission SA "
-                + " LEFT  JOIN FETCH SA.student "
-                + " LEFT  JOIN FETCH SA.admissionTerm "
+                + " SELECT SA FROM StudentAdmission SA "
+                + " JOIN FETCH SA.student "
+                + " JOIN FETCH SA.admissionTerm "
                 + " WHERE "
-                + "SA.admissionTerm.studyYear.id =  :studyyear"
+                + " SA.admissionTerm.studyYear.id =  :studyyear "
+                + " ORDER BY SA.admissionTerm.studyYear.endDate DESC "
                 + "");
 
         q.setParameter("studyyear", studyYear.longValue());
@@ -302,11 +305,12 @@ public class StudentAdmissionJpaController extends EngineJpaController {
     public Query getQuery(EntityManager em, Integer studyYear, Integer admissionClass) {
         Query q = em.createQuery(""
                 + "SELECT SA FROM StudentAdmission SA "
-                + " LEFT  JOIN FETCH SA.student "
-                + " LEFT  JOIN FETCH SA.admissionTerm "
+                + " JOIN FETCH SA.student "
+                + " JOIN FETCH SA.admissionTerm "
                 + " WHERE "
-                + "SA.admissionTerm.studyYear.id =  :studyyear"
-                + " AND SA.admissionClass.id =  :admissionclass"
+                + " SA.admissionTerm.studyYear.id =  :studyyear"
+                + " AND SA.admissionClass.id =  :admissionclass "
+                + " ORDER BY SA.admissionTerm.studyYear.endDate DESC "
                 + "");
 
         q.setParameter("studyyear", studyYear.longValue());

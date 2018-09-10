@@ -5,7 +5,6 @@
  */
 package com.codemovers.scholar.engine.api.v1.profile.entities;
 
-import com.codemovers.scholar.engine.helper.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -24,6 +23,7 @@ public class ProfileResponse {
     private String middleName;
     private String lastName;
     private String prefix;
+    private String sex;
     private Long dateOfBirth;
     private String image;
     private String profileType;
@@ -129,6 +129,14 @@ public class ProfileResponse {
 
     public void setAuthorId(Integer authorId) {
         this.authorId = authorId;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 
     @Override
