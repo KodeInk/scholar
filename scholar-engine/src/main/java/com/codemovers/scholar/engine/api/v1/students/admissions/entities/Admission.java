@@ -19,7 +19,7 @@ import java.util.Objects;
  * @author mover 12/20/2017
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class _Admission extends AbstractEntity {
+public class Admission extends AbstractEntity {
 
     private Integer id;
     private @Mandatory
@@ -38,10 +38,10 @@ public class _Admission extends AbstractEntity {
     private Long date_created;
     private Integer author_id;
 
-    public _Admission() {
+    public Admission() {
     }
 
-    public _Admission(Integer id) {
+    public Admission(Integer id) {
         this.id = id;
     }
 
@@ -161,7 +161,7 @@ public class _Admission extends AbstractEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final _Admission other = (_Admission) obj;
+        final Admission other = (Admission) obj;
         if (!Objects.equals(this.admission_no, other.admission_no)) {
             return false;
         }

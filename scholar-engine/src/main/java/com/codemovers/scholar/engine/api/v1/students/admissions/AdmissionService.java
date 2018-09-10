@@ -8,7 +8,7 @@ package com.codemovers.scholar.engine.api.v1.students.admissions;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractService;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.students.admissions.entities.AdmissionResponse;
-import com.codemovers.scholar.engine.api.v1.students.admissions.entities._Admission;
+import com.codemovers.scholar.engine.api.v1.students.admissions.entities.Admission;
 import com.codemovers.scholar.engine.api.v1.classes.ClassService;
 import com.codemovers.scholar.engine.api.v1.profile.ProfileService;
 import com.codemovers.scholar.engine.api.v1.profile.entities._Profile;
@@ -35,7 +35,7 @@ import java.util.logging.Logger;
  *
  * @author mover 12/20/2017
  */
-public class AdmissionService extends AbstractService<_Admission, AdmissionResponse> implements AdmissionServiceInterface {
+public class AdmissionService extends AbstractService<Admission, AdmissionResponse> implements AdmissionServiceInterface {
 
     private static final Logger LOG = Logger.getLogger(AdmissionService.class.getName());
     private final StudentAdmissionJpaController controller;
@@ -53,7 +53,7 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
     }
 
     @Override
-    public AdmissionResponse create(SchoolData data, _Admission entity, AuthenticationResponse authentication) throws Exception {
+    public AdmissionResponse create(SchoolData data, Admission entity, AuthenticationResponse authentication) throws Exception {
 
         //todo: validate the entity 
         entity.validate();
@@ -86,7 +86,7 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
         return admissionResponse;
     }
 
-    public void registerStudentToTerm(StudentAdmission admission, _Admission entity, Terms admissionTerm, Classes admissionClass, SchoolData data, AuthenticationResponse authentication) throws Exception {
+    public void registerStudentToTerm(StudentAdmission admission, Admission entity, Terms admissionTerm, Classes admissionClass, SchoolData data, AuthenticationResponse authentication) throws Exception {
         _TermRegistration registration = populateEntity(admission, entity, admissionTerm, admissionClass);
         TermRegistrationService.getInstance().create(data, registration, authentication);
     }
@@ -98,7 +98,7 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
      * @return
      * @throws BadRequestException
      */
-    public Terms validateAdmissionTerm(_Admission entity, SchoolData data) throws BadRequestException {
+    public Terms validateAdmissionTerm(Admission entity, SchoolData data) throws BadRequestException {
         //todo: validate admission term
         Terms admissionTerm = TermService.getInstance().getTerm(entity.getTerm_id(), data);
         if (admissionTerm == null) {
@@ -114,7 +114,7 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
      * @return
      * @throws BadRequestException
      */
-    public Classes validateAdmissionClass(_Admission entity, SchoolData data) throws BadRequestException {
+    public Classes validateAdmissionClass(Admission entity, SchoolData data) throws BadRequestException {
         //todo: check  addmission class
         Classes admissionClass = ClassService.getInstance().getClass(entity.getClass_id(), data);
         if (admissionClass == null) {
@@ -124,7 +124,7 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
     }
 
     @Override
-    public AdmissionResponse update(SchoolData data, _Admission entity, AuthenticationResponse authentication) throws Exception {
+    public AdmissionResponse update(SchoolData data, Admission entity, AuthenticationResponse authentication) throws Exception {
         return super.update(data, entity); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -253,7 +253,7 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
      * @throws Exception
      */
     @Override
-    public Profile saveStudentProfile(_Admission entity, SchoolData data, AuthenticationResponse authentication) throws Exception {
+    public Profile saveStudentProfile(Admission entity, SchoolData data, AuthenticationResponse authentication) throws Exception {
         _Profile studentProfile = entity.getStudent();
         studentProfile.validate();
         Profile profile = ProfileService.getInstance().getProfile(studentProfile);
@@ -273,7 +273,7 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
      * @return
      */
     @Override
-    public StudentAdmission populateEntity(Classes aclass, Terms term, _Admission entity, Profile profile) {
+    public StudentAdmission populateEntity(Classes aclass, Terms term, Admission entity, Profile profile) {
         StudentAdmission admission = new StudentAdmission();
         admission.setAdmissionClass(aclass);
         admission.setAdmissionTerm(term);
@@ -317,7 +317,7 @@ public class AdmissionService extends AbstractService<_Admission, AdmissionRespo
      * @param admissionClass
      * @return
      */
-    public _TermRegistration populateEntity(StudentAdmission admission, _Admission entity, Terms admissionTerm, Classes admissionClass) {
+    public _TermRegistration populateEntity(StudentAdmission admission, Admission entity, Terms admissionTerm, Classes admissionClass) {
         //todo: response body
         _TermRegistration registration = new _TermRegistration();
         registration.setAdmission_number(admission.getAdmissionNo());

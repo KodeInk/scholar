@@ -7,7 +7,7 @@ package com.codemovers.scholar.engine.api.v1.students.admissions;
 
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.students.admissions.entities.AdmissionResponse;
-import com.codemovers.scholar.engine.api.v1.students.admissions.entities._Admission;
+import com.codemovers.scholar.engine.api.v1.students.admissions.entities.Admission;
 import com.codemovers.scholar.engine.db.entities.Classes;
 import com.codemovers.scholar.engine.db.entities.Profile;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
@@ -23,7 +23,7 @@ public interface AdmissionServiceInterface {
 
     AdmissionResponse archive(SchoolData data, Integer id, AuthenticationResponse authentication) throws Exception;
 
-    AdmissionResponse create(SchoolData data, _Admission entity, AuthenticationResponse authentication) throws Exception;
+    AdmissionResponse create(SchoolData data, Admission entity, AuthenticationResponse authentication) throws Exception;
 
     /**
      *
@@ -62,7 +62,7 @@ public interface AdmissionServiceInterface {
      * @param profile
      * @return
      */
-    StudentAdmission populateEntity(Classes aclass, Terms term, _Admission entity, Profile profile);
+    StudentAdmission populateEntity(Classes aclass, Terms term, Admission entity, Profile profile);
 
     /**
      *
@@ -79,8 +79,8 @@ public interface AdmissionServiceInterface {
      * @return
      * @throws Exception
      */
-    Profile saveStudentProfile(_Admission entity, SchoolData data, AuthenticationResponse authentication) throws Exception;
+    Profile saveStudentProfile(Admission entity, SchoolData data, AuthenticationResponse authentication) throws Exception;
 
-    AdmissionResponse update(SchoolData data, _Admission entity, AuthenticationResponse authentication) throws Exception;
+    AdmissionResponse update(SchoolData data, Admission entity, AuthenticationResponse authentication) throws Exception;
     
 }

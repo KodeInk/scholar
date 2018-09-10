@@ -8,7 +8,7 @@ package com.codemovers.scholar.engine.api.v1.students.admissions;
 import com.codemovers.scholar.engine.api.v1.abstracts.AbstractEndpoint;
 import com.codemovers.scholar.engine.api.v1.accounts.entities.AuthenticationResponse;
 import com.codemovers.scholar.engine.api.v1.students.admissions.entities.AdmissionResponse;
-import com.codemovers.scholar.engine.api.v1.students.admissions.entities._Admission;
+import com.codemovers.scholar.engine.api.v1.students.admissions.entities.Admission;
 import com.codemovers.scholar.engine.api.v1.users.UserService;
 import com.codemovers.scholar.engine.db.entities.SchoolData;
 import static com.codemovers.scholar.engine.helper.Utilities.tenantdata;
@@ -34,7 +34,7 @@ import javax.ws.rs.core.MediaType;
  * @author mover 12/20/2017
  */
 @Path("/")
-public class AdmissionEndpoint extends AbstractEndpoint<_Admission, AdmissionResponse> {
+public class AdmissionEndpoint extends AbstractEndpoint<Admission, AdmissionResponse> {
 
     private static final Logger LOG = Logger.getLogger(AdmissionEndpoint.class.getName());
     @Context
@@ -62,7 +62,7 @@ public class AdmissionEndpoint extends AbstractEndpoint<_Admission, AdmissionRes
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
     public AdmissionResponse create(
-            _Admission entity,
+            Admission entity,
             @HeaderParam("authentication") String authentication,
             @Context HttpServletRequest httpRequest
     ) throws Exception {
@@ -74,7 +74,7 @@ public class AdmissionEndpoint extends AbstractEndpoint<_Admission, AdmissionRes
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public AdmissionResponse update(_Admission entity, @HeaderParam("authentication") String authentication, @Context HttpServletRequest httpRequest) throws Exception {
+    public AdmissionResponse update(Admission entity, @HeaderParam("authentication") String authentication, @Context HttpServletRequest httpRequest) throws Exception {
         validate(tenantdata, authentication);
         return service.update(tenantdata, entity, this.authentication);
     }
